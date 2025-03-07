@@ -14,13 +14,12 @@ public:
     State GetCurrentState() const { return m_CurrentState; }
 
     void Start();
-
     void Update();
-
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
 private:
-    void ValidTask();
+    // 可以新增一個載入資源的函式
+    void LoadResources();
 
 private:
     State m_CurrentState = State::START;
