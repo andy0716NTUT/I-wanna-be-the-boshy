@@ -45,6 +45,10 @@ add_executable(${PROJECT_NAME}
         include/Bullet.hpp
         include/AnimatedCharacter.hpp
         src/AnimatedCharacter.cpp
+        include/Menu.hpp
+        src/Menu.cpp
+        src/MapInfoLoader.cpp
+        include/MapInfoLoader.hpp
 )
 
 if(MSVC)

@@ -1,55 +1,44 @@
-//
-// Created by andyl on 2025/3/8.
-//
-
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
 #include <string>
-
 #include "Util/GameObject.hpp"
-#include "Util/Animation.hpp"
 
 class Character : public Util::GameObject {
 public:
+    enum class direction {
+        RIGHT,
+        LEFT
+    };
     enum class MoveState {
         IDLE,
+        IDLE_LEFT,
         JUMP,
+        JUMP_LEFT,
         RUN,
+        RUN_LEFT,
         SHOOT,
+        SHOOT_LEFT
     };
+
     explicit Character(const std::string& ImagePath);
 
-    Character(const Character&) = delete;
-
-    Character(Character&&) = delete;
-
-    Character& operator=(const Character&) = delete;
-
-    Character& operator=(Character&&) = delete;
-
-    [[nodiscard]] const std::string& GetImagePath() const { return m_ImagePath; }
+    [[nodiscard]] MoveState GetState() const { return m_CurrentState; }
+    void SetState(MoveState state) { m_CurrentState = state; }
 
     [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
-
-    [[nodiscard]] bool GetVisibility() const { return m_Visible; }
-
-    void SetImage(const std::string& ImagePath);
-
     void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
-
-    void shoot(glm::vec2 playerPosition) {
-
-    }
-
-
+    void SetImage(const std::string& ImagePath);
+    void SetDirection(direction direct){m_direction = direct;}
+    direction GetDirection(){return m_direction;}
+    void Move();
+    void Jump();
+    void shoot();
 private:
     void ResetPosition() { m_Transform.translation = {0, 0}; }
-
+    direction m_direction = direction::RIGHT;
     std::string m_ImagePath;
-
+    MoveState m_CurrentState = MoveState::IDLE;
 };
-
-
 
 #endif //CHARACTER_HPP
