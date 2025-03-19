@@ -4,6 +4,8 @@
 
 #include "Character.hpp"
 #include "Util/Image.hpp"
+#include "Util/Input.hpp"
+#include "Util/Keycode.hpp"
 
 
 Character::Character(const std::string& ImagePath) {

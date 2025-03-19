@@ -31,7 +31,7 @@ public:
     void SetImage(const std::string& ImagePath);
     void SetDirection(direction direct){m_direction = direct;}
     direction GetDirection(){return m_direction;}
-    void Move();
+    void Move( int leftTile , int rightTile);
     void Jump();
     void shoot();
 private:

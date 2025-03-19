@@ -84,7 +84,6 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
-
     if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         float prevX = position.x;  // 記錄變更前的 X 位置
         if (leftTile != 2) {
@@ -92,13 +91,13 @@ void App::Update() {
             animatedBoshy->SetDirection(Character::direction::LEFT);
         }
         // **如果 X 位置沒變，就不要設為 RUN_LEFT**
-        if (position.x != prevX) {
+        if (
+position.x != prevX) {
             animatedBoshy->SetState(Character::MoveState::RUN_LEFT);
         } else {
             animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
         }
     }
-
 
     // **角色狀態變更**
     if (shootCooldown <= 0 && Util::Input::IsKeyDown(Util::Keycode::X)) {
