@@ -16,6 +16,7 @@ public:
     [[nodiscard]]  std::shared_ptr<Util::GameObject> GetChildren() const {
         return {m_Background};
     }
+    void NextPhase();
 };
 
 

@@ -63,6 +63,7 @@ void App::Start() {
     m_Bullet->SetZIndex(-2);
     m_Root.AddChild(m_Bullet);
 
-    m_MapLoader = std::make_shared<MapInfoLoader>(RESOURCE_DIR"/Image/Background/Map1.txt");
+    m_MapLoader = std::make_shared<MapInfoLoader>();
+    m_MapLoader->NextMap();
     m_CurrentState = State::UPDATE;
 }

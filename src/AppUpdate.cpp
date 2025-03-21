@@ -19,7 +19,7 @@ void App::Update() {
     static int jumpCount = 0;
     static float shootCooldown = 0;
     const float deltaTime = 1.0f / 60.0f;
-    shootCooldown -= deltaTime/2;
+    shootCooldown -= deltaTime*4;
 
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
@@ -88,7 +88,7 @@ void App::Update() {
     }
     shootCooldown -= deltaTime;
     // 射擊邏輯保持不變
-    if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X)) {
+    if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
         auto bullet = std::make_shared<Bullet>();
         bullet->SetPosition(m_Boshy->GetPosition());
         bullet->SetLifeTime(2.0f);
@@ -120,8 +120,6 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
-    // 更新角色位置
-    m_Boshy->SetPosition(position);
 
     // 子彈移動邏輯修正
     m_Bullet->Update(deltaTime); // 先更新子彈內部狀態（例如生命週期）
@@ -146,6 +144,13 @@ void App::Update() {
             bullet->SetPosition(bulletPosition);
         }
     }
+
+    if (m_MapLoader->GetTile(tileX,tileY) == 69) {
+        m_PRM->NextPhase();
+        m_MapLoader->NextMap();
+        position.x *= -1;
+
+    }
     m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
         [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
         m_Bullets.end());
@@ -153,6 +158,8 @@ void App::Update() {
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
+    // 更新角色位置
+    m_Boshy->SetPosition(position);
 
     m_Root.Update();
 }
