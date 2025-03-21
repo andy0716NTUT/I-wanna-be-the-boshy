@@ -18,66 +18,56 @@ void App::Update() {
     const float MaxFallSpeed = -20;
     static int jumpCount = 0;
     static float shootCooldown = 0;
-    const float BulletSpeed = 5.0f;
     const float deltaTime = 1.0f / 60.0f;
-    shootCooldown -= deltaTime;
+    shootCooldown -= deltaTime/2;
 
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
 
-    // **修正 TileX, TileY 計算**
+    // TileX, TileY 計算與碰撞檢測部分保持不變
     int tileX = static_cast<int>((position.x + 640) / 32);
-    int tileY = static_cast<int>((384 - position.y) / 32);
+    int tileY = static_cast<int>((480 - position.y) / 32);
 
-    // **確保 TileX, TileY 不超出範圍**
     if (tileX < 0) tileX = 0;
     if (tileX >= m_MapLoader->GetWidth()) tileX = m_MapLoader->GetWidth() - 1;
     if (tileY < 0) tileY = 0;
     if (tileY >= m_MapLoader->GetHeight()) tileY = m_MapLoader->GetHeight() - 1;
 
-    // **Debug 訊息**
     std::cout << "Position: (" << position.x << ", " << position.y << ")"
               << " Tile: (" << tileX << ", " << tileY << ")"
               << " Tile Value: " << m_MapLoader->GetTile(tileX, tileY) << std::endl;
 
-    // **施加重力**
     velocityY += Gravity;
     if (velocityY < MaxFallSpeed) velocityY = MaxFallSpeed;
     position.y += velocityY;
 
-    // **取得角色四周的 Tile**
-    int belowTile = m_MapLoader->GetTile(tileX, tileY + 1);  // 角色腳下
-    int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);  // 角色頭頂
-    int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);   // 左邊
-    int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);  // 右邊
+    int belowTile = m_MapLoader->GetTile(tileX, tileY + 1);
+    int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
+    int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
+    int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
 
-    // **防止角色從上方穿透 `2`（天花板）**
     if (aboveTile == 2 && velocityY > 0) {
-        position.y = 384 - ((tileY + 1) * 32); // 讓角色頂住 `2`，不能再上升
+        position.y = 480 - ((tileY + 1) * 32);
         velocityY = 0;
     }
 
-    // **地板碰撞檢測**
     if (belowTile == 1 && velocityY < 0) {
-        position.y = 384 - ((tileY) * 32) - 16; // **讓角色對齊地板**
+        position.y = 480 - ((tileY) * 32) - 16;
         velocityY = 0;
         jumpCount = 0;
     }
 
-    // **防止角色從側面或底部穿入 `1`**
     if (m_MapLoader->GetTile(tileX, tileY) == 1 && velocityY >= 0) {
-        position.y = 384 - (tileY - 1) * 32;
+        position.y = 480 - (tileY - 1) * 32;
         velocityY = 0;
     }
 
-    // **牆壁碰撞（不可穿透 `2`）**
     if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-        float prevX = position.x;  // 記錄變更前的 X 位置
+        float prevX = position.x;
         if (rightTile != 2) {
             position.x += 5;
             animatedBoshy->SetDirection(Character::direction::RIGHT);
         }
-        // **如果 X 位置沒變，就不要設為 RUN**
         if (position.x != prevX) {
             animatedBoshy->SetState(Character::MoveState::RUN);
         } else {
@@ -85,31 +75,37 @@ void App::Update() {
         }
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-        float prevX = position.x;  // 記錄變更前的 X 位置
+        float prevX = position.x;
         if (leftTile != 2) {
             position.x -= 5;
             animatedBoshy->SetDirection(Character::direction::LEFT);
         }
-        // **如果 X 位置沒變，就不要設為 RUN_LEFT**
-        if (
-position.x != prevX) {
+        if (position.x != prevX) {
             animatedBoshy->SetState(Character::MoveState::RUN_LEFT);
         } else {
             animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
         }
     }
-
-    // **角色狀態變更**
-    if (shootCooldown <= 0 && Util::Input::IsKeyDown(Util::Keycode::X)) {
+    shootCooldown -= deltaTime;
+    // 射擊邏輯保持不變
+    if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X)) {
+        auto bullet = std::make_shared<Bullet>();
+        bullet->SetPosition(m_Boshy->GetPosition());
+        bullet->SetLifeTime(2.0f);
+        bullet->SetVisible(true);
         if (m_Boshy->GetDirection() == Character::direction::LEFT) {
-            animatedBoshy->SetState(Character::MoveState::SHOOT_LEFT);
+            bullet->SetImage(RESOURCE_DIR"/Image/bullet2.png");
+            bullet->SetDirection(Character::direction::LEFT);
         } else {
-            animatedBoshy->SetState(Character::MoveState::SHOOT);
+            bullet->SetImage(RESOURCE_DIR"/Image/bullet.png");
+            bullet->SetDirection(Character::direction::RIGHT);
         }
-        m_Bullet->SetPosition(m_Boshy->GetPosition() + glm::vec2{10, 0});
-        m_Bullet->SetVisible(true);
+        m_Bullets.push_back(bullet);
+        m_Root.AddChild(bullet);
         shootCooldown = 0.5f;
-    } else if (Util::Input::IsKeyDown(Util::Keycode::Z) && jumpCount < 2) {
+    }
+
+    else if (Util::Input::IsKeyDown(Util::Keycode::Z) && jumpCount < 2) {
         velocityY = JumpPower;
         jumpCount++;
         if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
@@ -124,12 +120,36 @@ position.x != prevX) {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
-
-    // **更新角色位置**
+    // 更新角色位置
     m_Boshy->SetPosition(position);
-    m_Bullet->SetPosition({m_Bullet->GetPosition().x + BulletSpeed, m_Bullet->GetPosition().y});
 
-    // **關閉窗口**
+    // 子彈移動邏輯修正
+    m_Bullet->Update(deltaTime); // 先更新子彈內部狀態（例如生命週期）
+    if (m_Bullet->IsVisible()) {
+        glm::vec2 bulletPosition = m_Bullet->GetPosition();
+        if (m_Bullet->GetDirection() == Character::direction::LEFT) {
+            bulletPosition.x -= 10.0f; // Move left with speed 5.0f
+        } else {
+            bulletPosition.x += 10.0f; // Move right with speed 5.0f
+        }
+        m_Bullet->SetPosition(bulletPosition);
+    }
+    for (auto& bullet : m_Bullets) {
+        bullet->Update(deltaTime);
+        if (bullet->IsVisible()) {
+            glm::vec2 bulletPosition = bullet->GetPosition();
+            if (bullet->GetDirection() == Character::direction::LEFT) {
+                bulletPosition.x -= 10.0f;
+            } else {
+                bulletPosition.x += 10.0f;
+            }
+            bullet->SetPosition(bulletPosition);
+        }
+    }
+    m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
+        [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
+        m_Bullets.end());
+    // 關閉窗口邏輯保持不變
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }

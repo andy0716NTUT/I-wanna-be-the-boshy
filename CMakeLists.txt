@@ -49,6 +49,7 @@ add_executable(${PROJECT_NAME}
         src/Menu.cpp
         src/MapInfoLoader.cpp
         include/MapInfoLoader.hpp
+        src/Bullet.cpp
 )
 
 if(MSVC)
