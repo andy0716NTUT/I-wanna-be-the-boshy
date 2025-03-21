@@ -48,6 +48,9 @@ private:
     std::shared_ptr<Bullet> m_Bullet;
     std::shared_ptr<ResourceManager> m_PRM;
     std::shared_ptr<Menu> m_MenuSystem;
+    std::vector<std::shared_ptr<Bullet>> m_Bullets;
+    float shootCooldown = 0;
+
 };
 
 #endif
