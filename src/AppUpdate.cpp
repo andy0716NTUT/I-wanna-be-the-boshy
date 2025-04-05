@@ -6,6 +6,7 @@ void App::Update() {
         if (m_MenuSystem->GetSelectedOption() == Menu::Option::START_GAME) {
             m_GamePhase = GamePhase::WORLD1;
             m_PRM = std::make_shared<ResourceManager>();
+            m_PRM->SetPhase(m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY]);
             m_Root.AddChild(m_PRM->GetChildren());
         }
     } else if (m_MenuSystem->GetSelectedOption() == Menu::Option::EXIT) {
@@ -144,22 +145,31 @@ void App::Update() {
             bullet->SetPosition(bulletPosition);
         }
     }
+    int tile = m_MapLoader->GetTile(tileX, tileY);
+    World::Direction dir = m_World->GetTeleportDirection(tile);
 
-    if (m_MapLoader->GetTile(tileX,tileY) == 69) {
-        m_PRM->NextPhase();
-        m_MapLoader->NextMap();
-        position.x *= -1;
+    if (dir != World::Direction::NONE) {
+        if (dir == World::Direction::RIGHT)  ++currentX;
+        if (dir == World::Direction::LEFT)   --currentX;
+        if (dir == World::Direction::UP)     --currentY;
+        if (dir == World::Direction::DOWN)   ++currentY;
 
+        if (m_MapLoader->GetTile(tileX,tileY) == 69) {
+            m_PRM->SetPhase(m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY]);
+            m_MapLoader->LoadMap(m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY]);
+            position.x *= -1;
+
+        }
+        m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
+            [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
+            m_Bullets.end());
+        // 關閉窗口邏輯保持不變
+        if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
+            m_CurrentState = State::END;
+        }
+        // 更新角色位置
+        m_Boshy->SetPosition(position);
+
+        m_Root.Update();
     }
-    m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
-        [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
-        m_Bullets.end());
-    // 關閉窗口邏輯保持不變
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
-        m_CurrentState = State::END;
-    }
-    // 更新角色位置
-    m_Boshy->SetPosition(position);
-
-    m_Root.Update();
 }

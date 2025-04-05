@@ -1,15 +1,7 @@
 #include "MapInfoLoader.hpp"
 
-MapInfoLoader::MapInfoLoader(int initialMap) : m_CurrentMap(initialMap) {
-    LoadMap(m_CurrentMap);
-}
 
-void MapInfoLoader::NextMap() {
-    m_CurrentMap++; // 切換到下一個地圖
-    LoadMap(m_CurrentMap);
-}
-
-void MapInfoLoader::LoadMap(int mapNumber) {
+void MapInfoLoader::LoadMap(std::string mapNumber) {
     std::string filePath = ImagePath(mapNumber);
     std::ifstream file(filePath);
 

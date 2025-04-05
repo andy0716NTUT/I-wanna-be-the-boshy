@@ -9,14 +9,13 @@
 class ResourceManager{
 private:
     std::shared_ptr<BackgroundImage> m_Background;
-    int Background = 1;
 public:
     ResourceManager();
 
     [[nodiscard]]  std::shared_ptr<Util::GameObject> GetChildren() const {
         return {m_Background};
     }
-    void NextPhase();
+    void SetPhase(std::string phase);
 };
 
 

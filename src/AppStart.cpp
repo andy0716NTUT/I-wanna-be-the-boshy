@@ -7,8 +7,6 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-
-
     m_MenuSystem = std::make_shared<Menu>();
     m_Root.AddChild(m_MenuSystem);
 
@@ -63,7 +61,12 @@ void App::Start() {
     m_Bullet->SetZIndex(-2);
     m_Root.AddChild(m_Bullet);
 
+    std::string currentPhase = GamePhaseToString(m_GamePhase);
+    auto& currentWorld = m_World->GetWorldByPhaseName(currentPhase);
+    auto [currentX, currentY] = m_World->GetStartPosition(currentWorld, "1");
+    World::Direction dir ;
+
     m_MapLoader = std::make_shared<MapInfoLoader>();
-    m_MapLoader->NextMap();
+    m_MapLoader->LoadMap(currentWorld[currentX][currentY]);
     m_CurrentState = State::UPDATE;
 }

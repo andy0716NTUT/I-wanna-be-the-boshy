@@ -13,9 +13,11 @@
 #include "Menu.hpp"
 #include "Bullet.hpp"
 #include "MapInfoLoader.hpp"
+#include "World.hpp"
 #include <iostream>
 class App {
 public:
+
 
     enum class GamePhase {
         MENU,
@@ -30,7 +32,16 @@ public:
         END,
     };
     State GetCurrentState() const { return m_CurrentState; }
-
+    GamePhase GetCurrentPhase() const {return m_GamePhase; }
+    std::string GamePhaseToString(App::GamePhase phase) {
+        switch (phase) {
+            case App::GamePhase::WORLD1: return "WORLD1";
+            case App::GamePhase::WORLD2: return "WORLD2";
+            case App::GamePhase::MENU: return "MENU";
+            case App::GamePhase::END: return "END";
+        }
+        return "UNKNOWN";
+    }
     void Start();
 
     void Update();
@@ -39,6 +50,8 @@ public:
 
     App();
 private:
+    int currentX,currentY;
+    std::shared_ptr<World> m_World;
     GamePhase m_GamePhase = GamePhase::MENU;
     Util::Renderer m_Root;
     Util::BGM m_BGM;
