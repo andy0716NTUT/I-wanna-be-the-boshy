@@ -6,11 +6,9 @@
 
 void App::Start() {
     LOG_TRACE("Start");
-
-    m_MenuSystem = std::make_shared<Menu>();
-    m_Root.AddChild(m_MenuSystem);
-
-
+    currentY = 0 ;
+    currentX = 0 ;
+    m_World = std::make_shared<World>();
     m_BGM.SetVolume(5);
     m_BGM.Play();
 
@@ -68,5 +66,11 @@ void App::Start() {
 
     m_MapLoader = std::make_shared<MapInfoLoader>();
     m_MapLoader->LoadMap(currentWorld[currentX][currentY]);
+
+    m_PRM = std::make_shared<ResourceManager>();
+    m_Root.AddChild(m_PRM->GetChildren());
+    m_PRM->SetPhase("1");
+
+    std::cout << "Test 1" << std::endl ;
     m_CurrentState = State::UPDATE;
 }

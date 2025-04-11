@@ -1,18 +1,6 @@
 #include "App.hpp"
 
 void App::Update() {
-    if (m_GamePhase == GamePhase::MENU) {
-        m_MenuSystem->Update();
-        if (m_MenuSystem->GetSelectedOption() == Menu::Option::START_GAME) {
-            m_GamePhase = GamePhase::WORLD1;
-            m_PRM = std::make_shared<ResourceManager>();
-            m_PRM->SetPhase(m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY]);
-            m_Root.AddChild(m_PRM->GetChildren());
-        }
-    } else if (m_MenuSystem->GetSelectedOption() == Menu::Option::EXIT) {
-        m_GamePhase = GamePhase::END;
-    }
-
     static float velocityY = 0;
     const float Gravity = -1;
     const float JumpPower = 15;
@@ -21,9 +9,10 @@ void App::Update() {
     static float shootCooldown = 0;
     const float deltaTime = 1.0f / 60.0f;
     shootCooldown -= deltaTime*4;
-
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
+
+
 
     // TileX, TileY 計算與碰撞檢測部分保持不變
     int tileX = static_cast<int>((position.x + 640) / 32);
@@ -34,7 +23,7 @@ void App::Update() {
     if (tileY < 0) tileY = 0;
     if (tileY >= m_MapLoader->GetHeight()) tileY = m_MapLoader->GetHeight() - 1;
 
-    std::cout << "Position: (" << position.x << ", " << position.y << ")"
+    std::cout << "Position: (" << currentX << ", " << currentY << ")"
               << " Tile: (" << tileX << ", " << tileY << ")"
               << " Tile Value: " << m_MapLoader->GetTile(tileX, tileY) << std::endl;
 
@@ -47,7 +36,7 @@ void App::Update() {
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
 
-    if (aboveTile == 2 && velocityY > 0) {
+    if ((aboveTile == 2 || aboveTile == 1)&& velocityY > 0) {
         position.y = 480 - ((tileY + 1) * 32);
         velocityY = 0;
     }
@@ -149,27 +138,32 @@ void App::Update() {
     World::Direction dir = m_World->GetTeleportDirection(tile);
 
     if (dir != World::Direction::NONE) {
-        if (dir == World::Direction::RIGHT)  ++currentX;
-        if (dir == World::Direction::LEFT)   --currentX;
-        if (dir == World::Direction::UP)     --currentY;
-        if (dir == World::Direction::DOWN)   ++currentY;
-
-        if (m_MapLoader->GetTile(tileX,tileY) == 69) {
-            m_PRM->SetPhase(m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY]);
-            m_MapLoader->LoadMap(m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY]);
+        if (dir == World::Direction::RIGHT) {
+            ++currentY;
             position.x *= -1;
-
+            position.x += 32;
+        };
+        if (dir == World::Direction::LEFT) {
+            --currentY;
+            position.x *= -1;
+            position.x -= 32;
         }
-        m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
+        if (dir == World::Direction::UP)     --currentX;
+        if (dir == World::Direction::DOWN)   ++currentX;
+
+        std::vector<std::vector<std::string>> CurrentWorld = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase));
+        m_PRM->SetPhase(CurrentWorld[currentX][currentY]);
+        m_MapLoader->LoadMap(CurrentWorld[currentX][currentY]);
+    }
+    m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
             [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
             m_Bullets.end());
-        // 關閉窗口邏輯保持不變
-        if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
-            m_CurrentState = State::END;
-        }
-        // 更新角色位置
-        m_Boshy->SetPosition(position);
-
-        m_Root.Update();
+    // 關閉窗口邏輯保持不變
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
+        m_CurrentState = State::END;
     }
+    // 更新角色位置
+    m_Boshy->SetPosition(position);
+    std::cout << "Current phase : " << m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY] << std::endl;
+    m_Root.Update();
 }

@@ -42,6 +42,15 @@ public:
         }
         return "UNKNOWN";
     }
+
+    void PrintWorld(const std::vector<std::vector<std::string>>& world) {
+        for (const auto& row : world) {
+            for (const auto& cell : row) {
+                std::cout << cell << " ";  // 每格之間加空格
+            }
+            std::cout << std::endl;  // 每列換行
+        }
+    }
     void Start();
 
     void Update();
