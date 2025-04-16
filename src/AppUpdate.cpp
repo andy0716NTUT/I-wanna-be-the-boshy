@@ -4,10 +4,13 @@ void App::Update() {
     static float velocityY = 0;
     const float Gravity = -1;
     const float JumpPower = 15;
-    const float MaxFallSpeed = -20;
+    const float MaxFallSpeed = -10;
     static int jumpCount = 0;
     static float shootCooldown = 0;
     const float deltaTime = 1.0f / 60.0f;
+    static float switchTimer = 0.0f; // 使用浮點數計時器（秒）
+    static bool isSwitch = false;     // 切換狀態
+    const float switchInterval = 1.0f; // 每3秒切換一次
     shootCooldown -= deltaTime*4;
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
@@ -15,8 +18,8 @@ void App::Update() {
 
 
     // TileX, TileY 計算與碰撞檢測部分保持不變
-    int tileX = static_cast<int>((position.x + 640) / 32);
-    int tileY = static_cast<int>((480 - position.y) / 32);
+    int tileX = static_cast<int>((position.x + 640) / 16);
+    int tileY = static_cast<int>((480 - position.y) / 16);
 
     if (tileX < 0) tileX = 0;
     if (tileX >= m_MapLoader->GetWidth()) tileX = m_MapLoader->GetWidth() - 1;
@@ -37,18 +40,18 @@ void App::Update() {
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
 
     if ((aboveTile == 2 || aboveTile == 1)&& velocityY > 0) {
-        position.y = 480 - ((tileY + 1) * 32);
+        position.y = 480 - ((tileY + 1) * 16);
         velocityY = 0;
     }
 
     if (belowTile == 1 && velocityY < 0) {
-        position.y = 480 - ((tileY) * 32) - 16;
+        position.y = 480 - ((tileY) * 16) - 4;
         velocityY = 0;
         jumpCount = 0;
     }
 
     if (m_MapLoader->GetTile(tileX, tileY) == 1 && velocityY >= 0) {
-        position.y = 480 - (tileY - 1) * 32;
+        position.y = 480 - (tileY - 1) * 16;
         velocityY = 0;
     }
 
@@ -151,10 +154,33 @@ void App::Update() {
         if (dir == World::Direction::UP)     --currentX;
         if (dir == World::Direction::DOWN)   ++currentX;
 
-        std::vector<std::vector<std::string>> CurrentWorld = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase));
-        m_PRM->SetPhase(CurrentWorld[currentX][currentY]);
-        m_MapLoader->LoadMap(CurrentWorld[currentX][currentY]);
+        CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
+
+        // 如果不是 phase 3，就直接切換
+        if (CurrentPhase != "3") {
+            m_PRM->SetPhase(CurrentPhase);
+            m_MapLoader->LoadMap(CurrentPhase);
+        }
+        if (CurrentPhase == "3") {
+             m_PRM->SetPhase("3_1");
+             m_MapLoader->LoadMap("3_1");
+        }
+
+        std::cout << "Current Phase : " << CurrentPhase << std::endl;
     }
+
+    if (CurrentPhase == "3") {
+        switchTimer += deltaTime;
+        std::cout << switchTimer << std::endl;
+        if (switchTimer >= switchInterval) {
+            isSwitch = !isSwitch;
+            std::string newPhase = isSwitch ? "3_2" : "3_1";
+            m_PRM->SetPhase(newPhase);
+            m_MapLoader->LoadMap(newPhase);
+            switchTimer = 0.0f; // 重置計時器
+        }
+    }
+
     m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
             [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
             m_Bullets.end());
@@ -162,8 +188,9 @@ void App::Update() {
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
+
+
     // 更新角色位置
     m_Boshy->SetPosition(position);
-    std::cout << "Current phase : " << m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY] << std::endl;
     m_Root.Update();
 }

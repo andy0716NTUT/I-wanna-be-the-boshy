@@ -53,23 +53,27 @@ void App::Start() {
     m_Boshy->SetZIndex(-1);
     m_Root.AddChild(m_Boshy);
 
+    glm::vec2 Checkpoint = m_Boshy->GetPosition();
+
 
     m_Bullet = std::make_shared<Bullet>();
     m_Bullet->SetVisible(false);
     m_Bullet->SetZIndex(-2);
     m_Root.AddChild(m_Bullet);
 
+
     std::string currentPhase = GamePhaseToString(m_GamePhase);
     auto& currentWorld = m_World->GetWorldByPhaseName(currentPhase);
     auto [currentX, currentY] = m_World->GetStartPosition(currentWorld, "1");
     World::Direction dir ;
+
 
     m_MapLoader = std::make_shared<MapInfoLoader>();
     m_MapLoader->LoadMap(currentWorld[currentX][currentY]);
 
     m_PRM = std::make_shared<ResourceManager>();
     m_Root.AddChild(m_PRM->GetChildren());
-    m_PRM->SetPhase("1");
+    m_PRM->SetPhase(currentWorld[currentX][currentY]);
 
     std::cout << "Test 1" << std::endl ;
     m_CurrentState = State::UPDATE;

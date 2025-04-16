@@ -14,7 +14,11 @@
 #include "Bullet.hpp"
 #include "MapInfoLoader.hpp"
 #include "World.hpp"
+#include "CheckPoint.hpp"
 #include <iostream>
+
+#include "../PTSD/lib/sdl2_mixer/src/codecs/stb_vorbis/stb_vorbis.h"
+
 class App {
 public:
 
@@ -59,6 +63,7 @@ public:
 
     App();
 private:
+    std::string CurrentPhase = "";
     int currentX,currentY;
     std::shared_ptr<World> m_World;
     GamePhase m_GamePhase = GamePhase::MENU;
@@ -71,6 +76,7 @@ private:
     std::shared_ptr<ResourceManager> m_PRM;
     std::shared_ptr<Menu> m_MenuSystem;
     std::vector<std::shared_ptr<Bullet>> m_Bullets;
+    std::vector<std::shared_ptr<CheckPoint>> m_CheckPoint;
     float shootCooldown = 0;
 
 };

@@ -52,6 +52,7 @@ add_executable(${PROJECT_NAME}
         src/Bullet.cpp
         src/World.cpp
         include/World.hpp
+        include/CheckPoint.hpp
 )
 
 if(MSVC)
