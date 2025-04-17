@@ -60,7 +60,16 @@ void App::Update() {
         position.y = 480 - (tileY - 1) * 16;
         velocityY = 0;
     }
+    for (auto& boost : m_jumpBoost) {
+        glm::vec2 boostPos = boost->GetPosition();
+        if (glm::distance(position, boostPos) < 20.0f) {
+            if (jumpCount >= 1) {
+                jumpCount--;  // 給一次額外跳躍機會
+            }
+        }
 
+
+    }
     if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
         float prevX = position.x;
         if (rightTile != 2) {
@@ -85,29 +94,6 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
         }
     }
-   /* if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-        float prevY = position.y;
-        if (aboveTile != 2) { // 確保上方不是障礙物
-            position.y += 5;
-        }
-        if (position.y != prevY) {
-            animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_UP 狀態
-        } else {
-            animatedBoshy->SetState(Character::MoveState::IDLE);
-        }
-    }
-
-    if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-        float prevY = position.y;
-        if (belowTile != 2) { // 確保下方不是障礙物
-            position.y -= 5;
-        }
-        if (position.y != prevY) {
-            animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_DOWN 狀態
-        } else {
-            animatedBoshy->SetState(Character::MoveState::IDLE);
-        }
-    }*/
     shootCooldown -= deltaTime;
     // 射擊邏輯保持不變
     if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
@@ -164,19 +150,6 @@ void App::Update() {
                 bulletPosition.x += 10.0f;
             }
             bullet->SetPosition(bulletPosition);
-
-            // 檢查子彈是否碰到 Tile1, Tile2, 或 Tile5
-            int bulletTileX = static_cast<int>((bulletPosition.x + 640) / 16);
-            int bulletTileY = static_cast<int>((480 - bulletPosition.y) / 16);
-
-            if (bulletTileX >= 0 && bulletTileX < m_MapLoader->GetWidth() &&
-                bulletTileY >= 0 && bulletTileY < m_MapLoader->GetHeight()) {
-                int tileValue = m_MapLoader->GetTile(bulletTileX, bulletTileY);
-                if (tileValue == 1 || tileValue == 2 || tileValue == 5) {
-                    bullet->SetVisible(false);
-                    bullet->SetDrawable(nullptr); // 清除圖片資源
-                }
-                }
         }
     }
     int tile = m_MapLoader->GetTile(tileX, tileY);

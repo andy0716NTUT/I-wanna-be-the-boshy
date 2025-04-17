@@ -17,6 +17,7 @@
 #include "CheckPoint.hpp"
 #include <iostream>
 #include "imgui.hpp"
+#include "JumpBoost.hpp"
 
 
 class App {
@@ -79,6 +80,7 @@ private:
     std::shared_ptr<Menu> m_MenuSystem;
     std::vector<std::shared_ptr<Bullet>> m_Bullets;
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
+    std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     float shootCooldown = 0;
 
 };
