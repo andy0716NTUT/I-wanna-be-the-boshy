@@ -2,6 +2,7 @@
 
 
 void MapInfoLoader::LoadMap(std::string mapNumber) {
+    this->CurrentPhase = mapNumber ;
     std::string filePath = ImagePath(mapNumber);
     std::ifstream file(filePath);
 

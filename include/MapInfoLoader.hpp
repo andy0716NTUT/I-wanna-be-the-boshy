@@ -15,8 +15,10 @@ public:
     [[nodiscard]] int GetHeight() const { return m_Height; }
 
     void LoadMap(std::string mapNumber); // 直接載入地圖數字
+    std::string GetCurrentPhase(){return this->CurrentPhase;}
 
 private:
+    std::string CurrentPhase  ;
     inline std::string ImagePath(const std::string mapNumber) {
         return RESOURCE_DIR "/Image/Background/Map" + mapNumber + ".txt";
     }

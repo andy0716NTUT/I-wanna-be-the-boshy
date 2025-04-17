@@ -52,6 +52,7 @@ public:
             std::cout << std::endl;  // 每列換行
         }
     }
+    void Respawn();
     void Start();
 
     void Update();
@@ -61,8 +62,10 @@ public:
     App();
 private:
     glm::vec2 currentCheckPoint = {0,0};
+    std::string currentCheckPointPhase = "1";
     std::string CurrentPhase = "";
     int currentX,currentY;
+    int checkPointX = 0, checkPointY = 0;
     std::shared_ptr<World> m_World;
     GamePhase m_GamePhase = GamePhase::MENU;
     Util::Renderer m_Root;

@@ -144,12 +144,12 @@ void App::Update() {
         if (dir == World::Direction::RIGHT) {
             ++currentY;
             position.x *= -1;
-            position.x += 32;
+            position.x += 16;
         };
         if (dir == World::Direction::LEFT) {
             --currentY;
             position.x *= -1;
-            position.x -= 32;
+            position.x -= 16;
         }
         if (dir == World::Direction::UP)     --currentX;
         if (dir == World::Direction::DOWN)   ++currentX;
@@ -160,8 +160,12 @@ void App::Update() {
             bullet->SetDrawable(nullptr); // 清除圖片資源
         }
         m_Bullets.clear();
+
+        for (auto& checkpoint : m_CheckPoints) {
+            checkpoint->SetDrawable(nullptr); // 清除圖片資源
+        }
         // 如果不是 phase 3，就直接切換
-        if (CurrentPhase != "3") {
+        if (CurrentPhase != "3" || CurrentPhase != "4") {
             m_PRM->SetPhase(CurrentPhase);
             m_MapLoader->LoadMap(CurrentPhase);
         }
@@ -169,18 +173,33 @@ void App::Update() {
             m_PRM->SetPhase("3_1");
             m_MapLoader->LoadMap("3_1");
         }
+        if (CurrentPhase == "4") {
+            m_PRM->SetPhase("4_1");
+            m_MapLoader->LoadMap("4_1");
+        }
 
         m_CheckPoints.clear();
         m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
         std::cout << "Current Phase : " << CurrentPhase << std::endl;
     }
 
-    if (CurrentPhase == "3") {
+    if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2") {
         switchTimer += deltaTime;
         std::cout << switchTimer << std::endl;
         if (switchTimer >= switchInterval) {
             isSwitch = !isSwitch;
             std::string newPhase = isSwitch ? "3_2" : "3_1";
+            m_PRM->SetPhase(newPhase);
+            m_MapLoader->LoadMap(newPhase);
+            switchTimer = 0.0f; // 重置計時器
+        }
+    }
+    if (CurrentPhase == "4") {
+        switchTimer += deltaTime;
+        std::cout << switchTimer << std::endl;
+        if (switchTimer >= switchInterval) {
+            isSwitch = !isSwitch;
+            std::string newPhase = isSwitch ? "4_2" : "4_1";
             m_PRM->SetPhase(newPhase);
             m_MapLoader->LoadMap(newPhase);
             switchTimer = 0.0f; // 重置計時器
@@ -192,8 +211,16 @@ void App::Update() {
             glm::vec2 bulletPos = bullet->GetPosition();
             if (glm::distance(cpPos, bulletPos) < 20.0f) {
                 checkpoint->play();
-                bullet->SetVisible(false);
+                for (auto& bullet : m_Bullets) {
+                    bullet->SetVisible(false);
+                    bullet->SetDrawable(nullptr); // 清除圖片資源
+                }
+                m_Bullets.clear();
                 currentCheckPoint = m_Boshy->GetPosition();
+                currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
+                checkPointX = currentX;
+                checkPointY = currentY;
+                break; // 跳出內層循環
             }
         }
     }
@@ -208,10 +235,12 @@ void App::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::R)) {
         position = currentCheckPoint;
+        currentX = checkPointX;
+        currentY = checkPointY;
+        Respawn();
     }
-
-    // 更新角色位置與整體狀態
-    m_Boshy->SetPosition(position);
-    m_Root.Update();
-}
+        // 更新角色位置與整體狀態
+        m_Boshy->SetPosition(position);
+        m_Root.Update();
+    }
 
