@@ -1,7 +1,7 @@
 #include "App.hpp"
 void App::Update() {
     static float velocityY = 0;
-    const float Gravity = 0;
+    const float Gravity = -1;
     const float JumpPower = 15;
     const float MaxFallSpeed = -10;
     static int jumpCount = 0;
@@ -85,7 +85,7 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
         }
     }
-    if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+   /* if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         float prevY = position.y;
         if (aboveTile != 2) { // 確保上方不是障礙物
             position.y += 5;
@@ -107,7 +107,7 @@ void App::Update() {
         } else {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
-    }
+    }*/
     shootCooldown -= deltaTime;
     // 射擊邏輯保持不變
     if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
