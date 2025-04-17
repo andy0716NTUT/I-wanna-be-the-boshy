@@ -54,6 +54,7 @@ add_executable(${PROJECT_NAME}
         include/World.hpp
         include/CheckPoint.hpp
         src/CheckPoint.cpp
+        src/imgui.cpp
 )
 
 if(MSVC)

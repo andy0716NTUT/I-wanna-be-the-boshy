@@ -1,5 +1,4 @@
 #include "App.hpp"
-
 void App::Update() {
     static float velocityY = 0;
     const float Gravity = -1;
@@ -14,9 +13,6 @@ void App::Update() {
     shootCooldown -= deltaTime*4;
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
-
-
-
     // TileX, TileY 計算與碰撞檢測部分保持不變
     int tileX = static_cast<int>((position.x + 640) / 16);
     int tileY = static_cast<int>((480 - position.y) / 16);
@@ -38,7 +34,17 @@ void App::Update() {
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
-
+    if (aboveTile == 2 || aboveTile == 1 || aboveTile == 5) {
+        if (aboveTile == 5) {
+            position = currentCheckPoint; // 傳回到檢查點
+            currentX = checkPointX;
+            currentY = checkPointY;
+            Respawn(); // 呼叫重生邏輯
+        } else {
+            position.y = 480 - ((tileY + 1) * 16);
+            velocityY = 0;
+        }
+    }
     if ((aboveTile == 2 || aboveTile == 1)&& velocityY > 0) {
         position.y = 480 - ((tileY + 1) * 16);
         velocityY = 0;
@@ -242,5 +248,6 @@ void App::Update() {
         // 更新角色位置與整體狀態
         m_Boshy->SetPosition(position);
         m_Root.Update();
+		RenderImGui();
     }
 

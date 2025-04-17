@@ -11,7 +11,7 @@ void App::Start() {
     m_World = std::make_shared<World>();
     m_BGM.SetVolume(5);
     m_BGM.Play();
-
+    // 初始化 SDL 和 OpenGL（假設這些代碼已經存在）
 
     std::unordered_map<Character::MoveState, std::vector<std::string>> animationPaths = {
         {Character::MoveState::IDLE, {RESOURCE_DIR"/Image/Character/idle/idle1.png"
