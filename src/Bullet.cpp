@@ -17,7 +17,15 @@ void Bullet::Update(float deltaTime) {
         lifeTime -= deltaTime;
         if (lifeTime <= 0) {
             SetVisible(false);
-            SetDrawable(nullptr); // Clear the drawable
+            SetDrawable(nullptr); // 清除圖片資源
+            m_Bullet.reset();     // 釋放動畫資源
         }
     }
+}
+
+void Bullet::CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets) {
+    bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
+        [](const std::shared_ptr<Bullet>& bullet) {
+            return !bullet->IsVisible();
+        }), bullets.end());
 }

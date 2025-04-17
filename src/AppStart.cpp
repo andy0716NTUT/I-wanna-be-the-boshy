@@ -46,35 +46,36 @@ void App::Start() {
             }},
         {Character::MoveState::SHOOT,{RESOURCE_DIR"/Image/Character/shoot/shoot1.png", RESOURCE_DIR"/Image/Character/shoot/shoot2.png"}},
         {Character::MoveState::SHOOT_LEFT,{RESOURCE_DIR"/Image/Character/shoot/shoot1-left.png", RESOURCE_DIR"/Image/Character/shoot/shoot2-left.png"}}
-            };
+    };
 
-    m_Boshy = std::make_shared<AnimatedCharacter>(animationPaths);
-    m_Boshy->SetPosition({0, 0});
-    m_Boshy->SetZIndex(-1);
-    m_Root.AddChild(m_Boshy);
+        m_Boshy = std::make_shared<AnimatedCharacter>(animationPaths);
+        m_Boshy->SetPosition({0, 0});
+        m_Boshy->SetZIndex(-1);
+        m_Root.AddChild(m_Boshy);
 
-    glm::vec2 Checkpoint = m_Boshy->GetPosition();
-
-
-    m_Bullet = std::make_shared<Bullet>();
-    m_Bullet->SetVisible(false);
-    m_Bullet->SetZIndex(-2);
-    m_Root.AddChild(m_Bullet);
+        currentCheckPoint = m_Boshy->GetPosition();
 
 
-    std::string currentPhase = GamePhaseToString(m_GamePhase);
-    auto& currentWorld = m_World->GetWorldByPhaseName(currentPhase);
-    auto [currentX, currentY] = m_World->GetStartPosition(currentWorld, "1");
-    World::Direction dir ;
+        m_Bullet = std::make_shared<Bullet>();
+        m_Bullet->SetVisible(false);
+        m_Bullet->SetZIndex(-2);
+        m_Root.AddChild(m_Bullet);
 
 
-    m_MapLoader = std::make_shared<MapInfoLoader>();
-    m_MapLoader->LoadMap(currentWorld[currentX][currentY]);
+        std::string currentPhase = GamePhaseToString(m_GamePhase);
+        auto& currentWorld = m_World->GetWorldByPhaseName(currentPhase);
+        auto [currentX, currentY] = m_World->GetStartPosition(currentWorld, "1");
+        World::Direction dir ;
 
-    m_PRM = std::make_shared<ResourceManager>();
-    m_Root.AddChild(m_PRM->GetChildren());
-    m_PRM->SetPhase(currentWorld[currentX][currentY]);
 
-    std::cout << "Test 1" << std::endl ;
-    m_CurrentState = State::UPDATE;
-}
+        m_MapLoader = std::make_shared<MapInfoLoader>();
+        m_MapLoader->LoadMap(currentWorld[currentX][currentY]);
+
+        m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
+        m_PRM = std::make_shared<ResourceManager>();
+        m_Root.AddChild(m_PRM->GetChildren());
+        m_PRM->SetPhase(currentWorld[currentX][currentY]);
+
+        std::cout << "Test 1" << std::endl ;
+        m_CurrentState = State::UPDATE;
+    }

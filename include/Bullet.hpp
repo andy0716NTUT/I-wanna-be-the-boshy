@@ -20,6 +20,8 @@ public:
     void SetVisible(bool visible) { m_IsVisible = visible; }
     void SetLifeTime(float time) { lifeTime = time; }
     void SetDirection(Character::direction dir) { m_Direction = dir; }
+    static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets);
+    [[nodiscard]] bool ShouldBeRemoved() const { return !m_IsVisible; }
     Character::direction GetDirection() const { return m_Direction; }
 
 private:

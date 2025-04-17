@@ -155,17 +155,23 @@ void App::Update() {
         if (dir == World::Direction::DOWN)   ++currentX;
 
         CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
-
+        for (auto& bullet : m_Bullets) {
+            bullet->SetVisible(false);
+            bullet->SetDrawable(nullptr); // 清除圖片資源
+        }
+        m_Bullets.clear();
         // 如果不是 phase 3，就直接切換
         if (CurrentPhase != "3") {
             m_PRM->SetPhase(CurrentPhase);
             m_MapLoader->LoadMap(CurrentPhase);
         }
         if (CurrentPhase == "3") {
-             m_PRM->SetPhase("3_1");
-             m_MapLoader->LoadMap("3_1");
+            m_PRM->SetPhase("3_1");
+            m_MapLoader->LoadMap("3_1");
         }
 
+        m_CheckPoints.clear();
+        m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
         std::cout << "Current Phase : " << CurrentPhase << std::endl;
     }
 
@@ -180,17 +186,32 @@ void App::Update() {
             switchTimer = 0.0f; // 重置計時器
         }
     }
+    for (auto& checkpoint : m_CheckPoints) {
+        glm::vec2 cpPos = checkpoint->GetPosition();
+        for (auto& bullet : m_Bullets) {
+            glm::vec2 bulletPos = bullet->GetPosition();
+            if (glm::distance(cpPos, bulletPos) < 20.0f) {
+                checkpoint->play();
+                bullet->SetVisible(false);
+                currentCheckPoint = m_Boshy->GetPosition();
+            }
+        }
+    }
 
-    m_Bullets.erase(std::remove_if(m_Bullets.begin(), m_Bullets.end(),
-            [](const std::shared_ptr<Bullet>& bullet) { return !bullet->IsVisible(); }),
-            m_Bullets.end());
-    // 關閉窗口邏輯保持不變
+    // 清除不可見的子彈
+    Bullet::CleanBullet(m_Bullets);
+
+    // 關閉或重生邏輯
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
 
+    if (Util::Input::IsKeyDown(Util::Keycode::R)) {
+        position = currentCheckPoint;
+    }
 
-    // 更新角色位置
+    // 更新角色位置與整體狀態
     m_Boshy->SetPosition(position);
     m_Root.Update();
 }
+

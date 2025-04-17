@@ -17,12 +17,9 @@
 #include "CheckPoint.hpp"
 #include <iostream>
 
-#include "../PTSD/lib/sdl2_mixer/src/codecs/stb_vorbis/stb_vorbis.h"
 
 class App {
 public:
-
-
     enum class GamePhase {
         MENU,
         WORLD1,
@@ -63,6 +60,7 @@ public:
 
     App();
 private:
+    glm::vec2 currentCheckPoint = {0,0};
     std::string CurrentPhase = "";
     int currentX,currentY;
     std::shared_ptr<World> m_World;
@@ -76,7 +74,7 @@ private:
     std::shared_ptr<ResourceManager> m_PRM;
     std::shared_ptr<Menu> m_MenuSystem;
     std::vector<std::shared_ptr<Bullet>> m_Bullets;
-    std::vector<std::shared_ptr<CheckPoint>> m_CheckPoint;
+    std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
     float shootCooldown = 0;
 
 };
