@@ -1,7 +1,8 @@
 #include "App.hpp"
+
 void App::Update() {
     static float velocityY = 0;
-    const float Gravity = -1;
+    velocityY += Gravity;
     const float JumpPower = 15;
     const float MaxFallSpeed = -10;
     static int jumpCount = 0;
@@ -38,17 +39,13 @@ void App::Update() {
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
-    if (aboveTile == 2 || aboveTile == 1 || aboveTile == 5) {
-        if (aboveTile == 5) {
+
+    if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5) {
             position = currentCheckPoint; // 傳回到檢查點
             currentX = checkPointX;
             currentY = checkPointY;
             Respawn(); // 呼叫重生邏輯
-        } else {
-            position.y = 480 - ((tileY + 1) * 16);
-            velocityY = 0;
         }
-    }
     if ((aboveTile == 2 || aboveTile == 1)&& velocityY > 0) {
         position.y = 480 - ((tileY + 1) * 16);
         velocityY = 0;
@@ -68,22 +65,21 @@ void App::Update() {
         glm::vec2 boostPos = boost->GetPosition();
         if (glm::distance(position, boostPos) < 20.0f) {
             if (jumpCount >= 1) {
-                jumpCount--;  // 給一次額外跳躍機會
-                jumpBoostVisible = false ;
-                boost->SetDrawable(nullptr);
+                jumpCount--;
+                boost->SetDisappear(false);
+                boost->SetVisible(boost->GetDisapper());
             }
         }
-        if (!jumpBoostVisible) {
+        if (!boost->GetDisapper()) {
             JumpBoostTimer += deltaTime;
             if (JumpBoostTimer > 3.0f) {
-                boost->CreateFromMap(m_MapLoader,m_Root);
-                jumpBoostVisible = true;
+                boost->SetVisible(true);
+                boost->SetDisappear(true);
                 JumpBoostTimer = 0.0f;
             }
         }
-
-
     }
+
     if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
         float prevX = position.x;
         if (rightTile != 2) {
@@ -96,6 +92,7 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
+
     if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         float prevX = position.x;
         if (leftTile != 2) {
@@ -106,6 +103,29 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::RUN_LEFT);
         } else {
             animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
+        }
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+        float prevY = position.y;
+        if (aboveTile != 2) { // 確保上方不是障礙物
+            position.y += 5;
+        }
+        if (position.y != prevY) {
+            animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_UP 狀態
+        } else {
+            animatedBoshy->SetState(Character::MoveState::IDLE);
+        }
+    }
+
+    if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+        float prevY = position.y;
+        if (belowTile != 2) { // 確保下方不是障礙物
+            position.y -= 5;
+        }
+        if (position.y != prevY) {
+            animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_DOWN 狀態
+        } else {
+            animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
     shootCooldown -= deltaTime;
@@ -275,6 +295,6 @@ void App::Update() {
         // 更新角色位置與整體狀態
         m_Boshy->SetPosition(position);
         m_Root.Update();
-		RenderImGui();
+        RenderImGui(*this);
     }
 

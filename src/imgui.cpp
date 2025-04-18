@@ -1,5 +1,6 @@
 #include "Imgui.hpp"
 
+#include "App.hpp"
 void InitImGui(SDL_Window* window, SDL_GLContext gl_context) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -46,26 +47,24 @@ void InitImGui(SDL_Window* window, SDL_GLContext gl_context) {
     ImGui_ImplOpenGL3_Init("#version 130");
 }
 
-void RenderImGui() {
+void RenderImGui(App& app) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
-    // 保持原始內容，但添加一些元素以測試樣式
     ImGui::Begin("Debug Window");
     ImGui::Text("This is a debug window.");
 
-    // 添加滑塊和複選框以確認樣式效果
-    static float test_slider = 50.0f;
-    ImGui::SliderFloat("Test Slider", &test_slider, 0.0f, 100.0f, "%.0f");
-
-    static bool test_checkbox = false;
-    ImGui::Checkbox("Test Checkbox", &test_checkbox);
-
-    if (ImGui::Button("Test Button")) {
-        // 按鈕邏輯（僅用於測試）
+    // 添加滑块来修改 Gravity
+    ImGui::InputFloat("Gravity", &app.Gravity, 0.1f, 1.0f, "%.1f");
+    ImGui::SliderFloat("Gravity", &app.Gravity, -10.0f, 10.0f, "%.1f");
+    if (ImGui::Button("Reset Gravity to 0")) {
+        app.Gravity = 0.0f; // 重置为 0
     }
-
+    static bool godMode = false;
+    static bool silentAim = false;
+    ImGui::Checkbox("God Mode", &godMode);
+    ImGui::Checkbox("Silent Aim", &silentAim);
     ImGui::End();
 
     ImGui::Render();

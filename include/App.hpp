@@ -60,7 +60,7 @@ public:
     void Update();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
-
+    float Gravity = -0.5f;
     App();
 private:
     glm::vec2 currentCheckPoint = {0,0};
