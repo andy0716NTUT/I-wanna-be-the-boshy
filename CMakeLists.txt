@@ -55,6 +55,9 @@ add_executable(${PROJECT_NAME}
         include/CheckPoint.hpp
         src/CheckPoint.cpp
         src/imgui.cpp
+        src/fallingground.cpp
+        include/fallingground.hpp
+        include/PairHash.hpp
 )
 
 if(MSVC)

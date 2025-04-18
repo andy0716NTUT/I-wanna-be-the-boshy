@@ -18,6 +18,7 @@
 #include <iostream>
 #include "imgui.hpp"
 #include "JumpBoost.hpp"
+#include "fallingground.hpp"
 
 
 class App {
@@ -82,7 +83,7 @@ private:
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     float shootCooldown = 0;
-
+    std::unique_ptr<FallingGround> m_FallingGround;
 };
 
 #endif

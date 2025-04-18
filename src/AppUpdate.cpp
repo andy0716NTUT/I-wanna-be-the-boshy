@@ -39,7 +39,9 @@ void App::Update() {
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
-
+    if (m_FallingGround) {
+        m_FallingGround->Update(deltaTime, tileX, tileY);
+    }
     if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5) {
             position = currentCheckPoint; // 傳回到檢查點
             currentX = checkPointX;

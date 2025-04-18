@@ -39,6 +39,13 @@ void MapInfoLoader::LoadMap(std::string mapNumber) {
 }
 
 int MapInfoLoader::GetTile(int x, int y) const {
-    if (y < 0 || y >= m_Height || x < 0 || x >= m_Width) return 0; // 超出範圍當作空氣
-    return m_MapData[y][x];
+    if (y >= 0 && y < m_Height && x >= 0 && x < m_Width) {
+        return m_MapData[y][x];
+    }
+    return -1; // 返回一個無效值，表示超出範圍
+}
+void MapInfoLoader::SetTile(int x, int y, int value) {
+    if (y >= 0 && y < m_Height && x >= 0 && x < m_Width) {
+        m_MapData[y][x] = value;
+    }
 }
