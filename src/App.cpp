@@ -21,6 +21,7 @@ void App::Respawn() {
         }
         m_CheckPoints.clear();
         m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
+        m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader,m_Root);
     }
 
     m_Boshy->SetPosition(currentCheckPoint);

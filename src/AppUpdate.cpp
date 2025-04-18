@@ -1,4 +1,5 @@
 #include "App.hpp"
+
 void App::Update() {
     static float velocityY = 0;
     const float Gravity = -1;
@@ -38,6 +39,7 @@ void App::Update() {
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
+
     if (aboveTile == 2 || aboveTile == 1 || aboveTile == 5) {
         if (aboveTile == 5) {
             position = currentCheckPoint; // 傳回到檢查點
@@ -68,22 +70,21 @@ void App::Update() {
         glm::vec2 boostPos = boost->GetPosition();
         if (glm::distance(position, boostPos) < 20.0f) {
             if (jumpCount >= 1) {
-                jumpCount--;  // 給一次額外跳躍機會
-                jumpBoostVisible = false ;
-                boost->SetDrawable(nullptr);
+                jumpCount--;
+                boost->SetDisappear(false);
+                boost->SetVisible(boost->GetDisapper());
             }
         }
-        if (!jumpBoostVisible) {
+        if (!boost->GetDisapper()) {
             JumpBoostTimer += deltaTime;
             if (JumpBoostTimer > 3.0f) {
-                boost->CreateFromMap(m_MapLoader,m_Root);
-                jumpBoostVisible = true;
+                boost->SetVisible(true);
+                boost->SetDisappear(true);
                 JumpBoostTimer = 0.0f;
             }
         }
-
-
     }
+
     if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
         float prevX = position.x;
         if (rightTile != 2) {
@@ -96,6 +97,7 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
+
     if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         float prevX = position.x;
         if (leftTile != 2) {
@@ -108,6 +110,7 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
         }
     }
+
     shootCooldown -= deltaTime;
     // 射擊邏輯保持不變
     if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {

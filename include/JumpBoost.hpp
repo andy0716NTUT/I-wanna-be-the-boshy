@@ -13,6 +13,7 @@ class JumpBoost : public Util::GameObject{
 private:
     std::shared_ptr<Util::Animation> m_Animation;
     std::vector<std::string> paths;
+    bool Visible = true;
 public:
     explicit JumpBoost() {
         std::vector<std::string> frames;
@@ -27,6 +28,8 @@ public:
     void SetPosition(glm::vec2 position) {
         m_Transform.translation = position;
     }
+    void SetDisappear(bool dis){this->Visible = dis ;}
+    bool GetDisapper(){return this->Visible;}
     static std::vector<std::shared_ptr<JumpBoost>> CreateFromMap(
        const std::shared_ptr<MapInfoLoader>& mapLoader,
        Util::Renderer& rootRenderer) {
