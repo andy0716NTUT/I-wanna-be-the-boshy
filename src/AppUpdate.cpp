@@ -7,10 +7,14 @@ void App::Update() {
     static int jumpCount = 0;
     static float shootCooldown = 0;
     const float deltaTime = 1.0f / 60.0f;
-    static float switchTimer = 0.0f; // 使用浮點數計時器（秒）
-    static bool isSwitch = false;     // 切換狀態
+    static float switchTimer = 0.0f; // 地圖切換
+    static bool isSwitch = false;     // 地圖切換狀態
+    static float JumpBoostTimer = 0.0f;
+    static bool jumpBoostVisible = true;
     const float switchInterval = 1.0f; // 每3秒切換一次
     shootCooldown -= deltaTime*4;
+
+
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
     // TileX, TileY 計算與碰撞檢測部分保持不變
@@ -65,6 +69,16 @@ void App::Update() {
         if (glm::distance(position, boostPos) < 20.0f) {
             if (jumpCount >= 1) {
                 jumpCount--;  // 給一次額外跳躍機會
+                jumpBoostVisible = false ;
+                boost->SetDrawable(nullptr);
+            }
+        }
+        if (!jumpBoostVisible) {
+            JumpBoostTimer += deltaTime;
+            if (JumpBoostTimer > 3.0f) {
+                boost->CreateFromMap(m_MapLoader,m_Root);
+                jumpBoostVisible = true;
+                JumpBoostTimer = 0.0f;
             }
         }
 
@@ -179,6 +193,9 @@ void App::Update() {
         for (auto& checkpoint : m_CheckPoints) {
             checkpoint->SetDrawable(nullptr); // 清除圖片資源
         }
+        for (auto& jumpboost : m_jumpBoost) {
+            jumpboost->SetDrawable(nullptr);
+        }
         // 如果不是 phase 3，就直接切換
         if (CurrentPhase != "3" || CurrentPhase != "4") {
             m_PRM->SetPhase(CurrentPhase);
@@ -195,6 +212,7 @@ void App::Update() {
 
         m_CheckPoints.clear();
         m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
+        m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader,m_Root);
         std::cout << "Current Phase : " << CurrentPhase << std::endl;
     }
 
