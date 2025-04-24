@@ -1,7 +1,6 @@
 #include "App.hpp"
 
-void App::Update()
-{
+void App::Update() {
     static float velocityY = 0;
     velocityY += Gravity;
     const float JumpPower = 15;
@@ -46,6 +45,8 @@ void App::Update()
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
+
+    std::cout << belowTile << std::endl;
     if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5)
     {
         position = currentCheckPoint; // 傳回到檢查點
@@ -59,7 +60,7 @@ void App::Update()
         velocityY = 0;
     }
 
-    if (belowTile == 1 && velocityY < 0)
+    if ((belowTile == 1 || belowTile == 8)  && velocityY < 0)
     {
         position.y = 480 - ((tileY) * 16) - 4;
         velocityY = 0;
@@ -222,7 +223,7 @@ void App::Update()
         {
             ++currentX;
             position.y *= -1;
-            position.y -= 16;
+            position.y -= 32;
         }
 
         CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
@@ -296,47 +297,115 @@ void App::Update()
             switchTimer = 0.0f; // 重置計時器
         }
     }
-    for (auto& checkpoint : m_CheckPoints)
-    {
-        glm::vec2 cpPos = checkpoint->GetPosition();
-        for (auto& bullet : m_Bullets)
-        {
-            glm::vec2 bulletPos = bullet->GetPosition();
-            if (glm::distance(cpPos, bulletPos) < 20.0f)
-            {
-                checkpoint->play();
-                for (auto& bullet : m_Bullets)
-                {
-                    bullet->SetVisible(false);
-                    bullet->SetDrawable(nullptr); // 清除圖片資源
+    bool isStandingOnPlatform = false;
+    for (auto& fallingGround : m_FallingGround) {
+
+        glm::vec2 fgPos = fallingGround->GetPosition();
+
+        float fgWidth = 96;
+        float fgHeight = 64;
+
+        float fgLeft = fgPos.x - fgWidth / 2;
+        float fgRight = fgPos.x + fgWidth / 2;
+        float fgTop = fgPos.y + fgHeight / 2;
+
+        float playerWidth = 16;
+        float playerHeight = 16;
+
+        float playerLeft = position.x - playerWidth / 2;
+        float playerRight = position.x + playerWidth / 2;
+        float playerBottom = position.y - playerHeight / 2;
+
+        // ✅【踩在平台上面】的判斷（腳貼到平台頂部，且水平有交集）
+        bool hitFromTop = playerBottom >= fgTop - 4 && playerBottom <= fgTop + 4 &&
+                          playerRight > fgLeft && playerLeft < fgRight;
+
+        if (hitFromTop) {
+            fallingGround->SetFalling(true);
+        }
+
+        if (fallingGround->GetFalling()) {
+            fgPos.y -= 11;
+            fallingGround->SetPosition(fgPos);
+
+            // 🔽 跟平台碰撞檢查
+            for (auto& platform : m_Platform) {
+                glm::vec2 pfPos = platform->GetPosition();
+
+                float fgWidth = 96, fgHeight = 64;
+                float pfWidth = 32, pfHeight = 32; // 假設 Platform 是 2x2 tile
+
+                float fgLeft = fgPos.x - fgWidth / 2;
+                float fgRight = fgPos.x + fgWidth / 2;
+                float fgTop = fgPos.y + fgHeight / 2;
+                float fgBottom = fgPos.y - fgHeight / 2;
+
+                float pfLeft = pfPos.x - pfWidth / 2;
+                float pfRight = pfPos.x + pfWidth / 2;
+                float pfTop = pfPos.y + pfHeight / 2;
+                float pfBottom = pfPos.y - pfHeight / 2;
+
+                bool isOverlap =
+                    fgRight > pfLeft && fgLeft < pfRight &&
+                    fgBottom < pfTop && (fgTop + 10) > pfBottom;
+
+                if (isOverlap) {
+                    platform->SetVisible(false);
+                    platform->SetDrawable(nullptr);
+                    int tileX = static_cast<int>((pfPos.x + 640) / 16);
+                    int tileY = static_cast<int>((480 - pfPos.y) / 16);
+
+                    for (int dy = 0; dy < 2; ++dy) {
+                        for (int dx = 0; dx < 2; ++dx) {
+                            m_MapLoader->SetTile(tileX + dx, tileY + dy, 0); // 把tile改為空氣
+                        }
+                    }
                 }
-                m_Bullets.clear();
-                currentCheckPoint = m_Boshy->GetPosition();
-                currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
-                checkPointX = currentX;
-                checkPointY = currentY;
-                break; // 跳出內層循環
+
             }
         }
-    }
+        for (auto& checkpoint : m_CheckPoints)
+        {
+            glm::vec2 cpPos = checkpoint->GetPosition();
+            for (auto& bullet : m_Bullets)
+            {
+                glm::vec2 bulletPos = bullet->GetPosition();
+                if (glm::distance(cpPos, bulletPos) < 20.0f)
+                {
+                    checkpoint->play();
+                    for (auto& bullet : m_Bullets)
+                    {
+                        bullet->SetVisible(false);
+                        bullet->SetDrawable(nullptr); // 清除圖片資源
+                    }
+                    m_Bullets.clear();
+                    currentCheckPoint = m_Boshy->GetPosition();
+                    currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
+                    checkPointX = currentX;
+                    checkPointY = currentY;
+                    break; // 跳出內層循環
+                }
+            }
+        }
 
-    // 清除不可見的子彈
-    Bullet::CleanBullet(m_Bullets);
+        // 清除不可見的子彈
+        Bullet::CleanBullet(m_Bullets);
 
-    // 關閉或重生邏輯
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit())
-    {
-        m_CurrentState = State::END;
-    }
+        // 關閉或重生邏輯
+        if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit())
+        {
+            m_CurrentState = State::END;
+        }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::R)) {
-        position = currentCheckPoint;
-        currentX = checkPointX;
-        currentY = checkPointY;
-        Respawn();
+        if (Util::Input::IsKeyDown(Util::Keycode::R)) {
+            position = currentCheckPoint;
+            currentX = checkPointX;
+            currentY = checkPointY;
+            Respawn();
+        }
+        // 更新角色位置與整體狀態
+        m_Boshy->SetPosition(position);
+        m_Root.Update();
+        RenderImGui(*this);
     }
-    // 更新角色位置與整體狀態
-    m_Boshy->SetPosition(position);
-    m_Root.Update();
-    RenderImGui(*this);
 }

@@ -53,15 +53,6 @@ public:
         }
         return "UNKNOWN";
     }
-
-    void PrintWorld(const std::vector<std::vector<std::string>>& world) {
-        for (const auto& row : world) {
-            for (const auto& cell : row) {
-                std::cout << cell << " ";  // 每格之間加空格
-            }
-            std::cout << std::endl;  // 每列換行
-        }
-    }
     void Respawn();
     void Start();
 
@@ -86,11 +77,11 @@ private:
     std::shared_ptr<Bullet> m_Bullet;
     std::shared_ptr<ResourceManager> m_PRM;
     std::shared_ptr<Menu> m_MenuSystem;
-    std::shared_ptr<Platform> m_Platform;
     std::vector<std::shared_ptr<Bullet>> m_Bullets;
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
+    std::vector<std::shared_ptr<Platform>> m_Platform;
     float shootCooldown = 0;
 
 };

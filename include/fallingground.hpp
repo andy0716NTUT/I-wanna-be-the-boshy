@@ -9,46 +9,63 @@
 #include "Util/Renderer.hpp"
 class FallingGround : public  Util::GameObject{
 public:
-    explicit  FallingGround() {
-
-        m_Image->SetImage(RESOURCE_DIR"/Image/MapObject/platform.png");
-        m_Drawable = m_Image;
+    FallingGround(const std::string& imagePath) {
+        SetImage(imagePath);
     }
-    void fall() {
-        m_Transform.translation.y-=5;
+    void SetFalling(bool falling) {
+        this->isFalling = falling;
     }
+    bool GetFalling(){return this->isFalling;}
     void SetPosition(glm::vec2 position){m_Transform.translation = position;}
+    glm::vec2 GetPosition(){return m_Transform.translation;}
+    void SetImage(const std::string& ImagePath) {
+        m_ImagePath = ImagePath;
+
+        m_Drawable = std::make_shared<Util::Image>(m_ImagePath);
+    }
     static std::vector<std::shared_ptr<FallingGround>> CreateFromMap(
-       const std::shared_ptr<MapInfoLoader>& mapLoader,
-       Util::Renderer& rootRenderer) {
+    const std::shared_ptr<MapInfoLoader>& mapLoader,
+    Util::Renderer& rootRenderer) {
+
         std::vector<std::shared_ptr<FallingGround>> fallingGrounds;
 
-        for (int y = 0; y < mapLoader->GetHeight() - 1; ++y) {
-            for (int x = 0; x < mapLoader->GetWidth() - 1; ++x) {
-                if (mapLoader->GetTile(x, y) == 7 &&
-                    mapLoader->GetTile(x + 1, y) == 7 &&
-                    mapLoader->GetTile(x + 2 , y) == 7 &&
-                    mapLoader->GetTile(x , y + 1) == 7 &&
-                    mapLoader->GetTile(x + 1, y + 1) == 7 &&
-                    mapLoader->GetTile(x + 2, y + 1) == 7) {
+        const int tileW = 6;
+        const int tileH = 4;
 
-                    float worldX = (x + 1) * 16 - 640;
-                    float worldY = 480 - (y + 1) * 16;
+        for (int y = 0; y <= mapLoader->GetHeight() - tileH; ++y) {
+            for (int x = 0; x <= mapLoader->GetWidth() - tileW; ++x) {
 
-                    auto fallingGround = std::make_shared<FallingGround>();
+                bool match = true;
+                for (int dy = 0; dy < tileH && match; ++dy) {
+                    for (int dx = 0; dx < tileW; ++dx) {
+                        if (mapLoader->GetTile(x + dx, y + dy) != 7) {
+                            match = false;
+                            break;
+                        }
+                    }
+                }
+                if (match) {
+                    float worldX = (x + tileW / 2.0f) * 16 - 640;
+                    float worldY = 480 - (y + tileH / 2.0f) * 16;
+
+                    auto fallingGround = std::make_shared<FallingGround>(RESOURCE_DIR "/Image/MapObject/platform.png");
                     fallingGround->SetPosition({worldX, worldY});
                     fallingGround->SetZIndex(-2);
                     rootRenderer.AddChild(fallingGround);
                     fallingGrounds.push_back(fallingGround);
-                    }
+
+                    x += tileW - 1; // 避免重疊偵測
+                }
             }
         }
 
         return fallingGrounds;
-
     }
+
 private:
     std::shared_ptr<Util::Image> m_Image;
+    std::string m_ImagePath;
+    bool isFalling = false;
 };
 
 #endif // FALLINGGROUND_HPP
