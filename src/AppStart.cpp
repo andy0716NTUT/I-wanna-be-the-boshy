@@ -73,7 +73,6 @@ void App::Start() {
 
         m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
         m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader,m_Root);
-
         m_PRM = std::make_shared<ResourceManager>();
         m_Root.AddChild(m_PRM->GetChildren());
         m_PRM->SetPhase(currentWorld[currentX][currentY]);

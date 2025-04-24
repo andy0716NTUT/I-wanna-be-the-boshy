@@ -39,9 +39,6 @@ void App::Update() {
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
-    if (m_FallingGround) {
-        m_FallingGround->Update(deltaTime, tileX, tileY);
-    }
     if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5) {
             position = currentCheckPoint; // 傳回到檢查點
             currentX = checkPointX;
@@ -203,7 +200,11 @@ void App::Update() {
             position.x -= 16;
         }
         if (dir == World::Direction::UP)     --currentX;
-        if (dir == World::Direction::DOWN)   ++currentX;
+        if (dir == World::Direction::DOWN) {
+            ++currentX;
+            position.y *= -1;
+            position.y -=16;
+        }
 
         CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
         for (auto& bullet : m_Bullets) {
@@ -219,9 +220,13 @@ void App::Update() {
             jumpboost->SetDrawable(nullptr);
         }
         // 如果不是 phase 3，就直接切換
-        if (CurrentPhase != "3" || CurrentPhase != "4") {
+        if (CurrentPhase != "3" || CurrentPhase != "4" || CurrentPhase != "-") {
             m_PRM->SetPhase(CurrentPhase);
             m_MapLoader->LoadMap(CurrentPhase);
+        }
+        if (CurrentPhase == "-") {
+            m_PRM->SetPhase("none");
+            m_MapLoader->LoadMap("none");
         }
         if (CurrentPhase == "3") {
             m_PRM->SetPhase("3_1");
@@ -233,6 +238,7 @@ void App::Update() {
         }
 
         m_CheckPoints.clear();
+        m_jumpBoost.clear();
         m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
         m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader,m_Root);
         std::cout << "Current Phase : " << CurrentPhase << std::endl;

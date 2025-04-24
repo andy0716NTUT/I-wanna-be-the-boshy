@@ -19,7 +19,8 @@
 #include "imgui.hpp"
 #include "JumpBoost.hpp"
 #include "fallingground.hpp"
-
+#include "fallingground.hpp"
+#include "Platform.hpp"
 
 class App {
 public:
@@ -79,11 +80,12 @@ private:
     std::shared_ptr<Bullet> m_Bullet;
     std::shared_ptr<ResourceManager> m_PRM;
     std::shared_ptr<Menu> m_MenuSystem;
+    std::shared_ptr<Platform> m_Platform;
     std::vector<std::shared_ptr<Bullet>> m_Bullets;
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
+    std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
     float shootCooldown = 0;
-    std::unique_ptr<FallingGround> m_FallingGround;
 };
 
 #endif
