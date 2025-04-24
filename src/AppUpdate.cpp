@@ -355,7 +355,7 @@ void App::Update() {
 
                     int tileX = static_cast<int>((pfPos.x + 640 - 16) / 16);
                     int tileY = static_cast<int>((480 - pfPos.y - 16) / 16);
-
+                    
                     for (int dy = 0; dy < 2; ++dy) {
                         for (int dx = 0; dx < 2; ++dx) {
                             m_MapLoader->SetTile(tileX + dx, tileY + dy, 0);

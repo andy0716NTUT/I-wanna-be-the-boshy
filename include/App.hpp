@@ -21,6 +21,7 @@
 #include "fallingground.hpp"
 #include "fallingground.hpp"
 #include "Platform.hpp"
+#include "GameObjectHelper.hpp"
 
 class App {
 public:

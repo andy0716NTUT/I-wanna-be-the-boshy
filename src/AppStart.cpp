@@ -3,7 +3,7 @@
 //
 
 #include "App.hpp"
-#include "GameObjectHelper.hpp"
+
 
 void App::Start() {
     LOG_TRACE("Start");
