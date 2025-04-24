@@ -36,6 +36,12 @@ public:
         UPDATE,
         END,
     };
+    struct DebugInfo {
+        std::string positionInfo;
+        std::string tileInfo;
+        std::string phaseInfo;
+        std::string switchTimerInfo;
+    } m_DebugInfo;
     State GetCurrentState() const { return m_CurrentState; }
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
     std::string GamePhaseToString(App::GamePhase phase) {

@@ -15,7 +15,7 @@ void App::Update()
     static bool jumpBoostVisible = true;
     const float switchInterval = 1.0f; // 每3秒切換一次
     shootCooldown -= deltaTime * 4;
-
+    std::stringstream ss;
 
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
@@ -28,9 +28,17 @@ void App::Update()
     if (tileY < 0) tileY = 0;
     if (tileY >= m_MapLoader->GetHeight()) tileY = m_MapLoader->GetHeight() - 1;
 
-    std::cout << "Position: (" << currentX << ", " << currentY << ")"
-        << " Tile: (" << tileX << ", " << tileY << ")"
-        << " Tile Value: " << m_MapLoader->GetTile(tileX, tileY) << std::endl;
+    ss << "Position: (" << position.x << ", " << position.y << ")";
+    m_DebugInfo.positionInfo = ss.str();
+    ss.str("");
+    ss << "Tile: (" << tileX << ", " << tileY << ") Value: " << m_MapLoader->GetTile(tileX, tileY);
+    m_DebugInfo.tileInfo = ss.str();
+    ss.str("");
+    ss << "Switch Timer: " << switchTimer;
+    m_DebugInfo.switchTimerInfo = ss.str();
+    ss.str("");
+    ss << "Current Phase: " << CurrentPhase;
+    m_DebugInfo.phaseInfo = ss.str();
 
     velocityY += Gravity;
     if (velocityY < MaxFallSpeed) velocityY = MaxFallSpeed;

@@ -53,18 +53,30 @@ void RenderImGui(App& app) {
     ImGui::NewFrame();
 
     ImGui::Begin("Debug Window");
-    ImGui::Text("This is a debug window.");
 
-    // 添加滑块来修改 Gravity
+    // 显示游戏状态信息
+    ImGui::Text("Game Debug Information");
+    ImGui::Separator();
+
+    // 显示位置和瓦片信息
+    ImGui::Text("%s", app.m_DebugInfo.positionInfo.c_str());
+    ImGui::Text("%s", app.m_DebugInfo.tileInfo.c_str());
+
+    // 显示阶段和计时器信息
+    ImGui::Text("%s", app.m_DebugInfo.phaseInfo.c_str());
+    ImGui::Text("%s", app.m_DebugInfo.switchTimerInfo.c_str());
+
+    ImGui::Separator();
+
+    // 已有的控制选项
+    ImGui::Text("Controls");
     ImGui::InputFloat("Gravity", &app.Gravity, 0.1f, 1.0f, "%.1f");
     ImGui::SliderFloat("Gravity", &app.Gravity, -10.0f, 10.0f, "%.1f");
+
     if (ImGui::Button("Reset Gravity to 0")) {
-        app.Gravity = 0.0f; // 重置为 0
+        app.Gravity = 0.0f;
     }
-    static bool godMode = false;
-    static bool silentAim = false;
-    ImGui::Checkbox("God Mode", &godMode);
-    ImGui::Checkbox("Silent Aim", &silentAim);
+
     ImGui::End();
 
     ImGui::Render();
