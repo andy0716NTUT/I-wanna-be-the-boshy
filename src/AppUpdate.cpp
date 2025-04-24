@@ -11,8 +11,6 @@ void App::Update()
     const float deltaTime = 1.0f / 60.0f;
     static float switchTimer = 0.0f; // 地圖切換
     static bool isSwitch = false; // 地圖切換狀態
-    static float JumpBoostTimer = 0.0f;
-    static bool jumpBoostVisible = true;
     const float switchInterval = 1.0f; // 每3秒切換一次
     shootCooldown -= deltaTime * 4;
     std::stringstream ss;
@@ -73,28 +71,9 @@ void App::Update()
         position.y = 480 - (tileY - 1) * 16;
         velocityY = 0;
     }
-    for (auto& boost : m_jumpBoost)
-    {
-        glm::vec2 boostPos = boost->GetPosition();
-        if (glm::distance(position, boostPos) < 20.0f)
-        {
-            if (jumpCount >= 1)
-            {
-                jumpCount--;
-                boost->SetDisappear(false);
-                boost->SetVisible(boost->GetDisapper());
-            }
-        }
-        if (!boost->GetDisapper())
-        {
-            JumpBoostTimer += deltaTime;
-            if (JumpBoostTimer > 3.0f)
-            {
-                boost->SetVisible(true);
-                boost->SetDisappear(true);
-                JumpBoostTimer = 0.0f;
-            }
-        }
+    for (auto& boost : m_jumpBoost) {
+        boost->CheckInteraction(position, jumpCount);
+        boost->UpdateState(deltaTime);
     }
 
     if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT))
@@ -169,24 +148,9 @@ void App::Update()
     }
     shootCooldown -= deltaTime;
     // 射擊邏輯保持不變
-    if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5)
-    {
-        auto bullet = std::make_shared<Bullet>();
-        bullet->SetPosition(m_Boshy->GetPosition());
-        bullet->SetLifeTime(2.0f);
-        bullet->SetVisible(true);
-        if (m_Boshy->GetDirection() == Character::direction::LEFT)
-        {
-            bullet->SetImage(RESOURCE_DIR"/Image/bullet2.png");
-            bullet->SetDirection(Character::direction::LEFT);
-        }
-        else
-        {
-            bullet->SetImage(RESOURCE_DIR"/Image/bullet.png");
-            bullet->SetDirection(Character::direction::RIGHT);
-        }
+    if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
+        auto bullet = Bullet::CreateBullet(m_Boshy->GetPosition(), m_Boshy->GetDirection(), 2.0f, m_Root);
         m_Bullets.push_back(bullet);
-        m_Root.AddChild(bullet);
         shootCooldown = 0.5f;
     }
 
@@ -217,46 +181,24 @@ void App::Update()
     }
 
     // 子彈移動邏輯修正
-    m_Bullet->Update(deltaTime); // 先更新子彈內部狀態（例如生命週期）
-    if (m_Bullet->IsVisible())
-    {
-        glm::vec2 bulletPosition = m_Bullet->GetPosition();
-        if (m_Bullet->GetDirection() == Character::direction::LEFT)
-        {
-            bulletPosition.x -= 10.0f; // Move left with speed 5.0f
-        }
-        else
-        {
-            bulletPosition.x += 10.0f; // Move right with speed 5.0f
-        }
-        m_Bullet->SetPosition(bulletPosition);
-    }
     for (auto& bullet : m_Bullets) {
-        bullet->Update(deltaTime);
-        if (bullet->IsVisible()) {
-            glm::vec2 bulletPosition = bullet->GetPosition();
-            if (bullet->GetDirection() == Character::direction::LEFT) {
-                bulletPosition.x -= 10.0f;
-            } else {
-                bulletPosition.x += 10.0f;
-            }
-            bullet->SetPosition(bulletPosition);
-
-            // 檢查子彈是否碰到 Tile1, Tile2, 或 Tile5
-            int bulletTileX = static_cast<int>((bulletPosition.x + 640) / 16);
-            int bulletTileY = static_cast<int>((480 - bulletPosition.y) / 16);
-
-            if (bulletTileX >= 0 && bulletTileX < m_MapLoader->GetWidth() &&
-                bulletTileY >= 0 && bulletTileY < m_MapLoader->GetHeight()) {
-                int tileValue = m_MapLoader->GetTile(bulletTileX, bulletTileY);
-                if (tileValue == 1 || tileValue == 2 || tileValue == 5) {
-                    bullet->SetVisible(false);
-                    bullet->SetDrawable(nullptr); // 清除圖片資源
-                }
-                }
-        }
+        bullet->UpdateWithCollision(deltaTime, m_MapLoader);
     }
 
+    // 检查点碰撞检测
+    for (auto& bullet : m_Bullets) {
+        glm::vec2 checkpointPos;
+        if (bullet->CheckCheckpointCollision(m_CheckPoints, checkpointPos, currentCheckPointPhase, checkPointX, checkPointY)) {
+            // 清空所有子弹
+            for (auto& b : m_Bullets) {
+                b->SetVisible(false);
+                b->SetDrawable(nullptr);
+            }
+            m_Bullets.clear();
+            currentCheckPoint = m_Boshy->GetPosition();
+            break;
+        }
+    }
 
     int tile = m_MapLoader->GetTile(tileX, tileY);
     World::Direction dir = m_World->GetTeleportDirection(tile);

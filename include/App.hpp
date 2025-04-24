@@ -92,6 +92,7 @@ private:
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
     float shootCooldown = 0;
+
 };
 
 #endif

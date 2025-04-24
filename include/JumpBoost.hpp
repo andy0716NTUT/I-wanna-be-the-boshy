@@ -1,7 +1,3 @@
-//
-// Created by andyl on 2025/4/18.
-//
-
 #ifndef JUMPBOOST_HPP
 #define JUMPBOOST_HPP
 #include "MapInfoLoader.hpp"
@@ -14,6 +10,9 @@ private:
     std::shared_ptr<Util::Animation> m_Animation;
     std::vector<std::string> paths;
     bool Visible = true;
+    float m_Timer = 0.0f;    // 重现计时器
+    const float m_ReappearTime = 3.0f;  // 消失后重现的时间
+    
 public:
     explicit JumpBoost() {
         std::vector<std::string> frames;
@@ -24,12 +23,42 @@ public:
         m_Animation->Play();
         m_Drawable = m_Animation;
     }
+    
     glm::vec2 GetPosition(){return m_Transform.translation;}
+    
     void SetPosition(glm::vec2 position) {
         m_Transform.translation = position;
     }
-    void SetDisappear(bool dis){this->Visible = dis ;}
+    
+    void SetDisappear(bool dis){this->Visible = dis;}
+    
     bool GetDisapper(){return this->Visible;}
+    
+    // 检查角色是否触碰到JumpBoost，如果是则消耗一次跳跃次数并隐藏JumpBoost
+    bool CheckInteraction(const glm::vec2& playerPosition, int& jumpCount) {
+        if (glm::distance(GetPosition(), playerPosition) < 20.0f) {
+            if (jumpCount >= 1) {
+                jumpCount--;
+                SetDisappear(false);
+                SetVisible(GetDisapper());
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // 更新JumpBoost状态，包括隐藏后的重现计时
+    void UpdateState(float deltaTime) {
+        if (!GetDisapper()) {
+            m_Timer += deltaTime;
+            if (m_Timer > m_ReappearTime) {
+                SetVisible(true);
+                SetDisappear(true);
+                m_Timer = 0.0f;
+            }
+        }
+    }
+    
     static std::vector<std::shared_ptr<JumpBoost>> CreateFromMap(
        const std::shared_ptr<MapInfoLoader>& mapLoader,
        Util::Renderer& rootRenderer) {
@@ -55,10 +84,7 @@ public:
         }
 
         return jumpBoosts;
-
     }
-
 };
 
 #endif //JUMPBOOST_HPP
-
