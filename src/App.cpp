@@ -16,12 +16,22 @@ void App::Respawn() {
         m_MapLoader->LoadMap(currentCheckPointPhase);
         CurrentPhase = currentCheckPointPhase;
     }
+
+    // 先从渲染器中移除旧对象
     for (auto& checkpoint : m_CheckPoints) {
         checkpoint->SetDrawable(nullptr);
     }
-    m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
-    m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader,m_Root);
+    for (auto& jumpboost : m_jumpBoost) {
+        jumpboost->SetDrawable(nullptr);
+    }
+
+    // 清空容器
     m_CheckPoints.clear();
     m_jumpBoost.clear();
+
+    // 创建新对象
+    m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
+    m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
+
     m_Boshy->SetPosition(currentCheckPoint);
 }
