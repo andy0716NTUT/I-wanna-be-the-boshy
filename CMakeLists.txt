@@ -50,7 +50,6 @@ add_executable(${PROJECT_NAME}
         src/MapInfoLoader.cpp
         include/MapInfoLoader.hpp
         src/Bullet.cpp
-        src/World.cpp
         include/World.hpp
         include/CheckPoint.hpp
         src/CheckPoint.cpp
