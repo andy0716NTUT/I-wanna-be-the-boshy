@@ -352,13 +352,19 @@ void App::Update() {
                 if (isOverlap) {
                     platform->SetVisible(false);
                     platform->SetDrawable(nullptr);
-                    int tileX = static_cast<int>((pfPos.x + 640) / 16);
-                    int tileY = static_cast<int>((480 - pfPos.y) / 16);
+
+                    int tileX = static_cast<int>((pfPos.x + 640 - 16) / 16);
+                    int tileY = static_cast<int>((480 - pfPos.y - 16) / 16);
 
                     for (int dy = 0; dy < 2; ++dy) {
                         for (int dx = 0; dx < 2; ++dx) {
-                            m_MapLoader->SetTile(tileX + dx, tileY + dy, 0); // 把tile改為空氣
+                            m_MapLoader->SetTile(tileX + dx, tileY + dy, 0);
                         }
+                    }
+
+                    // ✅ 讓角色下一幀離開這格
+                    if (position.y > pfPos.y) {
+                        position.y -= 2.0f;
                     }
                 }
 
