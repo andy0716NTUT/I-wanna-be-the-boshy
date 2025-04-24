@@ -35,3 +35,18 @@ void App::Respawn() {
 
     m_Boshy->SetPosition(currentCheckPoint);
 }
+
+#include "App.hpp"
+#include "GameObjectHelper.hpp"
+
+void App::ReloadMapObjects() {
+    ClearDrawables(m_CheckPoints);
+    ClearDrawables(m_jumpBoost);
+    ClearDrawables(m_FallingGround);
+    ClearDrawables(m_Platform);
+
+    m_CheckPoints = CreateGameObjectsFromMap<CheckPoint>(m_MapLoader, m_Root);
+    m_jumpBoost = CreateGameObjectsFromMap<JumpBoost>(m_MapLoader, m_Root);
+    m_FallingGround = CreateGameObjectsFromMap<FallingGround>(m_MapLoader, m_Root);
+    m_Platform = CreateGameObjectsFromMap<Platform>(m_MapLoader, m_Root);
+}

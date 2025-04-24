@@ -42,8 +42,11 @@ public:
         std::string phaseInfo;
         std::string switchTimerInfo;
     } m_DebugInfo;
+
     State GetCurrentState() const { return m_CurrentState; }
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
+    void ReloadMapObjects();
+
     std::string GamePhaseToString(App::GamePhase phase) {
         switch (phase) {
             case App::GamePhase::WORLD1: return "WORLD1";

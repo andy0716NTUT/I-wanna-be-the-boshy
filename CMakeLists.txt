@@ -55,6 +55,7 @@ add_executable(${PROJECT_NAME}
         src/CheckPoint.cpp
         src/imgui.cpp
         include/fallingground.hpp
+        include/GameObjectHelper.hpp
 )
 
 if(MSVC)
