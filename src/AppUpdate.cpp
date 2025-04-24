@@ -223,23 +223,33 @@ void App::Update()
         }
         m_Bullet->SetPosition(bulletPosition);
     }
-    for (auto& bullet : m_Bullets)
-    {
+    for (auto& bullet : m_Bullets) {
         bullet->Update(deltaTime);
-        if (bullet->IsVisible())
-        {
+        if (bullet->IsVisible()) {
             glm::vec2 bulletPosition = bullet->GetPosition();
-            if (bullet->GetDirection() == Character::direction::LEFT)
-            {
+            if (bullet->GetDirection() == Character::direction::LEFT) {
                 bulletPosition.x -= 10.0f;
-            }
-            else
-            {
+            } else {
                 bulletPosition.x += 10.0f;
             }
             bullet->SetPosition(bulletPosition);
+
+            // 檢查子彈是否碰到 Tile1, Tile2, 或 Tile5
+            int bulletTileX = static_cast<int>((bulletPosition.x + 640) / 16);
+            int bulletTileY = static_cast<int>((480 - bulletPosition.y) / 16);
+
+            if (bulletTileX >= 0 && bulletTileX < m_MapLoader->GetWidth() &&
+                bulletTileY >= 0 && bulletTileY < m_MapLoader->GetHeight()) {
+                int tileValue = m_MapLoader->GetTile(bulletTileX, bulletTileY);
+                if (tileValue == 1 || tileValue == 2 || tileValue == 5) {
+                    bullet->SetVisible(false);
+                    bullet->SetDrawable(nullptr); // 清除圖片資源
+                }
+                }
         }
     }
+
+
     int tile = m_MapLoader->GetTile(tileX, tileY);
     World::Direction dir = m_World->GetTeleportDirection(tile);
 
