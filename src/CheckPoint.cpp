@@ -1,7 +1,7 @@
 //
 // Created by andyl on 2025/4/17.
 //
-#include "CheckPoint.hpp"
+#include "MapObject/CheckPoint.hpp"
 std::vector<std::shared_ptr<CheckPoint>> CheckPoint::CreateFromMap(
     const std::shared_ptr<MapInfoLoader>& mapLoader,
     Util::Renderer& rootRenderer) {

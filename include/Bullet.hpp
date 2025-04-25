@@ -4,7 +4,7 @@
 #include "Util/Animation.hpp"
 #include "character.hpp"
 #include "MapInfoLoader.hpp"
-#include "CheckPoint.hpp"
+#include "MapObject/CheckPoint.hpp"
 
 class Bullet : public Util::GameObject {
 public:

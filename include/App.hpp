@@ -14,13 +14,12 @@
 #include "Bullet.hpp"
 #include "MapInfoLoader.hpp"
 #include "World.hpp"
-#include "CheckPoint.hpp"
+#include "MapObject/CheckPoint.hpp"
 #include <iostream>
 #include "imgui.hpp"
-#include "JumpBoost.hpp"
-#include "fallingground.hpp"
-#include "fallingground.hpp"
-#include "Platform.hpp"
+#include "MapObject/JumpBoost.hpp"
+#include "MapObject/fallingground.hpp"
+#include "MapObject/Platform.hpp"
 
 class App {
 public:
@@ -46,6 +45,11 @@ public:
     State GetCurrentState() const { return m_CurrentState; }
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
     void ReloadMapObjects();
+    bool IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight);
+    bool IsAABBOverlap(
+        const glm::vec2& posA, float widthA, float heightA,
+        const glm::vec2& posB, float widthB, float heightB,
+        float yOffsetTop = 0.0f, float yExtraTop = 0.0f);
 
     std::string GamePhaseToString(App::GamePhase phase) {
         switch (phase) {
