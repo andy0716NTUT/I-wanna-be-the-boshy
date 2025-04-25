@@ -1,4 +1,6 @@
 #include "App.hpp"
+#include "GameObjectHelper.hpp"
+#include "spdlog/fmt/bundled/chrono.h"
 
 void App::Update() {
     static float velocityY = 0;
@@ -25,6 +27,7 @@ void App::Update() {
     if (tileY < 0) tileY = 0;
     if (tileY >= m_MapLoader->GetHeight()) tileY = m_MapLoader->GetHeight() - 1;
 
+    //imgui settings
     ss << "Position: (" << position.x << ", " << position.y << ")";
     m_DebugInfo.positionInfo = ss.str();
     ss.str("");
@@ -37,7 +40,8 @@ void App::Update() {
     ss << "Current Phase: " << CurrentPhase;
     m_DebugInfo.phaseInfo = ss.str();
 
-    velocityY += Gravity;
+    velocityY += Gravity; // Gravity
+
     if (velocityY < MaxFallSpeed) velocityY = MaxFallSpeed;
     position.y += velocityY;
 
@@ -46,7 +50,6 @@ void App::Update() {
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
     int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
 
-    std::cout << belowTile << std::endl;
     if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5)
     {
         position = currentCheckPoint; // 傳回到檢查點
@@ -94,7 +97,6 @@ void App::Update() {
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
-
     if (Util::Input::IsKeyPressed(Util::Keycode::LEFT))
     {
         float prevX = position.x;
@@ -191,11 +193,8 @@ void App::Update() {
         glm::vec2 checkpointPos;
         if (bullet->CheckCheckpointCollision(m_CheckPoints, checkpointPos, currentCheckPointPhase, checkPointX, checkPointY)) {
             // 清空所有子弹
-            for (auto& b : m_Bullets) {
-                b->SetVisible(false);
-                b->SetDrawable(nullptr);
-            }
-            m_Bullets.clear();
+            bullet->SetVisible(false);
+            bullet->SetDrawable(nullptr);
             currentCheckPoint = m_Boshy->GetPosition();
             break;
         }
@@ -206,71 +205,65 @@ void App::Update() {
 
     if (dir != World::Direction::NONE)
     {
-        if (dir == World::Direction::RIGHT)
-        {
+        if (dir == World::Direction::RIGHT) {
             ++currentY;
             position.x *= -1;
             position.x += 16;
-        };
-        if (dir == World::Direction::LEFT)
-        {
+        }
+        if (dir == World::Direction::LEFT) {
             --currentY;
             position.x *= -1;
             position.x -= 16;
         }
-        if (dir == World::Direction::UP) --currentX;
-        if (dir == World::Direction::DOWN)
-        {
+        if (dir == World::Direction::UP) {
+            --currentX;
+            position.y *= -1;
+            position.y += 32;
+        }
+        if (dir == World::Direction::DOWN) {
             ++currentX;
             position.y *= -1;
             position.y -= 32;
         }
 
         CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
-        for (auto& bullet : m_Bullets)
-        {
+
+        for (auto& bullet : m_Bullets) {
             bullet->SetVisible(false);
-            bullet->SetDrawable(nullptr); // 清除圖片資源
+            bullet->SetDrawable(nullptr);
         }
         m_Bullets.clear();
-
-        for (auto& checkpoint : m_CheckPoints)
-        {
-            checkpoint->SetDrawable(nullptr); // 清除圖片資源
+        for (auto& checkpoint : m_CheckPoints) {
+            checkpoint->SetDrawable(nullptr);
         }
-        for (auto& jumpboost : m_jumpBoost)
-        {
+        for (auto& jumpboost : m_jumpBoost) {
             jumpboost->SetDrawable(nullptr);
         }
-        // 如果不是 phase 3，就直接切換
-        if (CurrentPhase != "3" || CurrentPhase != "4" || CurrentPhase != "-")
-        {
-            m_PRM->SetPhase(CurrentPhase);
-            m_MapLoader->LoadMap(CurrentPhase);
-        }
-        if (CurrentPhase == "-")
-        {
-            m_PRM->SetPhase("none");
-            m_MapLoader->LoadMap("none");
-        }
-        if (CurrentPhase == "3")
-        {
-            m_PRM->SetPhase("3_1");
-            m_MapLoader->LoadMap("3_1");
-        }
-        if (CurrentPhase == "4")
-        {
-            m_PRM->SetPhase("4_1");
-            m_MapLoader->LoadMap("4_1");
+        std::string newPhase;
+        if (CurrentPhase == "-") {
+            newPhase = "none";
+        } else if (CurrentPhase == "3") {
+            newPhase = "3_1";
+        } else if (CurrentPhase == "4") {
+            newPhase = "4_1";
+        } else {
+            newPhase = CurrentPhase;
         }
 
+        m_PRM->SetPhase(newPhase);
+        m_MapLoader->LoadMap(newPhase);
+
+        ClearGameObjects(m_Platform);
+        ClearGameObjects(m_FallingGround);
         m_CheckPoints.clear();
         m_jumpBoost.clear();
         m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
         m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
+        m_FallingGround = FallingGround::CreateFromMap(m_MapLoader,m_Root);
+        m_Platform = Platform::CreateFromMap(m_MapLoader,m_Root);
+
         std::cout << "Current Phase : " << CurrentPhase << std::endl;
     }
-
     if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2")
     {
         switchTimer += deltaTime;
@@ -297,59 +290,23 @@ void App::Update() {
             switchTimer = 0.0f; // 重置計時器
         }
     }
-    bool isStandingOnPlatform = false;
     for (auto& fallingGround : m_FallingGround) {
-
         glm::vec2 fgPos = fallingGround->GetPosition();
+        const float fgWidth = 96;
+        const float fgHeight = 64;
 
-        float fgWidth = 96;
-        float fgHeight = 64;
-
-        float fgLeft = fgPos.x - fgWidth / 2;
-        float fgRight = fgPos.x + fgWidth / 2;
-        float fgTop = fgPos.y + fgHeight / 2;
-
-        float playerWidth = 16;
-        float playerHeight = 16;
-
-        float playerLeft = position.x - playerWidth / 2;
-        float playerRight = position.x + playerWidth / 2;
-        float playerBottom = position.y - playerHeight / 2;
-
-        // ✅【踩在平台上面】的判斷（腳貼到平台頂部，且水平有交集）
-        bool hitFromTop = playerBottom >= fgTop - 4 && playerBottom <= fgTop + 4 &&
-                          playerRight > fgLeft && playerLeft < fgRight;
-
-        if (hitFromTop) {
+        if (IsOnTop(position, fgPos, fgWidth, fgHeight)) {
             fallingGround->SetFalling(true);
         }
-
         if (fallingGround->GetFalling()) {
             fgPos.y -= 11;
             fallingGround->SetPosition(fgPos);
-
-            // 🔽 跟平台碰撞檢查
             for (auto& platform : m_Platform) {
                 glm::vec2 pfPos = platform->GetPosition();
+                const float pfWidth = 32;
+                const float pfHeight = 32;
 
-                float fgWidth = 96, fgHeight = 64;
-                float pfWidth = 32, pfHeight = 32; // 假設 Platform 是 2x2 tile
-
-                float fgLeft = fgPos.x - fgWidth / 2;
-                float fgRight = fgPos.x + fgWidth / 2;
-                float fgTop = fgPos.y + fgHeight / 2;
-                float fgBottom = fgPos.y - fgHeight / 2;
-
-                float pfLeft = pfPos.x - pfWidth / 2;
-                float pfRight = pfPos.x + pfWidth / 2;
-                float pfTop = pfPos.y + pfHeight / 2;
-                float pfBottom = pfPos.y - pfHeight / 2;
-
-                bool isOverlap =
-                    fgRight > pfLeft && fgLeft < pfRight &&
-                    fgBottom < pfTop && (fgTop + 10) > pfBottom;
-
-                if (isOverlap) {
+                if (IsAABBOverlap(fgPos, fgWidth, fgHeight, pfPos, pfWidth, pfHeight, 10.0f)) {
                     platform->SetVisible(false);
                     platform->SetDrawable(nullptr);
 
@@ -362,14 +319,13 @@ void App::Update() {
                         }
                     }
 
-                    // ✅ 讓角色下一幀離開這格
                     if (position.y > pfPos.y) {
                         position.y -= 2.0f;
                     }
                 }
-
             }
         }
+    }
         for (auto& checkpoint : m_CheckPoints)
         {
             glm::vec2 cpPos = checkpoint->GetPosition();
@@ -393,16 +349,13 @@ void App::Update() {
                 }
             }
         }
-
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
-
         // 關閉或重生邏輯
         if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit())
         {
             m_CurrentState = State::END;
         }
-
         if (Util::Input::IsKeyDown(Util::Keycode::R)) {
             position = currentCheckPoint;
             currentX = checkPointX;
@@ -414,4 +367,3 @@ void App::Update() {
         m_Root.Update();
         RenderImGui(*this);
     }
-}
