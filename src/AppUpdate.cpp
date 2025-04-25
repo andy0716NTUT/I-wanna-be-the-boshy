@@ -1,5 +1,5 @@
 #include "App.hpp"
-#include "GameObjectHelper.hpp"
+
 #include "spdlog/fmt/bundled/chrono.h"
 
 void App::Update() {
@@ -15,6 +15,7 @@ void App::Update() {
     const float switchInterval = 1.0f; // 每3秒切換一次
     shootCooldown -= deltaTime * 4;
     std::stringstream ss;
+    bool needsRespawn = false;
 
     glm::vec2 position = m_Boshy->GetPosition();
     auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
@@ -55,7 +56,13 @@ void App::Update() {
         position = currentCheckPoint; // 傳回到檢查點
         currentX = checkPointX;
         currentY = checkPointY;
+        needsRespawn = true;
         Respawn(); // 呼叫重生邏輯
+    }
+    if (needsRespawn) {
+        // 更新界面
+        m_Root.Update();
+        return;
     }
     if ((aboveTile == 2 || aboveTile == 1) && velocityY > 0)
     {
@@ -285,9 +292,44 @@ void App::Update() {
         {
             isSwitch = !isSwitch;
             std::string newPhase = isSwitch ? "4_2" : "4_1";
+
+            // 保存当前熊敌人的位置和方向
+            glm::vec2 bearPosition;
+            Character::direction bearDirection = Character::direction::RIGHT;
+            std::shared_ptr<Enemy> bearEnemy = nullptr;
+
+            // 寻找熊敌人
+            for (auto& enemy : m_Enemies) {
+                if (enemy->GetType() == Enemy::EnemyType::BASIC) {
+                    bearPosition = enemy->GetPosition();
+                    bearDirection = enemy->GetDirection();
+                    bearEnemy = enemy;
+                    break;
+                }
+            }
+
+            // 更新资源和地图
             m_PRM->SetPhase(newPhase);
             m_MapLoader->LoadMap(newPhase);
             switchTimer = 0.0f; // 重置計時器
+
+            // 保留熊敌人，只清除其他敌人
+            if (bearEnemy) {
+                for (auto& enemy : m_Enemies) {
+                    if (enemy != bearEnemy) {
+                        enemy->SetVisible(false);
+                        enemy->SetDrawable(nullptr);
+                    }
+                }
+
+                m_Enemies.clear();
+                m_Enemies.push_back(bearEnemy);
+            } else {
+                // 正常清理并重建敌人
+                ClearGameObjects(m_Enemies);
+                m_Enemies.clear();
+                m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
+            }
         }
     }
     for (auto& fallingGround : m_FallingGround) {
@@ -312,7 +354,7 @@ void App::Update() {
 
                     int tileX = static_cast<int>((pfPos.x + 640 - 16) / 16);
                     int tileY = static_cast<int>((480 - pfPos.y - 16) / 16);
-                    
+
                     for (int dy = 0; dy < 2; ++dy) {
                         for (int dx = 0; dx < 2; ++dx) {
                             m_MapLoader->SetTile(tileX + dx, tileY + dy, 0);
@@ -349,6 +391,21 @@ void App::Update() {
                 }
             }
         }
+    for (auto& enemy : m_Enemies) {
+        enemy->Update(deltaTime, m_MapLoader);
+
+        // 檢查子彈碰撞
+        if (enemy->CheckBulletCollision(m_Bullets)) {
+            enemy->TakeDamage(1);
+        }
+
+        // 檢查玩家碰撞
+        if (enemy->CheckPlayerCollision(position)) {
+            position = currentCheckPoint;
+            Respawn();
+            break;
+        }
+    }
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
         // 關閉或重生邏輯

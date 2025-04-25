@@ -17,18 +17,11 @@
 #include "MapObject/CheckPoint.hpp"
 #include <iostream>
 #include "imgui.hpp"
-<<<<<<< HEAD
-#include "JumpBoost.hpp"
-#include "fallingground.hpp"
-#include "fallingground.hpp"
-#include "Platform.hpp"
-#include "GameObjectHelper.hpp"
-=======
 #include "MapObject/JumpBoost.hpp"
 #include "MapObject/fallingground.hpp"
 #include "MapObject/Platform.hpp"
->>>>>>> a781ad1fbfafaa93b2cfc25f66228e1b75c23f94
-
+#include "GameObjectHelper.hpp"
+#include "enemy.hpp"
 class App {
 public:
     enum class GamePhase {
@@ -49,7 +42,8 @@ public:
         std::string phaseInfo;
         std::string switchTimerInfo;
     } m_DebugInfo;
-
+    std::vector<std::shared_ptr<Enemy>> m_Enemies;
+    void TeleportToMap(const std::string& mapName);
     State GetCurrentState() const { return m_CurrentState; }
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
     void ReloadMapObjects();

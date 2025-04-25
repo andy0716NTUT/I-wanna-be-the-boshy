@@ -51,11 +51,14 @@ add_executable(${PROJECT_NAME}
         include/MapInfoLoader.hpp
         src/Bullet.cpp
         include/World.hpp
-        include/CheckPoint.hpp
+        include/MapObject/CheckPoint.hpp
         src/CheckPoint.cpp
         src/imgui.cpp
-        include/fallingground.hpp
+        include/MapObject/fallingground.hpp
         include/GameObjectHelper.hpp
+        include/enemy.hpp
+        src/enemy.cpp
+        include/enemy.hpp
 )
 
 if(MSVC)

@@ -108,6 +108,24 @@ void RenderImGui(App& app) {
     if (ImGui::Button("Gravity to -0.5f")) {
         app.Gravity = -0.5f;
     }
+    ImGui::Separator();
+    ImGui::Text("map tp");
+
+    static const char* maps[] = {"1", "2", "3", "3_1", "3_2", "4", "4_1", "4_2"};
+    static int currentMap = 0;
+
+    // 下拉框選擇地圖
+    ImGui::Combo("slt", &currentMap, maps, IM_ARRAYSIZE(maps));
+
+    // 傳送按鈕
+    if (ImGui::Button("tp")) {
+        // 獲取當前選擇的地圖
+        std::string newPhase = maps[currentMap];
+
+        app.TeleportToMap(newPhase);
+        app.ReloadMapObjects();
+        std::cout << "tp: " << newPhase << std::endl;
+    }
 
     ImGui::End();
 
