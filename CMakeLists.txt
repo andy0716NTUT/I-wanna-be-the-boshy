@@ -59,6 +59,8 @@ add_executable(${PROJECT_NAME}
         include/enemy.hpp
         src/enemy.cpp
         include/enemy.hpp
+        include/MapObject/phase2trap.hpp
+        src/phase2trap.cpp
 )
 
 if(MSVC)

@@ -27,13 +27,16 @@ bool Enemy::TakeDamage(int damage) {
     return false;  // 敵人還活著
 }
 
-void Enemy::Update(float deltaTime, const std::shared_ptr<MapInfoLoader>& mapLoader) {
+void Enemy::Update(float deltaTime, const std::shared_ptr<MapInfoLoader>& mapLoader, const glm::vec2& playerPos) {
     if (!m_IsVisible) return;
 
+    // 保存玩家位置用于追踪
+    m_PlayerPos = playerPos;
+
     if (m_State == MoveState::DEAD) {
-        // 處理死亡動畫，然後移除
+        // 处理死亡动画，然后移除
         m_AttackCooldown += deltaTime;
-        if (m_AttackCooldown > 1.0f) {  // 1秒後隱藏
+        if (m_AttackCooldown > 1.0f) {
             m_IsVisible = false;
             SetDrawable(nullptr);
         }
@@ -42,7 +45,7 @@ void Enemy::Update(float deltaTime, const std::shared_ptr<MapInfoLoader>& mapLoa
 
     if (m_State == MoveState::DAMAGED) {
         m_AttackCooldown += deltaTime;
-        if (m_AttackCooldown > 0.3f) {  // 受傷狀態持續0.3秒
+        if (m_AttackCooldown > 0.3f) {
             m_AttackCooldown = 0.0f;
             SetState(MoveState::IDLE);
         }
@@ -62,18 +65,18 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
         position.y += m_VelocityY;
 
         // 渲染与碰撞位置分离处理
-        const float renderOffset = 36.0f; // +32与-4的差值
-        const float bearWidth = 66.0f;    // 熊的宽度
-        const float bearHeight = 70.0f;   // 熊的高度
+        const float renderOffset = 36.0f;
+        const float bearWidth = 66.0f;
+        const float bearHeight = 70.0f;
 
         // 获取用于碰撞检测的位置
         float collisionY = position.y - renderOffset;
 
-        // 获取熊当前位置对应的瓦片坐标（用碰撞位置计算）
+        // 获取熊当前位置对应的瓦片坐标
         int tileX = static_cast<int>((position.x + 640) / 16);
         int tileY = static_cast<int>((480 - collisionY) / 16);
 
-        // 检查左、中、右三个点的下方瓦片
+        // 检查左中右三点的下方瓦片
         int leftTileX = static_cast<int>((position.x - bearWidth/3 + 640) / 16);
         int centerTileX = tileX;
         int rightTileX = static_cast<int>((position.x + bearWidth/3 + 640) / 16);
@@ -82,32 +85,60 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
         int belowCenterTile = mapLoader->GetTile(centerTileX, tileY + 1);
         int belowRightTile = mapLoader->GetTile(rightTileX, tileY + 1);
 
-        // 任一点下方为地面即视为站在地面上
+        // 检查是否在地面上
         bool isOnGround = (m_VelocityY < 0) &&
                          ((belowLeftTile == 1 || belowLeftTile == 8) ||
                           (belowCenterTile == 1 || belowCenterTile == 8) ||
                           (belowRightTile == 1 || belowRightTile == 8));
 
         if (isOnGround) {
-            // 使用新的偏移值计算渲染位置
-            position.y = 480 - ((tileY) * 16) + 22;  // 精确设置地面高度
+            position.y = 480 - ((tileY) * 16) + 22;
             m_VelocityY = 0;
             m_IsOnGround = true;
         } else {
             m_IsOnGround = false;
         }
 
-        // 在地面上才进行左右移动
-        if (m_IsOnGround) {
-            if (m_Direction == Character::direction::RIGHT) {
-                // 向右移动代码...
-                position.x += m_Speed;
+        // 在地面上才进行追踪玩家
+        if (m_IsOnGround && glm::length(m_PlayerPos) > 0) {
+            // 判断玩家在熊的哪一侧
+            bool playerIsRight = m_PlayerPos.x > position.x;
 
-                // 计算熊前方(右侧)的瓦片坐标
+            // 更新目标方向，但不立即改变实际方向
+            Character::direction newTargetDir = playerIsRight ?
+                Character::direction::RIGHT : Character::direction::LEFT;
+
+            // 检测目标方向是否变化
+            if (newTargetDir != m_TargetDirection) {
+                m_TargetDirection = newTargetDir;
+                m_TurnDelayTimer = 0.0f; // 重置计时器
+            }
+
+            // 增加延迟计时器
+            m_TurnDelayTimer += deltaTime;
+
+            // 只有当延迟时间达到后，才实际改变方向
+            if (m_TurnDelayTimer >= m_DirectionChangeDelay) {
+                // 检测是否需要真正转向
+                if (m_Direction != m_TargetDirection) {
+                    // 转向时触发减速效果
+                    m_HitWall = true;
+                    m_CurrentSpeed = m_MaxSpeed * 0.3f; // 减速到30%
+                    m_RecoveryTimer = 0.0f;
+
+                    // 实际改变方向
+                    m_Direction = m_TargetDirection;
+                }
+            }
+
+            // 根据当前方向移动熊
+            if (m_Direction == Character::direction::RIGHT) {
+                SetState(MoveState::WALK);
+
+                // 向右移动前检查墙壁
                 int frontTileX = static_cast<int>((position.x + bearWidth/2 + 640) / 16);
                 int frontTileY = tileY;
 
-                // 检查多个高度点的墙壁
                 bool hasWallRight = false;
                 for (int yOffset = 0; yOffset < 2; yOffset++) {
                     int frontTile = mapLoader->GetTile(frontTileX, frontTileY - yOffset);
@@ -121,20 +152,41 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
                 int groundTile = mapLoader->GetTile(frontTileX, tileY + 1);
                 bool hasGround = (groundTile == 1 || groundTile == 8);
 
-                // 如果碰到墙壁或前方无地面，改变方向
-                if (hasWallRight || !hasGround) {
+                if (hasWallRight) {
+                    // 撞墙时速度减少
+                    if (!m_HitWall) {
+                        m_HitWall = true;
+                        m_CurrentSpeed = m_MaxSpeed * 0.3f;
+                        m_RecoveryTimer = 0.0f;
+                    }
+                } else if (!hasGround) {
+                    // 悬崖边缘转向
                     m_Direction = Character::direction::LEFT;
                     SetState(MoveState::WALK_LEFT);
+                } else {
+                    // 未撞墙时逐渐加速
+                    if (m_HitWall) {
+                        m_RecoveryTimer += deltaTime;
+                        if (m_RecoveryTimer > 0.5f) {
+                            // 0.5秒后开始恢复速度
+                            m_CurrentSpeed += m_Acceleration * m_MaxSpeed * deltaTime * 10;
+                            if (m_CurrentSpeed >= m_MaxSpeed) {
+                                m_CurrentSpeed = m_MaxSpeed;
+                                m_HitWall = false;
+                            }
+                        }
+                    }
+
+                    // 使用当前速度移动，确保平滑
+                    position.x += m_CurrentSpeed * deltaTime * 60;
                 }
             } else {
-                // 向左移动代码...
-                position.x -= m_Speed;
+                // 向左移动逻辑，与向右类似
+                SetState(MoveState::WALK_LEFT);
 
-                // 计算熊前方(左侧)的瓦片坐标
                 int frontTileX = static_cast<int>((position.x - bearWidth/2 + 640) / 16);
                 int frontTileY = tileY;
 
-                // 检查多个高度点的墙壁
                 bool hasWallLeft = false;
                 for (int yOffset = 0; yOffset < 2; yOffset++) {
                     int frontTile = mapLoader->GetTile(frontTileX, frontTileY - yOffset);
@@ -144,14 +196,32 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
                     }
                 }
 
-                // 检查前方地面
                 int groundTile = mapLoader->GetTile(frontTileX, tileY + 1);
                 bool hasGround = (groundTile == 1 || groundTile == 8);
 
-                // 如果碰到墙壁或前方无地面，改变方向
-                if (hasWallLeft || !hasGround) {
+                if (hasWallLeft) {
+                    if (!m_HitWall) {
+                        m_HitWall = true;
+                        m_CurrentSpeed = m_MaxSpeed * 0.3f;
+                        m_RecoveryTimer = 0.0f;
+                    }
+                } else if (!hasGround) {
                     m_Direction = Character::direction::RIGHT;
                     SetState(MoveState::WALK);
+                } else {
+                    if (m_HitWall) {
+                        m_RecoveryTimer += deltaTime;
+                        if (m_RecoveryTimer > 0.5f) {
+                            m_CurrentSpeed += m_Acceleration * m_MaxSpeed * deltaTime * 10;
+                            if (m_CurrentSpeed >= m_MaxSpeed) {
+                                m_CurrentSpeed = m_MaxSpeed;
+                                m_HitWall = false;
+                            }
+                        }
+                    }
+
+                    // 向左移动，考虑deltaTime以确保一致性
+                    position.x -= m_CurrentSpeed * deltaTime * 60;
                 }
             }
         }
@@ -316,29 +386,27 @@ std::vector<std::shared_ptr<Enemy>> Enemy::CreateFromMap(
     Util::Renderer& renderer) {
 
     std::vector<std::shared_ptr<Enemy>> enemies;
+    std::string currentPhase = mapLoader->GetCurrentPhase();
 
-    // 假設地圖中使用特定ID代表不同類型的敵人
+    // 定义敌人ID
     const int ENEMY_BASIC_ID = 20;
     const int ENEMY_FLYING_ID = 21;
     const int ENEMY_SHOOTER_ID = 22;
-    const int BEAR_ID = 23;  // 熊的ID
+    const int BEAR_ID = 23;
 
-    // 檢查Map4中的特定位置[55,39]
-    if (mapLoader->GetCurrentPhase() == "4" ||
-        mapLoader->GetCurrentPhase() == "4_1" ||
-        mapLoader->GetCurrentPhase() == "4_2") {
-
-        // 在位置[55,39]創建熊敵人
+    // 只在地图4系列创建熊敌人
+    if (currentPhase == "4" || currentPhase == "4_1" || currentPhase == "4_2") {
         float posX = 55 * 16 - 640;
         float posY = 480 - 34 * 16;
 
         auto bear = CreateEnemy({posX, posY}, EnemyType::BASIC, renderer);
-        bear->SetSpeed(2.0f);  // 設置移動速度
-        bear->SetHealth(3);    // 設置生命值
+        bear->SetSpeed(10.0f);
+        bear->SetHealth(3);
         enemies.push_back(bear);
-        }
+    }
 
-    // 掃描地圖尋找其他敵人
+    // 从地图中加载其他敌人（根据地图ID决定）
+    // 可以根据不同地图添加条件，例如：if (currentPhase != "1" && currentPhase != "2")
     for (int y = 0; y < mapLoader->GetHeight(); ++y) {
         for (int x = 0; x < mapLoader->GetWidth(); ++x) {
             int tileValue = mapLoader->GetTile(x, y);
@@ -351,7 +419,12 @@ std::vector<std::shared_ptr<Enemy>> Enemy::CreateFromMap(
             } else if (tileValue == ENEMY_SHOOTER_ID) {
                 type = EnemyType::SHOOTER;
             } else if (tileValue == BEAR_ID) {
-                type = EnemyType::BASIC;  // 使用基本類型表示熊
+                // 跳过在地图中标记的熊，因为我们已经在特定位置创建了熊
+                if (currentPhase == "4" || currentPhase == "4_1" || currentPhase == "4_2") {
+                    mapLoader->SetTile(x, y, 0);
+                    continue;
+                }
+                type = EnemyType::BASIC;
             } else {
                 continue;
             }
@@ -361,11 +434,14 @@ std::vector<std::shared_ptr<Enemy>> Enemy::CreateFromMap(
 
             auto enemy = CreateEnemy({posX, posY}, type, renderer);
             enemies.push_back(enemy);
-
-            // 清除地圖中的敵人標記，避免重複生成
             mapLoader->SetTile(x, y, 0);
         }
     }
 
     return enemies;
+}
+void Enemy::SetSpeed(float speed) {
+    m_Speed = speed;
+    m_MaxSpeed = speed;
+    m_CurrentSpeed = speed;
 }

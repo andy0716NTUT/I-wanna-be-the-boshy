@@ -139,20 +139,16 @@ void App::Update() {
         }
     }
 
-    if (Util::Input::IsKeyPressed(Util::Keycode::DOWN))
-    {
+    if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)){
         float prevY = position.y;
-        if (belowTile != 2)
-        {
+        if (belowTile != 2){
             // 確保下方不是障礙物
             position.y -= 5;
         }
-        if (position.y != prevY)
-        {
+        if (position.y != prevY){
             animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_DOWN 狀態
         }
-        else
-        {
+        else{
             animatedBoshy->SetState(Character::MoveState::IDLE);
         }
     }
@@ -284,16 +280,13 @@ void App::Update() {
             switchTimer = 0.0f; // 重置計時器
         }
     }
-    if (CurrentPhase == "4")
-    {
+    if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
         switchTimer += deltaTime;
-        std::cout << switchTimer << std::endl;
-        if (switchTimer >= switchInterval)
-        {
+        if (switchTimer >= switchInterval) {
             isSwitch = !isSwitch;
             std::string newPhase = isSwitch ? "4_2" : "4_1";
 
-            // 保存当前熊敌人的位置和方向
+            // 只在4系列地图间切换时保留熊敌人
             glm::vec2 bearPosition;
             Character::direction bearDirection = Character::direction::RIGHT;
             std::shared_ptr<Enemy> bearEnemy = nullptr;
@@ -311,10 +304,10 @@ void App::Update() {
             // 更新资源和地图
             m_PRM->SetPhase(newPhase);
             m_MapLoader->LoadMap(newPhase);
-            switchTimer = 0.0f; // 重置計時器
+            switchTimer = 0.0f;
 
             // 保留熊敌人，只清除其他敌人
-            if (bearEnemy) {
+            if (bearEnemy && (newPhase.find("4") == 0)) {
                 for (auto& enemy : m_Enemies) {
                     if (enemy != bearEnemy) {
                         enemy->SetVisible(false);
@@ -331,6 +324,41 @@ void App::Update() {
                 m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
             }
         }
+    }
+    if (CurrentPhase == "2" && !trapCreated) {
+        m_phase2trap_down = std::make_shared<phase2trap>();
+        m_phase2trap_down->Create(
+            m_MapLoader,
+            RESOURCE_DIR"/Image/MapObject/phase2trap1.png",
+            {0.0f, -480.0f},
+            "up",
+            240.0f
+        );
+        m_Root.AddChild(m_phase2trap_down);
+
+        m_phase2trap_up = std::make_shared<phase2trap>();
+        m_phase2trap_up->Create(
+            m_MapLoader,
+            RESOURCE_DIR"/Image/MapObject/phase2trap2.png",
+            {0.0f, 360.0f},
+            "up",
+            390.0f
+        );
+        m_Root.AddChild(m_phase2trap_up);
+
+        trapCreated = true;
+
+    }else if (CurrentPhase != "2" && trapCreated) {
+        m_phase2trap_down->clear();
+        m_phase2trap_up->clear();
+        trapCreated = false;
+    }
+
+
+    // Update陷阱
+    if (trapCreated) {
+        if (m_phase2trap_down) m_phase2trap_down->Update(deltaTime);
+        if (m_phase2trap_up) m_phase2trap_up->Update(deltaTime);
     }
     for (auto& fallingGround : m_FallingGround) {
         glm::vec2 fgPos = fallingGround->GetPosition();
@@ -392,17 +420,21 @@ void App::Update() {
             }
         }
     for (auto& enemy : m_Enemies) {
-        enemy->Update(deltaTime, m_MapLoader);
+        enemy->Update(deltaTime, m_MapLoader, m_Boshy->GetPosition());
 
-        // 檢查子彈碰撞
+        // 检查子弹碰撞
         if (enemy->CheckBulletCollision(m_Bullets)) {
             enemy->TakeDamage(1);
         }
 
-        // 檢查玩家碰撞
+        // 检查玩家碰撞
+        // 检查玩家碰撞
         if (enemy->CheckPlayerCollision(position)) {
-            position = currentCheckPoint;
-            Respawn();
+            position = currentCheckPoint; // 传回到检查点
+            currentX = checkPointX;
+            currentY = checkPointY;
+            needsRespawn = true;
+            Respawn(); // 调用重生逻辑
             break;
         }
     }

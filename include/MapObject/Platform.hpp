@@ -27,10 +27,6 @@ public:
     Util::Renderer& rootRenderer) {
 
         std::vector<std::shared_ptr<Platform>> platforms;
-
-        const int tileW = 6;
-        const int tileH = 4;
-
         for (int y = 0; y <= mapLoader->GetHeight() - 1; ++y) {
             for (int x = 0; x <= mapLoader->GetWidth() - 1; ++x) {
 

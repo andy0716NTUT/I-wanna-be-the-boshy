@@ -22,6 +22,8 @@
 #include "MapObject/Platform.hpp"
 #include "GameObjectHelper.hpp"
 #include "enemy.hpp"
+#include "MapObject/phase2trap.hpp"
+
 class App {
 public:
     enum class GamePhase {
@@ -42,6 +44,7 @@ public:
         std::string phaseInfo;
         std::string switchTimerInfo;
     } m_DebugInfo;
+
     std::vector<std::shared_ptr<Enemy>> m_Enemies;
     void TeleportToMap(const std::string& mapName);
     State GetCurrentState() const { return m_CurrentState; }
@@ -91,6 +94,9 @@ private:
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
     std::vector<std::shared_ptr<Platform>> m_Platform;
+    std::shared_ptr<phase2trap> m_phase2trap_up;
+    std::shared_ptr<phase2trap> m_phase2trap_down;
+    bool trapCreated = false;
     float shootCooldown = 0;
 
 };

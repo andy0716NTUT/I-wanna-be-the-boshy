@@ -59,6 +59,7 @@ void App::Start() {
     m_FallingGround = CreateGameObjectsFromMap<FallingGround>(m_MapLoader, m_Root);
     m_Platform = CreateGameObjectsFromMap<Platform>(m_MapLoader, m_Root);
 
+
     m_PRM = std::make_shared<ResourceManager>();
     m_Root.AddChild(m_PRM->GetChildren());
     m_PRM->SetPhase(currentWorld[currentX][currentY]);
