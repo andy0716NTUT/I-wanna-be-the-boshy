@@ -328,26 +328,21 @@ void App::Update() {
     if (CurrentPhase == "2" && !trapCreated) {
         m_phase2trap_down = std::make_shared<phase2trap>();
         m_phase2trap_down->Create(
-            m_MapLoader,
             RESOURCE_DIR"/Image/MapObject/phase2trap1.png",
             {0.0f, -480.0f},
-            "up",
-            240.0f
+            480.0f
         );
         m_Root.AddChild(m_phase2trap_down);
 
         m_phase2trap_up = std::make_shared<phase2trap>();
         m_phase2trap_up->Create(
-            m_MapLoader,
             RESOURCE_DIR"/Image/MapObject/phase2trap2.png",
-            {0.0f, 360.0f},
-            "up",
-            390.0f
+            {0.0f, 160.0f},
+            190.0f
         );
         m_Root.AddChild(m_phase2trap_up);
 
         trapCreated = true;
-
     }else if (CurrentPhase != "2" && trapCreated) {
         m_phase2trap_down->clear();
         m_phase2trap_up->clear();
