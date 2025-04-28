@@ -300,7 +300,6 @@ void App::Update() {
                     break;
                 }
             }
-
             // 更新资源和地图
             m_PRM->SetPhase(newPhase);
             m_MapLoader->LoadMap(newPhase);
@@ -348,7 +347,27 @@ void App::Update() {
         m_phase2trap_up->clear();
         trapCreated = false;
     }
-
+    if (!m_phase8bird && CurrentPhase == "8") {
+        static float birdTimer = 0.0f;
+        birdTimer += deltaTime;
+        if (birdTimer > 2.0f) { // 出現延遲2秒
+            m_phase8bird = std::make_shared<Bird>();
+            m_phase8bird->Setposition({-480,-240});
+            m_Root.AddChild(m_phase8bird);
+            m_phase8bird->StartChase();
+        }
+    }
+    if (m_phase8bird && (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")) {
+        m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
+    }
+    if (m_phase8bird && CurrentPhase == "12") {
+        glm::vec2 birdPos = m_phase8bird->GetPosition();
+        if (birdPos.x > 0.0f) {
+            m_phase8bird->SetVisible(false);
+            m_phase8bird->SetDrawable(nullptr);
+            m_phase8bird = nullptr;
+        }
+    }
     // Update陷阱
     if (trapCreated) {
         if (m_phase2trap_down) m_phase2trap_down->Update(deltaTime);
@@ -382,7 +401,6 @@ void App::Update() {
                             m_MapLoader->SetTile(tileX + dx, tileY + dy, 0);
                         }
                     }
-
                     if (position.y > pfPos.y) {
                         position.y -= 2.0f;
                     }
@@ -399,11 +417,7 @@ void App::Update() {
                 if (glm::distance(cpPos, bulletPos) < 20.0f)
                 {
                     checkpoint->play();
-                    for (auto& bullet : m_Bullets)
-                    {
-                        bullet->SetVisible(false);
-                        bullet->SetDrawable(nullptr); // 清除圖片資源
-                    }
+                    ClearGameObjects(m_Bullets);
                     m_Bullets.clear();
                     currentCheckPoint = m_Boshy->GetPosition();
                     currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
@@ -415,13 +429,10 @@ void App::Update() {
         }
     for (auto& enemy : m_Enemies) {
         enemy->Update(deltaTime, m_MapLoader, m_Boshy->GetPosition());
-
         // 检查子弹碰撞
         if (enemy->CheckBulletCollision(m_Bullets)) {
             enemy->TakeDamage(1);
         }
-
-        // 检查玩家碰撞
         // 检查玩家碰撞
         if (enemy->CheckPlayerCollision(position)) {
             position = currentCheckPoint; // 传回到检查点

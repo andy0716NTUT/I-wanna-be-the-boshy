@@ -62,6 +62,7 @@ add_executable(${PROJECT_NAME}
         include/MapObject/phase2trap.hpp
         src/phase2trap.cpp
         include/MapObject/bird.hpp
+        src/Bird.cpp
 )
 
 if(MSVC)
