@@ -95,17 +95,19 @@ void App::TeleportToMap(const std::string& mapName) {
         bullet->SetDrawable(nullptr);
     }
     m_Bullets.clear();
+    // 清除现有游戏对象
+    ClearGameObjects(m_Platform);
+    ClearGameObjects(m_FallingGround);
+    ClearGameObjects(m_Enemies);
+    ClearGameObjects(m_CheckPoints);
+    ClearGameObjects(m_jumpBoost);
+    m_CheckPoints.clear();
+    m_jumpBoost.clear();
 
     // 设置资源管理器阶段并加载新地图
     m_PRM->SetPhase(mapName);
     m_MapLoader->LoadMap(mapName);
 
-    // 清除现有游戏对象
-    ClearGameObjects(m_Platform);
-    ClearGameObjects(m_FallingGround);
-    ClearGameObjects(m_Enemies);
-    m_CheckPoints.clear();
-    m_jumpBoost.clear();
 
     // 重新创建游戏对象
     m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);

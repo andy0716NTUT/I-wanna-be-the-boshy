@@ -4,6 +4,7 @@
 
 #include "App.hpp"
 #include "GameObjectHelper.hpp"
+#include "spdlog/fmt/bundled/chrono.h"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -58,6 +59,7 @@ void App::Start() {
     m_jumpBoost = CreateGameObjectsFromMap<JumpBoost>(m_MapLoader, m_Root);
     m_FallingGround = CreateGameObjectsFromMap<FallingGround>(m_MapLoader, m_Root);
     m_Platform = CreateGameObjectsFromMap<Platform>(m_MapLoader, m_Root);
+
 
 
     m_PRM = std::make_shared<ResourceManager>();

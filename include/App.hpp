@@ -22,6 +22,7 @@
 #include "MapObject/Platform.hpp"
 #include "GameObjectHelper.hpp"
 #include "enemy.hpp"
+#include "MapObject/bird.hpp"
 #include "MapObject/phase2trap.hpp"
 
 class App {
@@ -96,6 +97,7 @@ private:
     std::vector<std::shared_ptr<Platform>> m_Platform;
     std::shared_ptr<phase2trap> m_phase2trap_up;
     std::shared_ptr<phase2trap> m_phase2trap_down;
+    std::shared_ptr<bird> m_phase8bird;
     bool trapCreated = false;
     float shootCooldown = 0;
 

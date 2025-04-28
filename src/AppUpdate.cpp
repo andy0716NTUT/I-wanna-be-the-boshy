@@ -349,7 +349,6 @@ void App::Update() {
         trapCreated = false;
     }
 
-
     // Update陷阱
     if (trapCreated) {
         if (m_phase2trap_down) m_phase2trap_down->Update(deltaTime);

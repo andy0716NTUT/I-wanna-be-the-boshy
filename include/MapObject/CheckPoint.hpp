@@ -19,6 +19,7 @@ public:
         for (int i = 1; i <= 13; ++i) {
             frames.push_back(RESOURCE_DIR"/Image/CheckPoint/Checkpoint" + std::to_string(i) + ".png");
         }
+        this->paths = frames;
         m_Animation = std::make_shared<Util::Animation>(frames, true, 100, false);
         m_Animation->Pause();
         m_Drawable = m_Animation;

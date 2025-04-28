@@ -111,7 +111,7 @@ void RenderImGui(App& app) {
     ImGui::Separator();
     ImGui::Text("map tp");
 
-    static const char* maps[] = {"1", "2", "3", "3_1", "3_2", "4", "4_1", "4_2"};
+    static const char* maps[] = {"1", "2", "3_1", "3_2", "4_1", "4_2"};
     static int currentMap = 0;
 
     // 下拉框選擇地圖
