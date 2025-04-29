@@ -76,6 +76,9 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
         int tileX = static_cast<int>((position.x + 640) / 16);
         int tileY = static_cast<int>((480 - collisionY) / 16);
 
+        // 计算玩家的tileY坐标
+        int playerTileY = static_cast<int>((480 - m_PlayerPos.y) / 16);
+
         // 检查左中右三点的下方瓦片
         int leftTileX = static_cast<int>((position.x - bearWidth/3 + 640) / 16);
         int centerTileX = tileX;
@@ -95,6 +98,19 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
             position.y = 480 - ((tileY) * 16) + 22;
             m_VelocityY = 0;
             m_IsOnGround = true;
+
+            // 检查玩家是否在高处(tileY小于10)
+            static float jumpCooldown = 0.0f;
+            jumpCooldown -= deltaTime;
+
+            bool playerIsHighUp = playerTileY < 10;
+
+            if (playerIsHighUp && jumpCooldown <= 0.0f) {
+                // 熊跳跃以追击玩家
+                m_VelocityY = 15.0f; // 跳跃力量
+                m_IsOnGround = false;
+                jumpCooldown = 2.0f; // 设置跳跃冷却时间
+            }
         } else {
             m_IsOnGround = false;
         }
@@ -103,125 +119,159 @@ void Enemy::UpdateMovement(float deltaTime, const std::shared_ptr<MapInfoLoader>
         if (m_IsOnGround && glm::length(m_PlayerPos) > 0) {
             // 判断玩家在熊的哪一侧
             bool playerIsRight = m_PlayerPos.x > position.x;
+            bool playerIsHighUp = playerTileY < 10;
 
-            // 更新目标方向，但不立即改变实际方向
-            Character::direction newTargetDir = playerIsRight ?
-                Character::direction::RIGHT : Character::direction::LEFT;
+            // 玩家在高处时，立即改变方向并使用最大速度，无需惯性
+            if (playerIsHighUp) {
+                m_Direction = playerIsRight ? Character::direction::RIGHT : Character::direction::LEFT;
+                m_CurrentSpeed = m_MaxSpeed; // 使用最大速度
+                m_HitWall = false;
 
-            // 检测目标方向是否变化
-            if (newTargetDir != m_TargetDirection) {
-                m_TargetDirection = newTargetDir;
-                m_TurnDelayTimer = 0.0f; // 重置计时器
-            }
+                // 设置对应的动画状态
+                SetState(playerIsRight ? MoveState::WALK : MoveState::WALK_LEFT);
 
-            // 增加延迟计时器
-            m_TurnDelayTimer += deltaTime;
+                // 检查前方是否有墙壁
+                int frontTileX = playerIsRight ?
+                    static_cast<int>((position.x + bearWidth/2 + 640) / 16) :
+                    static_cast<int>((position.x - bearWidth/2 + 640) / 16);
 
-            // 只有当延迟时间达到后，才实际改变方向
-            if (m_TurnDelayTimer >= m_DirectionChangeDelay) {
-                // 检测是否需要真正转向
-                if (m_Direction != m_TargetDirection) {
-                    // 转向时触发减速效果
-                    m_HitWall = true;
-                    m_CurrentSpeed = m_MaxSpeed * 0.3f; // 减速到30%
-                    m_RecoveryTimer = 0.0f;
-
-                    // 实际改变方向
-                    m_Direction = m_TargetDirection;
-                }
-            }
-
-            // 根据当前方向移动熊
-            if (m_Direction == Character::direction::RIGHT) {
-                SetState(MoveState::WALK);
-
-                // 向右移动前检查墙壁
-                int frontTileX = static_cast<int>((position.x + bearWidth/2 + 640) / 16);
                 int frontTileY = tileY;
+                bool hasWallFront = false;
 
-                bool hasWallRight = false;
                 for (int yOffset = 0; yOffset < 2; yOffset++) {
                     int frontTile = mapLoader->GetTile(frontTileX, frontTileY - yOffset);
                     if (frontTile == 2) {
-                        hasWallRight = true;
+                        hasWallFront = true;
                         break;
                     }
                 }
 
-                // 检查前方地面
-                int groundTile = mapLoader->GetTile(frontTileX, tileY + 1);
-                bool hasGround = (groundTile == 1 || groundTile == 8);
-
-                if (hasWallRight) {
-                    // 撞墙时速度减少
-                    if (!m_HitWall) {
-                        m_HitWall = true;
-                        m_CurrentSpeed = m_MaxSpeed * 0.3f;
-                        m_RecoveryTimer = 0.0f;
-                    }
-                } else if (!hasGround) {
-                    // 悬崖边缘转向
-                    m_Direction = Character::direction::LEFT;
-                    SetState(MoveState::WALK_LEFT);
-                } else {
-                    // 未撞墙时逐渐加速
-                    if (m_HitWall) {
-                        m_RecoveryTimer += deltaTime;
-                        if (m_RecoveryTimer > 0.5f) {
-                            // 0.5秒后开始恢复速度
-                            m_CurrentSpeed += m_Acceleration * m_MaxSpeed * deltaTime * 10;
-                            if (m_CurrentSpeed >= m_MaxSpeed) {
-                                m_CurrentSpeed = m_MaxSpeed;
-                                m_HitWall = false;
-                            }
-                        }
-                    }
-
-                    // 使用当前速度移动，确保平滑
-                    position.x += m_CurrentSpeed * deltaTime * 60;
+                // 如果没有墙壁阻挡，直接向玩家方向移动
+                if (!hasWallFront) {
+                    position.x += playerIsRight ? m_MaxSpeed * deltaTime * 60 : -m_MaxSpeed * deltaTime * 60;
                 }
             } else {
-                // 向左移动逻辑，与向右类似
-                SetState(MoveState::WALK_LEFT);
+                // 原有的惯性移动逻辑
+                Character::direction newTargetDir = playerIsRight ?
+                    Character::direction::RIGHT : Character::direction::LEFT;
 
-                int frontTileX = static_cast<int>((position.x - bearWidth/2 + 640) / 16);
-                int frontTileY = tileY;
+                // 检测目标方向是否变化
+                if (newTargetDir != m_TargetDirection) {
+                    m_TargetDirection = newTargetDir;
+                    m_TurnDelayTimer = 0.0f; // 重置计时器
+                }
 
-                bool hasWallLeft = false;
-                for (int yOffset = 0; yOffset < 2; yOffset++) {
-                    int frontTile = mapLoader->GetTile(frontTileX, frontTileY - yOffset);
-                    if (frontTile == 2) {
-                        hasWallLeft = true;
-                        break;
+                // 增加延迟计时器
+                m_TurnDelayTimer += deltaTime;
+
+                // 只有当延迟时间达到后，才实际改变方向
+                if (m_TurnDelayTimer >= m_DirectionChangeDelay) {
+                    // 检测是否需要真正转向
+                    if (m_Direction != m_TargetDirection) {
+                        // 转向时触发减速效果
+                        m_HitWall = true;
+                        m_CurrentSpeed = m_MaxSpeed * 0.3f; // 减速到30%
+                        m_RecoveryTimer = 0.0f;
+
+                        // 实际改变方向
+                        m_Direction = m_TargetDirection;
                     }
                 }
 
-                int groundTile = mapLoader->GetTile(frontTileX, tileY + 1);
-                bool hasGround = (groundTile == 1 || groundTile == 8);
-
-                if (hasWallLeft) {
-                    if (!m_HitWall) {
-                        m_HitWall = true;
-                        m_CurrentSpeed = m_MaxSpeed * 0.3f;
-                        m_RecoveryTimer = 0.0f;
-                    }
-                } else if (!hasGround) {
-                    m_Direction = Character::direction::RIGHT;
+                // 根据当前方向移动熊
+                if (m_Direction == Character::direction::RIGHT) {
                     SetState(MoveState::WALK);
-                } else {
-                    if (m_HitWall) {
-                        m_RecoveryTimer += deltaTime;
-                        if (m_RecoveryTimer > 0.5f) {
-                            m_CurrentSpeed += m_Acceleration * m_MaxSpeed * deltaTime * 10;
-                            if (m_CurrentSpeed >= m_MaxSpeed) {
-                                m_CurrentSpeed = m_MaxSpeed;
-                                m_HitWall = false;
-                            }
+
+                    // 原有的右侧移动逻辑...
+                    // [保留原有代码]
+                    int frontTileX = static_cast<int>((position.x + bearWidth/2 + 640) / 16);
+                    int frontTileY = tileY;
+
+                    bool hasWallRight = false;
+                    for (int yOffset = 0; yOffset < 2; yOffset++) {
+                        int frontTile = mapLoader->GetTile(frontTileX, frontTileY - yOffset);
+                        if (frontTile == 2) {
+                            hasWallRight = true;
+                            break;
                         }
                     }
 
-                    // 向左移动，考虑deltaTime以确保一致性
-                    position.x -= m_CurrentSpeed * deltaTime * 60;
+                    // 检查前方地面
+                    int groundTile = mapLoader->GetTile(frontTileX, tileY + 1);
+                    bool hasGround = (groundTile == 1 || groundTile == 8);
+
+                    if (hasWallRight) {
+                        // 撞墙时速度减少
+                        if (!m_HitWall) {
+                            m_HitWall = true;
+                            m_CurrentSpeed = m_MaxSpeed * 0.3f;
+                            m_RecoveryTimer = 0.0f;
+                        }
+                    } else if (!hasGround) {
+                        // 悬崖边缘转向
+                        m_Direction = Character::direction::LEFT;
+                        SetState(MoveState::WALK_LEFT);
+                    } else {
+                        // 未撞墙时逐渐加速
+                        if (m_HitWall) {
+                            m_RecoveryTimer += deltaTime;
+                            if (m_RecoveryTimer > 0.5f) {
+                                // 0.5秒后开始恢复速度
+                                m_CurrentSpeed += m_Acceleration * m_MaxSpeed * deltaTime * 10;
+                                if (m_CurrentSpeed >= m_MaxSpeed) {
+                                    m_CurrentSpeed = m_MaxSpeed;
+                                    m_HitWall = false;
+                                }
+                            }
+                        }
+
+                        // 使用当前速度移动，确保平滑
+                        position.x += m_CurrentSpeed * deltaTime * 60;
+                    }
+                } else {
+                    // 向左移动的原有逻辑...
+                    // [保留原有代码]
+                    SetState(MoveState::WALK_LEFT);
+
+                    int frontTileX = static_cast<int>((position.x - bearWidth/2 + 640) / 16);
+                    int frontTileY = tileY;
+
+                    bool hasWallLeft = false;
+                    for (int yOffset = 0; yOffset < 2; yOffset++) {
+                        int frontTile = mapLoader->GetTile(frontTileX, frontTileY - yOffset);
+                        if (frontTile == 2) {
+                            hasWallLeft = true;
+                            break;
+                        }
+                    }
+
+                    int groundTile = mapLoader->GetTile(frontTileX, tileY + 1);
+                    bool hasGround = (groundTile == 1 || groundTile == 8);
+
+                    if (hasWallLeft) {
+                        if (!m_HitWall) {
+                            m_HitWall = true;
+                            m_CurrentSpeed = m_MaxSpeed * 0.3f;
+                            m_RecoveryTimer = 0.0f;
+                        }
+                    } else if (!hasGround) {
+                        m_Direction = Character::direction::RIGHT;
+                        SetState(MoveState::WALK);
+                    } else {
+                        if (m_HitWall) {
+                            m_RecoveryTimer += deltaTime;
+                            if (m_RecoveryTimer > 0.5f) {
+                                m_CurrentSpeed += m_Acceleration * m_MaxSpeed * deltaTime * 10;
+                                if (m_CurrentSpeed >= m_MaxSpeed) {
+                                    m_CurrentSpeed = m_MaxSpeed;
+                                    m_HitWall = false;
+                                }
+                            }
+                        }
+
+                        // 向左移动，考虑deltaTime以确保一致性
+                        position.x -= m_CurrentSpeed * deltaTime * 60;
+                    }
                 }
             }
         }

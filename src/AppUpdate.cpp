@@ -286,12 +286,10 @@ void App::Update() {
             isSwitch = !isSwitch;
             std::string newPhase = isSwitch ? "4_2" : "4_1";
 
-            // 只在4系列地图间切换时保留熊敌人
             glm::vec2 bearPosition;
             Character::direction bearDirection = Character::direction::RIGHT;
             std::shared_ptr<Enemy> bearEnemy = nullptr;
 
-            // 寻找熊敌人
             for (auto& enemy : m_Enemies) {
                 if (enemy->GetType() == Enemy::EnemyType::BASIC) {
                     bearPosition = enemy->GetPosition();
@@ -300,12 +298,11 @@ void App::Update() {
                     break;
                 }
             }
-            // 更新资源和地图
+
             m_PRM->SetPhase(newPhase);
             m_MapLoader->LoadMap(newPhase);
             switchTimer = 0.0f;
 
-            // 保留熊敌人，只清除其他敌人
             if (bearEnemy && (newPhase.find("4") == 0)) {
                 for (auto& enemy : m_Enemies) {
                     if (enemy != bearEnemy) {
@@ -313,14 +310,23 @@ void App::Update() {
                         enemy->SetDrawable(nullptr);
                     }
                 }
-
                 m_Enemies.clear();
                 m_Enemies.push_back(bearEnemy);
             } else {
-                // 正常清理并重建敌人
                 ClearGameObjects(m_Enemies);
                 m_Enemies.clear();
                 m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
+            }
+        }
+    } else {
+        // 清除熊敌人
+        for (auto it = m_Enemies.begin(); it != m_Enemies.end();) {
+            if ((*it)->GetType() == Enemy::EnemyType::BASIC) {
+                (*it)->SetVisible(false);
+                (*it)->SetDrawable(nullptr);
+                it = m_Enemies.erase(it);
+            } else {
+                ++it;
             }
         }
     }
