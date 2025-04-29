@@ -18,42 +18,31 @@ void App::Respawn() {
     }
 
     // 清除所有游戏对象
+    ReloadMapObjects();
+
+    m_Boshy->SetPosition(currentCheckPoint);
+}
+
+
+void App::ReloadMapObjects() {
     ClearGameObjects(m_Platform);
     ClearGameObjects(m_CheckPoints);
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
-    ClearGameObjects(m_Enemies);  // 添加清除敌人的代码
+    ClearGameObjects(m_Enemies);
+    if (m_phase8bird)ClearGameObjects(m_phase8bird);
 
-    // 清空容器
     m_CheckPoints.clear();
     m_jumpBoost.clear();
     m_Platform.clear();
     m_FallingGround.clear();
     m_Enemies.clear();  // 清空敌人容器
 
-    // 创建新对象
     m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
     m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
     m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
     m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
     m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);  // 重新创建敌人
-
-    m_Boshy->SetPosition(currentCheckPoint);
-}
-
-#include "App.hpp"
-#include "GameObjectHelper.hpp"
-
-void App::ReloadMapObjects() {
-    ClearGameObjects(m_CheckPoints);
-    ClearGameObjects(m_jumpBoost);
-    ClearGameObjects(m_FallingGround);
-    ClearGameObjects(m_Platform);
-
-    m_CheckPoints = CreateGameObjectsFromMap<CheckPoint>(m_MapLoader, m_Root);
-    m_jumpBoost = CreateGameObjectsFromMap<JumpBoost>(m_MapLoader, m_Root);
-    m_FallingGround = CreateGameObjectsFromMap<FallingGround>(m_MapLoader, m_Root);
-    m_Platform = CreateGameObjectsFromMap<Platform>(m_MapLoader, m_Root);
 }
 bool App::IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight) {
     float fgTop = objectPos.y + objectHeight / 2;

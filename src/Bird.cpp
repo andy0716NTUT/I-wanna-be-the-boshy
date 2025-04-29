@@ -3,7 +3,7 @@
 #include "MapObject/bird.hpp"
 
 Bird::Bird()
-    : m_Chasing(false), m_SpeedX(3.0f), m_SpeedY(4.0f) {
+    : m_Chasing(false), m_SpeedX(4.5f), m_SpeedY(4.0f) {
 
     std::vector<std::string> frames;
     for (int i = 1 ; i <= 2 ; i ++) {

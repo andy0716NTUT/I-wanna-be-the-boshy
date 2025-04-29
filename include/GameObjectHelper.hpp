@@ -8,6 +8,8 @@
 
 #include <vector>
 #include <memory>
+
+#include "spdlog/fmt/bundled/chrono.h"
 #include "Util/GameObject.hpp"
 
 // 封裝重複建立邏輯
@@ -28,6 +30,14 @@ void ClearGameObjects(std::vector<std::shared_ptr<T>>& objects)
         obj->SetDrawable(nullptr);
     }
     objects.clear();
+}
+
+template<typename T>
+void ClearGameObjects(std::shared_ptr<T>& objects)
+{
+    objects->SetDrawable(nullptr);
+    objects->SetVisible(false);
+    objects = nullptr;
 }
 
 

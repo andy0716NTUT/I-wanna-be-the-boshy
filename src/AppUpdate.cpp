@@ -357,26 +357,30 @@ void App::Update() {
         birdTimer += deltaTime;
         if (birdTimer > 2.0f) { // 出現延遲2秒
             m_phase8bird = std::make_shared<Bird>();
-            m_phase8bird->Setposition({-480,-240});
+            m_phase8bird->Setposition({-640,-240});
             m_Root.AddChild(m_phase8bird);
             m_phase8bird->StartChase();
+            birdTimer = 0.0f;
         }
     }
     if (m_phase8bird && (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")) {
         m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
+        if (m_phase8bird->GetPosition() == m_Boshy->GetPosition()) {
+            position = currentCheckPoint; // 传回到检查点
+            currentX = checkPointX;
+            currentY = checkPointY;
+            needsRespawn = true;
+            Respawn();
+        }
     }else {
         if (m_phase8bird) {
-            m_phase8bird->SetVisible(false);
-            m_phase8bird->SetDrawable(nullptr);
-            m_phase8bird = nullptr;
+            ClearGameObjects(m_phase8bird);
         }
     }
     if (m_phase8bird && CurrentPhase == "12") {
         glm::vec2 birdPos = m_phase8bird->GetPosition();
         if (birdPos.x > 0.0f) {
-            m_phase8bird->SetVisible(false);
-            m_phase8bird->SetDrawable(nullptr);
-            m_phase8bird = nullptr;
+            ClearGameObjects(m_phase8bird);
         }
     }
     // Update陷阱

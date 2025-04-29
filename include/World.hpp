@@ -28,10 +28,10 @@ class World {
                     default: return Direction::NONE;
                 }
             }
-            inline std::pair<int, int> GetStartPosition(const std::vector<std::vector<std::string>>& world, const std::string& startId = "1") {
+            inline std::pair<int, int> GetStartPosition(const std::vector<std::vector<std::string>>& world, std::string phasetId) {
                     for (int y = 0; y < static_cast<int>(world.size()); ++y) {
                         for (int x = 0; x < static_cast<int>(world[y].size()); ++x) {
-                            if (world[y][x] == startId) {
+                            if (world[y][x] == phasetId) {
                                 return {x, y};
                             }
                         }
