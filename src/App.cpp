@@ -90,10 +90,7 @@ void App::TeleportToMap(const std::string& mapName) {
     CurrentPhase = mapName;
 
     // 清除所有子弹
-    for (auto& bullet : m_Bullets) {
-        bullet->SetVisible(false);
-        bullet->SetDrawable(nullptr);
-    }
+    ClearGameObjects(m_Bullets);
     m_Bullets.clear();
     // 清除现有游戏对象
     ClearGameObjects(m_Platform);

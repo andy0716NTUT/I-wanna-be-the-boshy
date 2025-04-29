@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "MapObject/bird.hpp"
 
 Bird::Bird()
@@ -23,7 +25,24 @@ void Bird::StartChase() {
 void Bird::StopChase() {
     m_Chasing = false;
 }
+void Bird::StartPending(float delay, float lastY) {
+    m_IsPending = true;
+    m_PendingTimer = delay;
+    m_PreviousY = lastY;
+    this->SetVisible(false); // 暫時隱藏
+}
 void Bird::Update(float deltaTime, glm::vec2 playerPos) {
+    if (m_IsPending) {
+        m_PendingTimer -= deltaTime*60;
+        std::cout << m_PendingTimer << std::endl;
+        if (m_PendingTimer <= 0.0f) {
+            m_IsPending = false;
+            this->Setposition(glm::vec2(-640.0f, m_PreviousY)); // 從左邊出現
+            this->SetVisible(true);
+        }
+        return; // Pending時直接return，不更新飛行
+    }
+
     if (!m_Chasing) return;
 
     glm::vec2 pos = this->GetPosition();

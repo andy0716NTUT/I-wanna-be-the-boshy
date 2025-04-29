@@ -231,17 +231,11 @@ void App::Update() {
 
         CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
 
-        for (auto& bullet : m_Bullets) {
-            bullet->SetVisible(false);
-            bullet->SetDrawable(nullptr);
-        }
+        ClearGameObjects(m_Bullets);
         m_Bullets.clear();
-        for (auto& checkpoint : m_CheckPoints) {
-            checkpoint->SetDrawable(nullptr);
-        }
-        for (auto& jumpboost : m_jumpBoost) {
-            jumpboost->SetDrawable(nullptr);
-        }
+        ClearDrawables(m_CheckPoints);
+        ClearDrawables(m_jumpBoost);
+
         std::string newPhase;
         if (CurrentPhase == "-") {
             newPhase = "none";
@@ -252,7 +246,12 @@ void App::Update() {
         } else {
             newPhase = CurrentPhase;
         }
-
+        if (m_phase8bird) {
+            glm::vec2 birdPos = m_phase8bird->GetPosition();
+            float remainingDistance = 640.0f - birdPos.x; // 以640為右邊界
+            float delayTime = remainingDistance / m_phase8bird->GetSpeedX(); // 飛完剩下距離需要時間
+            m_phase8bird->StartPending(delayTime, birdPos.y); // ✅ 啟動延遲
+        }
         m_PRM->SetPhase(newPhase);
         m_MapLoader->LoadMap(newPhase);
 
@@ -346,8 +345,8 @@ void App::Update() {
             190.0f
         );
         m_Root.AddChild(m_phase2trap_up);
-
         trapCreated = true;
+
     }else if (CurrentPhase != "2" && trapCreated) {
         m_phase2trap_down->clear();
         m_phase2trap_up->clear();
@@ -365,6 +364,12 @@ void App::Update() {
     }
     if (m_phase8bird && (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")) {
         m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
+    }else {
+        if (m_phase8bird) {
+            m_phase8bird->SetVisible(false);
+            m_phase8bird->SetDrawable(nullptr);
+            m_phase8bird = nullptr;
+        }
     }
     if (m_phase8bird && CurrentPhase == "12") {
         glm::vec2 birdPos = m_phase8bird->GetPosition();

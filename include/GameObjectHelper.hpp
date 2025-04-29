@@ -30,6 +30,7 @@ void ClearGameObjects(std::vector<std::shared_ptr<T>>& objects)
     objects.clear();
 }
 
+
 // 僅清除繪製圖片但保留物件（可用於換地圖）
 template<typename T>
 void ClearDrawables(std::vector<std::shared_ptr<T>>& objects)

@@ -18,9 +18,13 @@ public:
     glm::vec2 GetPosition() {
         return m_Transform.translation;
     }
-
+    float GetSpeedX(){return this->m_SpeedX;}
+    void StartPending(float delay, float lastY);
 private:
     std::shared_ptr<Util::Animation> m_Animation;
+    bool m_IsPending = false;
+    float m_PendingTimer = 0.0f;
+    float m_PreviousY = 0.0f; // 上一張地圖的Y座標
     bool m_Chasing;
     float m_SpeedX;
     float m_SpeedY;
