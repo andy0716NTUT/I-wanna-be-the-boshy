@@ -67,6 +67,8 @@ public:
 private:
     std::shared_ptr<Util::Image> m_Image;
     std::string m_ImagePath;
+    bool m_Waiting = false; // 是否正在等待
+    float m_WaitTimer = 0.0f; // 等待時間
     bool isFalling = false;
 };
 

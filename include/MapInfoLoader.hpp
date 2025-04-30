@@ -14,14 +14,14 @@ public:
     [[nodiscard]] int GetWidth() const { return m_Width; }
     [[nodiscard]] int GetHeight() const { return m_Height; }
 
-    void LoadMap(std::string mapNumber); // 直接載入地圖數字
+    void LoadMap(std::string mapNumber,std::string CurrentWorld); // 直接載入地圖數字
     void SetTile(int x, int y, int value); // 新增此方法
     std::string GetCurrentPhase() { return this->CurrentPhase; }
 
 private:
     std::string CurrentPhase;
-    inline std::string ImagePath(const std::string mapNumber) {
-        return RESOURCE_DIR "/Image/Background/Map" + mapNumber + ".txt";
+    inline std::string ImagePath(const std::string mapNumber, std::string CurrentWorld) {
+        return RESOURCE_DIR "/Image/Background/" + CurrentWorld +"/Map" + mapNumber + ".txt";
     }
 
     std::vector<std::vector<int>> m_MapData;

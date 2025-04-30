@@ -48,12 +48,12 @@ void App::Start() {
     m_Bullet->SetZIndex(-2);
     m_Root.AddChild(m_Bullet);
 
-    std::string currentPhase = GamePhaseToString(m_GamePhase);
-    auto& currentWorld = m_World->GetWorldByPhaseName(currentPhase);
+    CurrentWorld = GamePhaseToString(m_GamePhase);
+    auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
     std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
 
     m_MapLoader = std::make_shared<MapInfoLoader>();
-    m_MapLoader->LoadMap(currentWorld[currentX][currentY]);
+    m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
 
     m_CheckPoints = CreateGameObjectsFromMap<CheckPoint>(m_MapLoader, m_Root);
     m_jumpBoost = CreateGameObjectsFromMap<JumpBoost>(m_MapLoader, m_Root);
@@ -64,7 +64,7 @@ void App::Start() {
 
     m_PRM = std::make_shared<ResourceManager>();
     m_Root.AddChild(m_PRM->GetChildren());
-    m_PRM->SetPhase(currentWorld[currentX][currentY]);
+    m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
 
     std::cout << "Test 1" << std::endl;
     m_CurrentState = State::UPDATE;

@@ -28,7 +28,6 @@
 class App {
 public:
     enum class GamePhase {
-        MENU,
         WORLD1,
         WORLD2,
         WORLD3,
@@ -61,7 +60,7 @@ public:
         switch (phase) {
             case App::GamePhase::WORLD1: return "WORLD1";
             case App::GamePhase::WORLD2: return "WORLD2";
-            case App::GamePhase::MENU: return "MENU";
+            case App::GamePhase::WORLD3: return "WORLD3";
             case App::GamePhase::END: return "END";
         }
         return "UNKNOWN";
@@ -78,10 +77,11 @@ private:
     glm::vec2 currentCheckPoint = {0,0};
     std::string currentCheckPointPhase = "1";
     std::string CurrentPhase = "";
+    std::string CurrentWorld = "";
     int currentX,currentY;
     int checkPointX = 0, checkPointY = 0;
     std::shared_ptr<World> m_World;
-    GamePhase m_GamePhase = GamePhase::MENU;
+    GamePhase m_GamePhase = GamePhase::WORLD1;
     Util::Renderer m_Root;
     Util::BGM m_BGM;
     State m_CurrentState = State::START;

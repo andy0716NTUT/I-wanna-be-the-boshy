@@ -28,6 +28,7 @@ void ClearGameObjects(std::vector<std::shared_ptr<T>>& objects)
     for (auto& obj : objects) {
         obj->SetVisible(false);
         obj->SetDrawable(nullptr);
+        obj = nullptr;
     }
     objects.clear();
 }

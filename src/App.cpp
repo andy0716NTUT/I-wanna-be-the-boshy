@@ -12,8 +12,8 @@ void App::End() { // NOLINT(this method will mutate members in the future)
 }
 void App::Respawn() {
     if (CurrentPhase != currentCheckPointPhase) {
-        m_PRM->SetPhase(currentCheckPointPhase);
-        m_MapLoader->LoadMap(currentCheckPointPhase);
+        m_PRM->SetPhase(currentCheckPointPhase,CurrentWorld);
+        m_MapLoader->LoadMap(currentCheckPointPhase,CurrentWorld);
         CurrentPhase = currentCheckPointPhase;
     }
 
@@ -91,8 +91,8 @@ void App::TeleportToMap(const std::string& mapName) {
     m_jumpBoost.clear();
 
     // 设置资源管理器阶段并加载新地图
-    m_PRM->SetPhase(mapName);
-    m_MapLoader->LoadMap(mapName);
+    m_PRM->SetPhase(mapName,CurrentWorld);
+    m_MapLoader->LoadMap(mapName,CurrentWorld);
 
 
     // 重新创建游戏对象
@@ -113,6 +113,22 @@ void App::TeleportToMap(const std::string& mapName) {
     } else if (mapName.find("3") == 0) {
         startPos = {-500.0f, 200.0f};
     } else if (mapName.find("4") == 0) {
+        startPos = {-500.0f, 100.0f};
+    } else if (mapName == "5") {
+        startPos = {-500.0f, 100.0f};
+    } else if (mapName.find("6") == 0) {
+        startPos = {320.0f, 200.0f};
+    } else if (mapName.find("7") == 0) {
+        startPos = {600.0f, 100.0f};
+    } else if (mapName == "8") {
+        startPos = {-500.0f, 100.0f};
+    } else if (mapName.find("9") == 0) {
+        startPos = {-500.0f, 200.0f};
+    } else if (mapName.find("10") == 0) {
+        startPos = {-500.0f, 100.0f};
+    } else if (mapName.find("11") == 0) {
+        startPos = {-500.0f, 200.0f};
+    } else if (mapName.find("12") == 0) {
         startPos = {-500.0f, 100.0f};
     }
 

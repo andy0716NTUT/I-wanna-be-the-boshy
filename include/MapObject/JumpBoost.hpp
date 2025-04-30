@@ -1,6 +1,7 @@
 #ifndef JUMPBOOST_HPP
 #define JUMPBOOST_HPP
 #include "MapInfoLoader.hpp"
+#include "spdlog/fmt/bundled/chrono.h"
 #include "Util/Animation.hpp"
 #include "Util/GameObject.hpp"
 
@@ -9,9 +10,10 @@ class JumpBoost : public Util::GameObject{
 private:
     std::shared_ptr<Util::Animation> m_Animation;
     std::vector<std::string> paths;
-    bool Visible = true;
-    float m_Timer = 0.0f;    // 重现计时器
-    const float m_ReappearTime = 3.0f;  // 消失后重现的时间
+    bool m_IsActive = true;
+    bool m_Disappear = false; // ➤ true: 已消失, false: 顯示中
+    float m_Timer = 0.0f;
+    const float m_ReappearTime = 3.0f;
     
 public:
     explicit JumpBoost() {
@@ -29,18 +31,15 @@ public:
     void SetPosition(glm::vec2 position) {
         m_Transform.translation = position;
     }
-    
-    void SetDisappear(bool dis){this->Visible = dis;}
-    
-    bool GetDisapper(){return this->Visible;}
-    
     // 检查角色是否触碰到JumpBoost，如果是则消耗一次跳跃次数并隐藏JumpBoost
     bool CheckInteraction(const glm::vec2& playerPosition, int& jumpCount) {
-        if (glm::distance(GetPosition(), playerPosition) < 20.0f) {
+        if (glm::distance(GetPosition(), playerPosition) < 32.0f && m_IsActive) {
             if (jumpCount >= 1) {
                 jumpCount--;
-                SetDisappear(false);
-                SetVisible(GetDisapper());
+                m_IsActive = false;
+                m_Disappear = true;             // ✅ 標記為已消失
+                m_Drawable = nullptr;
+                m_Visible = false;
                 return true;
             }
         }
@@ -49,11 +48,13 @@ public:
     
     // 更新JumpBoost状态，包括隐藏后的重现计时
     void UpdateState(float deltaTime) {
-        if (!GetDisapper()) {
+        if (m_Disappear) {                       // ✅ 表示進入隱藏狀態
             m_Timer += deltaTime;
             if (m_Timer > m_ReappearTime) {
-                SetVisible(true);
-                SetDisappear(true);
+                m_IsActive = true;
+                m_Disappear = false;            // ✅ 顯示狀態回復
+                m_Visible = true;
+                m_Drawable = m_Animation;
                 m_Timer = 0.0f;
             }
         }

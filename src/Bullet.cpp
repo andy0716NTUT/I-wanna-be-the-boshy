@@ -95,6 +95,6 @@ std::shared_ptr<Bullet> Bullet::CreateBullet(
 void Bullet::CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets) {
     bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
         [](const std::shared_ptr<Bullet>& bullet) {
-            return !bullet->IsVisible();
+            return bullet == nullptr || !bullet->IsVisible(); // 清除 nullptr 或不可見的
         }), bullets.end());
 }

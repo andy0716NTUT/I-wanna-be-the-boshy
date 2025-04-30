@@ -1,24 +1,29 @@
-# PTSD Template
+# I Wanna Be The Boshy
 
-This is a [PTSD](https://github.com/ntut-open-source-club/practical-tools-for-simple-design) framework template for students taking OOPL2024s.
 
-## Quick Start
+## 🧑‍💻 組員
+- 112590011 
+- 112590044
 
-1. Use this template to create a new repository
-   ![github screenshot](https://github.com/ntut-rick/ptsd-template/assets/126899559/ef62242f-03ed-481d-b858-12b730c09beb)
+## 🕹️ 控制方式
+- `Z`：跳躍（支援地面連跳 / 空中一段跳）
+- `X`：射擊
+- 方向鍵 ← → ↑ ↓：移動角色
+- `R`：重生回到最近的 checkpoint
 
-2. Clone your repository
 
-   ```bash
-   git clone YOUR_GIT_URL --recursive
-   ```
+## 📆 開發日誌 
 
-3. Build your project
+| 日期       | 內容概要                                                   |
+|------------|--------------------------------------------------------|
+| 2025/05/01 | ✅ 修正角色空中二段跳問題<br/>✅ 修正子彈擊中紀錄點會全部清除問題<br/>✅優化jumpBoost功能 |
+|            |                                                        |
+|            |                                                        |
 
-  > [!WARNING]
-  > Please build your project in `Debug` because our `Release` path is broken D:
-   
-   ```sh
-   cmake -DCMAKE_BUILD_TYPE=Debug -B build # -G Ninja
-   ```
-   better read [PTSD README](https://github.com/ntut-open-source-club/practical-tools-for-simple-design)
+# 備註
+**修改檔案：** `PTSD/include/config.hpp`
+```c++
+constexpr unsigned int WINDOW_WIDTH = 1280;
+constexpr unsigned int WINDOW_HEIGHT = 960;
+
+```

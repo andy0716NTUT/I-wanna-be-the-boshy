@@ -1,9 +1,9 @@
 #include "MapInfoLoader.hpp"
 
 
-void MapInfoLoader::LoadMap(std::string mapNumber) {
+void MapInfoLoader::LoadMap(std::string mapNumber,std::string CurrentWorld) {
     this->CurrentPhase = mapNumber ;
-    std::string filePath = ImagePath(mapNumber);
+    std::string filePath = ImagePath(mapNumber,CurrentWorld);
     std::ifstream file(filePath);
 
     if (!file) {

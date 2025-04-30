@@ -15,7 +15,7 @@ public:
     [[nodiscard]]  std::shared_ptr<Util::GameObject> GetChildren() const {
         return {m_Background};
     }
-    void SetPhase(std::string phase);
+    void SetPhase(std::string phase,std::string CurrentWorld);
 };
 
 

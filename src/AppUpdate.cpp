@@ -18,7 +18,6 @@ void App::Update() {
     bool needsRespawn = false;
 
     glm::vec2 position = m_Boshy->GetPosition();
-    auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
     // TileX, TileY 計算與碰撞檢測部分保持不變
     int tileX = static_cast<int>((position.x + 640) / 16);
     int tileY = static_cast<int>((480 - position.y) / 16);
@@ -46,6 +45,8 @@ void App::Update() {
     if (velocityY < MaxFallSpeed) velocityY = MaxFallSpeed;
     position.y += velocityY;
 
+    auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
+
     int belowTile = m_MapLoader->GetTile(tileX, tileY + 1);
     int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
     int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
@@ -70,17 +71,17 @@ void App::Update() {
         velocityY = 0;
     }
 
-    if ((belowTile == 1 || belowTile == 8)  && velocityY < 0)
-    {
+    if ((belowTile == 1 || belowTile == 8)  && velocityY < 0){
         position.y = 480 - ((tileY) * 16) - 4;
         velocityY = 0;
         jumpCount = 0;
     }
-
-    if (m_MapLoader->GetTile(tileX, tileY) == 1 && velocityY >= 0)
-    {
+    if (m_MapLoader->GetTile(tileX, tileY) == 1 && velocityY >= 0){
         position.y = 480 - (tileY - 1) * 16;
         velocityY = 0;
+    }
+    if (!(belowTile == 1 || belowTile == 8)) {
+        if (jumpCount == 0) jumpCount = 1;
     }
     for (auto& boost : m_jumpBoost) {
         boost->CheckInteraction(position, jumpCount);
@@ -160,17 +161,15 @@ void App::Update() {
         shootCooldown = 0.5f;
     }
 
-    else if (Util::Input::IsKeyDown(Util::Keycode::Z) && jumpCount < 2)
-    {
-        velocityY = JumpPower;
-        jumpCount++;
-        if (animatedBoshy->GetDirection() == Character::direction::LEFT)
-        {
-            animatedBoshy->SetState(Character::MoveState::JUMP_LEFT);
-        }
-        else
-        {
-            animatedBoshy->SetState(Character::MoveState::JUMP);
+    else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+        if (jumpCount < 2) {
+            velocityY = JumpPower;
+            jumpCount++;
+
+            if (animatedBoshy->GetDirection() == Character::direction::LEFT)
+                animatedBoshy->SetState(Character::MoveState::JUMP_LEFT);
+            else
+                animatedBoshy->SetState(Character::MoveState::JUMP);
         }
     }
     else if (animatedBoshy->IfAnimationEnds() || (animatedBoshy->GetState() != Character::MoveState::JUMP && velocityY
@@ -252,17 +251,10 @@ void App::Update() {
             float delayTime = remainingDistance / m_phase8bird->GetSpeedX(); // 飛完剩下距離需要時間
             m_phase8bird->StartPending(delayTime, birdPos.y); // ✅ 啟動延遲
         }
-        m_PRM->SetPhase(newPhase);
-        m_MapLoader->LoadMap(newPhase);
+        m_PRM->SetPhase(newPhase,CurrentWorld);
+        m_MapLoader->LoadMap(newPhase,CurrentWorld);
 
-        ClearGameObjects(m_Platform);
-        ClearGameObjects(m_FallingGround);
-        m_CheckPoints.clear();
-        m_jumpBoost.clear();
-        m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
-        m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
-        m_FallingGround = FallingGround::CreateFromMap(m_MapLoader,m_Root);
-        m_Platform = Platform::CreateFromMap(m_MapLoader,m_Root);
+       ReloadMapObjects();
 
         std::cout << "Current Phase : " << CurrentPhase << std::endl;
     }
@@ -274,8 +266,8 @@ void App::Update() {
         {
             isSwitch = !isSwitch;
             std::string newPhase = isSwitch ? "3_2" : "3_1";
-            m_PRM->SetPhase(newPhase);
-            m_MapLoader->LoadMap(newPhase);
+            m_PRM->SetPhase(newPhase,CurrentWorld);
+            m_MapLoader->LoadMap(newPhase,CurrentWorld);
             switchTimer = 0.0f; // 重置計時器
         }
     }
@@ -286,7 +278,7 @@ void App::Update() {
             std::string newPhase = isSwitch ? "4_2" : "4_1";
 
             glm::vec2 bearPosition;
-            Character::direction bearDirection = Character::direction::RIGHT;
+            Character::direction bearDirection;
             std::shared_ptr<Enemy> bearEnemy = nullptr;
 
             for (auto& enemy : m_Enemies) {
@@ -298,8 +290,8 @@ void App::Update() {
                 }
             }
 
-            m_PRM->SetPhase(newPhase);
-            m_MapLoader->LoadMap(newPhase);
+            m_PRM->SetPhase(newPhase,CurrentWorld);
+            m_MapLoader->LoadMap(newPhase,CurrentWorld);
             switchTimer = 0.0f;
 
             if (bearEnemy && (newPhase.find("4") == 0)) {
@@ -365,7 +357,7 @@ void App::Update() {
     }
     if (m_phase8bird && (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")) {
         m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
-        if (m_phase8bird->GetPosition() == m_Boshy->GetPosition()) {
+        if (glm::distance(m_phase8bird->GetPosition(),m_Boshy->GetPosition()) < 20.0f) {
             position = currentCheckPoint; // 传回到检查点
             currentX = checkPointX;
             currentY = checkPointY;
@@ -429,11 +421,10 @@ void App::Update() {
             for (auto& bullet : m_Bullets)
             {
                 glm::vec2 bulletPos = bullet->GetPosition();
-                if (glm::distance(cpPos, bulletPos) < 20.0f)
+                if (glm::distance(cpPos, bulletPos) < 32.0f)
                 {
                     checkpoint->play();
-                    ClearGameObjects(m_Bullets);
-                    m_Bullets.clear();
+                    ClearGameObjects(bullet);
                     currentCheckPoint = m_Boshy->GetPosition();
                     currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
                     checkPointX = currentX;
