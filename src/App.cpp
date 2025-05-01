@@ -1,16 +1,14 @@
 #include "App.hpp"
 
 
-App::App()
-    : m_BGM(RESOURCE_DIR "/BGM/FirstWorld.mp3")
-{
-}
+App::App(){};
 
 
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
 }
 void App::Respawn() {
+    isDead = true;
     if (CurrentPhase != currentCheckPointPhase) {
         m_PRM->SetPhase(currentCheckPointPhase,CurrentWorld);
         m_MapLoader->LoadMap(currentCheckPointPhase,CurrentWorld);
@@ -21,6 +19,8 @@ void App::Respawn() {
     ReloadMapObjects();
 
     m_Boshy->SetPosition(currentCheckPoint);
+
+    isDead = false;
 }
 
 
@@ -30,7 +30,7 @@ void App::ReloadMapObjects() {
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
     ClearGameObjects(m_Enemies);
-    if (m_phase8bird)ClearGameObjects(m_phase8bird);
+    if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
 
     m_CheckPoints.clear();
     m_jumpBoost.clear();

@@ -8,12 +8,12 @@
 
 void App::Start() {
     LOG_TRACE("Start");
+
+
     currentX = 0;
     currentY = 0;
 
     m_World = std::make_shared<World>();
-    m_BGM.SetVolume(5);
-    m_BGM.Play();
 
     // 初始化角色動畫
     std::unordered_map<Character::MoveState, std::vector<std::string>> animationPaths = {
@@ -40,32 +40,21 @@ void App::Start() {
     m_Boshy = std::make_shared<AnimatedCharacter>(animationPaths);
     m_Boshy->SetPosition({0, 0});
     m_Boshy->SetZIndex(-1);
-    m_Root.AddChild(m_Boshy);
+
     currentCheckPoint = m_Boshy->GetPosition();
 
     m_Bullet = std::make_shared<Bullet>();
     m_Bullet->SetVisible(false);
     m_Bullet->SetZIndex(-2);
-    m_Root.AddChild(m_Bullet);
-
-    CurrentWorld = GamePhaseToString(m_GamePhase);
-    auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
-    std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
 
     m_MapLoader = std::make_shared<MapInfoLoader>();
-    m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
-
-    m_CheckPoints = CreateGameObjectsFromMap<CheckPoint>(m_MapLoader, m_Root);
-    m_jumpBoost = CreateGameObjectsFromMap<JumpBoost>(m_MapLoader, m_Root);
-    m_FallingGround = CreateGameObjectsFromMap<FallingGround>(m_MapLoader, m_Root);
-    m_Platform = CreateGameObjectsFromMap<Platform>(m_MapLoader, m_Root);
-
-
 
     m_PRM = std::make_shared<ResourceManager>();
-    m_Root.AddChild(m_PRM->GetChildren());
-    m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
 
-    std::cout << "Test 1" << std::endl;
+    m_Menu = std::make_shared<Menu>();
+    m_Menu->SetImage(RESOURCE_DIR"/Image/Menu/menu_game.png");
+    m_Menu->SetZIndex(5);
+    m_Root.AddChild(m_Menu);
+
     m_CurrentState = State::UPDATE;
 }

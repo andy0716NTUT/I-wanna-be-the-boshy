@@ -6,25 +6,40 @@
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 
-class Menu : public Util::GameObject {
+class Menu : public Util::GameObject{
 public:
+    std::vector<int > Save  = {1,2,3};
     enum class Option {
         START_GAME,
+        SAVE,
         SETTINGS,
-        EXIT
     };
 
     Menu();
-    void Update() ;  // 重寫 Update 方法處理輸入和動畫
+
+    bool StartGame();
+
+    void SetImage(const std::string& ImagePath) {
+        m_ImagePath = ImagePath;
+        m_Drawable = std::make_shared<Util::Image>(m_ImagePath);
+    }
+
     Option GetSelectedOption() const { return m_SelectedOption; }
 
+    void Update();
+
+    void UpdateSaveIndex() {
+        this->SetImage(RESOURCE_DIR"/Image/Menu/menu_save" + std::to_string(savetIndex+1) +".png");
+    }
+
 private:
-    std::shared_ptr<Util::Animation> m_Animation;
-    int m_CurrentIndex;
-    Option m_SelectedOption;
+    std::string m_ImagePath;
+    int savetIndex = 0;
+    bool isStart = false;
+    Option m_SelectedOption = Option::START_GAME;
 
 
-    void HandleInput();  // 處理按鍵輸入
+
 };
 
 #endif

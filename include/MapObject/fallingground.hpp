@@ -18,6 +18,7 @@ public:
     bool GetFalling(){return this->isFalling;}
 
     void SetPosition(glm::vec2 position){m_Transform.translation = position;}
+
     glm::vec2 GetPosition(){return m_Transform.translation;}
 
     void SetImage(const std::string& ImagePath) {
