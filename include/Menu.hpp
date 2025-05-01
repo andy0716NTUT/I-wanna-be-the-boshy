@@ -26,7 +26,7 @@ public:
 
     Option GetSelectedOption() const { return m_SelectedOption; }
 
-    void Update();
+    void Update(float deltaTime);
 
     void UpdateSaveIndex() {
         this->SetImage(RESOURCE_DIR"/Image/Menu/menu_save" + std::to_string(savetIndex+1) +".png");
@@ -35,6 +35,7 @@ public:
 private:
     std::string m_ImagePath;
     int savetIndex = 0;
+    float coolTimer = 0.0f;
     bool isStart = false;
     Option m_SelectedOption = Option::START_GAME;
 

@@ -53,8 +53,8 @@ void App::Start() {
 
     m_Menu = std::make_shared<Menu>();
     m_Menu->SetImage(RESOURCE_DIR"/Image/Menu/menu_game.png");
-    m_Menu->SetZIndex(5);
     m_Root.AddChild(m_Menu);
 
+    m_Root.Update();
     m_CurrentState = State::UPDATE;
 }

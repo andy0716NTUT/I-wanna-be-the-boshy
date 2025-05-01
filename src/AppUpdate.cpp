@@ -18,8 +18,8 @@ void App::Update() {
     bool needsRespawn = false;
 
     if (m_GamePhase == GamePhase::MENU) {
-
-        m_Menu->Update();
+        m_Menu->Update(deltaTime);
+        m_Root.Update();
 
         if (m_Menu->StartGame()) {
             m_GamePhase = GamePhase::WORLD1;
@@ -27,7 +27,6 @@ void App::Update() {
             m_Root.AddChild(m_PRM->GetChildren());
             m_Root.AddChild(m_Bullet);
             m_Root.AddChild(m_Boshy);
-
 
             CurrentWorld = GamePhaseToString(m_GamePhase);
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);

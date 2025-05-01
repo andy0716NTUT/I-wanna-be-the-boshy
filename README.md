@@ -17,11 +17,11 @@
 | 日期         | 內容概要                                                    |
 |------------|---------------------------------------------------------|
 | 2025/05/01 | ✅ 修正角色空中二段跳問題<br/>✅ 修正子彈擊中紀錄點會全部清除問題<br/>✅優化jumpBoost功能 |
-| 2025/05/01 | 製作選單系統但爆炸XD                                             |
+| 2025/05/01 | ✅ 選單系統                                                  |
 |            |                                                         |
 
 # 備註
-**修改檔案：** `PTSD/include/config.hpp`
+** 修改檔案：** `PTSD/include/config.hpp`
 ```c++
 constexpr unsigned int WINDOW_WIDTH = 1280;
 constexpr unsigned int WINDOW_HEIGHT = 960;
