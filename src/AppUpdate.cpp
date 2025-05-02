@@ -31,8 +31,11 @@ void App::Update() {
             CurrentWorld = GamePhaseToString(m_GamePhase);
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
             std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
+
+
             m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
             m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
+
             ReloadMapObjects();
         }
     }else{
@@ -330,7 +333,8 @@ void App::Update() {
         if (CurrentPhase == "2" && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
-                RESOURCE_DIR"/Image/MapObject/phase2trap1.png",
+                m_MapLoader,
+                RESOURCE_DIR"/Image/MapObject/phase2trap1",
                 {0.0f, -480.0f},
                 480.0f
             );
@@ -338,7 +342,8 @@ void App::Update() {
 
             m_phase2trap_up = std::make_shared<phase2trap>();
             m_phase2trap_up->Create(
-                RESOURCE_DIR"/Image/MapObject/phase2trap2.png",
+                m_MapLoader,
+                RESOURCE_DIR"/Image/MapObject/phase2trap2",
                 {0.0f, 160.0f},
                 190.0f
             );

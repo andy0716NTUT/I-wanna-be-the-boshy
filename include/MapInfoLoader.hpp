@@ -15,8 +15,14 @@ public:
     [[nodiscard]] int GetHeight() const { return m_Height; }
 
     void LoadMap(std::string mapNumber,std::string CurrentWorld); // 直接載入地圖數字
+
     void SetTile(int x, int y, int value); // 新增此方法
+
     std::string GetCurrentPhase() { return this->CurrentPhase; }
+
+    std::vector<std::vector<int>> GetMapDate() {
+        return this->m_MapData;
+    }
 
 private:
     std::string CurrentPhase;
