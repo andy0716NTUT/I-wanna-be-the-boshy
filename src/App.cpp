@@ -129,7 +129,9 @@ void App::TeleportToMap(const std::string& mapName) {
     } else if (mapName.find("11") == 0) {
         startPos = {-500.0f, 200.0f};
     } else if (mapName.find("12") == 0) {
-        startPos = {-500.0f, 100.0f};
+        startPos = {525.0f, 180.0f};
+        currentX = 2;
+        currentY = 5;
     }
 
     // 设置角色位置

@@ -65,7 +65,8 @@ add_executable(${PROJECT_NAME}
         src/Bird.cpp
         src/BgmManager.cpp
         include/BgmManager.hpp
-        include/Boss1.hpp
+        include/Boss1/Boss1.hpp
+        src/Boss1/Boss1.cpp
 )
 
 if(MSVC)

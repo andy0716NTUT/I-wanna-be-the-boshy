@@ -70,7 +70,8 @@ void phase2trap::Update(float deltaTime) {
             m_MapInfoLoader->SetTile(mapX, mapY, m_originalTiles[mapY][mapX]);
         }
     }
-
+    m_Transform.translation.x = std::round(m_Transform.translation.x);
+    m_Transform.translation.y = std::round(m_Transform.translation.y);
     // 更新 lastOccupiedTiles
     m_LastOccupiedTiles = currentOccupiedTiles;
 }

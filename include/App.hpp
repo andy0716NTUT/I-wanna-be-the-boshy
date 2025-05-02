@@ -16,6 +16,8 @@
 #include "World.hpp"
 #include "MapObject/CheckPoint.hpp"
 #include <iostream>
+
+#include "Boss1/Boss1.hpp"
 #include "imgui.hpp"
 #include "MapObject/JumpBoost.hpp"
 #include "MapObject/fallingground.hpp"
@@ -30,6 +32,7 @@ public:
     enum class GamePhase {
         MENU,
         WORLD1,
+        BOSS1,
         WORLD2,
         WORLD3,
         END
@@ -102,7 +105,7 @@ private:
     std::shared_ptr<phase2trap> m_phase2trap_up;
     std::shared_ptr<phase2trap> m_phase2trap_down;
     std::shared_ptr<Bird> m_phase8bird;
-
+    std::shared_ptr<Boss1> m_Boss1;
 
     std::vector<std::shared_ptr<Bullet>> m_Bullets;
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;

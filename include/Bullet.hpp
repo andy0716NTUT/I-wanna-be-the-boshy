@@ -37,7 +37,7 @@ public:
         Util::Renderer& renderer);
 
     // 子弹速度常量
-    static constexpr float BULLET_SPEED = 10.0f;
+    static constexpr float BULLET_SPEED = 15.0f;
 
 private:
     std::shared_ptr<Util::Animation> m_Bullet;

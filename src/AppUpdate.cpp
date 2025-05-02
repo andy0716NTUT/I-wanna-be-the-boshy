@@ -5,7 +5,7 @@
 void App::Update() {
     static float velocityY = 0;
     velocityY += Gravity;
-    const float JumpPower = 15;
+    const float JumpPower = 16;
     const float MaxFallSpeed = -10;
     static int jumpCount = 0;
     static float shootCooldown = 0;
@@ -16,7 +16,7 @@ void App::Update() {
     shootCooldown -= deltaTime * 4;
     std::stringstream ss;
     bool needsRespawn = false;
-
+    static bool isJumping = false;
     if (m_GamePhase == GamePhase::MENU) {
         m_Menu->Update(deltaTime);
         m_Root.Update();
@@ -31,6 +31,9 @@ void App::Update() {
             CurrentWorld = GamePhaseToString(m_GamePhase);
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
             std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
+
+            currentX = 2;
+            currentY = 5;
 
 
             m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
@@ -172,7 +175,8 @@ void App::Update() {
 
         else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             if (jumpCount < 2) {
-                velocityY = JumpPower;
+                velocityY = JumpPower;  // 使用最大跳跃力度
+                isJumping = true;
                 jumpCount++;
 
                 if (animatedBoshy->GetDirection() == Character::direction::LEFT)
@@ -180,6 +184,14 @@ void App::Update() {
                 else
                     animatedBoshy->SetState(Character::MoveState::JUMP);
             }
+        }
+        else if (Util::Input::IsKeyUp(Util::Keycode::Z) && isJumping && velocityY > 0) {
+            velocityY *= 0.4f;
+            isJumping = false;
+        }
+
+        if (velocityY <= 0) {
+            isJumping = false;
         }
         else if (animatedBoshy->IfAnimationEnds() || (animatedBoshy->GetState() != Character::MoveState::JUMP && velocityY
             == 0))
@@ -381,6 +393,16 @@ void App::Update() {
             if (birdPos.x > 0.0f) {
                 ClearGameObjects(m_phase8bird);
             }
+        }
+        if (CurrentPhase == "13") {
+            if (!m_Boss1) {
+                m_Boss1 = std::make_shared<Boss1>();
+                m_Root.AddChild(m_Boss1);
+                m_Boss1->Spawn(deltaTime);
+            }
+            m_Boss1->Update(deltaTime);
+        }else {
+            if (m_Boss1)ClearGameObjects(m_Boss1);
         }
         // Update陷阱
         if (trapCreated) {
