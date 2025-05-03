@@ -400,7 +400,7 @@ void App::Update() {
                 m_Root.AddChild(m_Boss1);
                 m_Boss1->Spawn(deltaTime);
             }
-            m_Boss1->Update(deltaTime);
+            m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
         }else {
             if (m_Boss1)ClearGameObjects(m_Boss1);
         }

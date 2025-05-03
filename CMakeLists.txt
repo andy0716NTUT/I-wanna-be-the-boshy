@@ -67,6 +67,8 @@ add_executable(${PROJECT_NAME}
         include/BgmManager.hpp
         include/Boss1/Boss1.hpp
         src/Boss1/Boss1.cpp
+        include/Boss1/BulletTypeA.hpp
+        src/Boss1/BulletTypeA.cpp
 )
 
 if(MSVC)
