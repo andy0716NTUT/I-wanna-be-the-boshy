@@ -76,7 +76,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                 for (auto& bullet : m_BulletsA) {
                     bullet->Update(deltaTime);
                     if (glm::distance(bullet->GetPosition(),playerPosition) < 20.0f) {
-                        this->isPlayerDead = true;
+                        //this->isPlayerDead = true;
                     }
                 }
                 // 檢查是否所有子彈都飛出場外
@@ -142,10 +142,46 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     }
                     m_CanMoveVertically = true;
                     m_HasStartedLightAttack = false;
+                    m_AttackType = AttackType::TYPEB;
                 }
 
                 break;
             }
+            case AttackType::TYPEB:
+                m_ShootTimerB += deltaTime;
+
+                // 每 0.5 秒發射一發
+                if (TypeBShootCount < 8 && m_ShootTimerB >= 1.0f) {
+                    float randomX = -640.0f + static_cast<float>(rand()) / RAND_MAX * (-100.0f + 640.0f);
+                    glm::vec2 spawnPos(randomX, 480.0f); // 假設畫面頂端 y=480
+                    auto bullet = std::make_shared<BulletTypeB>(spawnPos);
+                    rootRenderer.AddChild(bullet);
+                    m_BulletsB.push_back(bullet);
+
+                    m_ShootTimerB = 0.0f;
+                    TypeBShootCount++;
+                }
+
+                // 更新所有 BulletTypeB
+                for (auto& bullet : m_BulletsB) {
+                    bullet->Update(deltaTime);
+                }
+
+                // 判斷是否所有子彈都掉到螢幕外（或某個 y 座標以下）
+                if (TypeBShootCount >= 8) {
+                    bool allBulletsOut = true;
+                    for (auto& bullet : m_BulletsB) {
+                        if (bullet->GetPosition().y <= 480.0f) {  // 假設螢幕高度 480
+                            allBulletsOut = false;
+                            break;
+                        }
+                    }
+                    if (allBulletsOut) {
+                        m_AttackType = AttackType::TYPEC;
+                        ClearGameObjects(m_BulletsB);
+                    }
+                }
+                break;
             default:
                 break;
 

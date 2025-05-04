@@ -6,6 +6,7 @@
 #include "Util/Animation.hpp"
 #include "Util/Renderer.hpp"
 #include "BulletTypeA.hpp"
+#include "BulletTypeB.hpp"
 #include "LightAttack.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -52,6 +53,10 @@
         float m_LightAttackTimer = 0.0f;      // 計時器
         int m_LightAttackCount = 0;           // 已射擊光束數量
         bool m_HasStartedLightAttack = false; // 是否開始計時
+
+        std::vector<std::shared_ptr<BulletTypeB>> m_BulletsB;
+        float m_ShootTimerB = 0.0f;
+        int TypeBShootCount = 0 ;
 
     };
 
