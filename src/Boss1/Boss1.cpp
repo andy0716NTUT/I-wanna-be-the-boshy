@@ -1,5 +1,7 @@
 #include "../include/Boss1/Boss1.hpp"
 
+#include "GameObjectHelper.hpp"
+
 Boss1::Boss1() {
     std::vector<std::string> frames;
     for (int i = 1; i <= 2; i++) {
@@ -30,11 +32,19 @@ void Boss1::Spawn(float deltaTime) {
     m_SpawnY = -300.0f;
     m_WaitTimer = 0.0f;
 }
+bool Boss1::playerDead() {
+    return this->isPlayerDead;
+}
 
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
     if (m_AttackType == AttackType::SPAWN) {
+        if (Util::Input::IsKeyDown(Util::Keycode::S)) {
+            m_AttackType = AttackType::TYPEA;
+            return;
+        }
         float targetY = 0.0f;
         float speed = 100.0f;
+
         if (m_SpawnY < targetY) {
             m_SpawnY += speed * deltaTime;
             if (m_SpawnY >= targetY) m_SpawnY = targetY;
@@ -44,43 +54,98 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
         }
         m_Transform.translation.y = m_SpawnY;
     } else if (m_AttackType != AttackType::SPAWN) {
-        const float amplitude = 350.0f;
-        const float frequency = 2.0f;
-        m_Angle += frequency * deltaTime;
-        m_Transform.translation.y = sin(m_Angle) * amplitude;
+        if (m_CanMoveVertically) {  // ⭐ 只有允許時才上下移動
+            const float amplitude = 350.0f;
+            const float frequency = 2.0f;
+            m_Angle += frequency * deltaTime;
+            m_Transform.translation.y = sin(m_Angle) * amplitude;
+        }
 
         switch (m_AttackType) {
             case AttackType::TYPEA:
                 m_ShootTimer += deltaTime;
-            if (TypeAShootCount < 8 && m_ShootTimer >= 1.0f) {
-                auto bullet = std::make_shared<BulletTypeA>(GetPosition(), playerPosition);
-                rootRenderer.AddChild(bullet);
-                m_BulletsA.push_back(bullet);
-                m_ShootTimer = 0.0f;
-                TypeAShootCount++;
-            }
+                if (TypeAShootCount < 8 && m_ShootTimer >= 1.0f) {
+                    auto bullet = std::make_shared<BulletTypeA>(GetPosition(), playerPosition);
+                    rootRenderer.AddChild(bullet);
+                    m_BulletsA.push_back(bullet);
+                    m_ShootTimer = 0.0f;
+                    TypeAShootCount++;
+                }
 
-            // 更新所有子彈
-            for (auto& bullet : m_BulletsA) {
-                bullet->Update(deltaTime);
-            }
-
-            // 檢查是否所有子彈都飛出場外
-            if (TypeAShootCount >= 8) {
-                bool allBulletsOutOfScreen = true;
+                // 更新所有子彈
                 for (auto& bullet : m_BulletsA) {
-                    if (bullet->GetPosition().x >= -640.0f) {
-                        allBulletsOutOfScreen = false;
-                        break;
+                    bullet->Update(deltaTime);
+                    if (glm::distance(bullet->GetPosition(),playerPosition) < 20.0f) {
+                        this->isPlayerDead = true;
                     }
                 }
-                if (allBulletsOutOfScreen) {
-                    m_AttackType = AttackType::LIGHTATTACK;
-                    m_BulletsA.clear();  // 清空子彈列表（可選）
+                // 檢查是否所有子彈都飛出場外
+                if (TypeAShootCount >= 8) {
+                    bool allBulletsOutOfScreen = true;
+                    for (auto& bullet : m_BulletsA) {
+                        if (bullet->GetPosition().x >= -700.0f) {
+                            allBulletsOutOfScreen = false;
+                            break;
+                        }
+                    }
+                    if (allBulletsOutOfScreen) {
+                        m_AttackType = AttackType::LIGHTATTACK;
+                        ClearGameObjects(m_BulletsA);// 清空子彈列表（可選）
+                    }
                 }
-            }
+                    break;
+            case AttackType::LIGHTATTACK: {
+                if (!m_HasStartedLightAttack) {
+                    m_CanMoveVertically = false;  // 停掉 sin()
+                    m_HasStartedLightAttack = true;
+                }
+                float speedY = 100.0f;
+                float dy = playerPosition.y - m_Transform.translation.y;
+                float step = speedY * deltaTime;
+
+                if (fabs(dy) <= step) {
+                    m_Transform.translation.y = playerPosition.y;
+                } else {
+                    m_Transform.translation.y += (dy > 0 ? step : -step);
+                }
+
+                m_LightAttackTimer += deltaTime;
+
+                if (m_LightAttackCount < 4 && m_LightAttackTimer >= 3.0f) {
+                    // ⭐ 每次發射前 → 抓最新 playerPosition.y
+                    m_CanMoveVertically = true;
+                    m_Transform.translation.y = playerPosition.y;
+
+                    // ⭐ 清掉舊的
+                    if (m_LightAttack) {
+                        rootRenderer.RemoveChild(m_LightAttack);
+                        m_LightAttack.reset();
+                    }
+
+                    // ⭐ 建立新光束
+                    auto newAttack = std::make_shared<LightAttack>(m_Transform.translation);
+                    rootRenderer.AddChild(newAttack);
+                    m_LightAttack = newAttack;
+
+                    m_LightAttackTimer = 0.0f;
+                    m_LightAttackCount++;
+                }
+
+                if (m_LightAttack) {
+                    m_LightAttack->Update(deltaTime);
+                }
+
+                if (m_LightAttackCount >= 4 && m_LightAttackTimer >= 3.0f) {
+                    if (m_LightAttack) {
+                        rootRenderer.RemoveChild(m_LightAttack);
+                        m_LightAttack.reset();
+                    }
+                    m_CanMoveVertically = true;
+                    m_HasStartedLightAttack = false;
+                }
 
                 break;
+            }
             default:
                 break;
 

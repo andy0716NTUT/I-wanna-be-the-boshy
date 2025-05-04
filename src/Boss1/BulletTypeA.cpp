@@ -5,7 +5,7 @@
 
 BulletTypeA::BulletTypeA(glm::vec2 bossPosition, glm::vec2 playerPosition) {
     glm::vec2 direction = glm::normalize(playerPosition - bossPosition);
-    m_Velocity = direction * 900.0f;
+    m_Velocity = direction * 1200.0f;
 
     std::vector<std::string> frames;
     for (int i = 1; i <= 4; i++) {

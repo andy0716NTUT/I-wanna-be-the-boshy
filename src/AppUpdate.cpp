@@ -401,6 +401,10 @@ void App::Update() {
                 m_Boss1->Spawn(deltaTime);
             }
             m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
+            if (m_Boss1->playerDead()) {
+                Respawn();
+
+            }
         }else {
             if (m_Boss1)ClearGameObjects(m_Boss1);
         }
@@ -476,7 +480,6 @@ void App::Update() {
                 position = currentCheckPoint; // 传回到检查点
                 currentX = checkPointX;
                 currentY = checkPointY;
-                needsRespawn = true;
                 Respawn(); // 调用重生逻辑
                 break;
             }
@@ -490,8 +493,6 @@ void App::Update() {
         }
         if (Util::Input::IsKeyDown(Util::Keycode::R)) {
             position = currentCheckPoint;
-            currentX = checkPointX;
-            currentY = checkPointY;
             Respawn();
         }
         // 更新角色位置與整體狀態

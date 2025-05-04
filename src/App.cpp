@@ -9,6 +9,8 @@ void App::End() { // NOLINT(this method will mutate members in the future)
 }
 void App::Respawn() {
     isDead = true;
+    currentX = checkPointX;
+    currentY = checkPointY;
     if (CurrentPhase != currentCheckPointPhase) {
         m_PRM->SetPhase(currentCheckPointPhase,CurrentWorld);
         m_MapLoader->LoadMap(currentCheckPointPhase,CurrentWorld);
