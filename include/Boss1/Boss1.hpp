@@ -7,6 +7,7 @@
 #include "Util/Renderer.hpp"
 #include "BulletTypeA.hpp"
 #include "BulletTypeB.hpp"
+#include "BulletTypeC.hpp"
 #include "LightAttack.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -57,6 +58,14 @@
         std::vector<std::shared_ptr<BulletTypeB>> m_BulletsB;
         float m_ShootTimerB = 0.0f;
         int TypeBShootCount = 0 ;
+
+        float TypeCFireInterval = 0.13f;  // 發射間隔（密集度）
+        float TypeCFireDuration = 7.0f;// 發射持續時間
+        float m_ShootTimerC = 0.0f;
+        float m_ElapsedTimeC = 0.0f;
+        float TypeC_Amplitude = 100.0f;   // 波浪振幅
+        float TypeC_Frequency = 6.0f;     // 波浪頻率
+        std::vector<std::shared_ptr<BulletTypeC>> m_BulletsC;
 
     };
 

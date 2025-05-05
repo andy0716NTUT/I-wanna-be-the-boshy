@@ -73,6 +73,8 @@ add_executable(${PROJECT_NAME}
         src/Boss1/LightAttack.cpp
         include/Boss1/BulletTypeB.hpp
         src/Boss1/BulletTypeB.cpp
+        include/Boss1/BulletTypeC.hpp
+        src/Boss1/BulletTypeC.cpp
 )
 
 if(MSVC)

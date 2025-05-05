@@ -171,7 +171,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                 if (TypeBShootCount >= 8) {
                     bool allBulletsOut = true;
                     for (auto& bullet : m_BulletsB) {
-                        if (bullet->GetPosition().y <= 480.0f) {  // 假設螢幕高度 480
+                        if (bullet->GetPosition().y >= -480.0f) {  // 假設螢幕高度 480
                             allBulletsOut = false;
                             break;
                         }
@@ -182,6 +182,44 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     }
                 }
                 break;
+            case AttackType::TYPEC:
+                m_ElapsedTimeC += deltaTime;
+            m_ShootTimerC += deltaTime;
+
+            if (m_ElapsedTimeC <= TypeCFireDuration) {
+                if (m_ShootTimerC >= TypeCFireInterval) {
+                    // 計算發射角度（用 sin 調整）
+                    float waveAngle = 0.0f + 0.5f * sin(TypeC_Frequency * m_ElapsedTimeC); // 調整角度幅度
+                    glm::vec2 dir = glm::normalize(glm::vec2(-1.0f, tan(waveAngle)));  // 左偏一點上下波浪
+
+                    auto bullet = std::make_shared<BulletTypeC>(m_Transform.translation, dir);
+                    rootRenderer.AddChild(bullet);
+                    m_BulletsC.push_back(bullet);
+
+                    m_ShootTimerC = 0.0f;
+                }
+            }
+
+            // 更新子彈
+            for (auto& bullet : m_BulletsC) {
+                bullet->Update(deltaTime);
+            }
+
+            // 清除飛出螢幕的子彈
+            m_BulletsC.erase(
+                std::remove_if(m_BulletsC.begin(), m_BulletsC.end(),
+                    [](const std::shared_ptr<BulletTypeC>& bullet) {
+                        return bullet->GetPosition().x < -700.0f;
+                    }),
+                m_BulletsC.end()
+            );
+
+            if (m_ElapsedTimeC >= TypeCFireDuration && m_BulletsC.empty()) {
+                m_AttackType = AttackType::TYPEA;
+                m_ShootTimerC = 0.0f;
+                m_ElapsedTimeC = 0.0f;
+            }
+            break;
             default:
                 break;
 

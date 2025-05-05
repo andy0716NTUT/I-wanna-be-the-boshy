@@ -12,7 +12,7 @@ BulletTypeA::BulletTypeA(glm::vec2 bossPosition, glm::vec2 playerPosition) {
         frames.push_back(RESOURCE_DIR "/Image/Boss1/Boss_attack" + std::to_string(i) + ".png");
     }
 
-    m_Animation = std::make_shared<Util::Animation>(frames, false, 300, true);
+    m_Animation = std::make_shared<Util::Animation>(frames, false, 150, true);
     m_Animation->Play();
 
     m_Drawable = m_Animation;

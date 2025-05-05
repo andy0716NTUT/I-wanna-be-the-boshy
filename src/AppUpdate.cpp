@@ -40,6 +40,8 @@ void App::Update() {
             m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
 
             ReloadMapObjects();
+
+            m_Boshy->SetPosition({565,-372});
         }
     }else{
         glm::vec2 position = m_Boshy->GetPosition();
