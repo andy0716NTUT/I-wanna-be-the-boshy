@@ -2,6 +2,7 @@
 // Created by andyl on 2025/5/3.
 //
 
+#include "BossHpInfo.hpp"
 #include "Util/GameObject.hpp"
 #include "Util/Animation.hpp"
 #include "Util/Renderer.hpp"
@@ -9,6 +10,7 @@
 #include "BulletTypeB.hpp"
 #include "BulletTypeC.hpp"
 #include "LightAttack.hpp"
+#include "Boss1/BossInfoText.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "MapInfoLoader.hpp"
@@ -23,7 +25,7 @@
             TYPEC,
         };
         Boss1();
-        void Spawn(float deltaType);
+        void Spawn(float deltaType,Util::Renderer& rootRenderer);
 
         void Update(float deltaTime,glm::vec2 playerPosition, Util::Renderer& rootRenderer);
 
@@ -31,10 +33,16 @@
 
         float GetHealth();
 
+        void TakeDamage(int damage);
+
         glm::vec2 GetPosition();
 
         bool playerDead();
+
+        bool Boss1::IsDead() const;
     private:
+        int maxHp = 40;
+        int currentHp = 40;
         bool m_CanMoveVertically = true;
         bool isPlayerDead = false;
         float Health = 100;
@@ -43,6 +51,9 @@
         float m_SpawnY = -300.0f;
         float m_WaitTimer = 0.0f;
         float m_ShootTimer = 0.0f;
+
+        std::shared_ptr<BossInfoText> m_Text;
+        std::shared_ptr<BossHpInfo> m_HP;
 
         AttackType m_AttackType = AttackType::SPAWN;
         std::shared_ptr<Util::Animation> m_Animation;
@@ -59,7 +70,7 @@
         float m_ShootTimerB = 0.0f;
         int TypeBShootCount = 0 ;
 
-        float TypeCFireInterval = 0.13f;  // 發射間隔（密集度）
+        float TypeCFireInterval = 0.1f;  // 發射間隔（密集度）
         float TypeCFireDuration = 7.0f;// 發射持續時間
         float m_ShootTimerC = 0.0f;
         float m_ElapsedTimeC = 0.0f;

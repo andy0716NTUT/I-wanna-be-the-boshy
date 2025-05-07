@@ -9,13 +9,15 @@
 class LightAttack : public Util::GameObject {
 public:
     LightAttack(glm::vec2 playerPosition);
-    enum class state{WAITING,SHOOT};
+    enum class state{WAITING,SHOOT,Disappear};
     void Update(float deltaTime);
 private:
     std::shared_ptr<Util::Animation> m_Animation_Waiting;
     std::shared_ptr<Util::Animation> m_Animation_Shoot;
+    std::shared_ptr<Util::Animation> m_Animation_Disappear;
     bool m_HasSwitched = false;
     float m_WaitTimer = 0.0f;
+    bool m_HasPlayedDisappear = false;
 
 };
 #endif //LIGHTATTACK_HPP

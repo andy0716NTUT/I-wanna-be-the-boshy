@@ -12,6 +12,7 @@ Boss1::Boss1() {
     m_Drawable = m_Animation;
     m_Transform.translation.x = 500;
     m_Transform.translation.y = -300;
+    m_Text = std::make_shared<BossInfoText>();
 }
 
 glm::vec2 Boss1::GetPosition() {
@@ -26,12 +27,27 @@ float Boss1::GetHealth() {
     return this->Health;
 }
 
-void Boss1::Spawn(float deltaTime) {
+void Boss1::TakeDamage(int damage) {
+    currentHp -= damage;
+    if (currentHp < 0) currentHp = 0;
+
+    float hpRatio = static_cast<float>(currentHp) / maxHp;
+    m_HP->SetScaleX(hpRatio);  // BossHpInfo 裡要有這個函式控制 scale
+}
+
+
+void Boss1::Spawn(float deltaTime,Util::Renderer& rootRenderer) {
     m_AttackType = AttackType::SPAWN;
     m_Transform.translation.y = -300.0f;
     m_SpawnY = -300.0f;
     m_WaitTimer = 0.0f;
+    m_HP = std::make_shared<BossHpInfo>();
+    rootRenderer.AddChild(m_HP);
 }
+bool Boss1::IsDead() const {
+    return this->currentHp <= 0 ;
+}
+
 bool Boss1::playerDead() {
     return this->isPlayerDead;
 }
@@ -179,12 +195,13 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     if (allBulletsOut) {
                         m_AttackType = AttackType::TYPEC;
                         ClearGameObjects(m_BulletsB);
+                        m_BulletsB.clear();
                     }
                 }
                 break;
             case AttackType::TYPEC:
                 m_ElapsedTimeC += deltaTime;
-            m_ShootTimerC += deltaTime;
+                m_ShootTimerC += deltaTime;
 
             if (m_ElapsedTimeC <= TypeCFireDuration) {
                 if (m_ShootTimerC >= TypeCFireInterval) {
@@ -201,20 +218,17 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
             }
 
             // 更新子彈
-            for (auto& bullet : m_BulletsC) {
-                bullet->Update(deltaTime);
-            }
 
             // 清除飛出螢幕的子彈
             m_BulletsC.erase(
                 std::remove_if(m_BulletsC.begin(), m_BulletsC.end(),
                     [](const std::shared_ptr<BulletTypeC>& bullet) {
-                        return bullet->GetPosition().x < -700.0f;
+                        return bullet->GetPosition().x < -700.0f;  // 已經飛出螢幕
                     }),
                 m_BulletsC.end()
             );
 
-            if (m_ElapsedTimeC >= TypeCFireDuration && m_BulletsC.empty()) {
+            if ( m_BulletsC.empty()) {
                 m_AttackType = AttackType::TYPEA;
                 m_ShootTimerC = 0.0f;
                 m_ElapsedTimeC = 0.0f;

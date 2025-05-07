@@ -28,20 +28,18 @@ void App::Update() {
             m_Root.AddChild(m_Bullet);
             m_Root.AddChild(m_Boshy);
 
+            currentX = 2 ;
+            currentY = 5 ;
+
             CurrentWorld = GamePhaseToString(m_GamePhase);
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
             std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
-
-            currentX = 2;
-            currentY = 5;
-
 
             m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
             m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
 
             ReloadMapObjects();
-
-            m_Boshy->SetPosition({565,-372});
+            m_Boshy->SetPosition({525,-372});
         }
     }else{
         glm::vec2 position = m_Boshy->GetPosition();
@@ -400,9 +398,21 @@ void App::Update() {
             if (!m_Boss1) {
                 m_Boss1 = std::make_shared<Boss1>();
                 m_Root.AddChild(m_Boss1);
-                m_Boss1->Spawn(deltaTime);
+                m_Boss1->Spawn(deltaTime,m_Root);
             }
             m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
+            for (auto& bullet : m_Bullets) {
+                if (bullet && bullet->IsVisible()) {
+                    glm::vec2 bulletPos = bullet->GetPosition();
+                    glm::vec2 bossPos = m_Boss1->GetPosition();
+
+                    if (glm::distance(bulletPos, bossPos) < 100.0f) {  // 可以調整碰撞距離
+                        m_Boss1->TakeDamage(1);  // 自訂函式，等一下寫
+                        bullet->SetVisible(false);
+                        bullet->SetDrawable(nullptr);
+                    }
+                }
+            }
             if (m_Boss1->playerDead()) {
                 Respawn();
 

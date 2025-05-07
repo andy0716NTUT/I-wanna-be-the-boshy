@@ -7,6 +7,7 @@
 LightAttack::LightAttack(glm::vec2 playerPosition) {
     std::vector<std::string> frame1;
     std::vector<std::string> frame2;
+    std::vector<std::string> frame3;
     for (int i = 1 ; i <= 2 ; i ++) {
         frame1.push_back(RESOURCE_DIR"/Image/Boss1/lightAttack" + std::to_string(i) + ".png");
     }

@@ -11,7 +11,7 @@ add_compile_definitions(RESOURCE_DIR="${CMAKE_SOURCE_DIR}/Resources")
 FetchContent_Declare(
         ptsd
 
-        URL         https://github.com/ntut-open-source-club/practical-tools-for-simple-design/archive/refs/tags/v0.2.zip
+        URL         https://github.com/ntut-open-source-club/practical-tools-for-simple-design/archive/refs/tags/v0.3-rc1.zip
 
         # Or alternatively if you want to use a specific git commit instead of a release:
         # GIT_REPOSITORY  https://github.com/ntut-open-source-club/practical-tools-for-simple-design.git
@@ -75,6 +75,9 @@ add_executable(${PROJECT_NAME}
         src/Boss1/BulletTypeB.cpp
         include/Boss1/BulletTypeC.hpp
         src/Boss1/BulletTypeC.cpp
+        include/Boss1/BossInfoText.hpp
+        src/Boss1/BossInfoText.cpp
+        include/Boss1/BossHpInfo.hpp
 )
 
 if(MSVC)
