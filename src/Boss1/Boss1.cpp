@@ -12,7 +12,6 @@ Boss1::Boss1() {
     m_Drawable = m_Animation;
     m_Transform.translation.x = 500;
     m_Transform.translation.y = -300;
-    m_Text = std::make_shared<BossInfoText>();
 }
 
 glm::vec2 Boss1::GetPosition() {

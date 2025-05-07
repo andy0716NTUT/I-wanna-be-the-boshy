@@ -10,7 +10,6 @@
 #include "BulletTypeB.hpp"
 #include "BulletTypeC.hpp"
 #include "LightAttack.hpp"
-#include "Boss1/BossInfoText.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "MapInfoLoader.hpp"
@@ -52,7 +51,6 @@
         float m_WaitTimer = 0.0f;
         float m_ShootTimer = 0.0f;
 
-        std::shared_ptr<BossInfoText> m_Text;
         std::shared_ptr<BossHpInfo> m_HP;
 
         AttackType m_AttackType = AttackType::SPAWN;

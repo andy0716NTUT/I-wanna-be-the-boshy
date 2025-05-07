@@ -75,8 +75,6 @@ add_executable(${PROJECT_NAME}
         src/Boss1/BulletTypeB.cpp
         include/Boss1/BulletTypeC.hpp
         src/Boss1/BulletTypeC.cpp
-        include/Boss1/BossInfoText.hpp
-        src/Boss1/BossInfoText.cpp
         include/Boss1/BossHpInfo.hpp
 )
 
