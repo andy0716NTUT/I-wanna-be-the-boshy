@@ -14,7 +14,7 @@ void App::Start() {
     currentY = 0;
 
     m_World = std::make_shared<World>();
-
+    m_BGM = std::make_shared<BgmManager>(RESOURCE_DIR"/BGM/MENU.mp3");
     // 初始化角色動畫
     std::unordered_map<Character::MoveState, std::vector<std::string>> animationPaths = {
         {Character::MoveState::IDLE, {RESOURCE_DIR"/Image/Character/idle/idle1.png", RESOURCE_DIR"/Image/Character/idle/idle2.png"}},

@@ -76,6 +76,8 @@ add_executable(${PROJECT_NAME}
         include/Boss1/BulletTypeC.hpp
         src/Boss1/BulletTypeC.cpp
         include/Boss1/BossHpInfo.hpp
+        src/Boss1/BossDeadAnimation.cpp
+        include/Boss1/BossDeadAnimation.hpp
 )
 
 if(MSVC)

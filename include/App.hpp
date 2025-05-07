@@ -8,12 +8,12 @@
 #include "Util/Input.hpp"
 #include "Util/Logger.hpp"
 #include "Character.hpp"
-#include "Util/BGM.hpp"
 #include "AnimatedCharacter.hpp"
 #include "Menu.hpp"
 #include "Bullet.hpp"
 #include "MapInfoLoader.hpp"
 #include "World.hpp"
+#include "BgmManager.hpp"
 #include "MapObject/CheckPoint.hpp"
 #include <iostream>
 
@@ -97,6 +97,7 @@ private:
     Util::Renderer m_Root;
     State m_CurrentState = State::START;
 
+    std::shared_ptr<BgmManager> m_BGM;
     std::shared_ptr<Menu> m_Menu;
     std::shared_ptr<MapInfoLoader> m_MapLoader;
     std::shared_ptr<AnimatedCharacter> m_Boshy;

@@ -10,6 +10,7 @@
 #include "BulletTypeB.hpp"
 #include "BulletTypeC.hpp"
 #include "LightAttack.hpp"
+#include "Boss1/BossDeadAnimation.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "MapInfoLoader.hpp"
@@ -22,6 +23,7 @@
             LIGHTATTACK,
             TYPEB,
             TYPEC,
+            DEAD,
         };
         Boss1();
         void Spawn(float deltaType,Util::Renderer& rootRenderer);
@@ -38,7 +40,7 @@
 
         bool playerDead();
 
-        bool Boss1::IsDead() const;
+        bool IsDead() const;
     private:
         int maxHp = 40;
         int currentHp = 40;
@@ -55,6 +57,7 @@
 
         AttackType m_AttackType = AttackType::SPAWN;
         std::shared_ptr<Util::Animation> m_Animation;
+        std::shared_ptr<BossDeadAnimation> m_DeadAnimation;
 
         int TypeAShootCount = 0;
         std::vector<std::shared_ptr<BulletTypeA>> m_BulletsA;

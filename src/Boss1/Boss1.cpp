@@ -9,7 +9,10 @@ Boss1::Boss1() {
     }
     m_Animation = std::make_shared<Util::Animation>(frames, true, 300, true);
     m_Animation->Play();
-    m_Drawable = m_Animation;
+    SetDrawable(m_Animation);
+
+
+
     m_Transform.translation.x = 500;
     m_Transform.translation.y = -300;
 }
@@ -52,6 +55,21 @@ bool Boss1::playerDead() {
 }
 
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
+    if (this->IsDead()) {
+        if (!m_DeadAnimation) {
+            ClearGameObjects(m_BulletsA);
+            ClearGameObjects(m_BulletsB);
+            ClearGameObjects(m_BulletsC);
+            m_BulletsA.clear();
+            m_BulletsB.clear();
+            m_BulletsC.clear();
+            m_DeadAnimation = std::make_shared<BossDeadAnimation>();
+            rootRenderer.AddChild(m_DeadAnimation);
+        }
+
+        m_Transform.translation.y -= 100.0f * deltaTime;
+        m_DeadAnimation->SetPOsition(this->m_Transform.translation);
+    }
     if (m_AttackType == AttackType::SPAWN) {
         if (Util::Input::IsKeyDown(Util::Keycode::S)) {
             m_AttackType = AttackType::TYPEA;
@@ -68,7 +86,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
             if (m_WaitTimer >= 3.0f) m_AttackType = AttackType::TYPEA;
         }
         m_Transform.translation.y = m_SpawnY;
-    } else if (m_AttackType != AttackType::SPAWN) {
+    } else if (m_AttackType != AttackType::SPAWN && !IsDead()) {
         if (m_CanMoveVertically) {  // ⭐ 只有允許時才上下移動
             const float amplitude = 350.0f;
             const float frequency = 2.0f;

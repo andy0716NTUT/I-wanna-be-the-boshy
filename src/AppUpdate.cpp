@@ -40,6 +40,7 @@ void App::Update() {
 
             ReloadMapObjects();
             m_Boshy->SetPosition({525,-372});
+            m_BGM->SetBGM(RESOURCE_DIR"/BGM/WORLD1.mp3");
         }
     }else{
         glm::vec2 position = m_Boshy->GetPosition();
