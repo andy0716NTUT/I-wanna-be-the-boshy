@@ -3,7 +3,6 @@
 //
 
 #include "BgmManager.hpp"
-
 #include <iostream>
 
 BgmManager::BgmManager(std::string SoundPath){

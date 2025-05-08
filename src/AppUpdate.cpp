@@ -13,6 +13,10 @@ void App::Update() {
     static float switchTimer = 0.0f; // 地圖切換
     static bool isSwitch = false; // 地圖切換狀態
     const float switchInterval = 1.0f; // 每3秒切換一次
+    static bool keepExtending = true; // 平台延伸控制
+    static int startTileX = 28; // 移到外部
+    static int startTileY = 56; // 移到外部
+    static float platformTimer = 0.0f; // 移到外部
     shootCooldown -= deltaTime * 4;
     std::stringstream ss;
     bool needsRespawn = false;
@@ -402,11 +406,32 @@ void App::Update() {
             }
         }
         if (CurrentPhase == "13") {
+            // 先更新 Boshy 的位置
+            
             if (!m_Boss1) {
                 m_Boss1 = std::make_shared<Boss1>();
                 m_Root.AddChild(m_Boss1);
                 m_Boss1->Spawn(deltaTime,m_Root);
             }
+
+            // 只有在 Boss 死後才開始平台延伸
+            if (m_Boss1->Boss1Finished()) {
+                platformTimer += deltaTime;
+                if (keepExtending && platformTimer >= 0.2f) {
+                    if (startTileX < 80) {
+                        m_MapLoader->SetTile(startTileX, startTileY, 8);
+                        m_MapLoader->SetTile(startTileX + 1, startTileY, 8);
+                        m_MapLoader->SetTile(startTileX, startTileY + 1, 8);
+                        m_MapLoader->SetTile(startTileX + 1, startTileY + 1, 8);
+                        auto newPlatforms = CreateGameObjectsFromMap<Platform>(m_MapLoader, m_Root);
+                        m_Platform.insert(m_Platform.end(), newPlatforms.begin(), newPlatforms.end());
+                        startTileX += 2;
+                        platformTimer = 0.0f;
+                        std::cout << "Platform extended to: " << startTileX << std::endl;
+                    }
+                }
+            }
+
             m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
             for (auto& bullet : m_Bullets) {
                 if (bullet && bullet->IsVisible()) {
@@ -423,10 +448,12 @@ void App::Update() {
             if (m_Boss1->playerDead() && !GodMode) {
                 Respawn();
             }
-        }else {
+        } else {
             if (m_Boss1)ClearGameObjects(m_Boss1);
         }
-        // Update陷阱
+
+        // 添加調試信息
+        // 更新陷阱
         if (trapCreated) {
             if (m_phase2trap_down) m_phase2trap_down->Update(deltaTime);
             if (m_phase2trap_up) m_phase2trap_up->Update(deltaTime);

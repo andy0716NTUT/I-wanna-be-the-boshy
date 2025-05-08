@@ -119,6 +119,8 @@ private:
     bool trapCreated = false;
     bool isDead = false;
     float shootCooldown = 0;
+    bool NotFirstTryBoss= false;
+
 
 };
 

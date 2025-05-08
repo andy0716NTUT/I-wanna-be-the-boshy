@@ -40,10 +40,12 @@
 
         bool playerDead();
 
+        bool Boss1Finished();
+
         bool IsDead() const;
     private:
-        int maxHp = 40;
-        int currentHp = 40;
+        int maxHp = 5;
+        int currentHp = 5;
         bool m_CanMoveVertically = true;
         bool isPlayerDead = false;
         float Health = 100;
@@ -52,6 +54,9 @@
         float m_SpawnY = -300.0f;
         float m_WaitTimer = 0.0f;
         float m_ShootTimer = 0.0f;
+
+
+        bool DeadAnimationFinished = false;
 
         std::shared_ptr<BossHpInfo> m_HP;
 

@@ -9,6 +9,7 @@ void App::End() { // NOLINT(this method will mutate members in the future)
 }
 void App::Respawn() {
     isDead = true;
+    NotFirstTryBoss = true;
     currentX = checkPointX;
     currentY = checkPointY;
     if (CurrentPhase != currentCheckPointPhase) {

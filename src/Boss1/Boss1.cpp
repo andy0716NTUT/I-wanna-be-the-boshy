@@ -1,6 +1,7 @@
 #include "../include/Boss1/Boss1.hpp"
 
 #include "GameObjectHelper.hpp"
+#include "Util/Logger.hpp"
 
 Boss1::Boss1() {
     std::vector<std::string> frames;
@@ -54,6 +55,11 @@ bool Boss1::playerDead() {
     return this->isPlayerDead;
 }
 
+bool Boss1::Boss1Finished() {
+    return DeadAnimationFinished;
+}
+
+
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
     if (this->IsDead()) {
         if (!m_DeadAnimation) {
@@ -69,6 +75,10 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
 
         m_Transform.translation.y -= 100.0f * deltaTime;
         m_DeadAnimation->SetPOsition(this->m_Transform.translation);
+
+        if (m_Transform.translation.y < -480) {
+            DeadAnimationFinished = true;
+        }
     }
     if (m_AttackType == AttackType::SPAWN) {
         if (Util::Input::IsKeyDown(Util::Keycode::S)) {
