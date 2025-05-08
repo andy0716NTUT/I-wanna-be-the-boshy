@@ -126,7 +126,29 @@ void RenderImGui(App& app) {
         app.ReloadMapObjects();
         std::cout << "tp: " << newPhase << std::endl;
     }
+    ImGui::Separator();
+    ImGui::Text("cheat");
 
+    // 添加上帝模式選項
+    if (ImGui::Checkbox("God", &app.GodMode)) {
+        // 切換上帝模式的額外操作（如果需要）
+    }
+
+    if (app.GodMode) {
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(1.0f, 0.4f, 0.4f, 1.0f), "ac");
+
+        // 上帝模式子選項
+        ImGui::Indent();
+        static bool invincible = true;
+        static bool infiniteJump = true;
+        static bool noClip = false;
+
+        ImGui::Checkbox("God", &invincible);
+        ImGui::Checkbox("ij", &infiniteJump);
+        ImGui::Checkbox("wh", &noClip);
+        ImGui::Unindent();
+    }
     ImGui::End();
 
     ImGui::Render();

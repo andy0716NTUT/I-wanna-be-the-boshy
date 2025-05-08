@@ -17,6 +17,7 @@ void App::Update() {
     std::stringstream ss;
     bool needsRespawn = false;
     static bool isJumping = false;
+
     if (m_GamePhase == GamePhase::MENU) {
         m_Menu->Update(deltaTime);
         m_Root.Update();
@@ -78,14 +79,19 @@ void App::Update() {
         int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
         int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
 
-        if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5)
-        {
-            position = currentCheckPoint; // 傳回到檢查點
-            currentX = checkPointX;
-            currentY = checkPointY;
-            needsRespawn = true;
-            Respawn(); // 呼叫重生邏輯
+        // 上帝模式下忽略致命碰撞
+        if (!GodMode) {
+            // 原有的碰撞檢測代碼
+            if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5)
+            {
+                position = currentCheckPoint;
+                currentX = checkPointX;
+                currentY = checkPointY;
+                needsRespawn = true;
+                Respawn();
+            }
         }
+
         if (needsRespawn) {
             // 更新界面
             m_Root.Update();
@@ -175,10 +181,10 @@ void App::Update() {
         }
 
         else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-            if (jumpCount < 2) {
-                velocityY = JumpPower;  // 使用最大跳跃力度
+            if (jumpCount < 2 || GodMode) {  // 上帝模式下無限跳躍
+                velocityY = JumpPower;
                 isJumping = true;
-                jumpCount++;
+                if (!GodMode) jumpCount++;  // 只有非上帝模式才計算跳躍次數
 
                 if (animatedBoshy->GetDirection() == Character::direction::LEFT)
                     animatedBoshy->SetState(Character::MoveState::JUMP_LEFT);
@@ -381,7 +387,7 @@ void App::Update() {
         }
         if (m_phase8bird && (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")) {
             m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
-            if (glm::distance(m_phase8bird->GetPosition(),m_Boshy->GetPosition()) < 20.0f) {
+            if (glm::distance(m_phase8bird->GetPosition(),m_Boshy->GetPosition()) < 20.0f && !GodMode) {
                 position = currentCheckPoint; // 传回到检查点
                 currentX = checkPointX;
                 currentY = checkPointY;
@@ -414,9 +420,8 @@ void App::Update() {
                     }
                 }
             }
-            if (m_Boss1->playerDead()) {
+            if (m_Boss1->playerDead() && !GodMode) {
                 Respawn();
-
             }
         }else {
             if (m_Boss1)ClearGameObjects(m_Boss1);
@@ -489,11 +494,11 @@ void App::Update() {
                 enemy->TakeDamage(1);
             }
             // 检查玩家碰撞
-            if (enemy->CheckPlayerCollision(position)) {
-                position = currentCheckPoint; // 传回到检查点
+            if (enemy->CheckPlayerCollision(position) && !GodMode) {
+                position = currentCheckPoint;
                 currentX = checkPointX;
                 currentY = checkPointY;
-                Respawn(); // 调用重生逻辑
+                Respawn();
                 break;
             }
         }

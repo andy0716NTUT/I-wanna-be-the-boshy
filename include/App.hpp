@@ -59,7 +59,7 @@ public:
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
 
     void ReloadMapObjects();
-
+    bool GodMode = false; // 上帝模式開關
     bool IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight);
 
     bool IsAABBOverlap(
