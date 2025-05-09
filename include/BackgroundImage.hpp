@@ -21,6 +21,17 @@ public:
         auto temp = std::dynamic_pointer_cast<Util::Image>(m_Drawable);
         temp->SetImage(ImagePath(phase,CurrentWorld));
     }
+    void rotate(float deltaTime) {
+        m_Transform.rotation += (M_PI * deltaTime)/3; // Rotate π radians per second (half circle per second)
+    }
+
+    void resetRotation() {
+        m_Transform.rotation = 0.0f; // Reset rotation to initial state
+    }
+
+    float getRotation() const {
+        return m_Transform.rotation;
+    }
 };
 
 

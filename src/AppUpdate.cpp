@@ -217,6 +217,14 @@ void App::Update() {
             }
         }
 
+        // 更新角色位置以跟隨背景旋轉
+        if (m_PRM) {
+            auto background = m_PRM->GetBackground();
+            if (background) {
+                animatedBoshy->UpdatePositionWithRotation(background->getRotation());
+            }
+        }
+
         // 子彈移動邏輯修正
         for (auto& bullet : m_Bullets) {
             bullet->UpdateWithCollision(deltaTime, m_MapLoader);
@@ -554,6 +562,8 @@ void App::Update() {
         }
         //=================================================================WORLD2屎山===================================================================================
         if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2") {
+            m_PRM->rotate(deltaTime);
+            m_Boshy->UpdatePositionWithRotation(m_PRM->GetBackground()->getRotation());
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval)
             {
@@ -562,8 +572,9 @@ void App::Update() {
                 m_PRM->SetPhase(newPhase,CurrentWorld);
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f; // 重置計時器
-
             }
+        }else{
+            m_PRM->resetRotation();
         }
         m_Root.Update();
         RenderImGui(*this);

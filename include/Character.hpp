@@ -37,6 +37,11 @@ public:
 
     direction GetDirection(){return m_direction;}
 
+    void UpdatePositionWithRotation(float rotation) {
+        // 只更新繪製時的旋轉角度，不改變實際位置
+        m_Transform.rotation = rotation;
+    }
+
 private:
     float m_VelocityY = 0.0f;
     float m_Gravity = -0.98f * 1.5f;

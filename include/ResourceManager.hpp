@@ -16,6 +16,10 @@ public:
         return {m_Background};
     }
     void SetPhase(std::string phase,std::string CurrentWorld);
+    void rotate(float deltaTime);
+    void resetRotation();
+
+    std::shared_ptr<BackgroundImage> GetBackground() const { return m_Background; }
 };
 
 
