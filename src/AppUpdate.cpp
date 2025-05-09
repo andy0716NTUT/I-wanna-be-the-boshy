@@ -270,10 +270,12 @@ void App::Update() {
             std::string newPhase;
             if (CurrentPhase == "-") {
                 newPhase = "none";
-            } else if (CurrentPhase == "3") {
+            } else if (m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "3") {
                 newPhase = "3_1";
-            } else if (CurrentPhase == "4") {
+            } else if (m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "4") {
                 newPhase = "4_1";
+            }else if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2"){
+                newPhase = "2_1";
             } else {
                 newPhase = CurrentPhase;
             }
@@ -353,7 +355,7 @@ void App::Update() {
                 }
             }
         }
-        if (CurrentPhase == "2" && !trapCreated) {
+        if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
                 m_MapLoader,
@@ -373,7 +375,7 @@ void App::Update() {
             m_Root.AddChild(m_phase2trap_up);
             trapCreated = true;
 
-        }else if (CurrentPhase != "2" && trapCreated) {
+        }else if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase != "2")&& trapCreated) {
             m_phase2trap_down->clear();
             m_phase2trap_up->clear();
             trapCreated = false;
@@ -406,14 +408,12 @@ void App::Update() {
             }
         }
         if (CurrentPhase == "13") {
-            // 先更新 Boshy 的位置
-            
             if (!m_Boss1) {
                 m_Boss1 = std::make_shared<Boss1>();
                 m_Root.AddChild(m_Boss1);
                 m_Boss1->Spawn(deltaTime,m_Root);
+                m_BGM->SetBGM(RESOURCE_DIR"/BGM/BOSS1.mp3");
             }
-
             // 只有在 Boss 死後才開始平台延伸
             if (m_Boss1->Boss1Finished()) {
                 platformTimer += deltaTime;
@@ -542,6 +542,29 @@ void App::Update() {
         }
         // 更新角色位置與整體狀態
         m_Boshy->SetPosition(position);
+        if (CurrentPhase == "14" && glm::distance(m_Boshy->GetPosition(),{300,-404}) < 20.0f) {
+            m_GamePhase = GamePhase::WORLD2;
+            CurrentWorld = GamePhaseToString(m_GamePhase);
+            auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
+            std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
+            m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
+            m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
+            m_Boshy->SetPosition({-500,100});
+            ReloadMapObjects();
+        }
+        //=================================================================WORLD2屎山===================================================================================
+        if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2") {
+            switchTimer += deltaTime;
+            if (switchTimer >= switchInterval)
+            {
+                isSwitch = !isSwitch;
+                std::string newPhase = isSwitch ? "2_2" : "2_1";
+                m_PRM->SetPhase(newPhase,CurrentWorld);
+                m_MapLoader->LoadMap(newPhase,CurrentWorld);
+                switchTimer = 0.0f; // 重置計時器
+
+            }
+        }
         m_Root.Update();
         RenderImGui(*this);
     }
