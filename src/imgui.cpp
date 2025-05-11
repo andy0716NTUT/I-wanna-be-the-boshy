@@ -111,20 +111,26 @@ void RenderImGui(App& app) {
     ImGui::Separator();
     ImGui::Text("map tp");
 
-    static const char* maps[] = {"1", "2", "3_1", "3_2", "4_1", "4_2", "5", "6", "7", "8", "9", "10", "11", "12"};
-    static int currentMap = 0;
+    // 世界選擇
+    static const char* worlds[] = {"WORLD1", "WORLD2"};
+    static int currentWorld = 0;
+    ImGui::Combo("World", &currentWorld, worlds, IM_ARRAYSIZE(worlds));
 
-    // 下拉框選擇地圖
-    ImGui::Combo("slt", &currentMap, maps, IM_ARRAYSIZE(maps));
+    // 階段選擇
+    static const char* phases[] = {"1", "2", "3_1", "3_2", "4_1", "4_2", "5", "6", "7", "8", "9", "10", "11", "12"};
+    static int currentPhase = 0;
+    ImGui::Combo("Phase", &currentPhase, phases, IM_ARRAYSIZE(phases));
 
     // 傳送按鈕
     if (ImGui::Button("tp")) {
-        // 獲取當前選擇的地圖
-        std::string newPhase = maps[currentMap];
+        // 獲取當前選擇的世界和階段
+        std::string newWorld = worlds[currentWorld];
+        std::string newPhase = phases[currentPhase];
 
-        app.TeleportToMap(newPhase);
+        // 更新世界和階段ㄝ
+        app.TeleportToMap(newPhase, newWorld);
         app.ReloadMapObjects();
-        std::cout << "tp: " << newPhase << std::endl;
+        std::cout << "tp: World " << newWorld << ", Phase " << newPhase << std::endl;
     }
     ImGui::Separator();
     ImGui::Text("cheat");

@@ -559,10 +559,14 @@ void App::Update() {
             m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
             m_Boshy->SetPosition({-500,100});
             ReloadMapObjects();
+            switchTimer = 0.0f; // 重置 switchTimer
+            isSwitch = false;   // 重置切換狀態
         }
         //=================================================================WORLD2屎山===================================================================================
         if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2") {
+            // 只旋轉背景
             m_PRM->rotate(deltaTime);
+            // 更新角色的視覺旋轉，但不改變實際位置
             m_Boshy->UpdatePositionWithRotation(m_PRM->GetBackground()->getRotation());
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval)
@@ -574,7 +578,9 @@ void App::Update() {
                 switchTimer = 0.0f; // 重置計時器
             }
         }else{
+            switchTimer = 0.0f; // 重置 switchTimer
             m_PRM->resetRotation();
+            m_Boshy->UpdatePositionWithRotation(0.0f); // 重置角色的旋轉
         }
         m_Root.Update();
         RenderImGui(*this);

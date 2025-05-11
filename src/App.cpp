@@ -77,9 +77,19 @@ bool App::IsAABBOverlap(
     return rightA > leftB && leftA < rightB &&
            bottomA < topB && (topA + yOffsetTop) > bottomB - yExtraTop;
 }
-void App::TeleportToMap(const std::string& mapName) {
-    // 保存地图名称
+void App::TeleportToMap(const std::string& mapName, const std::string& worldName) {
+    // 保存地图名称和世界名称
     CurrentPhase = mapName;
+    CurrentWorld = worldName;
+
+    // 更新遊戲階段
+    if (worldName == "WORLD1") {
+        m_GamePhase = GamePhase::WORLD1;
+    } else if (worldName == "WORLD2") {
+        m_GamePhase = GamePhase::WORLD2;
+    } else if (worldName == "WORLD3") {
+        m_GamePhase = GamePhase::WORLD3;
+    }
 
     // 清除所有子弹
     ClearGameObjects(m_Bullets);
@@ -94,9 +104,8 @@ void App::TeleportToMap(const std::string& mapName) {
     m_jumpBoost.clear();
 
     // 设置资源管理器阶段并加载新地图
-    m_PRM->SetPhase(mapName,CurrentWorld);
-    m_MapLoader->LoadMap(mapName,CurrentWorld);
-
+    m_PRM->SetPhase(mapName, CurrentWorld);
+    m_MapLoader->LoadMap(mapName, CurrentWorld);
 
     // 重新创建游戏对象
     m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
@@ -105,10 +114,12 @@ void App::TeleportToMap(const std::string& mapName) {
     m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
     m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
 
-    // 重置玩家位置到合适的起始点
-    glm::vec2 startPos = {0.0f, 0.0f};
+    // 更新世界地圖位置
+    auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
+    std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, mapName);
 
-    // 根据地图设置不同的起始位置
+    // 根據地圖設置起始位置
+    glm::vec2 startPos = {0.0f, 0.0f};
     if (mapName == "1") {
         startPos = {-500.0f, 0.0f};
     } else if (mapName == "2") {
@@ -133,16 +144,20 @@ void App::TeleportToMap(const std::string& mapName) {
         startPos = {-500.0f, 200.0f};
     } else if (mapName.find("12") == 0) {
         startPos = {525.0f, 180.0f};
-        currentX = 2;
-        currentY = 5;
     }
 
     // 设置角色位置
     m_Boshy->SetPosition(startPos);
 
     // 更新检查点位置
+    if(worldName == "WORLD1"){
+        m_GamePhase = GamePhase::WORLD1;
+    }else if(worldName == "WORLD2"){
+        m_GamePhase = GamePhase::WORLD2;
+    }
     currentCheckPoint = startPos;
     currentCheckPointPhase = mapName;
 
-    std::cout << "已传送到地图: " << mapName << std::endl;
+    std::cout << "已传送到世界: " << worldName << ", 地图: " << mapName 
+              << ", 位置: (" << currentX << ", " << currentY << ")" << std::endl;
 }

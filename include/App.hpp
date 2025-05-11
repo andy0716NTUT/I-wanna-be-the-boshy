@@ -51,8 +51,7 @@ public:
         std::string switchTimerInfo;
     } m_DebugInfo;
 
-
-    void TeleportToMap(const std::string& mapName);
+    void TeleportToMap(const std::string& mapName, const std::string& worldName);
 
     State GetCurrentState() const { return m_CurrentState; }
 
@@ -84,18 +83,19 @@ public:
     void End(); // NOLINT(readability-convert-member-functions-to-static)
     float Gravity = -0.5f;
     App();
+
+    std::string CurrentWorld = "";  // 移到 public 區塊
 private:
 
     glm::vec2 currentCheckPoint = {0,0};
     std::string currentCheckPointPhase = "1";
     std::string CurrentPhase = "";
-    std::string CurrentWorld = "";
     int currentX,currentY;
     int checkPointX = 0, checkPointY = 0;
     std::shared_ptr<World> m_World;
+    State m_CurrentState = State::START;
     GamePhase m_GamePhase = GamePhase::MENU;
     Util::Renderer m_Root;
-    State m_CurrentState = State::START;
 
     std::shared_ptr<BgmManager> m_BGM;
     std::shared_ptr<Menu> m_Menu;
