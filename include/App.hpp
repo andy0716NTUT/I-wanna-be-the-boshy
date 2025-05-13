@@ -49,6 +49,10 @@ public:
         std::string tileInfo;
         std::string phaseInfo;
         std::string switchTimerInfo;
+        std::string mousePtsdPos;  // PTSD座標系統中的鼠標位置
+        std::string mouseGamePos;  // 遊戲座標系統中的鼠標位置
+        std::string boshyPtsdPos;  // PTSD座標系統中的角色位置
+        std::string overlapInfo;   // 重疊狀態信息
     } m_DebugInfo;
 
     void TeleportToMap(const std::string& mapName, const std::string& worldName);
