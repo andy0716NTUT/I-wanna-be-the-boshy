@@ -34,7 +34,7 @@ void bear::Update(glm::vec2 playerPosition) {
     switch (this->attack) {
         case AttackType::CHASE:
             if (m_Transform.translation.x - playerPosition.x > 0 )this->dir = direction::left;
-            case AttackType::ROUND:
+            if (m_Transform.translation.x - playerPosition.x < 0)this->dir = direction::right;
 
     }
 }

@@ -54,15 +54,13 @@ add_executable(${PROJECT_NAME}
         include/MapObject/CheckPoint.hpp
         src/CheckPoint.cpp
         src/imgui.cpp
-<<<<<<< HEAD
         include/MapObject/fallingground.hpp
         include/GameObjectHelper.hpp
         include/bear.hpp
         src/bear.cpp
         include/bear.hpp
-=======
-        include/MapObject/fallingground.hpp        include/GameObjectHelper.hpp
->>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
+        include/MapObject/fallingground.hpp
+        include/GameObjectHelper.hpp
         include/MapObject/phase2trap.hpp
         src/phase2trap.cpp
         include/MapObject/bird.hpp
@@ -82,6 +80,8 @@ add_executable(${PROJECT_NAME}
         include/Boss1/BossHpInfo.hpp
         src/Boss1/BossDeadAnimation.cpp
         include/Boss1/BossDeadAnimation.hpp
+        src/spider.cpp
+        include/MapObject/spider.hpp
 )
 
 if(MSVC)
