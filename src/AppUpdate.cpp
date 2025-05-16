@@ -9,10 +9,9 @@ void App::Update() {
     const float MaxFallSpeed = -10;
     static int jumpCount = 0;
     static float shootCooldown = 0;
-    const float deltaTime = 1.0f / 60.0f;
-    static float switchTimer = 0.0f; // 地圖切換
+    const float deltaTime = 1.0f / 60.0f;    static float switchTimer = 0.0f; // 地圖切換
     static bool isSwitch = false; // 地圖切換狀態
-    const float switchInterval = 1.0f; // 每3秒切換一次
+    const float switchInterval = 1.0f; // 每1秒切換一次
     static bool keepExtending = true; // 平台延伸控制
     static int startTileX = 28; // 移到外部
     static int startTileY = 56; // 移到外部
@@ -299,11 +298,10 @@ void App::Update() {
             ReloadMapObjects();
 
             std::cout << "Current Phase : " << CurrentPhase << std::endl;
-        }
-        if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2")
+        }        if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2")
         {
             switchTimer += deltaTime;
-            std::cout << switchTimer << std::endl;
+            // 移除過度頻繁的輸出，避免降低性能
             if (switchTimer >= switchInterval)
             {
                 isSwitch = !isSwitch;
@@ -319,48 +317,9 @@ void App::Update() {
                 isSwitch = !isSwitch;
                 std::string newPhase = isSwitch ? "4_2" : "4_1";
 
-                glm::vec2 bearPosition;
-                Character::direction bearDirection;
-                std::shared_ptr<Enemy> bearEnemy = nullptr;
-
-                for (auto& enemy : m_Enemies) {
-                    if (enemy->GetType() == Enemy::EnemyType::BASIC) {
-                        bearPosition = enemy->GetPosition();
-                        bearDirection = enemy->GetDirection();
-                        bearEnemy = enemy;
-                        break;
-                    }
-                }
-
                 m_PRM->SetPhase(newPhase,CurrentWorld);
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f;
-
-                if (bearEnemy && (newPhase.find("4") == 0)) {
-                    for (auto& enemy : m_Enemies) {
-                        if (enemy != bearEnemy) {
-                            enemy->SetVisible(false);
-                            enemy->SetDrawable(nullptr);
-                        }
-                    }
-                    m_Enemies.clear();
-                    m_Enemies.push_back(bearEnemy);
-                } else {
-                    ClearGameObjects(m_Enemies);
-                    m_Enemies.clear();
-                    m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
-                }
-            }
-        } else {
-            // 清除熊敌人
-            for (auto it = m_Enemies.begin(); it != m_Enemies.end();) {
-                if ((*it)->GetType() == Enemy::EnemyType::BASIC) {
-                    (*it)->SetVisible(false);
-                    (*it)->SetDrawable(nullptr);
-                    it = m_Enemies.erase(it);
-                } else {
-                    ++it;
-                }
             }
         }
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
@@ -522,21 +481,9 @@ void App::Update() {
 
             }
         }
-        for (auto& enemy : m_Enemies) {
-            enemy->Update(deltaTime, m_MapLoader, m_Boshy->GetPosition());
-            // 检查子弹碰撞
-            if (enemy->CheckBulletCollision(m_Bullets)) {
-                enemy->TakeDamage(1);
-            }
-            // 检查玩家碰撞
-            if (enemy->CheckPlayerCollision(position) && !GodMode) {
-                position = currentCheckPoint;
-                currentX = checkPointX;
-                currentY = checkPointY;
-                Respawn();
-                break;
-            }
-        }
+        
+        // 检查鼠标和角色是否重疊（使用 PTSD Position）
+        
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
         // 關閉或重生邏輯
@@ -562,14 +509,14 @@ void App::Update() {
         glm::vec2 boshyPtsdPos = {m_Boshy->GetPosition().x + 640, -(480 - m_Boshy->GetPosition().y)};
         float distance = glm::distance(glm::vec2(currentPtsdPos.x, -currentPtsdPos.y), boshyPtsdPos);
         bool isOverlapping = (distance >= 790.0f && distance <= 810.0f) && !GodMode;
-        if (isOverlapping) {
-            std::cout << "Mouse collision! Distance: " << distance << std::endl;
-            position = currentCheckPoint; // 傳回到檢查點
-            currentX = checkPointX;
-            currentY = checkPointY;
-            needsRespawn = true;
-            Respawn();
-        }
+        // if (isOverlapping) {
+        //     std::cout << "Mouse collision! Distance: " << distance << std::endl;
+        //     position = currentCheckPoint; // 傳回到檢查點
+        //     currentX = checkPointX;
+        //     currentY = checkPointY;
+        //     needsRespawn = true;
+        //     Respawn();
+        // }
         
         // 更新 ImGui 調試信息
         ss.str("");
@@ -618,9 +565,8 @@ void App::Update() {
                 m_PRM->SetPhase(newPhase,CurrentWorld);
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f; // 重置計時器
-            }
-        }else{
-            switchTimer = 0.0f; // 重置 switchTimer
+            }        }else if (m_GamePhase == GamePhase::WORLD2) {
+            // 只在World2的其他階段重置旋轉，但不影響World1的計時器
             m_PRM->resetRotation();
             m_Boshy->UpdatePositionWithRotation(0.0f); // 重置角色的旋轉
         }

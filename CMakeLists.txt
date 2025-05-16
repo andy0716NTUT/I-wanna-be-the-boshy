@@ -54,11 +54,7 @@ add_executable(${PROJECT_NAME}
         include/MapObject/CheckPoint.hpp
         src/CheckPoint.cpp
         src/imgui.cpp
-        include/MapObject/fallingground.hpp
-        include/GameObjectHelper.hpp
-        include/enemy.hpp
-        src/enemy.cpp
-        include/enemy.hpp
+        include/MapObject/fallingground.hpp        include/GameObjectHelper.hpp
         include/MapObject/phase2trap.hpp
         src/phase2trap.cpp
         include/MapObject/bird.hpp
