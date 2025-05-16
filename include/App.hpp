@@ -23,7 +23,7 @@
 #include "MapObject/fallingground.hpp"
 #include "MapObject/Platform.hpp"
 #include "GameObjectHelper.hpp"
-#include "enemy.hpp"
+#include "bear.hpp"
 #include "MapObject/bird.hpp"
 #include "MapObject/phase2trap.hpp"
 
@@ -113,7 +113,6 @@ private:
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
     std::vector<std::shared_ptr<Platform>> m_Platform;
-    std::vector<std::shared_ptr<Enemy>> m_Enemies;
 
 
     bool trapCreated = false;

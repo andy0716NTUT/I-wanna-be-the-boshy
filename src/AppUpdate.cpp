@@ -313,56 +313,6 @@ void App::Update() {
                 switchTimer = 0.0f; // 重置計時器
             }
         }
-        if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
-            switchTimer += deltaTime;
-            if (switchTimer >= switchInterval) {
-                isSwitch = !isSwitch;
-                std::string newPhase = isSwitch ? "4_2" : "4_1";
-
-                glm::vec2 bearPosition;
-                Character::direction bearDirection;
-                std::shared_ptr<Enemy> bearEnemy = nullptr;
-
-                for (auto& enemy : m_Enemies) {
-                    if (enemy->GetType() == Enemy::EnemyType::BASIC) {
-                        bearPosition = enemy->GetPosition();
-                        bearDirection = enemy->GetDirection();
-                        bearEnemy = enemy;
-                        break;
-                    }
-                }
-
-                m_PRM->SetPhase(newPhase,CurrentWorld);
-                m_MapLoader->LoadMap(newPhase,CurrentWorld);
-                switchTimer = 0.0f;
-
-                if (bearEnemy && (newPhase.find("4") == 0)) {
-                    for (auto& enemy : m_Enemies) {
-                        if (enemy != bearEnemy) {
-                            enemy->SetVisible(false);
-                            enemy->SetDrawable(nullptr);
-                        }
-                    }
-                    m_Enemies.clear();
-                    m_Enemies.push_back(bearEnemy);
-                } else {
-                    ClearGameObjects(m_Enemies);
-                    m_Enemies.clear();
-                    m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
-                }
-            }
-        } else {
-            // 清除熊敌人
-            for (auto it = m_Enemies.begin(); it != m_Enemies.end();) {
-                if ((*it)->GetType() == Enemy::EnemyType::BASIC) {
-                    (*it)->SetVisible(false);
-                    (*it)->SetDrawable(nullptr);
-                    it = m_Enemies.erase(it);
-                } else {
-                    ++it;
-                }
-            }
-        }
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
@@ -520,21 +470,6 @@ void App::Update() {
                     }
                 }
 
-            }
-        }
-        for (auto& enemy : m_Enemies) {
-            enemy->Update(deltaTime, m_MapLoader, m_Boshy->GetPosition());
-            // 检查子弹碰撞
-            if (enemy->CheckBulletCollision(m_Bullets)) {
-                enemy->TakeDamage(1);
-            }
-            // 检查玩家碰撞
-            if (enemy->CheckPlayerCollision(position) && !GodMode) {
-                position = currentCheckPoint;
-                currentX = checkPointX;
-                currentY = checkPointY;
-                Respawn();
-                break;
             }
         }
         // 清除不可見的子彈

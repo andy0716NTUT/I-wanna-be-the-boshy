@@ -56,9 +56,9 @@ add_executable(${PROJECT_NAME}
         src/imgui.cpp
         include/MapObject/fallingground.hpp
         include/GameObjectHelper.hpp
-        include/enemy.hpp
-        src/enemy.cpp
-        include/enemy.hpp
+        include/bear.hpp
+        src/bear.cpp
+        include/bear.hpp
         include/MapObject/phase2trap.hpp
         src/phase2trap.cpp
         include/MapObject/bird.hpp

@@ -11,6 +11,8 @@
 
 #include "spdlog/fmt/bundled/chrono.h"
 #include "Util/GameObject.hpp"
+#include "Util/Renderer.hpp"
+#include "MapInfoLoader.hpp"
 
 // 封裝重複建立邏輯
 template<typename T>

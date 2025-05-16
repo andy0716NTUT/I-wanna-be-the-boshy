@@ -32,20 +32,17 @@ void App::ReloadMapObjects() {
     ClearGameObjects(m_CheckPoints);
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
-    ClearGameObjects(m_Enemies);
     if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
 
     m_CheckPoints.clear();
     m_jumpBoost.clear();
     m_Platform.clear();
     m_FallingGround.clear();
-    m_Enemies.clear();  // 清空敌人容器
 
     m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
     m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
     m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
     m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
-    m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);  // 重新创建敌人
 }
 bool App::IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight) {
     float fgTop = objectPos.y + objectHeight / 2;
@@ -97,7 +94,6 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     // 清除现有游戏对象
     ClearGameObjects(m_Platform);
     ClearGameObjects(m_FallingGround);
-    ClearGameObjects(m_Enemies);
     ClearGameObjects(m_CheckPoints);
     ClearGameObjects(m_jumpBoost);
     m_CheckPoints.clear();
@@ -112,7 +108,6 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
     m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
     m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
-    m_Enemies = Enemy::CreateFromMap(m_MapLoader, m_Root);
 
     // 更新世界地圖位置
     auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
