@@ -23,10 +23,7 @@
 #include "MapObject/fallingground.hpp"
 #include "MapObject/Platform.hpp"
 #include "GameObjectHelper.hpp"
-<<<<<<< HEAD
 #include "bear.hpp"
-=======
->>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
 #include "MapObject/bird.hpp"
 #include "MapObject/phase2trap.hpp"
 

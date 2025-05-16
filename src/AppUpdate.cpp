@@ -311,8 +311,7 @@ void App::Update() {
                 switchTimer = 0.0f; // 重置計時器
             }
         }
-<<<<<<< HEAD
-=======
+        
         if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval) {
@@ -324,7 +323,6 @@ void App::Update() {
                 switchTimer = 0.0f;
             }
         }
->>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
@@ -484,12 +482,6 @@ void App::Update() {
 
             }
         }
-<<<<<<< HEAD
-=======
-        
-        // 检查鼠标和角色是否重疊（使用 PTSD Position）
-        
->>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
         // 關閉或重生邏輯
