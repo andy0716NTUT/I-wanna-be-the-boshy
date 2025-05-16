@@ -48,7 +48,7 @@ void App::ReloadMapObjects() {
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
     if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
-    if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && (CurrentPhase.find("4_") || CurrentPhase != "5")) {
+    if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && (!CurrentPhase.find("4_") || CurrentPhase != "5")) {
         ClearGameObjects(m_bear);
     }
     m_CheckPoints.clear();
@@ -124,7 +124,7 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     if (mapName == "1") {
         startPos = {-500.0f, 0.0f};
     } else if (mapName == "2") {
-        startPos = {-500.0f, 100.0f};
+        startPos = {-610.0f, -372.0f};
     } else if (mapName.find("3") == 0) {
         startPos = {-500.0f, 200.0f};
     } else if (mapName.find("4") == 0) {
@@ -157,9 +157,6 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
         m_GamePhase = GamePhase::WORLD2;
     }
 
-    currentCheckPoint = startPos;
-    currentCheckPointPhase = mapName;
-    checkPointWorld = CurrentWorld;
 
     std::cout << "已传送到世界: " << worldName << ", 地图: " << mapName 
               << ", 位置: (" << currentX << ", " << currentY << ")" << std::endl;
