@@ -52,15 +52,22 @@ add_executable(${PROJECT_NAME}
         src/Bullet.cpp
         include/World.hpp
         include/MapObject/CheckPoint.hpp
+<<<<<<< HEAD
         src/CheckPoint.cpp
         src/imgui.cpp
+=======
+        src/CheckPoint.cpp        src/imgui.cpp
+>>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
         include/MapObject/fallingground.hpp
         include/GameObjectHelper.hpp
         include/bear.hpp
         src/bear.cpp
+<<<<<<< HEAD
         include/bear.hpp
         include/MapObject/fallingground.hpp
         include/GameObjectHelper.hpp
+=======
+>>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
         include/MapObject/phase2trap.hpp
         src/phase2trap.cpp
         include/MapObject/bird.hpp

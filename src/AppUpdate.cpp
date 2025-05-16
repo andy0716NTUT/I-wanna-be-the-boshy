@@ -310,8 +310,12 @@ void App::Update() {
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f; // 重置計時器
             }
+<<<<<<< HEAD
         }
         if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
+=======
+        }if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
+>>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval) {
                 isSwitch = !isSwitch;
@@ -320,6 +324,26 @@ void App::Update() {
                 m_PRM->SetPhase(newPhase,CurrentWorld);
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f;
+            }
+        
+            // Detect the bear if it exists
+            if (m_bear) {
+                // Set the MapInfoLoader and current phase for the bear
+                m_bear->SetMapInfoLoader(m_MapLoader);
+                m_bear->SetCurrentPhase(CurrentPhase);
+                
+                std::string currentPhaseCopy = CurrentPhase; // Create a copy for detect
+            
+                if (m_bear->detect(currentPhaseCopy)) {
+                    m_bear->SetVisible(true);
+                    std::cout << "Bear detected in phase " + currentPhaseCopy << std::endl;
+                    LOG_TRACE("Bear detected in phase " + currentPhaseCopy);
+                }
+                
+                // Update the bear if it is active
+                if (m_bear->exist()) {
+                    m_bear->Update(m_Boshy->GetPosition());
+                }
             }
         }
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
@@ -481,7 +505,10 @@ void App::Update() {
 
             }
         }
+<<<<<<< HEAD
         // 检查鼠标和角色是否重疊（使用 PTSD Position）
+=======
+>>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
         // 關閉或重生邏輯
