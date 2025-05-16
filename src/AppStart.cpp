@@ -41,11 +41,14 @@ void App::Start() {
     m_Boshy->SetPosition({0, 0});
     m_Boshy->SetZIndex(-1);
 
-    currentCheckPoint = m_Boshy->GetPosition();
-
-    m_Bullet = std::make_shared<Bullet>();
+    currentCheckPoint = m_Boshy->GetPosition();    m_Bullet = std::make_shared<Bullet>();
     m_Bullet->SetVisible(false);
-    m_Bullet->SetZIndex(-2);
+    m_Bullet->SetZIndex(-2);    // Initialize bear
+    m_bear = std::make_shared<bear>();
+    m_bear->SetZIndex(-2);
+    m_bear->SetVisible(false); // Initially invisible until detected in phase 4
+    m_Root.AddChild(m_bear); // Add to renderer right away
+    m_Root.AddChild(m_bear);
 
     m_MapLoader = std::make_shared<MapInfoLoader>();
 

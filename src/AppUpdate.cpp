@@ -310,9 +310,7 @@ void App::Update() {
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f; // 重置計時器
             }
-        }
-        
-        if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
+        }if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval) {
                 isSwitch = !isSwitch;
@@ -321,6 +319,26 @@ void App::Update() {
                 m_PRM->SetPhase(newPhase,CurrentWorld);
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f;
+            }
+        
+            // Detect the bear if it exists
+            if (m_bear) {
+                // Set the MapInfoLoader and current phase for the bear
+                m_bear->SetMapInfoLoader(m_MapLoader);
+                m_bear->SetCurrentPhase(CurrentPhase);
+                
+                std::string currentPhaseCopy = CurrentPhase; // Create a copy for detect
+            
+                if (m_bear->detect(currentPhaseCopy)) {
+                    m_bear->SetVisible(true);
+                    std::cout << "Bear detected in phase " + currentPhaseCopy << std::endl;
+                    LOG_TRACE("Bear detected in phase " + currentPhaseCopy);
+                }
+                
+                // Update the bear if it is active
+                if (m_bear->exist()) {
+                    m_bear->Update(m_Boshy->GetPosition());
+                }
             }
         }
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {

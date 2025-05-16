@@ -106,10 +106,10 @@ private:
     std::shared_ptr<MapInfoLoader> m_MapLoader;
     std::shared_ptr<AnimatedCharacter> m_Boshy;
     std::shared_ptr<Bullet> m_Bullet;
-    std::shared_ptr<ResourceManager> m_PRM;
-    std::shared_ptr<phase2trap> m_phase2trap_up;
+    std::shared_ptr<ResourceManager> m_PRM;    std::shared_ptr<phase2trap> m_phase2trap_up;
     std::shared_ptr<phase2trap> m_phase2trap_down;
     std::shared_ptr<Bird> m_phase8bird;
+    std::shared_ptr<bear> m_bear;
     std::shared_ptr<Boss1> m_Boss1;    std::vector<std::shared_ptr<Bullet>> m_Bullets;
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
