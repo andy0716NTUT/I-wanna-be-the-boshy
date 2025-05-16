@@ -9,10 +9,9 @@ void App::Update() {
     const float MaxFallSpeed = -10;
     static int jumpCount = 0;
     static float shootCooldown = 0;
-    const float deltaTime = 1.0f / 60.0f;
-    static float switchTimer = 0.0f; // 地圖切換
+    const float deltaTime = 1.0f / 60.0f;    static float switchTimer = 0.0f; // 地圖切換
     static bool isSwitch = false; // 地圖切換狀態
-    const float switchInterval = 1.0f; // 每3秒切換一次
+    const float switchInterval = 1.0f; // 每1秒切換一次
     static bool keepExtending = true; // 平台延伸控制
     static int startTileX = 28; // 移到外部
     static int startTileY = 56; // 移到外部
@@ -299,11 +298,10 @@ void App::Update() {
             ReloadMapObjects();
 
             std::cout << "Current Phase : " << CurrentPhase << std::endl;
-        }
-        if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2")
+        }        if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2")
         {
             switchTimer += deltaTime;
-            std::cout << switchTimer << std::endl;
+            // 移除過度頻繁的輸出，避免降低性能
             if (switchTimer >= switchInterval)
             {
                 isSwitch = !isSwitch;
@@ -313,6 +311,20 @@ void App::Update() {
                 switchTimer = 0.0f; // 重置計時器
             }
         }
+<<<<<<< HEAD
+=======
+        if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
+            switchTimer += deltaTime;
+            if (switchTimer >= switchInterval) {
+                isSwitch = !isSwitch;
+                std::string newPhase = isSwitch ? "4_2" : "4_1";
+
+                m_PRM->SetPhase(newPhase,CurrentWorld);
+                m_MapLoader->LoadMap(newPhase,CurrentWorld);
+                switchTimer = 0.0f;
+            }
+        }
+>>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
@@ -472,6 +484,12 @@ void App::Update() {
 
             }
         }
+<<<<<<< HEAD
+=======
+        
+        // 检查鼠标和角色是否重疊（使用 PTSD Position）
+        
+>>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
         // 關閉或重生邏輯
@@ -485,6 +503,48 @@ void App::Update() {
         }
         // 更新角色位置與整體狀態
         m_Boshy->SetPosition(position);
+        
+        // 計算目標位置（boshy的位置加上偏移量）
+        glm::vec2 targetPos = m_Boshy->GetPosition() + glm::vec2(0, 20); // 向上偏移20單位
+        // 獲取當前鼠標位置
+        Util::PTSDPosition currentPtsdPos = Util::Input::GetCursorPosition();
+        // 將PTSD座標轉換為遊戲座標
+        glm::vec2 currentPos(currentPtsdPos.x - 640, 480 - currentPtsdPos.y);
+        
+        // 檢查鼠標和角色是否重疊（使用 PTSD Position）
+        glm::vec2 boshyPtsdPos = {m_Boshy->GetPosition().x + 640, -(480 - m_Boshy->GetPosition().y)};
+        float distance = glm::distance(glm::vec2(currentPtsdPos.x, -currentPtsdPos.y), boshyPtsdPos);
+        bool isOverlapping = (distance >= 790.0f && distance <= 810.0f) && !GodMode;
+        // if (isOverlapping) {
+        //     std::cout << "Mouse collision! Distance: " << distance << std::endl;
+        //     position = currentCheckPoint; // 傳回到檢查點
+        //     currentX = checkPointX;
+        //     currentY = checkPointY;
+        //     needsRespawn = true;
+        //     Respawn();
+        // }
+        
+        // 更新 ImGui 調試信息
+        ss.str("");
+        ss << "Mouse PTSD Position: (" << currentPtsdPos.x << ", " << currentPtsdPos.y << ")";
+        m_DebugInfo.mousePtsdPos = ss.str();
+        ss.str("");
+        ss << "Mouse Game Position: (" << currentPos.x << ", " << currentPos.y << ")";
+        m_DebugInfo.mouseGamePos = ss.str();
+        ss.str("");
+        ss << "Boshy PTSD Position: (" << boshyPtsdPos.x << ", " << boshyPtsdPos.y << ")";
+        m_DebugInfo.boshyPtsdPos = ss.str();
+        ss.str("");
+        ss << "Distance: " << distance << " | Overlapping: " << (isOverlapping ? "Yes" : "No") << " | Range: 750-850";
+        m_DebugInfo.overlapInfo = ss.str();
+        
+        // 計算平滑跟隨
+        glm::vec2 newPos = currentPos + (targetPos - currentPos) * 0.05f; // 降低平滑係數使移動更平滑
+        // 將遊戲座標轉換回PTSD座標
+        
+        // 更新角色位置與整體狀態
+        m_Boshy->SetPosition(position);
+        
         if (CurrentPhase == "14" && glm::distance(m_Boshy->GetPosition(),{300,-404}) < 20.0f) {
             m_GamePhase = GamePhase::WORLD2;
             CurrentWorld = GamePhaseToString(m_GamePhase);
@@ -511,9 +571,8 @@ void App::Update() {
                 m_PRM->SetPhase(newPhase,CurrentWorld);
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f; // 重置計時器
-            }
-        }else{
-            switchTimer = 0.0f; // 重置 switchTimer
+            }        }else if (m_GamePhase == GamePhase::WORLD2) {
+            // 只在World2的其他階段重置旋轉，但不影響World1的計時器
             m_PRM->resetRotation();
             m_Boshy->UpdatePositionWithRotation(0.0f); // 重置角色的旋轉
         }

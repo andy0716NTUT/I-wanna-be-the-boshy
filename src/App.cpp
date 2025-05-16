@@ -91,8 +91,7 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     // 清除所有子弹
     ClearGameObjects(m_Bullets);
     m_Bullets.clear();
-    // 清除现有游戏对象
-    ClearGameObjects(m_Platform);
+    // 清除现有游戏对象    ClearGameObjects(m_Platform);
     ClearGameObjects(m_FallingGround);
     ClearGameObjects(m_CheckPoints);
     ClearGameObjects(m_jumpBoost);
@@ -105,8 +104,7 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
 
     // 重新创建游戏对象
     m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
-    m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
-    m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
+    m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);    m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
     m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
 
     // 更新世界地圖位置

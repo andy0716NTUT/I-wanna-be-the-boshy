@@ -95,6 +95,12 @@ void RenderImGui(App& app) {
     ImGui::Text("%s", app.m_DebugInfo.phaseInfo.c_str());
     ImGui::Text("%s", app.m_DebugInfo.switchTimerInfo.c_str());
 
+    // 显示鼠标坐标信息
+    ImGui::Text("%s", app.m_DebugInfo.mousePtsdPos.c_str());
+    ImGui::Text("%s", app.m_DebugInfo.mouseGamePos.c_str());
+    ImGui::Text("%s", app.m_DebugInfo.boshyPtsdPos.c_str());
+    ImGui::Text("%s", app.m_DebugInfo.overlapInfo.c_str());
+
     ImGui::Separator();
 
     // 已有的控制选项

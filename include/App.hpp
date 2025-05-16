@@ -23,7 +23,10 @@
 #include "MapObject/fallingground.hpp"
 #include "MapObject/Platform.hpp"
 #include "GameObjectHelper.hpp"
+<<<<<<< HEAD
 #include "bear.hpp"
+=======
+>>>>>>> 3cf61e59b362a06c86bff8c9469a86facbfec5b3
 #include "MapObject/bird.hpp"
 #include "MapObject/phase2trap.hpp"
 
@@ -49,6 +52,10 @@ public:
         std::string tileInfo;
         std::string phaseInfo;
         std::string switchTimerInfo;
+        std::string mousePtsdPos;  // PTSD座標系統中的鼠標位置
+        std::string mouseGamePos;  // 遊戲座標系統中的鼠標位置
+        std::string boshyPtsdPos;  // PTSD座標系統中的角色位置
+        std::string overlapInfo;   // 重疊狀態信息
     } m_DebugInfo;
 
     void TeleportToMap(const std::string& mapName, const std::string& worldName);
@@ -106,9 +113,7 @@ private:
     std::shared_ptr<phase2trap> m_phase2trap_up;
     std::shared_ptr<phase2trap> m_phase2trap_down;
     std::shared_ptr<Bird> m_phase8bird;
-    std::shared_ptr<Boss1> m_Boss1;
-
-    std::vector<std::shared_ptr<Bullet>> m_Bullets;
+    std::shared_ptr<Boss1> m_Boss1;    std::vector<std::shared_ptr<Bullet>> m_Bullets;
     std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
     std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
     std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
