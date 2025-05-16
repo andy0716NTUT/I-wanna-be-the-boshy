@@ -91,6 +91,9 @@ void RenderImGui(App& app) {
     ImGui::Text("%s", app.m_DebugInfo.positionInfo.c_str());
     ImGui::Text("%s", app.m_DebugInfo.tileInfo.c_str());
 
+    ImGui::Text("%d", app.m_DebugInfo.currentX);
+    ImGui::Text("%d", app.m_DebugInfo.currentY);
+
     // 显示阶段和计时器信息
     ImGui::Text("%s", app.m_DebugInfo.phaseInfo.c_str());
     ImGui::Text("%s", app.m_DebugInfo.switchTimerInfo.c_str());

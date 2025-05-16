@@ -18,8 +18,10 @@ void BgmManager::Fade() {
     m_BGM->FadeIn(2);
 }
 void BgmManager::SetBGM(std::string phase) {
+    m_BGM->Pause();
     this->phase = phase;
     std::cout << "Load BGM : " << phase << std::endl;
     m_BGM->LoadMedia(phase);
     m_BGM->FadeIn(2);
+    m_BGM->Play();
 }

@@ -47,6 +47,8 @@ public:
     struct DebugInfo {
         std::string positionInfo;
         std::string tileInfo;
+        int currentX;
+        int currentY;
         std::string phaseInfo;
         std::string switchTimerInfo;
         std::string mousePtsdPos;  // PTSD座標系統中的鼠標位置
@@ -90,37 +92,7 @@ public:
 
     std::string CurrentWorld = "";  // 移到 public 區塊
 private:
-
-    glm::vec2 currentCheckPoint = {0,0};
-    std::string currentCheckPointPhase = "1";
-    std::string CurrentPhase = "";
-    int currentX,currentY;
-    int checkPointX = 0, checkPointY = 0;
-    std::shared_ptr<World> m_World;
-    State m_CurrentState = State::START;
-    GamePhase m_GamePhase = GamePhase::MENU;
-    Util::Renderer m_Root;
-
-    std::shared_ptr<BgmManager> m_BGM;
-    std::shared_ptr<Menu> m_Menu;
-    std::shared_ptr<MapInfoLoader> m_MapLoader;
-    std::shared_ptr<AnimatedCharacter> m_Boshy;
-    std::shared_ptr<Bullet> m_Bullet;
-    std::shared_ptr<ResourceManager> m_PRM;    std::shared_ptr<phase2trap> m_phase2trap_up;
-    std::shared_ptr<phase2trap> m_phase2trap_down;
-    std::shared_ptr<Bird> m_phase8bird;
-    std::shared_ptr<bear> m_bear;
-    std::shared_ptr<Boss1> m_Boss1;    std::vector<std::shared_ptr<Bullet>> m_Bullets;
-    std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
-    std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
-    std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
-    std::vector<std::shared_ptr<Platform>> m_Platform;
-
-
-    bool trapCreated = false;
-    bool isDead = false;
-    float shootCooldown = 0;
-    bool NotFirstTryBoss= false;
+    #include "AppMembers.hpp"
 
 
 };

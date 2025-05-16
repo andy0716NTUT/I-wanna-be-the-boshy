@@ -38,6 +38,22 @@ class World {
                     }
                     return {-1, -1}; // 找不到起點
                 }
+    inline std::pair<int, int> GetPhaseIndex(const std::string& phaseId, const std::string& worldName) {
+                const auto& world = GetWorldByPhaseName(worldName);
+
+                // 取 phaseId 的第一段數字（例如 "3_1" => "3"）
+                std::string basePhase = phaseId.substr(0, phaseId.find('_'));
+
+                for (int y = 0; y < static_cast<int>(world.size()); ++y) {
+                    for (int x = 0; x < static_cast<int>(world[y].size()); ++x) {
+                        if (world[y][x] == basePhase) {
+                            return {x, y};
+                        }
+                    }
+                }
+
+                return {-1, -1}; // 沒找到
+            }
 };
 
 

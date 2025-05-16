@@ -10,6 +10,7 @@ void App::Start() {
     LOG_TRACE("Start");
 
 
+
     currentX = 0;
     currentY = 0;
 

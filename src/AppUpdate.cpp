@@ -60,6 +60,10 @@ void App::Update() {
         //imgui settings
         ss << "Position: (" << position.x << ", " << position.y << ")";
         m_DebugInfo.positionInfo = ss.str();
+        ss << "curentY: (" << currentY;
+        m_DebugInfo.currentX = currentY;
+        ss << "curentX: (" << currentX;
+        m_DebugInfo.currentY = currentX;
         ss.str("");
         ss << "Tile: (" << tileX << ", " << tileY << ") Value: " << m_MapLoader->GetTile(tileX, tileY);
         m_DebugInfo.tileInfo = ss.str();
@@ -237,6 +241,7 @@ void App::Update() {
                 bullet->SetVisible(false);
                 bullet->SetDrawable(nullptr);
                 currentCheckPoint = m_Boshy->GetPosition();
+                checkPointWorld = CurrentWorld;
                 break;
             }
         }
@@ -310,12 +315,9 @@ void App::Update() {
                 m_MapLoader->LoadMap(newPhase,CurrentWorld);
                 switchTimer = 0.0f; // 重置計時器
             }
-<<<<<<< HEAD
         }
         if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
-=======
         }if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
->>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval) {
                 isSwitch = !isSwitch;
@@ -505,10 +507,7 @@ void App::Update() {
 
             }
         }
-<<<<<<< HEAD
         // 检查鼠标和角色是否重疊（使用 PTSD Position）
-=======
->>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);
         // 關閉或重生邏輯
@@ -577,6 +576,7 @@ void App::Update() {
             isSwitch = false;   // 重置切換狀態
         }
         //=================================================================WORLD2屎山===================================================================================
+        if (m_GamePhase == GamePhase::WORLD2)m_BGM->SetBGM(RESOURCE_DIR"/BGM/WORLD2.mp3");
         if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2") {
             // 只旋轉背景
             m_PRM->rotate(deltaTime);

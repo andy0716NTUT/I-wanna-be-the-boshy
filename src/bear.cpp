@@ -65,10 +65,8 @@ void bear::Update(glm::vec2 playerPosition) {
     // Determine behavior based on attack type
     switch (this->attack) {
         case AttackType::CHASE:
-<<<<<<< HEAD
             if (m_Transform.translation.x - playerPosition.x > 0 )this->dir = direction::left;
             if (m_Transform.translation.x - playerPosition.x < 0)this->dir = direction::right;
-=======
             // Apply floor constraints only for phase "4_"
             if (m_CurrentPhase.find("4_") != std::string::npos && m_MapInfoLoader) {
                 // Apply gravity
@@ -148,7 +146,6 @@ void bear::Update(glm::vec2 playerPosition) {
                 centerPosition = m_Transform.translation;
                 centerInitialized = true;
             }
->>>>>>> be0ef6f205c26fecb1bce14eed5f500827304dd2
 
             // Increase the angle for circular motion
             angle += 0.03f;  // Adjust speed of rotation as needed

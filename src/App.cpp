@@ -1,7 +1,21 @@
 #include "App.hpp"
 
 
-App::App(){};
+App::App() {
+    currentCheckPoint = {0,0};
+    currentCheckPointPhase = "1";
+    CurrentPhase = "";
+    checkPointX = 0;
+    checkPointY = 0;
+    checkPointWorld = "WORLD1";
+    m_CurrentState = State::START;
+    m_GamePhase = GamePhase::MENU;
+
+    trapCreated = false;
+    isDead = false;
+    shootCooldown = 0;
+    NotFirstTryBoss= false;
+};
 
 
 void App::End() { // NOLINT(this method will mutate members in the future)
@@ -12,6 +26,7 @@ void App::Respawn() {
     NotFirstTryBoss = true;
     currentX = checkPointX;
     currentY = checkPointY;
+    CurrentWorld = checkPointWorld;
     if (CurrentPhase != currentCheckPointPhase) {
         m_PRM->SetPhase(currentCheckPointPhase,CurrentWorld);
         m_MapLoader->LoadMap(currentCheckPointPhase,CurrentWorld);
@@ -33,7 +48,9 @@ void App::ReloadMapObjects() {
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
     if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
-
+    if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && (CurrentPhase.find("4_") || CurrentPhase != "5")) {
+        ClearGameObjects(m_bear);
+    }
     m_CheckPoints.clear();
     m_jumpBoost.clear();
     m_Platform.clear();
@@ -92,21 +109,12 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     ClearGameObjects(m_Bullets);
     m_Bullets.clear();
     // 清除现有游戏对象    ClearGameObjects(m_Platform);
-    ClearGameObjects(m_FallingGround);
-    ClearGameObjects(m_CheckPoints);
-    ClearGameObjects(m_jumpBoost);
-    m_CheckPoints.clear();
-    m_jumpBoost.clear();
 
     // 设置资源管理器阶段并加载新地图
     m_PRM->SetPhase(mapName, CurrentWorld);
     m_MapLoader->LoadMap(mapName, CurrentWorld);
 
-    // 重新创建游戏对象
-    m_CheckPoints = CheckPoint::CreateFromMap(m_MapLoader, m_Root);
-    m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);    m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
-    m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
-
+    ReloadMapObjects();
     // 更新世界地圖位置
     auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
     std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, mapName);
@@ -141,15 +149,17 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
 
     // 设置角色位置
     m_Boshy->SetPosition(startPos);
-
+    std::tie(currentY, currentX) = m_World->GetPhaseIndex(mapName, CurrentWorld);
     // 更新检查点位置
     if(worldName == "WORLD1"){
         m_GamePhase = GamePhase::WORLD1;
     }else if(worldName == "WORLD2"){
         m_GamePhase = GamePhase::WORLD2;
     }
+
     currentCheckPoint = startPos;
     currentCheckPointPhase = mapName;
+    checkPointWorld = CurrentWorld;
 
     std::cout << "已传送到世界: " << worldName << ", 地图: " << mapName 
               << ", 位置: (" << currentX << ", " << currentY << ")" << std::endl;

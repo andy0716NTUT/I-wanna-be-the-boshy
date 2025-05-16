@@ -24,6 +24,7 @@ public:
         return this->m_MapData;
     }
 
+
 private:
     std::string CurrentPhase;
     inline std::string ImagePath(const std::string mapNumber, std::string CurrentWorld) {
