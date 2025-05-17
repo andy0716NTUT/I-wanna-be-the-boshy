@@ -16,6 +16,8 @@ public:
 
     void LoadMap(std::string mapNumber,std::string CurrentWorld); // 直接載入地圖數字
 
+    static std::vector<std::vector<int>> LoadTileData(const std::string& path);
+
     void SetTile(int x, int y, int value); // 新增此方法
 
     std::string GetCurrentPhase() { return this->CurrentPhase; }

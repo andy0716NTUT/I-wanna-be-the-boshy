@@ -85,11 +85,12 @@ void App::Update() {
         int aboveTile = m_MapLoader->GetTile(tileX, tileY - 1);
         int leftTile = m_MapLoader->GetTile(tileX - 1, tileY);
         int rightTile = m_MapLoader->GetTile(tileX + 1, tileY);
+        int centerTile = m_MapLoader->GetTile(tileX, tileY);
 
         // 上帝模式下忽略致命碰撞
         if (!GodMode) {
             // 原有的碰撞檢測代碼
-            if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5)
+            if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5 || centerTile == 5)
             {
                 position = currentCheckPoint;
                 currentX = checkPointX;
@@ -373,31 +374,51 @@ void App::Update() {
             m_phase2trap_up->clear();
             trapCreated = false;
         }
-        if (!m_phase8bird && CurrentPhase == "8") {
-            static float birdTimer = 0.0f;
-            birdTimer += deltaTime;
-            if (birdTimer > 2.0f) { // 出現延遲2秒
-                m_phase8bird = std::make_shared<Bird>();
-                m_phase8bird->Setposition({-640,-240});
-                m_Root.AddChild(m_phase8bird);
-                m_phase8bird->StartChase();
-                birdTimer = 0.0f;
+        if (CurrentPhase == "8") {
+            glm::vec2 boshyPos = m_Boshy->GetPosition();
+
+            if (!m_phase8spider && boshyPos.x > -0.0f) {
+                m_phase8spider = std::make_shared<spider>();
+                m_Root.AddChild(m_phase8spider);
+                m_phase8spider->SetMapLoader(m_MapLoader);
+                m_phase8spider->detect(boshyPos);
+            }
+
+            if (m_phase8spider) {
+                m_phase8spider->Update(deltaTime);
+
+                // spider 結束後再開始倒數出現 bird
+                if (m_phase8spider->IsFinished() && !m_phase8bird) {
+                    static float birdDelay = 0.0f;
+                    birdDelay += deltaTime;
+                    if (birdDelay > 1.0f) {
+                        m_phase8bird = std::make_shared<Bird>();
+                        m_phase8bird->Setposition({-640, -240});
+                        m_Root.AddChild(m_phase8bird);
+                        m_phase8bird->StartChase();
+                        birdDelay = 0.0f; // 重置 timer
+                    }
+                }
             }
         }
-        if (m_phase8bird && (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")) {
-            m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
-            if (glm::distance(m_phase8bird->GetPosition(),m_Boshy->GetPosition()) < 20.0f && !GodMode) {
-                position = currentCheckPoint; // 传回到检查点
-                currentX = checkPointX;
-                currentY = checkPointY;
-                needsRespawn = true;
-                Respawn();
-            }
-        }
-        if (m_phase8bird && CurrentPhase == "12") {
-            glm::vec2 birdPos = m_phase8bird->GetPosition();
-            if (birdPos.x > 0.0f) {
-                ClearGameObjects(m_phase8bird);
+
+        // bird 持續追蹤邏輯（phase 8~12 都適用）
+        if (m_phase8bird) {
+            // 持續更新 bird 直到 phase12
+            if (CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12") {
+                m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
+
+                if (glm::distance(m_phase8bird->GetPosition(), m_Boshy->GetPosition()) < 20.0f && !GodMode) {
+                    m_Boshy->SetPosition(currentCheckPoint);
+                    currentX = checkPointX;
+                    currentY = checkPointY;
+                    Respawn();
+                    return;
+                }
+                if (CurrentPhase == "12" && m_phase8bird->GetPosition().x >= 0.0f) {
+                    ClearGameObjects(m_phase8bird);
+                    m_phase8bird = nullptr;
+                }
             }
         }
         if (CurrentPhase == "13") {
@@ -407,6 +428,7 @@ void App::Update() {
                 m_Boss1->Spawn(deltaTime,m_Root);
                 m_BGM->SetBGM(RESOURCE_DIR"/BGM/BOSS1.mp3");
             }
+            m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
             // 只有在 Boss 死後才開始平台延伸
             if (m_Boss1->Boss1Finished()) {
                 platformTimer += deltaTime;
@@ -424,8 +446,6 @@ void App::Update() {
                     }
                 }
             }
-
-            m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
             for (auto& bullet : m_Bullets) {
                 if (bullet && bullet->IsVisible()) {
                     glm::vec2 bulletPos = bullet->GetPosition();
@@ -516,6 +536,7 @@ void App::Update() {
             m_CurrentState = State::END;
         }
         if (Util::Input::IsKeyDown(Util::Keycode::R)) {
+            startTileX = 28;
             position = currentCheckPoint;
             Respawn();
         }

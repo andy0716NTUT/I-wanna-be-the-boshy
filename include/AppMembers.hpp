@@ -24,6 +24,7 @@ std::shared_ptr<phase2trap> m_phase2trap_down;
 std::shared_ptr<Bird> m_phase8bird;
 std::shared_ptr<bear> m_bear;
 std::shared_ptr<Boss1> m_Boss1;
+std::shared_ptr<spider> m_phase8spider;
 
 std::vector<std::shared_ptr<Bullet>> m_Bullets;
 std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;

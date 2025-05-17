@@ -58,7 +58,13 @@ bool Boss1::playerDead() {
 bool Boss1::Boss1Finished() {
     return DeadAnimationFinished;
 }
-
+void Boss1::ClearDeadAnimation(Util::Renderer& rootRenderer) {
+    if (m_DeadAnimation) {
+        rootRenderer.RemoveChild(m_DeadAnimation);
+        m_DeadAnimation.reset();
+    }
+    DeadAnimationFinished = false;
+}
 
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
     if (this->IsDead()) {
@@ -76,7 +82,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
         m_Transform.translation.y -= 100.0f * deltaTime;
         m_DeadAnimation->SetPOsition(this->m_Transform.translation);
 
-        if (m_Transform.translation.y < -480) {
+        if (m_Transform.translation.y < -360) {
             DeadAnimationFinished = true;
         }
     }
@@ -97,7 +103,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
         }
         m_Transform.translation.y = m_SpawnY;
     } else if (m_AttackType != AttackType::SPAWN && !IsDead()) {
-        if (m_CanMoveVertically) {  // ⭐ 只有允許時才上下移動
+        if (m_CanMoveVertically) {
             const float amplitude = 350.0f;
             const float frequency = 2.0f;
             m_Angle += frequency * deltaTime;

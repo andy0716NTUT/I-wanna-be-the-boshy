@@ -25,6 +25,7 @@
 #include "GameObjectHelper.hpp"
 #include "bear.hpp"
 #include "MapObject/bird.hpp"
+#include "MapObject/spider.hpp"
 #include "MapObject/phase2trap.hpp"
 
 class App {

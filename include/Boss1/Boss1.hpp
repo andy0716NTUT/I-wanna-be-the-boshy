@@ -43,6 +43,8 @@
         bool Boss1Finished();
 
         bool IsDead() const;
+
+        void ClearDeadAnimation(Util::Renderer& rootRenderer);
     private:
         int maxHp = 5;
         int currentHp = 5;

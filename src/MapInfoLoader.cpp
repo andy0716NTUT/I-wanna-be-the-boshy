@@ -38,6 +38,35 @@ void MapInfoLoader::LoadMap(std::string mapNumber,std::string CurrentWorld) {
     std::cout << "Loaded Map " << mapNumber << " (" << m_Width << "x" << m_Height << ")" << std::endl;
 }
 
+std::vector<std::vector<int>> MapInfoLoader::LoadTileData(const std::string& path) {
+    std::vector<std::vector<int>> result;
+    std::ifstream file(path);
+
+    if (!file.is_open()) {
+        std::cerr << "[MapInfoLoader] Failed to open tile data file: " << path << std::endl;
+        return result;
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        std::vector<int> row;
+        std::stringstream ss(line);
+        std::string token;
+
+        while (std::getline(ss, token, ',')) {
+            try {
+                row.push_back(std::stoi(token));
+            } catch (...) {
+                row.push_back(0); // 格式錯誤預設為0
+            }
+        }
+
+        result.push_back(row);
+    }
+
+    file.close();
+    return result;
+}
 int MapInfoLoader::GetTile(int x, int y) const {
     if (y >= 0 && y < m_Height && x >= 0 && x < m_Width) {
         return m_MapData[y][x];

@@ -51,6 +51,15 @@ void App::ReloadMapObjects() {
     if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && (!CurrentPhase.find("4_") || CurrentPhase != "5")) {
         ClearGameObjects(m_bear);
     }
+    if (m_phase8spider) {
+        m_phase8spider->RestoreAllTiles();
+        ClearGameObjects(m_phase8spider);
+    }
+    if (m_Boss1) {
+        m_Boss1->ClearDeadAnimation(m_Root);
+        ClearGameObjects(m_Boss1);
+
+    }
     m_CheckPoints.clear();
     m_jumpBoost.clear();
     m_Platform.clear();
