@@ -82,6 +82,14 @@ public:
         }
         return "UNKNOWN";
     }
+    GamePhase StringToGamePhase(const std::string& str) {
+    if (str == "MENU") return GamePhase::MENU;
+    if (str == "WORLD1") return GamePhase::WORLD1;
+    if (str == "WORLD2") return GamePhase::WORLD2;
+    if (str == "WORLD3") return GamePhase::WORLD3;
+    // 依照你的 GamePhase 定義補齊
+    return GamePhase::MENU; // 預設值
+}
     void Respawn();
     void Start();
 

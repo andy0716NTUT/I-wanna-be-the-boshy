@@ -44,7 +44,7 @@
 
         bool IsDead() const;
 
-        void ClearDeadAnimation(Util::Renderer& rootRenderer);
+        void ClearAnimation(Util::Renderer& rootRenderer);
     private:
         int maxHp = 5;
         int currentHp = 5;

@@ -27,6 +27,7 @@ void App::Respawn() {
     currentX = checkPointX;
     currentY = checkPointY;
     CurrentWorld = checkPointWorld;
+    m_GamePhase = StringToGamePhase(CurrentWorld);
     if (CurrentPhase != currentCheckPointPhase) {
         m_PRM->SetPhase(currentCheckPointPhase,CurrentWorld);
         m_MapLoader->LoadMap(currentCheckPointPhase,CurrentWorld);
@@ -56,7 +57,7 @@ void App::ReloadMapObjects() {
         ClearGameObjects(m_phase8spider);
     }
     if (m_Boss1) {
-        m_Boss1->ClearDeadAnimation(m_Root);
+        m_Boss1->ClearAnimation(m_Root);
         ClearGameObjects(m_Boss1);
 
     }

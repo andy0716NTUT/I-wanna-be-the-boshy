@@ -58,12 +58,34 @@ bool Boss1::playerDead() {
 bool Boss1::Boss1Finished() {
     return DeadAnimationFinished;
 }
-void Boss1::ClearDeadAnimation(Util::Renderer& rootRenderer) {
+void Boss1::ClearAnimation(Util::Renderer& rootRenderer) {
     if (m_DeadAnimation) {
         rootRenderer.RemoveChild(m_DeadAnimation);
         m_DeadAnimation.reset();
     }
-    DeadAnimationFinished = false;
+    if(m_BulletsA.size() > 0) {
+        ClearGameObjects(m_BulletsA);
+        m_BulletsA.clear();
+    }
+    if(m_BulletsB.size() > 0) {
+        ClearGameObjects(m_BulletsB);
+        m_BulletsB.clear();
+    }
+    if(m_BulletsC.size() > 0) {
+        ClearGameObjects(m_BulletsC);
+        m_BulletsC.clear();
+    }
+    if(m_LightAttack) {
+        ClearGameObjects(m_LightAttack);
+        m_LightAttack.reset();
+    }
+    if(m_HP) {
+        rootRenderer.RemoveChild(m_HP);
+        m_HP.reset();
+    }
+    maxHp = 5;
+    currentHp = 5;
+
 }
 
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
