@@ -18,7 +18,7 @@ void spider::reset() {
 }
 
 bool spider::detect(glm::vec2 position) {
-    if (position.x >= -100.0f) {
+    if (position.x >= -100.0f && position.y < 0 ) {
         m_animation->Play();
         this->exist = true;
         m_State = State::FALLING;
@@ -50,7 +50,6 @@ void spider::Update(float deltaTime) {
         m_tilesInitialized = true;
     }
 
-    // 🧠 狀態機：省略部分狀態處理邏輯...
 
     const std::vector<std::vector<int>>* currentMask = nullptr;
     if (m_State == State::FALLING || m_State == State::RISING) {

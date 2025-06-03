@@ -142,15 +142,9 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     m_ShootTimer = 0.0f;
                     TypeAShootCount++;
                 }
-
-                // 更新所有子彈
                 for (auto& bullet : m_BulletsA) {
                     bullet->Update(deltaTime);
-                    if (glm::distance(bullet->GetPosition(),playerPosition) < 20.0f) {
-                        //this->isPlayerDead = true;
-                    }
                 }
-                // 檢查是否所有子彈都飛出場外
                 if (TypeAShootCount >= 8) {
                     bool allBulletsOutOfScreen = true;
                     for (auto& bullet : m_BulletsA) {
@@ -161,51 +155,44 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     }
                     if (allBulletsOutOfScreen) {
                         m_AttackType = AttackType::LIGHTATTACK;
-                        ClearGameObjects(m_BulletsA);// 清空子彈列表（可選）
+                        TypeAShootCount = 0;
+                        ClearGameObjects(m_BulletsA);
+                        m_BulletsA.clear();
                     }
                 }
-                    break;
+                break;
             case AttackType::LIGHTATTACK: {
                 if (!m_HasStartedLightAttack) {
-                    m_CanMoveVertically = false;  // 停掉 sin()
+                    m_CanMoveVertically = false;
                     m_HasStartedLightAttack = true;
+                    m_LightAttackCount = 0;
+                    m_LightAttackTimer = 0.0f;
                 }
                 float speedY = 100.0f;
                 float dy = playerPosition.y - m_Transform.translation.y;
                 float step = speedY * deltaTime;
-
                 if (fabs(dy) <= step) {
                     m_Transform.translation.y = playerPosition.y;
                 } else {
                     m_Transform.translation.y += (dy > 0 ? step : -step);
                 }
-
                 m_LightAttackTimer += deltaTime;
-
                 if (m_LightAttackCount < 4 && m_LightAttackTimer >= 3.0f) {
-                    // ⭐ 每次發射前 → 抓最新 playerPosition.y
                     m_CanMoveVertically = true;
                     m_Transform.translation.y = playerPosition.y;
-
-                    // ⭐ 清掉舊的
                     if (m_LightAttack) {
                         rootRenderer.RemoveChild(m_LightAttack);
                         m_LightAttack.reset();
                     }
-
-                    // ⭐ 建立新光束
                     auto newAttack = std::make_shared<LightAttack>(m_Transform.translation);
                     rootRenderer.AddChild(newAttack);
                     m_LightAttack = newAttack;
-
                     m_LightAttackTimer = 0.0f;
                     m_LightAttackCount++;
                 }
-
                 if (m_LightAttack) {
                     m_LightAttack->Update(deltaTime);
                 }
-
                 if (m_LightAttackCount >= 4 && m_LightAttackTimer >= 3.0f) {
                     if (m_LightAttack) {
                         rootRenderer.RemoveChild(m_LightAttack);
@@ -214,41 +201,35 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     m_CanMoveVertically = true;
                     m_HasStartedLightAttack = false;
                     m_AttackType = AttackType::TYPEB;
+                    m_LightAttackCount = 0;
+                    m_LightAttackTimer = 0.0f;
                 }
-
                 break;
             }
             case AttackType::TYPEB:
                 m_ShootTimerB += deltaTime;
-
-                // 每 0.5 秒發射一發
                 if (TypeBShootCount < 8 && m_ShootTimerB >= 1.0f) {
                     float randomX = -640.0f + static_cast<float>(rand()) / RAND_MAX * (-100.0f + 640.0f);
-                    glm::vec2 spawnPos(randomX, 480.0f); // 假設畫面頂端 y=480
+                    glm::vec2 spawnPos(randomX, 480.0f);
                     auto bullet = std::make_shared<BulletTypeB>(spawnPos);
                     rootRenderer.AddChild(bullet);
                     m_BulletsB.push_back(bullet);
-
                     m_ShootTimerB = 0.0f;
                     TypeBShootCount++;
                 }
-
-                // 更新所有 BulletTypeB
                 for (auto& bullet : m_BulletsB) {
                     bullet->Update(deltaTime);
                 }
-
-                // 判斷是否所有子彈都掉到螢幕外（或某個 y 座標以下）
                 if (TypeBShootCount >= 8) {
-                    bool allBulletsOut = true;
+                    int bulletsOutCount = 0;
                     for (auto& bullet : m_BulletsB) {
-                        if (bullet->GetPosition().y >= -480.0f) {  // 假設螢幕高度 480
-                            allBulletsOut = false;
-                            break;
+                        if (bullet->GetPosition().y <= -480.0f) {
+                            bulletsOutCount++;
                         }
                     }
-                    if (allBulletsOut) {
+                    if (bulletsOutCount >= 6) {
                         m_AttackType = AttackType::TYPEC;
+                        TypeBShootCount = 0;
                         ClearGameObjects(m_BulletsB);
                         m_BulletsB.clear();
                     }
@@ -257,40 +238,34 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
             case AttackType::TYPEC:
                 m_ElapsedTimeC += deltaTime;
                 m_ShootTimerC += deltaTime;
-
-            if (m_ElapsedTimeC <= TypeCFireDuration) {
-                if (m_ShootTimerC >= TypeCFireInterval) {
-                    // 計算發射角度（用 sin 調整）
-                    float waveAngle = 0.0f + 0.5f * sin(TypeC_Frequency * m_ElapsedTimeC); // 調整角度幅度
-                    glm::vec2 dir = glm::normalize(glm::vec2(-1.0f, tan(waveAngle)));  // 左偏一點上下波浪
-
-                    auto bullet = std::make_shared<BulletTypeC>(m_Transform.translation, dir);
-                    rootRenderer.AddChild(bullet);
-                    m_BulletsC.push_back(bullet);
-
-                    m_ShootTimerC = 0.0f;
+                for (auto& bullet : m_BulletsC) {
+                    bullet->Update(deltaTime);
                 }
-            }
-
-            // 更新子彈
-
-            // 清除飛出螢幕的子彈
-            m_BulletsC.erase(
-                std::remove_if(m_BulletsC.begin(), m_BulletsC.end(),
-                    [](const std::shared_ptr<BulletTypeC>& bullet) {
-                        return bullet->GetPosition().x < -700.0f;  // 已經飛出螢幕
-                    }),
-                m_BulletsC.end()
-            );
-
-            if ( m_BulletsC.empty()) {
-                m_AttackType = AttackType::TYPEA;
-                m_ShootTimerC = 0.0f;
-                m_ElapsedTimeC = 0.0f;
-            }
-            break;
-            default:
+                if (m_ElapsedTimeC <= TypeCFireDuration) {
+                    if (m_ShootTimerC >= TypeCFireInterval) {
+                        float waveAngle = 0.0f + 0.5f * sin(TypeC_Frequency * m_ElapsedTimeC);
+                        glm::vec2 dir = glm::normalize(glm::vec2(-1.0f, tan(waveAngle)));
+                        auto bullet = std::make_shared<BulletTypeC>(m_Transform.translation, dir);
+                        rootRenderer.AddChild(bullet);
+                        m_BulletsC.push_back(bullet);
+                        m_ShootTimerC = 0.0f;
+                    }
+                }
+                m_BulletsC.erase(
+                    std::remove_if(m_BulletsC.begin(), m_BulletsC.end(),
+                        [](const std::shared_ptr<BulletTypeC>& bullet) {
+                            return bullet->GetPosition().x < -700.0f;
+                        }),
+                    m_BulletsC.end()
+                );
+                if (m_ElapsedTimeC > TypeCFireDuration && m_BulletsC.empty()) {
+                    m_AttackType = AttackType::TYPEA;
+                    m_ShootTimerC = 0.0f;
+                    m_ElapsedTimeC = 0.0f;
+                }
                 break;
+                default:
+                    break;
 
         }
     }
