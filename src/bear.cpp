@@ -19,6 +19,24 @@ bear::bear() {
     SetZIndex(-2);
 }
 bool bear::detect(std::string &phase) {
+    // Check if player has left phases where the bear should be active
+    if ((phase != "4" && phase.find("4_") == std::string::npos && phase != "5") && this->spawn) {
+        // Clear the bear when player leaves relevant phases
+        this->spawn = false;
+        SetVisible(false);
+        
+        // Pause the animations to free resources when the bear is cleared
+        if (m_Animation_left) {
+            m_Animation_left->Pause();
+        }
+        if (m_Animation_right) {
+            m_Animation_right->Pause();
+        }
+        
+        return false;
+    }
+    
+    // Original spawning logic
     if ((phase == "4" || phase.find("4_") != std::string::npos) && !this->spawn) {
         this->spawn = true;
         this->attack = AttackType::CHASE;

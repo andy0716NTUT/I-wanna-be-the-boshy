@@ -318,7 +318,6 @@ void App::Update() {
             }
         }
         if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
-        }if (CurrentPhase == "4" || CurrentPhase.find("4_") == 0) {
             switchTimer += deltaTime;
             if (switchTimer >= switchInterval) {
                 isSwitch = !isSwitch;
@@ -329,9 +328,16 @@ void App::Update() {
                 switchTimer = 0.0f;
             }
         
-            // Detect the bear if it exists
+            // Check if we need to create a new bear
+            if (!m_bear) {
+                m_bear = std::make_shared<bear>();
+                m_bear->SetZIndex(-2);
+                m_Root.AddChild(m_bear);
+                std::cout << "Bear recreated for phase " << CurrentPhase << std::endl;
+            }
+            
+            // Set up the bear for this phase
             if (m_bear) {
-                // Set the MapInfoLoader and current phase for the bear
                 m_bear->SetMapInfoLoader(m_MapLoader);
                 m_bear->SetCurrentPhase(CurrentPhase);
                 
@@ -348,6 +354,11 @@ void App::Update() {
                     m_bear->Update(m_Boshy->GetPosition());
                 }
             }
+        } else if (m_bear) {
+            // If we're not in phase 4/4_x/5 and bear exists, completely remove it
+            m_Root.RemoveChild(m_bear);
+            m_bear = nullptr; // Release the shared_ptr
+            std::cout << "Bear completely released when leaving phase " << CurrentPhase << std::endl;
         }
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
