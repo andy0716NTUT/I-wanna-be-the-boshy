@@ -8,7 +8,7 @@
 BgmManager::BgmManager(std::string SoundPath){
     this->phase = SoundPath;
     m_BGM = std::make_shared<Util::BGM>(SoundPath);
-    m_BGM->SetVolume(5);
+    m_BGM->SetVolume(0);
 
     m_BGM->Play();
     m_BGM->FadeIn(2);

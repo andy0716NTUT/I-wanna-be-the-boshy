@@ -31,4 +31,15 @@ private:
     bool m_onGround = false;
     const float m_Gravity = -0.5f;
     const float m_MaxFallSpeed = -10.0f;
+    float m_currentSpeed = 0.0f;
+    float m_targetSpeed = 0.0f;
+    float m_turnCooldown = 0.0f;
+
+    // 跳躍參數
+    bool m_isJumping = false;
+    float m_jumpTime = 0.0f;
+    float m_jumpCooldown = 0.0f;
+    float m_jumpVelocity = 0.0f;
+    float m_jumpY = -148.0f;
+
 };

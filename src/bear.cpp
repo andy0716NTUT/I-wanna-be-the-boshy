@@ -56,8 +56,21 @@ bool bear::detect(std::string &phase) {
         SetVisible(true);
         
         return true;
-    } else if (phase == "5") {
+    }else if (phase == "5" && !this->spawn) {
+        this->SetPosition(glm::vec2(420, 332));  // 初始位置
+        this->spawn = true;
         this->attack = AttackType::ROUND;
+        SetVisible(true);
+
+        // 動畫設定（必要）
+        if (dir == direction::left) {
+            m_Drawable = m_Animation_left;
+            m_Animation_left->Play();
+        } else {
+            m_Drawable = m_Animation_right;
+            m_Animation_right->Play();
+        }
+
         return true;
     }
     return false;
@@ -73,112 +86,102 @@ void bear::SetPosition(glm::vec2 position) {
 }
 
 void bear::Update(glm::vec2 playerPosition) {
-    // Update the drawable based on the bear's direction
-    if (dir == direction::left) {
-        m_Drawable = m_Animation_left;
-    } else {
-        m_Drawable = m_Animation_right;
+    if (dir == direction::left) m_Drawable = m_Animation_left;
+    else m_Drawable = m_Animation_right;
+
+    const float deltaTime = 1.0f / 60.0f;
+    float& bearX = m_Transform.translation.x;
+    float& bearY = m_Transform.translation.y;
+
+    // === Phase4 ===
+    if (m_CurrentPhase.find("4") == 0) {
+        // -------- Phase4-Down --------
+        if (playerPosition.y < 300) {
+            const glm::vec2 range(-529.0f, 290.0f);
+            static float velocity = 0.0f;
+            static float turnCooldown = 0.0f;
+            const float accel = 0.2f;
+            const float maxSpeed = 8.0f;
+
+            bearY = -148.0f;
+
+            if (turnCooldown > 0.0f) {
+                turnCooldown -= deltaTime;
+                bearX += (dir == direction::left ? -velocity : velocity) * 0.5f; // 減速滑行
+                return;
+            }
+
+            float dx = playerPosition.x - bearX;
+            direction desiredDir = (dx < 0) ? direction::left : direction::right;
+
+            if (dir != desiredDir) {
+                velocity *= 0.3f;            // 模擬急煞
+                turnCooldown = 0.15f;        // 滑一下再轉身
+                dir = desiredDir;
+            }
+
+            velocity = std::min(velocity + accel, maxSpeed);
+            bearX += (dir == direction::left) ? -velocity : velocity;
+
+            // 邊界限制與強制轉向
+            if (bearX < range.x) {
+                bearX = range.x; dir = direction::right; velocity = 0.0f; turnCooldown = 0.2f;
+            }
+            if (bearX > range.y) {
+                bearX = range.y; dir = direction::left; velocity = 0.0f; turnCooldown = 0.2f;
+            }
+        }
+
+        // -------- Phase4-Up --------
+        else {
+            static bool isJumping = false;
+            static float velocityY = 0.0f;
+            static float jumpCooldown = 0.0f;
+
+            const float gravity = -2000.0f;
+            const float jumpPower = 1385.0f;  // 高度可達 332
+            const float groundY = -148.0f;
+
+            if (!isJumping && jumpCooldown <= 0.0f) {
+                isJumping = true;
+                velocityY = jumpPower;
+            }
+
+            if (isJumping) {
+                velocityY += gravity * deltaTime;
+                bearY += velocityY * deltaTime;
+
+                bearX += (playerPosition.x - bearX) * 0.07f;
+                dir = (playerPosition.x < bearX) ? direction::left : direction::right;
+
+                if (bearY <= groundY) {
+                    bearY = groundY;
+                    isJumping = false;
+                    jumpCooldown = 0.3f;
+                }
+            } else {
+                bearY = groundY;
+                jumpCooldown -= deltaTime;
+            }
+        }
     }
 
-    // Determine behavior based on attack type
-    switch (this->attack) {
-        case AttackType::CHASE:
-            if (m_Transform.translation.x - playerPosition.x > 0 )this->dir = direction::left;
-            if (m_Transform.translation.x - playerPosition.x < 0)this->dir = direction::right;
-            // Apply floor constraints only for phase "4_"
-            if (m_CurrentPhase.find("4_") != std::string::npos && m_MapInfoLoader) {
-                // Apply gravity
-                m_velocityY += m_Gravity;
-                if (m_velocityY < m_MaxFallSpeed) {
-                    m_velocityY = m_MaxFallSpeed;
-                }
-                
-                // Calculate tile position (same as Boshy's calculation)
-                int tileX = static_cast<int>((m_Transform.translation.x + 640) / 16);
-                int tileY = static_cast<int>((480 - m_Transform.translation.y) / 16);
-                
-                // Ensure tileX and tileY are within bounds
-                if (tileX < 0) tileX = 0;
-                if (tileX >= m_MapInfoLoader->GetWidth()) tileX = m_MapInfoLoader->GetWidth() - 1;
-                if (tileY < 0) tileY = 0;
-                if (tileY >= m_MapInfoLoader->GetHeight()) tileY = m_MapInfoLoader->GetHeight() - 1;
-                  // Get tiles around the bear (just like Boshy does)
-                int belowTile = m_MapInfoLoader->GetTile(tileX, tileY + 1);
-                int currentTile = m_MapInfoLoader->GetTile(tileX, tileY);
-                
-                // Handle floor collision exactly like Boshy
-                if ((belowTile == 1 || belowTile == 8) && m_velocityY < 0) {
-                    // Adjust position to sit on top of the floor with same compensation as Boshy (-4)
-                    m_Transform.translation.y = 480 - ((tileY) * 16) - 4;
-                    m_velocityY = 0;
-                    m_onGround = true;
-                } else if (currentTile == 1 && m_velocityY >= 0) {
-                    // This handles collisions when falling into a platform from above
-                    m_Transform.translation.y = 480 - (tileY - 1) * 16;
-                    m_velocityY = 0;
-                    m_onGround = true;
-                } else {
-                    // Apply gravity effect
-                    m_Transform.translation.y += m_velocityY;
-                    m_onGround = false;
-                }
-                  // Only allow horizontal movement when on ground
-                if (m_onGround) {
-                    // Only track player's X position, ignore Y position completely
-                    if (m_Transform.translation.x - playerPosition.x > 0) {
-                        // Player is to the left of the bear
-                        this->dir = direction::left;
-                        // Move left towards the player
-                        m_Transform.translation.x -= 3.0f;  // Adjust speed as needed
-                    } else {
-                        // Player is to the right of the bear
-                        this->dir = direction::right;
-                        // Move right towards the player
-                        m_Transform.translation.x += 3.0f;  // Adjust speed as needed
-                    }
-                }
-            } else {                // Regular chase behavior for other phases - only track X position
-                if (m_Transform.translation.x - playerPosition.x > 0) {
-                    // Player is to the left of the bear
-                    this->dir = direction::left;
-                    // Move left towards the player
-                    m_Transform.translation.x -= 3.0f;  // Adjust speed as needed
-                } else {
-                    // Player is to the right of the bear
-                    this->dir = direction::right;
-                    // Move right towards the player
-                    m_Transform.translation.x += 3.0f;  // Adjust speed as needed
-                }
-                
-                // No vertical movement - maintain current Y position
-            }
-            break;case AttackType::ROUND:
-            // Implement circular movement pattern
-            static float angle = 0.0f;
-            static float radius = 150.0f;  // Adjust the circle radius as needed
-            static glm::vec2 centerPosition;
-            
-            // Initialize the center position only once when transitioning to ROUND attack
-            static bool centerInitialized = false;
-            if (!centerInitialized) {
-                centerPosition = m_Transform.translation;
-                centerInitialized = true;
-            }
+    // === Phase5 ===
+    else if (m_CurrentPhase == "5") {
+        static bool toLeft = true;
+        const float speed = 2.5f;
+        const float minX = -480.0f;
+        const float maxX = 420.0f;
 
-            // Increase the angle for circular motion
-            angle += 0.03f;  // Adjust speed of rotation as needed
-            
-            // Calculate new position using parametric equation of a circle
-            m_Transform.translation.x = centerPosition.x + radius * cos(angle);
-            m_Transform.translation.y = centerPosition.y + radius * sin(angle);
-            
-            // Update the bear's direction based on movement
-            if (cos(angle) < 0) {
-                this->dir = direction::left;
-            } else {
-                this->dir = direction::right;
-            }
-            break;
+        if (toLeft) {
+            bearX -= speed;
+            dir = direction::left;
+            if (bearX <= minX) toLeft = false;
+        } else {
+            bearX += speed;
+            dir = direction::right;
+            if (bearX >= maxX) toLeft = true;
+        }
+        bearY = 332.0f;
     }
 }
-

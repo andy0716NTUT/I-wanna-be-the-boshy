@@ -49,7 +49,7 @@ void App::ReloadMapObjects() {
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
     if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
-    if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && (!CurrentPhase.find("4_") || CurrentPhase != "5")) {
+    if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && !(CurrentPhase.find("4_") == 0 || CurrentPhase == "5")) {
         ClearGameObjects(m_bear);
     }
     if (m_phase8spider) {
