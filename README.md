@@ -31,3 +31,4 @@ constexpr unsigned int WINDOW_WIDTH = 1280;
 constexpr unsigned int WINDOW_HEIGHT = 960;
 
 ```
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/andy0716NTUT/I-wanna-be-the-boshy)
