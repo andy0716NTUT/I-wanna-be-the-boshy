@@ -40,8 +40,8 @@ bool bear::detect(std::string &phase) {
     if ((phase == "4" || phase.find("4_") != std::string::npos) && !this->spawn) {
         this->spawn = true;
         this->attack = AttackType::CHASE;
-        // Set the bear's respawn position
-        this->SetPosition(glm::vec2(275, -135));
+        // Set the bear's respawn position - moved up to prevent sinking into floor
+        this->SetPosition(glm::vec2(275, -120));
         
         // Make sure the animation is set and playing
         if (dir == direction::left) {
@@ -57,7 +57,7 @@ bool bear::detect(std::string &phase) {
         
         return true;
     }else if (phase == "5" && !this->spawn) {
-        this->SetPosition(glm::vec2(420, 332));  // 初始位置
+        this->SetPosition(glm::vec2(420, 350));  // 初始位置 - moved up
         this->spawn = true;
         this->attack = AttackType::ROUND;
         SetVisible(true);
@@ -103,7 +103,7 @@ void bear::Update(glm::vec2 playerPosition) {
             const float accel = 0.2f;
             const float maxSpeed = 8.0f;
 
-            bearY = -148.0f;
+            bearY = -120.0f;  // Moved up from -148.0f
 
             if (turnCooldown > 0.0f) {
                 turnCooldown -= deltaTime;
@@ -140,7 +140,7 @@ void bear::Update(glm::vec2 playerPosition) {
 
             const float gravity = -2000.0f;
             const float jumpPower = 1385.0f;  // 高度可達 332
-            const float groundY = -148.0f;
+            const float groundY = -120.0f;   // Moved up from -148.0f
 
             if (!isJumping && jumpCooldown <= 0.0f) {
                 isJumping = true;
@@ -182,6 +182,6 @@ void bear::Update(glm::vec2 playerPosition) {
             dir = direction::right;
             if (bearX >= maxX) toLeft = true;
         }
-        bearY = 332.0f;
+        bearY = 360.0f;  // Moved up from 332.0f
     }
 }
