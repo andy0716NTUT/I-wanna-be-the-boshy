@@ -100,35 +100,60 @@ void bear::Update(glm::vec2 playerPosition) {
             const glm::vec2 range(-529.0f, 290.0f);
             static float velocity = 0.0f;
             static float turnCooldown = 0.0f;
+            static bool turning = false;
+            static float overshootTargetX = 0.0f;
+
             const float accel = 0.2f;
             const float maxSpeed = 8.0f;
+            const float overshootDistance = 60.0f;
 
-            bearY = -120.0f;  // Moved up from -148.0f
+            bearY = -120.0f;
 
             if (turnCooldown > 0.0f) {
                 turnCooldown -= deltaTime;
-                bearX += (dir == direction::left ? -velocity : velocity) * 0.5f; // 減速滑行
+                bearX += (dir == direction::left ? -velocity : velocity) * 0.5f;
                 return;
             }
 
             float dx = playerPosition.x - bearX;
             direction desiredDir = (dx < 0) ? direction::left : direction::right;
 
-            if (dir != desiredDir) {
-                velocity *= 0.3f;            // 模擬急煞
-                turnCooldown = 0.15f;        // 滑一下再轉身
-                dir = desiredDir;
+            if (!turning && dir != desiredDir) {
+                turning = true;
+                overshootTargetX = bearX + ((dir == direction::left) ? -overshootDistance : overshootDistance);
+            }
+
+            if (turning) {
+                bool reachedOvershoot =
+                    (dir == direction::left && bearX <= overshootTargetX) ||
+                    (dir == direction::right && bearX >= overshootTargetX);
+
+                if (reachedOvershoot) {
+                    turning = false;
+                    dir = desiredDir;
+                    velocity *= 0.3f;
+                    turnCooldown = 0.2f;
+                    return;
+                }
             }
 
             velocity = std::min(velocity + accel, maxSpeed);
             bearX += (dir == direction::left) ? -velocity : velocity;
 
-            // 邊界限制與強制轉向
+            // 邊界限制與重設
             if (bearX < range.x) {
-                bearX = range.x; dir = direction::right; velocity = 0.0f; turnCooldown = 0.2f;
+                bearX = range.x;
+                dir = direction::right;
+                velocity = 0.0f;
+                turning = false;
+                turnCooldown = 0.2f;
             }
             if (bearX > range.y) {
-                bearX = range.y; dir = direction::left; velocity = 0.0f; turnCooldown = 0.2f;
+                bearX = range.y;
+                dir = direction::left;
+                velocity = 0.0f;
+                turning = false;
+                turnCooldown = 0.2f;
             }
         }
 
@@ -137,10 +162,21 @@ void bear::Update(glm::vec2 playerPosition) {
             static bool isJumping = false;
             static float velocityY = 0.0f;
             static float jumpCooldown = 0.0f;
+            static bool jumpActivated = false;
 
             const float gravity = -2000.0f;
-            const float jumpPower = 1385.0f;  // 高度可達 332
-            const float groundY = -120.0f;   // Moved up from -148.0f
+            const float jumpPower = 1385.0f;   // 可達 332
+            const float groundY = -120.0f;
+            const glm::vec2 xRange(-529.0f, 276.0f);
+
+            if (!jumpActivated && playerPosition.x > 100.0f) {
+                jumpActivated = true;
+            }
+
+            if (!jumpActivated) {
+                bearY = groundY;
+                return;
+            }
 
             if (!isJumping && jumpCooldown <= 0.0f) {
                 isJumping = true;
@@ -152,12 +188,15 @@ void bear::Update(glm::vec2 playerPosition) {
                 bearY += velocityY * deltaTime;
 
                 bearX += (playerPosition.x - bearX) * 0.07f;
+                if (bearX < xRange.x) bearX = xRange.x;
+                if (bearX > xRange.y) bearX = xRange.y;
+
                 dir = (playerPosition.x < bearX) ? direction::left : direction::right;
 
                 if (bearY <= groundY) {
                     bearY = groundY;
                     isJumping = false;
-                    jumpCooldown = 0.3f;
+                    jumpCooldown = 0.05f;
                 }
             } else {
                 bearY = groundY;
@@ -169,7 +208,7 @@ void bear::Update(glm::vec2 playerPosition) {
     // === Phase5 ===
     else if (m_CurrentPhase == "5") {
         static bool toLeft = true;
-        const float speed = 2.5f;
+        const float speed = 8.0f;
         const float minX = -480.0f;
         const float maxX = 420.0f;
 
@@ -182,6 +221,8 @@ void bear::Update(glm::vec2 playerPosition) {
             dir = direction::right;
             if (bearX >= maxX) toLeft = true;
         }
-        bearY = 360.0f;  // Moved up from 332.0f
+
+        bearY = 350.0f;  // 調整貼地位置
     }
 }
+

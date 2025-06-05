@@ -322,44 +322,37 @@ void App::Update() {
             if (switchTimer >= switchInterval) {
                 isSwitch = !isSwitch;
                 std::string newPhase = isSwitch ? "4_2" : "4_1";
-
-                m_PRM->SetPhase(newPhase,CurrentWorld);
-                m_MapLoader->LoadMap(newPhase,CurrentWorld);
+                m_PRM->SetPhase(newPhase, CurrentWorld);
+                m_MapLoader->LoadMap(newPhase, CurrentWorld);
                 switchTimer = 0.0f;
             }
-        
-            // Check if we need to create a new bear
+        }
+        // === Bear 通用邏輯 (Phase4 & Phase5) ===
+        if ((CurrentPhase.find("4") == 0 || CurrentPhase == "5")) {
             if (!m_bear) {
                 m_bear = std::make_shared<bear>();
                 m_bear->SetZIndex(-2);
                 m_Root.AddChild(m_bear);
-                std::cout << "Bear recreated for phase " << CurrentPhase << std::endl;
+                std::cout << "Bear created for phase " << CurrentPhase << std::endl;
             }
-            
-            // Set up the bear for this phase
-            if (m_bear) {
-                m_bear->SetMapInfoLoader(m_MapLoader);
-                m_bear->SetCurrentPhase(CurrentPhase);
-                
-                std::string currentPhaseCopy = CurrentPhase; // Create a copy for detect
-            
-                if (m_bear->detect(currentPhaseCopy)) {
-                    m_bear->SetVisible(true);
-                    std::cout << "Bear detected in phase " + currentPhaseCopy << std::endl;
-                    LOG_TRACE("Bear detected in phase " + currentPhaseCopy);
-                }
-                
-                // Update the bear if it is active
-                if (m_bear->exist()) {
-                    m_bear->Update(m_Boshy->GetPosition());
-                }
+
+            m_bear->SetMapInfoLoader(m_MapLoader);
+            m_bear->SetCurrentPhase(CurrentPhase);
+
+            std::string currentPhaseCopy = CurrentPhase;
+            if (m_bear->detect(currentPhaseCopy)) {
+                m_bear->SetVisible(true);
+            }
+
+            if (m_bear->exist()) {
+                m_bear->Update(m_Boshy->GetPosition());
             }
         } else if (m_bear) {
-            // If we're not in phase 4/4_x/5 and bear exists, completely remove it
             m_Root.RemoveChild(m_bear);
-            m_bear = nullptr; // Release the shared_ptr
+            m_bear = nullptr;
             std::cout << "Bear completely released when leaving phase " << CurrentPhase << std::endl;
         }
+
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
