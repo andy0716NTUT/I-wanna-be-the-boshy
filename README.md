@@ -34,11 +34,38 @@
 
 無限制重試次數，鼓勵玩家反覆挑戰直到成功。
 ### 遊戲畫面
+![image](gamescen.png)
 
 ## 程式設計
 
 ### 程式架構
+#### 🧩 關鍵類別架構與系統說明
 
+| 🗂️ 系統分類       | 🔧 主要類別                                                                 | 📄 標頭檔案位置                                   |
+|------------------|----------------------------------------------------------------------------|--------------------------------------------------|
+| **核心系統 (App Core)**   | `App`, `App::GamePhase`, `App::State`                                 | `App.hpp`                                         |
+| **玩家系統 (Player System)** | `Character`, `AnimatedCharacter`                                       | `Character.hpp`, `AnimatedCharacter.hpp`         |
+| **敵人系統 (Enemy System)** | `bear`, `spider`, `Bird`                                                | `bear.hpp`, `MapObject/spider.hpp`, `MapObject/bird.hpp` |
+| **Boss 系統 (Boss System)** | `Boss1`, `BulletTypeA/B/C`, `LightAttack`                              | `Boss1/*.hpp`                                     |
+| **地圖系統 (Map System)**   | `MapInfoLoader`, `World`                                               | `MapInfoLoader.hpp`, `World.hpp`                 |
+| **地圖物件 (Map Objects)**  | `CheckPoint`, `Platform`, `FallingGround`, `JumpBoost`                | `MapObject/*.hpp`                                 |
+| **資源管理系統 (Resource System)** | `ResourceManager`, `BgmManager`                                 | `ResourceManager.hpp`, `BgmManager.hpp`          |
+
+#### 項目文件總覽 📋
+
+#### 📁 項目文件組織
+
+| 🔍 類別 | 📄 檔案位置 | 🛠️ 功能說明 |
+|:--------:|:------------|:------------|
+| 🚀 **主入口** | `src/main.cpp` | 應用程式入口點和主遊戲迴圈 |
+| 🧠 **核心遊戲邏輯** | `src/App.cpp`<br>`src/AppStart.cpp`<br>`src/AppUpdate.cpp` | 主遊戲應用流程控制 |
+| 💾 **資源管理** | `src/ResourceManager.cpp`<br>`include/ResourceManager.hpp` | 加載和管理遊戲資源 |
+| 👤 **角色系統** | `src/Character.cpp`<br>`src/AnimatedCharacter.cpp` | 玩家角色實現 |
+| 👾 **敵人系統** | `src/enemy.cpp`<br>`src/Bird.cpp` | 敵人行為和互動 |
+| 🗺️ **地圖系統** | `src/MapInfoLoader.cpp`<br>`include/MapObject/*.hpp` | 地圖加載和與地圖物件的互動 |
+| 🎮 **遊戲物件** | `include/Bullet.hpp`<br>`src/bullet.cpp`, etc. | 各種遊戲物件實現 |
+| 📱 **UI系統** | `src/Menu.cpp`<br>`include/Menu.hpp` | 菜單和用戶界面元素 |
+| ⚙️ **建置配置** | `CMakeLists.txt`<br>`files.cmake` | 項目建置設置和文件組織 |
 ### 程式技術
 
 ## 結語
