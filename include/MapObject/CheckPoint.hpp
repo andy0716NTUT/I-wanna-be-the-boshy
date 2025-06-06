@@ -19,6 +19,8 @@ private:
     std::vector<std::string> paths;
     bool m_HasShot = false; // 標記是否已經發射過子彈
     glm::vec2 m_TargetPosition = {0, 0}; // 玩家位置
+    bool m_NeedsSave = false; // 標記是否需要執行延遲保存
+    float m_SaveDelay = 0.0f; // 保存延遲計時器
 
 public:
     explicit CheckPoint() {
@@ -31,12 +33,13 @@ public:
         m_Animation->Pause();
         m_Drawable = m_Animation;
     }
-    
-    void play() {
+      void play() {
         m_Drawable = m_Animation;
         m_Animation->Play();
         m_HasShot = true; // 標記已經發射過子彈
-    }    glm::vec2 GetPosition(){return m_Transform.translation ;}
+        m_NeedsSave = true; // 標記需要延遲儲存
+        m_SaveDelay = 0.0f; // 重置延遲計時器
+    }glm::vec2 GetPosition(){return m_Transform.translation ;}
     void SetPosition(glm::vec2 position) {
         m_Transform.translation = position;
     }
@@ -49,8 +52,7 @@ public:
     bool ShouldShootBullet() const {
         return m_HasShot && m_Animation->GetCurrentFrameIndex() == 7; // 在動畫中間發射
     }
-    
-    // 重置射擊狀態
+      // 重置射擊狀態
     void ResetShotStatus() {
         m_HasShot = false;
     }
@@ -59,6 +61,27 @@ public:
     Character::direction GetDirectionToTarget() const {
         return (m_TargetPosition.x < m_Transform.translation.x) ? 
                Character::direction::LEFT : Character::direction::RIGHT;
+    }
+    
+    // 更新延遲儲存計時器
+    bool UpdateSaveDelay(float deltaTime, glm::vec2& outSavePosition) {
+        if (!m_NeedsSave) return false;
+        
+        m_SaveDelay += deltaTime;
+        
+        const float SAVE_DELAY_TIME = 0.75f; // 延遲0.25秒保存
+        if (m_SaveDelay >= SAVE_DELAY_TIME) {
+            m_NeedsSave = false; // 重置標記
+            outSavePosition = m_TargetPosition; // 設定保存位置
+            return true; // 可以保存了
+        }
+        
+        return false; // 還不能保存
+    }
+    
+    // 重置延遲儲存狀態
+    void ResetSaveStatus() {
+        m_NeedsSave = false;
     }
     
     // 從地圖創建檢查點

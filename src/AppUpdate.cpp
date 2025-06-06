@@ -236,13 +236,11 @@ void App::Update() {
 
         // 检查点碰撞检测
         for (auto& bullet : m_Bullets) {
-            glm::vec2 checkpointPos;
-            if (bullet->CheckCheckpointCollision(m_CheckPoints, checkpointPos, currentCheckPointPhase, checkPointX, checkPointY)) {
-                // 清空所有子弹
+            glm::vec2 checkpointPos;            if (bullet->CheckCheckpointCollision(m_CheckPoints, checkpointPos, currentCheckPointPhase, checkPointX, checkPointY)) {
+                // 清空子彈
                 bullet->SetVisible(false);
                 bullet->SetDrawable(nullptr);
-                currentCheckPoint = m_Boshy->GetPosition();
-                checkPointWorld = CurrentWorld;
+                // 不再直接設置檢查點位置，而是由延遲計時器處理
                 break;
             }
         }
@@ -513,7 +511,20 @@ void App::Update() {
         {
             // 設置檢查點目標為玩家位置 (用於子彈射擊方向計算)
             checkpoint->SetTargetPosition(m_Boshy->GetPosition());
-              // 檢查是否應該發射子彈 (在動畫的特定幀)
+            
+            // 更新延遲儲存計時器
+            glm::vec2 savePosition;
+            if (checkpoint->UpdateSaveDelay(deltaTime, savePosition)) {
+                // 延遲時間到，現在儲存檢查點
+                currentCheckPoint = savePosition;
+                currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
+                checkPointX = currentX;
+                checkPointY = currentY;
+                checkPointWorld = CurrentWorld;
+                std::cout << "延遲保存檢查點位置: (" << savePosition.x << ", " << savePosition.y << ")" << std::endl;
+            }
+              
+            // 檢查是否應該發射子彈 (在動畫的特定幀)
             if (checkpoint->ShouldShootBullet()) {
                 // 創建朝向玩家的子彈（使用特殊的檢查點子彈）
                 auto deathBullet = Bullet::CreateCheckpointBullet(
@@ -530,19 +541,16 @@ void App::Update() {
             }
             
             // 處理玩家子彈與檢查點的碰撞
-            glm::vec2 cpPos = checkpoint->GetPosition();
-            for (auto& bullet : m_Bullets)
+            glm::vec2 cpPos = checkpoint->GetPosition();            for (auto& bullet : m_Bullets)
             {
                 if (bullet) {
                     glm::vec2 bulletPos = bullet->GetPosition();
                     if (glm::distance(cpPos, bulletPos) < 32.0f)
                     {
                         checkpoint->play();
+                        checkpoint->SetTargetPosition(m_Boshy->GetPosition()); // 記錄當前玩家位置用於延遲儲存
                         ClearGameObjects(bullet);
-                        currentCheckPoint = m_Boshy->GetPosition();
-                        currentCheckPointPhase = m_MapLoader->GetCurrentPhase();
-                        checkPointX = currentX;
-                        checkPointY = currentY;
+                        // 不立即保存檢查點位置，等延遲計時器完成後再保存
                         break; // 跳出內層循環
                     }
                 }
