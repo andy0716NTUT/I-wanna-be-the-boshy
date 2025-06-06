@@ -43,9 +43,9 @@ void App::Respawn() {
 }
 
 
-void App::ReloadMapObjects() {
-    ClearGameObjects(m_Platform);
+void App::ReloadMapObjects() {    ClearGameObjects(m_Platform);
     ClearGameObjects(m_CheckPoints);
+    ClearGameObjects(m_CheckpointBullets); // 清除檢查點子彈
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
     if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
@@ -60,8 +60,8 @@ void App::ReloadMapObjects() {
         m_Boss1->ClearAnimation(m_Root);
         ClearGameObjects(m_Boss1);
 
-    }
-    m_CheckPoints.clear();
+    }    m_CheckPoints.clear();
+    m_CheckpointBullets.clear(); // 清除檢查點子彈列表
     m_jumpBoost.clear();
     m_Platform.clear();
     m_FallingGround.clear();

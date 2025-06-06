@@ -17,9 +17,13 @@ public:
     void SetVisible(bool visible) { m_IsVisible = visible; }
     void SetLifeTime(float time) { lifeTime = time; }
     void SetDirection(Character::direction dir) { m_Direction = dir; }
+    void SetTargetPosition(const glm::vec2& targetPos) { m_TargetPosition = targetPos; }
     static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets);
     [[nodiscard]] bool ShouldBeRemoved() const { return !m_IsVisible; }
     Character::direction GetDirection() const { return m_Direction; }
+    
+    // 更新檢查點子彈的位置（朝向玩家移動）
+    bool UpdateCheckpointBullet(float deltaTime);
 
     // 新增的方法
     // 在地图中更新子弹位置并处理碰撞
@@ -27,10 +31,15 @@ public:
 
     // 检查与检查点的碰撞
     bool CheckCheckpointCollision(const std::vector<std::shared_ptr<CheckPoint>>& checkpoints,
-                                  glm::vec2& outCheckpointPos, std::string& outPhase, int& outX, int& outY);
-
-    // 创建新子弹的工厂方法
+                                  glm::vec2& outCheckpointPos, std::string& outPhase, int& outX, int& outY);    // 创建新子弹的工厂方法
     static std::shared_ptr<Bullet> CreateBullet(
+        const glm::vec2& position,
+        Character::direction direction,
+        float lifeTime,
+        Util::Renderer& renderer);
+        
+    // 创建检查点子弹的工厂方法（子彈會使角色死亡）
+    static std::shared_ptr<Bullet> CreateCheckpointBullet(
         const glm::vec2& position,
         Character::direction direction,
         float lifeTime,
@@ -45,5 +54,6 @@ private:
     float lifeTime = 0.0f;
     bool m_IsVisible = true;
     Character::direction m_Direction;
+    glm::vec2 m_TargetPosition = {0, 0}; // 目標位置（用於追蹤子彈）
 };
 #endif //BULLET_HPP

@@ -27,6 +27,7 @@ std::shared_ptr<Boss1> m_Boss1;
 std::shared_ptr<spider> m_phase8spider;
 
 std::vector<std::shared_ptr<Bullet>> m_Bullets;
+std::vector<std::shared_ptr<Bullet>> m_CheckpointBullets; // 檢查點發射的子彈
 std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
 std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
 std::vector<std::shared_ptr<FallingGround>> m_FallingGround;

@@ -509,9 +509,27 @@ void App::Update() {
                     }
                 }
             }
-        }
-        for (auto& checkpoint : m_CheckPoints)
+        }        for (auto& checkpoint : m_CheckPoints)
         {
+            // 設置檢查點目標為玩家位置 (用於子彈射擊方向計算)
+            checkpoint->SetTargetPosition(m_Boshy->GetPosition());
+              // 檢查是否應該發射子彈 (在動畫的特定幀)
+            if (checkpoint->ShouldShootBullet()) {
+                // 創建朝向玩家的子彈（使用特殊的檢查點子彈）
+                auto deathBullet = Bullet::CreateCheckpointBullet(
+                    checkpoint->GetPosition(),
+                    checkpoint->GetDirectionToTarget(),
+                    1.0f,  // 1秒後消失
+                    m_Root
+                );
+                  // 設定直線移動，不需要玩家位置
+                
+                // 添加到子彈列表以進行管理
+                m_CheckpointBullets.push_back(deathBullet);
+                checkpoint->ResetShotStatus(); // 重置射擊狀態
+            }
+            
+            // 處理玩家子彈與檢查點的碰撞
             glm::vec2 cpPos = checkpoint->GetPosition();
             for (auto& bullet : m_Bullets)
             {
@@ -528,9 +546,42 @@ void App::Update() {
                         break; // 跳出內層循環
                     }
                 }
-
             }
         }
+          // 處理檢查點子彈與玩家的碰撞
+        for (auto& cpBullet : m_CheckpointBullets) {
+            if (cpBullet && cpBullet->IsVisible()) {                // 更新子彈位置（使用直線移動，不會跟蹤玩家）
+                cpBullet->UpdateCheckpointBullet(deltaTime);
+                
+                // 處理與地圖的碰撞
+                int bulletTileX = static_cast<int>((cpBullet->GetPosition().x + 640) / 16);
+                int bulletTileY = static_cast<int>((480 - cpBullet->GetPosition().y) / 16);
+                
+                if (bulletTileX >= 0 && bulletTileX < m_MapLoader->GetWidth() &&
+                    bulletTileY >= 0 && bulletTileY < m_MapLoader->GetHeight()) {
+                    
+                    int tileValue = m_MapLoader->GetTile(bulletTileX, bulletTileY);
+                    if (tileValue == 1 || tileValue == 2) {
+                        cpBullet->SetVisible(false);
+                        continue;  // 跳過後續處理
+                    }
+                }
+                
+                // 檢查與玩家的碰撞
+                if (glm::distance(cpBullet->GetPosition(), m_Boshy->GetPosition()) < 20.0f && !GodMode) {
+                    // 玩家被擊中，重生
+                    position = currentCheckPoint;
+                    currentX = checkPointX;
+                    currentY = checkPointY;
+                    needsRespawn = true;
+                    Respawn();
+                    break;
+                }
+            }
+        }
+        
+        // 清理檢查點子彈
+        Bullet::CleanBullet(m_CheckpointBullets);
         // 检查鼠标和角色是否重疊（使用 PTSD Position）
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);

@@ -92,9 +92,59 @@ std::shared_ptr<Bullet> Bullet::CreateBullet(
     return bullet;
 }
 
+std::shared_ptr<Bullet> Bullet::CreateCheckpointBullet(
+    const glm::vec2& position,
+    Character::direction direction,
+    float lifeTime,
+    Util::Renderer& renderer) {
+
+    auto bullet = std::make_shared<Bullet>();
+    bullet->SetPosition(position);
+    bullet->SetLifeTime(lifeTime);
+    bullet->SetVisible(true);
+    bullet->SetDirection(direction);
+
+    // 使用檢查點專用子彈圖片
+    bullet->SetImage(RESOURCE_DIR"/Image/Checkpoint/checkpoint_bullet.png");
+
+    renderer.AddChild(bullet);
+    return bullet;
+}
+
 void Bullet::CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets) {
     bullets.erase(std::remove_if(bullets.begin(), bullets.end(),
         [](const std::shared_ptr<Bullet>& bullet) {
             return bullet == nullptr || !bullet->IsVisible(); // 清除 nullptr 或不可見的
         }), bullets.end());
+}
+
+bool Bullet::UpdateCheckpointBullet(float deltaTime) {
+    // 首先更新生命週期
+    Update(deltaTime);
+
+    if (!IsVisible()) return false;
+    
+    // 使用完全直線的移動，根據子彈的方向
+    glm::vec2 directionVector;
+    if (m_Direction == Character::direction::LEFT) {
+        directionVector = glm::vec2(-1.0f, 0.0f);
+    } else {
+        directionVector = glm::vec2(1.0f, 0.0f);
+    }
+    
+    // 計算新位置（使用固定速度）
+    const float CHECKPOINT_BULLET_SPEED = 8.0f;
+    glm::vec2 newPosition = m_Transform.translation + directionVector * CHECKPOINT_BULLET_SPEED;
+    
+    // 設定新位置
+    SetPosition(newPosition);
+    
+    // 如果子彈離開螢幕範圍則消失
+    if (m_Transform.translation.x < -640 || m_Transform.translation.x > 640 ||
+        m_Transform.translation.y < -480 || m_Transform.translation.y > 480) {
+        SetVisible(false);
+        return false;
+    }
+    
+    return true;
 }
