@@ -33,7 +33,7 @@ void App::Respawn() {
         m_MapLoader->LoadMap(currentCheckPointPhase,CurrentWorld);
         CurrentPhase = currentCheckPointPhase;
     }
-
+    m_PRM->resetRotation();
     // 清除所有游戏对象
     ReloadMapObjects();
 
@@ -155,16 +155,23 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
         startPos = {-500.0f, 200.0f};
     } else if (mapName.find("12") == 0) {
         startPos = {525.0f, 180.0f};
-    }
-
-    // 设置角色位置
+    }    // 设置角色位置
     m_Boshy->SetPosition(startPos);
     std::tie(currentY, currentX) = m_World->GetPhaseIndex(mapName, CurrentWorld);
+    
     // 更新检查点位置
+    currentCheckPoint = startPos;
+    currentCheckPointPhase = mapName;
+    checkPointX = currentX;
+    checkPointY = currentY;
+    checkPointWorld = worldName;
+    
     if(worldName == "WORLD1"){
         m_GamePhase = GamePhase::WORLD1;
     }else if(worldName == "WORLD2"){
         m_GamePhase = GamePhase::WORLD2;
+    }else if(worldName == "WORLD3"){
+        m_GamePhase = GamePhase::WORLD3;
     }
 
 
