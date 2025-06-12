@@ -89,21 +89,14 @@ void App::Update() {
 
         // 上帝模式下忽略致命碰撞
         if (!GodMode) {
-            // 原有的碰撞檢測代碼
+            // 尖刺碰撞检测代码
             if (aboveTile == 5 || belowTile == 5 || leftTile == 5 || rightTile == 5 || centerTile == 5)
             {
                 position = currentCheckPoint;
                 currentX = checkPointX;
                 currentY = checkPointY;
-                needsRespawn = true;
                 deathType = DeathType::REAL_DEATH;
-                
-                // 设置玩家死亡动画
-                if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
-                    animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
-                } else {
-                    animatedBoshy->SetState(Character::MoveState::DEATH);
-                }
+                // 不再使用needsRespawn和立即return，让死亡处理代码有机会执行
             }
         }
 
@@ -419,12 +412,6 @@ void App::Update() {
 
                 if (glm::distance(m_phase8bird->GetPosition(), m_Boshy->GetPosition()) < 20.0f && !GodMode) {
                     // 玩家被鸟击中，触发真实死亡
-                    auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
-                    if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
-                        animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
-                    } else {
-                        animatedBoshy->SetState(Character::MoveState::DEATH);
-                    }
                     m_Boshy->SetPosition(currentCheckPoint);
                     currentX = checkPointX;
                     currentY = checkPointY;
@@ -475,13 +462,7 @@ void App::Update() {
                 }
             }
             if (m_Boss1->playerDead() && !GodMode) {
-                // 设置玩家死亡动画
-                auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
-                if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
-                    animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
-                } else {
-                    animatedBoshy->SetState(Character::MoveState::DEATH);
-                }
+                // 已删除设置玩家死亡动画的代码
                 deathType = DeathType::REAL_DEATH;
             }
         } else {
@@ -598,13 +579,7 @@ void App::Update() {
                 
                 // 檢查與玩家的碰撞
                 if (glm::distance(cpBullet->GetPosition(), m_Boshy->GetPosition()) < 20.0f && !GodMode) {
-                    // 玩家被擊中，设置真实死亡
-                    auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
-                    if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
-                        animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
-                    } else {
-                        animatedBoshy->SetState(Character::MoveState::DEATH);
-                    }
+                    // 玩家被擊中，重置位置
                     position = currentCheckPoint;
                     currentX = checkPointX;
                     currentY = checkPointY;
@@ -671,7 +646,7 @@ void App::Update() {
                 // 真正死亡状态：显示死亡UI和动画
                 m_GameOverUI->Show();
                 
-                // 更新死亡动画
+                // 更新死亡動畫
                 deathAnimTimer += deltaTime;
                 
                 // 死亡動畫播放0.8秒後才能按R鍵重置
