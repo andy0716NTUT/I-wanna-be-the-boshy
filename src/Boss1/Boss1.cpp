@@ -87,6 +87,34 @@ void Boss1::ClearAnimation(Util::Renderer& rootRenderer) {
     currentHp = 5;
 
 }
+void Boss1::CheckPlayerDeathByBullets(const glm::vec2& playerPosition) {
+    const float DEATH_DISTANCE = 40.0f; // 距離閾值，可依需求調整
+
+    for (const auto& bullet : m_BulletsA) {
+        if (glm::distance(bullet->GetPosition(), playerPosition) < DEATH_DISTANCE) {
+            isPlayerDead = true;
+            return;
+        }
+    }
+    for (const auto& bullet : m_BulletsB) {
+        if (glm::distance(bullet->GetPosition(), playerPosition) < DEATH_DISTANCE) {
+            isPlayerDead = true;
+            return;
+        }
+    }
+    for (const auto& bullet : m_BulletsC) {
+        if (glm::distance(bullet->GetPosition(), playerPosition) < DEATH_DISTANCE) {
+            isPlayerDead = true;
+            return;
+        }
+    }
+    if (m_LightAttack) { // 假設 LightAttack 有這樣的檢查
+        if (glm::distance(m_LightAttack->GetPosition(), playerPosition) < DEATH_DISTANCE) {
+            isPlayerDead = true;
+            return;
+        }
+    }
+}
 
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
     if (this->IsDead()) {
@@ -204,6 +232,13 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     m_LightAttackCount = 0;
                     m_LightAttackTimer = 0.0f;
                 }
+                if (!isPlayerDead && m_LightAttack && m_LightAttack->IsActive()) {
+                    float laserY = m_LightAttack->GetPosition().y;
+                    float boshyY = playerPosition.y;
+                    if (fabs(laserY - boshyY) <= 40.0f) {
+                        isPlayerDead = true;
+                    }
+                }
                 break;
             }
             case AttackType::TYPEB:
@@ -271,6 +306,8 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
     }
     m_Transform.translation.x = std::round(m_Transform.translation.x);
     m_Transform.translation.y = std::round(m_Transform.translation.y);
+
+    CheckPlayerDeathByBullets(playerPosition);
 }
 
 

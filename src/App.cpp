@@ -22,8 +22,9 @@ void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
 }
 void App::Respawn() {
-    isDead = true;
+    isDead = false;
     NotFirstTryBoss = true;
+    m_GameOverUI->Show();
     currentX = checkPointX;
     currentY = checkPointY;
     CurrentWorld = checkPointWorld;

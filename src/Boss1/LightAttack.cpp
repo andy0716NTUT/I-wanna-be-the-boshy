@@ -22,7 +22,23 @@ LightAttack::LightAttack(glm::vec2 playerPosition) {
     SetDrawable(m_Animation_Waiting);
     m_Animation_Waiting->Play();
 }
+glm::vec2 LightAttack::GetPosition() const {
+    return m_Transform.translation;
+}
 
+bool LightAttack::IsActive() const {
+    return m_HasSwitched;  // 攻擊已啟動
+}
+
+bool LightAttack::HitsPlayer(glm::vec2 playerPosition) const {
+    if (!IsActive()) return false;
+
+    float attackY = m_Transform.translation.y;
+    float playerY = playerPosition.y;
+    const float TOLERANCE = 40.0f;  // 可命中範圍
+
+    return fabs(playerY - attackY) < TOLERANCE;
+}
 void LightAttack::Update(float deltaTime) {
     m_WaitTimer += deltaTime;
 

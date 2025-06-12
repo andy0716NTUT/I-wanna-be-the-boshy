@@ -69,7 +69,7 @@ public:
         
         m_SaveDelay += deltaTime;
         
-        const float SAVE_DELAY_TIME = 0.75f; // 延遲0.25秒保存
+        const float SAVE_DELAY_TIME = 0; // 延遲0.25秒保存
         if (m_SaveDelay >= SAVE_DELAY_TIME) {
             m_NeedsSave = false; // 重置標記
             outSavePosition = m_TargetPosition; // 設定保存位置

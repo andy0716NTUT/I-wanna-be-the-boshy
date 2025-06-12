@@ -45,9 +45,11 @@
         bool IsDead() const;
 
         void ClearAnimation(Util::Renderer& rootRenderer);
+
+        void CheckPlayerDeathByBullets(const glm::vec2& playerPosition);
     private:
-        int maxHp = 5;
-        int currentHp = 5;
+        int maxHp = 50;
+        int currentHp = 50;
         bool m_CanMoveVertically = true;
         bool isPlayerDead = false;
         float Health = 100;

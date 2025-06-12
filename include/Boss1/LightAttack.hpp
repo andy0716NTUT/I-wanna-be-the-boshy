@@ -11,6 +11,9 @@ public:
     LightAttack(glm::vec2 playerPosition);
     enum class state{WAITING,SHOOT,Disappear};
     void Update(float deltaTime);
+    bool HitsPlayer(glm::vec2 playerPosition) const;
+    glm::vec2 GetPosition() const;
+    bool IsActive() const;
 private:
     std::shared_ptr<Util::Animation> m_Animation_Waiting;
     std::shared_ptr<Util::Animation> m_Animation_Shoot;

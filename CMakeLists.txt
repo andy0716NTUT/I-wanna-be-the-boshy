@@ -83,6 +83,8 @@ add_executable(${PROJECT_NAME}
         include/Boss1/BossDeadAnimation.hpp
         src/Menu.cpp
         include/AppMembers.hpp
+        include/GameOverUI.hpp
+        src/GameOverUI.cpp
 )
 
 if(MSVC)

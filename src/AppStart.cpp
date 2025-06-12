@@ -59,8 +59,12 @@ void App::Start() {
 
     m_Menu = std::make_shared<Menu>();
     m_Menu->SetImage(RESOURCE_DIR"/Image/Menu/menu_game.png");
-    m_Root.AddChild(m_Menu);
 
+    m_Root.AddChild(m_Menu);
+    m_GameOverUI = std::make_shared<GameOverUI>();
+    m_GameOverUI->Hide();
+
+    m_Root.AddChild(m_GameOverUI);
     m_Root.Update();
     m_CurrentState = State::UPDATE;
 }

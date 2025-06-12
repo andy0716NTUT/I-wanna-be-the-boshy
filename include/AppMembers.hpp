@@ -32,7 +32,7 @@ std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
 std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
 std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
 std::vector<std::shared_ptr<Platform>> m_Platform;
-
+std::shared_ptr<GameOverUI> m_GameOverUI;
 bool trapCreated;
 bool isDead;
 float shootCooldown;
