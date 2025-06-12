@@ -12,7 +12,7 @@ App::App() {
     m_GamePhase = GamePhase::MENU;
 
     trapCreated = false;
-    isDead = false;
+    deathType = DeathType::NONE;  // 替换原来的 isDead = false
     shootCooldown = 0;
     NotFirstTryBoss= false;
 };
@@ -22,9 +22,11 @@ void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
 }
 void App::Respawn() {
-    isDead = false;
+    // 确保死亡UI被彻底隐藏和清除
+    m_GameOverUI->Hide();
+    
+    // 恢复游戏状态
     NotFirstTryBoss = true;
-    m_GameOverUI->Show();
     currentX = checkPointX;
     currentY = checkPointY;
     CurrentWorld = checkPointWorld;
@@ -35,21 +37,31 @@ void App::Respawn() {
         CurrentPhase = currentCheckPointPhase;
     }
     m_PRM->resetRotation();
+    
     // 清除所有游戏对象
     ReloadMapObjects();
 
+    // 重置角色位置
     m_Boshy->SetPosition(currentCheckPoint);
-
-    isDead = false;
+    
+    // 重置死亡状态
+    deathType = DeathType::NONE;
+    deathAnimFinished = false;
+    deathAnimTimer = 0.0f;
+    
+    // 强制更新绘制，确保死亡UI不会被渲染
+    m_Root.Update();
 }
 
 
-void App::ReloadMapObjects() {    ClearGameObjects(m_Platform);
+void App::ReloadMapObjects() {    
+    ClearGameObjects(m_Platform);
     ClearGameObjects(m_CheckPoints);
     ClearGameObjects(m_CheckpointBullets); // 清除檢查點子彈
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
-    if ((isDead && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))ClearGameObjects(m_phase8bird);
+    if ((deathType != DeathType::NONE && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))
+        ClearGameObjects(m_phase8bird);
     if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && !(CurrentPhase.find("4_") == 0 || CurrentPhase == "5")) {
         ClearGameObjects(m_bear);
     }
@@ -60,8 +72,8 @@ void App::ReloadMapObjects() {    ClearGameObjects(m_Platform);
     if (m_Boss1) {
         m_Boss1->ClearAnimation(m_Root);
         ClearGameObjects(m_Boss1);
-
-    }    m_CheckPoints.clear();
+    }    
+    m_CheckPoints.clear();
     m_CheckpointBullets.clear(); // 清除檢查點子彈列表
     m_jumpBoost.clear();
     m_Platform.clear();

@@ -1,6 +1,13 @@
 // AppMembers.hpp
 #pragma once
 
+// 死亡类型枚举
+enum class DeathType {
+    NONE,       // 没有死亡
+    REAL_DEATH, // 真正的死亡（需要死亡动画）
+    RESET       // 按R键重置（不需要死亡动画）
+};
+
 glm::vec2 currentCheckPoint;
 std::string currentCheckPointPhase;
 std::string CurrentPhase;
@@ -34,6 +41,8 @@ std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
 std::vector<std::shared_ptr<Platform>> m_Platform;
 std::shared_ptr<GameOverUI> m_GameOverUI;
 bool trapCreated;
-bool isDead;
+DeathType deathType = DeathType::NONE; // 替换原来的isDead
+float deathAnimTimer = 0.0f; // 死亡动画计时器
+bool deathAnimFinished = false; // 死亡动画是否完成
 float shootCooldown;
 bool NotFirstTryBoss;

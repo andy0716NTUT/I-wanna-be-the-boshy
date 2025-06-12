@@ -76,7 +76,9 @@ public:
 
     std::string GamePhaseToString(App::GamePhase phase) {
         switch (phase) {
+            case App::GamePhase::MENU: return "MENU";
             case App::GamePhase::WORLD1: return "WORLD1";
+            case App::GamePhase::BOSS1: return "BOSS1";
             case App::GamePhase::WORLD2: return "WORLD2";
             case App::GamePhase::WORLD3: return "WORLD3";
             case App::GamePhase::END: return "END";

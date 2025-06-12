@@ -35,7 +35,20 @@ void App::Start() {
             RESOURCE_DIR"/Image/Character/run/run7-left.png", RESOURCE_DIR"/Image/Character/run/run8-left.png"
         }},
         {Character::MoveState::SHOOT, {RESOURCE_DIR"/Image/Character/shoot/shoot1.png", RESOURCE_DIR"/Image/Character/shoot/shoot2.png"}},
-        {Character::MoveState::SHOOT_LEFT, {RESOURCE_DIR"/Image/Character/shoot/shoot1-left.png", RESOURCE_DIR"/Image/Character/shoot/shoot2-left.png"}}
+        {Character::MoveState::SHOOT_LEFT, {RESOURCE_DIR"/Image/Character/shoot/shoot1-left.png", RESOURCE_DIR"/Image/Character/shoot/shoot2-left.png"}},
+        // 添加死亡動畫
+        {Character::MoveState::DEATH, {
+            RESOURCE_DIR"/Image/Character/death/death1.png",
+            RESOURCE_DIR"/Image/Character/death/death2.png",
+            RESOURCE_DIR"/Image/Character/death/death3.png",
+            RESOURCE_DIR"/Image/Character/death/death4.png"
+        }},
+        {Character::MoveState::DEATH_LEFT, {
+            RESOURCE_DIR"/Image/Character/death/death1-left.png",
+            RESOURCE_DIR"/Image/Character/death/death2-left.png",
+            RESOURCE_DIR"/Image/Character/death/death3-left.png",
+            RESOURCE_DIR"/Image/Character/death/death4-left.png"
+        }}
     };
 
     m_Boshy = std::make_shared<AnimatedCharacter>(animationPaths);

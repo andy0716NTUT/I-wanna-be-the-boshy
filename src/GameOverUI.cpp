@@ -15,9 +15,27 @@ void GameOverUI::SetPosition(const glm::vec2 &position) {
 }
 
 void GameOverUI::Hide() {
+    // 首先将UI设为不可见
     this->SetVisible(false);
+    
+    // 彻底释放资源和绘制
+    if (m_GameOverText) {
+        // 设置绘制对象为nullptr
+        SetDrawable(nullptr);
+        // 释放图像资源
+        m_GameOverText.reset();
+        m_GameOverText = nullptr;
+        // 强制清除内部状态
+        m_Timer = 0.0f;
+    }
 }
 void GameOverUI::Show() {
+    // 如果资源已释放，需要重新创建
+    if (!m_GameOverText) {
+        m_GameOverText = std::make_shared<Util::Image>(RESOURCE_DIR "/Image/dead.png");
+        SetDrawable(m_GameOverText);
+    }
+    
     this->SetVisible(true);
     m_Timer = 0.0f; // 重置計時器
 }

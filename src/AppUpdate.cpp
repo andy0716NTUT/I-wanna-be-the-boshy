@@ -96,7 +96,14 @@ void App::Update() {
                 currentX = checkPointX;
                 currentY = checkPointY;
                 needsRespawn = true;
-                isDead = true;
+                deathType = DeathType::REAL_DEATH;
+                
+                // 设置玩家死亡动画
+                if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
+                    animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
+                } else {
+                    animatedBoshy->SetState(Character::MoveState::DEATH);
+                }
             }
         }
 
@@ -411,10 +418,17 @@ void App::Update() {
                 m_phase8bird->Update(deltaTime, m_Boshy->GetPosition());
 
                 if (glm::distance(m_phase8bird->GetPosition(), m_Boshy->GetPosition()) < 20.0f && !GodMode) {
+                    // 玩家被鸟击中，触发真实死亡
+                    auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
+                    if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
+                        animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
+                    } else {
+                        animatedBoshy->SetState(Character::MoveState::DEATH);
+                    }
                     m_Boshy->SetPosition(currentCheckPoint);
                     currentX = checkPointX;
                     currentY = checkPointY;
-                    isDead = true;
+                    deathType = DeathType::REAL_DEATH;
                     return;
                 }
                 if (CurrentPhase == "12" && m_phase8bird->GetPosition().x >= 0.0f) {
@@ -461,7 +475,14 @@ void App::Update() {
                 }
             }
             if (m_Boss1->playerDead() && !GodMode) {
-                isDead = true;
+                // 设置玩家死亡动画
+                auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
+                if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
+                    animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
+                } else {
+                    animatedBoshy->SetState(Character::MoveState::DEATH);
+                }
+                deathType = DeathType::REAL_DEATH;
             }
         } else {
             if (m_Boss1)ClearGameObjects(m_Boss1);
@@ -577,12 +598,18 @@ void App::Update() {
                 
                 // 檢查與玩家的碰撞
                 if (glm::distance(cpBullet->GetPosition(), m_Boshy->GetPosition()) < 20.0f && !GodMode) {
-                    // 玩家被擊中，重生
+                    // 玩家被擊中，设置真实死亡
+                    auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
+                    if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
+                        animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
+                    } else {
+                        animatedBoshy->SetState(Character::MoveState::DEATH);
+                    }
                     position = currentCheckPoint;
                     currentX = checkPointX;
                     currentY = checkPointY;
                     needsRespawn = true;
-                    isDead = true;
+                    deathType = DeathType::REAL_DEATH;
                     break;
                 }
             }
@@ -638,12 +665,34 @@ void App::Update() {
             m_PRM->resetRotation();
             m_Boshy->UpdatePositionWithRotation(0.0f); // 重置角色的旋轉
         }
-        if (isDead) {
-            m_GameOverUI->Show();
-            if (!Util::Input::IsKeyPressed(Util::Keycode::R)) {
-                m_GameOverUI->Update(deltaTime);
-            }else {
-                isDead = false;
+        if (deathType != DeathType::NONE) {
+            // 处理不同类型的死亡
+            if (deathType == DeathType::REAL_DEATH) {
+                // 真正死亡状态：显示死亡UI和动画
+                m_GameOverUI->Show();
+                
+                // 更新死亡动画
+                deathAnimTimer += deltaTime;
+                
+                // 死亡動畫播放0.8秒後才能按R鍵重置
+                if (deathAnimTimer >= 0.8f) {
+                    deathAnimFinished = true;
+                    
+                    // 如果按R鍵，則重置
+                    if (Util::Input::IsKeyPressed(Util::Keycode::R)) {
+                        m_GameOverUI->Hide(); // 立即隱藏死亡UI
+                        deathType = DeathType::NONE;
+                        Respawn();
+                    } else {
+                        m_GameOverUI->Update(deltaTime);
+                    }
+                } else {
+                    m_GameOverUI->Update(deltaTime);
+                }
+            } else if (deathType == DeathType::RESET) {
+                // 直接重置，不顯示死亡動畫
+                m_GameOverUI->Hide(); // 确保死亡UI被隐藏
+                deathType = DeathType::NONE;
                 Respawn();
             }
         }

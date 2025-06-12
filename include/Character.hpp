@@ -18,7 +18,9 @@ public:
         RUN,
         RUN_LEFT,
         SHOOT,
-        SHOOT_LEFT
+        SHOOT_LEFT,
+        DEATH,      // 添加死亡状态
+        DEATH_LEFT  // 添加朝左的死亡状态
     };
 
     explicit Character(const std::string& ImagePath);
