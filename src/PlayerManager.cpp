@@ -45,6 +45,9 @@ void PlayerManager::Update(float deltaTime,
         return;
     }
 
+    // Check if the character is dead
+    bool isCharacterDead = (m_app_ptr->deathType == DeathType::REAL_DEATH);
+
     // Access constants from App
     const float gravity = m_app_ptr->Gravity; // Assuming Gravity is a public member or has a getter
     const float jumpPower = 16.0f; // Taken from App::Update, consider making this App member too
@@ -53,7 +56,7 @@ void PlayerManager::Update(float deltaTime,
     // Manage shoot cooldown (moved from App::Update)
     m_shootCooldown -= deltaTime * 4; // Factor 4 was in App::Update, might need adjustment or be a constant
 
-    // Apply gravity
+    // Apply gravity (even when dead, to allow death animation to complete)
     m_velocityY += gravity;
     if (m_velocityY < maxFallSpeed) {
         m_velocityY = maxFallSpeed;
@@ -128,6 +131,18 @@ void PlayerManager::Update(float deltaTime,
                 boost->CheckInteraction(playerPosition, m_jumpCount); // m_jumpCount is lvalue member
             }
         }
+    }
+
+    // If character is dead, disable all movement input except for R key (which is handled in App::Update)
+    // The R key logic is already implemented in App::Update to respawn the player
+    if (isCharacterDead) {
+        // Keep the character in death state
+        if (animatedBoshy->GetDirection() == Character::direction::LEFT) {
+            animatedBoshy->SetState(Character::MoveState::DEATH_LEFT);
+        } else {
+            animatedBoshy->SetState(Character::MoveState::DEATH);
+        }
+        return; // Skip all movement controls
     }
 
     // --- Handle Input ---
@@ -213,4 +228,4 @@ void PlayerManager::Update(float deltaTime,
     // IfAnimationEnds() might be for things like attack animations.
     // For now, the horizontal input block handles idle/run when not jumping.
     // And jump animations are set during jump.
-} 
+}

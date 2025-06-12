@@ -127,97 +127,103 @@ void App::Update() {
             boost->UpdateState(deltaTime);
         }
 
-        if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)){
-            float prevX = position.x;
-            if (rightTile != 2){
-                position.x += 5;
-                animatedBoshy->SetDirection(Character::direction::RIGHT);
-            }
-            if (position.x != prevX){
-                animatedBoshy->SetState(Character::MoveState::RUN);
-            }
-            else{
-                animatedBoshy->SetState(Character::MoveState::IDLE);
-            }
-        }
-        if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
-            float prevX = position.x;
-            if (leftTile != 2){
-                position.x -= 5;
-                animatedBoshy->SetDirection(Character::direction::LEFT);
-            }
-            if (position.x != prevX){
-                animatedBoshy->SetState(Character::MoveState::RUN_LEFT);
-            }
-            else{
-                animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
-            }
-        }
-        if (Util::Input::IsKeyPressed(Util::Keycode::UP)){
-            float prevY = position.y;
-            if (aboveTile != 2){
-                // 確保上方不是障礙物
-                position.y += 5;
-            }
-            if (position.y != prevY){
-                animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_UP 狀態
-            }
-            else{
-                animatedBoshy->SetState(Character::MoveState::IDLE);
-            }
-        }
+        // 檢查角色是否處於死亡狀態
+        bool isCharacterDead = (deathType == DeathType::REAL_DEATH);
 
-        if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)){
-            float prevY = position.y;
-            if (belowTile != 2){
-                // 確保下方不是障礙物
-                position.y -= 5;
+        // 只有在角色未死亡時處理移動輸入
+        if (!isCharacterDead) {
+            if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)){
+                float prevX = position.x;
+                if (rightTile != 2){
+                    position.x += 5;
+                    animatedBoshy->SetDirection(Character::direction::RIGHT);
+                }
+                if (position.x != prevX){
+                    animatedBoshy->SetState(Character::MoveState::RUN);
+                }
+                else{
+                    animatedBoshy->SetState(Character::MoveState::IDLE);
+                }
             }
-            if (position.y != prevY){
-                animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_DOWN 狀態
+            if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
+                float prevX = position.x;
+                if (leftTile != 2){
+                    position.x -= 5;
+                    animatedBoshy->SetDirection(Character::direction::LEFT);
+                }
+                if (position.x != prevX){
+                    animatedBoshy->SetState(Character::MoveState::RUN_LEFT);
+                }
+                else{
+                    animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
+                }
             }
-            else{
-                animatedBoshy->SetState(Character::MoveState::IDLE);
+            if (Util::Input::IsKeyPressed(Util::Keycode::UP)){
+                float prevY = position.y;
+                if (aboveTile != 2){
+                    // 確保上方不是障礙物
+                    position.y += 5;
+                }
+                if (position.y != prevY){
+                    animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_UP 狀態
+                }
+                else{
+                    animatedBoshy->SetState(Character::MoveState::IDLE);
+                }
             }
-        }
-        shootCooldown -= deltaTime;
-        // 射擊邏輯保持不變
-        if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
-            auto bullet = Bullet::CreateBullet(m_Boshy->GetPosition(), m_Boshy->GetDirection(), 2.0f, m_Root);
-            m_Bullets.push_back(bullet);
-            shootCooldown = 0.5f;
-        }
 
-        else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-            if (jumpCount < 2 || GodMode) {  // 上帝模式下無限跳躍
-                velocityY = JumpPower;
-                isJumping = true;
-                if (!GodMode) jumpCount++;  // 只有非上帝模式才計算跳躍次數
+            if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)){
+                float prevY = position.y;
+                if (belowTile != 2){
+                    // 確保下方不是障礙物
+                    position.y -= 5;
+                }
+                if (position.y != prevY){
+                    animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_DOWN 狀態
+                }
+                else{
+                    animatedBoshy->SetState(Character::MoveState::IDLE);
+                }
+            }
+            shootCooldown -= deltaTime;
+            // 射擊邏輯保持不變
+            if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
+                auto bullet = Bullet::CreateBullet(m_Boshy->GetPosition(), m_Boshy->GetDirection(), 2.0f, m_Root);
+                m_Bullets.push_back(bullet);
+                shootCooldown = 0.5f;
+            }
 
+            else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                if (jumpCount < 2 || GodMode) {  // 上帝模式下無限跳躍
+                    velocityY = JumpPower;
+                    isJumping = true;
+                    if (!GodMode) jumpCount++;  // 只有非上帝模式才計算跳躍次數
+
+                    if (animatedBoshy->GetDirection() == Character::direction::LEFT)
+                        animatedBoshy->SetState(Character::MoveState::JUMP_LEFT);
+                    else
+                        animatedBoshy->SetState(Character::MoveState::JUMP);
+                }
+            }
+            else if (Util::Input::IsKeyUp(Util::Keycode::Z) && isJumping && velocityY > 0) {
+                velocityY *= 0.4f;
+                isJumping = false;
+            }
+
+            if (velocityY <= 0) {
+                isJumping = false;
+            }
+            else if (animatedBoshy->IfAnimationEnds() || (animatedBoshy->GetState() != Character::MoveState::JUMP && velocityY
+                == 0))
+            {
                 if (animatedBoshy->GetDirection() == Character::direction::LEFT)
-                    animatedBoshy->SetState(Character::MoveState::JUMP_LEFT);
+                {
+                    animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
+                }
                 else
-                    animatedBoshy->SetState(Character::MoveState::JUMP);
-            }
-        }
-        else if (Util::Input::IsKeyUp(Util::Keycode::Z) && isJumping && velocityY > 0) {
-            velocityY *= 0.4f;
-            isJumping = false;
-        }
-
-        if (velocityY <= 0) {
-            isJumping = false;
-        }
-        else if (animatedBoshy->IfAnimationEnds() || (animatedBoshy->GetState() != Character::MoveState::JUMP && velocityY
-            == 0))
-        {
-            if (animatedBoshy->GetDirection() == Character::direction::LEFT)
-            {
-                animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
-            }
-            else
-            {
-                animatedBoshy->SetState(Character::MoveState::IDLE);
+                {
+                    animatedBoshy->SetState(Character::MoveState::IDLE);
+                }
             }
         }
 
