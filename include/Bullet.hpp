@@ -46,6 +46,8 @@ public:
     static constexpr float BULLET_SPEED = 15.0f;
     static constexpr float GRAVITY = -0.8f; // 重力加速度（向下為負值）
 
+    void SetDirectionVector(const glm::vec2& dirVec) { m_DirectionVector = dirVec; }
+
 private:
     std::shared_ptr<Util::Animation> m_Bullet;
     std::string ImagePath;

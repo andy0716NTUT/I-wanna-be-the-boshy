@@ -14,7 +14,7 @@ void App::Update() {
     const float switchInterval = 1.0f; // 每1秒切換一次
     static bool keepExtending = true; // 平台延伸控制
     static int startTileX = 28; // 移到外部
-    static int startTileY = 56; // 移到外部
+    static int startTileY = 56; // 秮到外部
     static float platformTimer = 0.0f; // 移到外部
     shootCooldown -= deltaTime * 4;
     std::stringstream ss;
@@ -44,7 +44,7 @@ void App::Update() {
 
             ReloadMapObjects();
             m_Boshy->SetPosition({525,-372});
-            m_BGM->SetBGM(RESOURCE_DIR"/BGM/WORLD1.mp3");
+            m_BGM->SetBGM("WORLD1");
         }
     }else{
         glm::vec2 position = m_Boshy->GetPosition();
@@ -105,7 +105,7 @@ void App::Update() {
             m_Root.Update();
             return;
         }
-        if ((aboveTile == 2 || aboveTile == 1) && velocityY > 0){
+        if ((aboveTile == 2) && velocityY > 0){
             position.y = 480 - ((tileY + 1) * 16);
             velocityY = 0;
         }
@@ -191,7 +191,22 @@ void App::Update() {
             shootCooldown -= deltaTime;
             // 射擊邏輯保持不變
             if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
-                auto bullet = Bullet::CreateBullet(m_Boshy->GetPosition(), m_Boshy->GetDirection(), 2.0f, m_Root);
+                glm::vec2 bulletPos;
+                glm::vec2 bulletDirVec = {1.0f, 0.0f}; // 預設向右
+                float rotation = 0.0f;
+                if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2") {
+                    bulletPos = m_Boshy->m_Transform.translation;
+                    rotation = m_PRM->GetBackground()->getRotation();
+                    // 根據玩家面向決定基礎方向
+                    float baseAngle = (m_Boshy->GetDirection() == Character::direction::LEFT) ? 3.1415926f : 0.0f;
+                    float angle = baseAngle + rotation;
+                    bulletDirVec = {std::cos(angle), -std::sin(angle)};
+                } else {
+                    bulletPos = m_Boshy->GetPosition();
+                    bulletDirVec = (m_Boshy->GetDirection() == Character::direction::LEFT) ? glm::vec2(-1.0f, 0.0f) : glm::vec2(1.0f, 0.0f);
+                }
+                auto bullet = Bullet::CreateBullet(bulletPos, m_Boshy->GetDirection(), 2.0f, m_Root);
+                bullet->SetDirectionVector(bulletDirVec); // 設定自訂方向
                 m_Bullets.push_back(bullet);
                 shootCooldown = 0.5f;
             }
@@ -353,6 +368,13 @@ void App::Update() {
 
             if (m_bear->exist()) {
                 m_bear->Update(m_Boshy->GetPosition());
+                // === Bear 與 Boshy 碰撞判定 ===
+                glm::vec2 bearPos = m_bear->GetPosition();
+                glm::vec2 boshyPos = m_Boshy->GetPosition();
+                float collisionDistance = 40.0f; // 可依實際角色大小調整
+                if (glm::distance(bearPos, boshyPos) < collisionDistance && !GodMode) {
+                    deathType = DeathType::REAL_DEATH;
+                }
             }
         } else if (m_bear) {
             m_Root.RemoveChild(m_bear);
@@ -386,9 +408,19 @@ void App::Update() {
             trapCreated = false;
         }
         if (CurrentPhase == "8") {
+            static bool phase8Entered = false;
+            static float phase8EnterTimer = 0.0f;
             glm::vec2 boshyPos = m_Boshy->GetPosition();
 
-            if (!m_phase8spider && boshyPos.x > -0.0f) {
+            // 進入 phase8 時重置計時器
+            if (!phase8Entered) {
+                phase8Entered = true;
+                phase8EnterTimer = 0.0f;
+            }
+            phase8EnterTimer += deltaTime;
+
+            // 只在延遲1秒後才開始偵測 x > 0.0f 並生成 spider
+            if (!m_phase8spider && phase8EnterTimer > 1.0f && boshyPos.x > 0.0f) {
                 m_phase8spider = std::make_shared<spider>();
                 m_Root.AddChild(m_phase8spider);
                 m_phase8spider->SetMapLoader(m_MapLoader);
@@ -411,6 +443,12 @@ void App::Update() {
                     }
                 }
             }
+        } else {
+            // 離開 phase8 時重置狀態
+            static bool phase8Entered = false;
+            static float phase8EnterTimer = 0.0f;
+            phase8Entered = false;
+            phase8EnterTimer = 0.0f;
         }
 
         // bird 持續追蹤邏輯（phase 8~12 都適用）
@@ -438,7 +476,7 @@ void App::Update() {
                 m_Boss1 = std::make_shared<Boss1>();
                 m_Root.AddChild(m_Boss1);
                 m_Boss1->Spawn(deltaTime,m_Root);
-                m_BGM->SetBGM(RESOURCE_DIR"/BGM/BOSS1.mp3");
+                m_BGM->SetBGM("Boss1");
             }
             m_Boss1->Update(deltaTime,m_Boshy->GetPosition(),m_Root);
             // 只有在 Boss 死後才開始平台延伸
@@ -618,7 +656,7 @@ void App::Update() {
         // 更新角色位置與整體狀態
         m_Boshy->SetPosition(position);
         
-        if (CurrentPhase == "14" && glm::distance(m_Boshy->GetPosition(),{300,-404}) < 20.0f) {
+        if (CurrentPhase == "14" && glm::distance(m_Boshy->GetPosition(),{448,-404}) < 20.0f) {
             m_GamePhase = GamePhase::WORLD2;
             CurrentWorld = GamePhaseToString(m_GamePhase);
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
@@ -629,9 +667,11 @@ void App::Update() {
             ReloadMapObjects();
             switchTimer = 0.0f; // 重置 switchTimer
             isSwitch = false;   // 重置切換狀態
+            m_BGM->SetBGM("WORLD2"); // 進入WORLD2時只呼叫一次
         }
         //=================================================================WORLD2屎山===================================================================================
-        if (m_GamePhase == GamePhase::WORLD2)m_BGM->SetBGM(RESOURCE_DIR"/BGM/WORLD2.mp3");
+        // if (m_GamePhase == GamePhase::WORLD2)m_BGM->SetBGM("WORLD2"); // <-- 移除這行
+
         if (m_GamePhase == GamePhase::WORLD2 && CurrentPhase == "2") {
             // 只旋轉背景
             m_PRM->rotate(deltaTime);

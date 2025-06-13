@@ -27,16 +27,19 @@ bool Bullet::UpdateWithCollision(float deltaTime, const std::shared_ptr<MapInfoL
 
     if (!IsVisible()) return false;
     
-    // 移动子弹 - 所有子弹都是直线移动，没有重力
+    // 移动子弹 - 支援自訂方向向量
     glm::vec2 bulletPosition = GetPosition();
-    
-    // 水平移动
-    if (GetDirection() == Character::direction::LEFT) {
-        bulletPosition.x -= BULLET_SPEED;
+    if (m_DirectionVector != glm::vec2(1.0f, 0.0f) && m_DirectionVector != glm::vec2(-1.0f, 0.0f)) {
+        // 若有自訂方向向量，使用它
+        bulletPosition += m_DirectionVector * BULLET_SPEED;
     } else {
-        bulletPosition.x += BULLET_SPEED;
+        // 否則維持原本左右移動
+        if (GetDirection() == Character::direction::LEFT) {
+            bulletPosition.x -= BULLET_SPEED;
+        } else {
+            bulletPosition.x += BULLET_SPEED;
+        }
     }
-    
     SetPosition(bulletPosition);
 
     // 检查地图碰撞

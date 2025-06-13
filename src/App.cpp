@@ -43,7 +43,12 @@ void App::Respawn() {
 
     // 重置角色位置
     m_Boshy->SetPosition(currentCheckPoint);
-    
+
+    // 根據世界切換BGM
+    if (m_GamePhase == GamePhase::WORLD1) m_BGM->SetBGM("WORLD1");
+    else if (m_GamePhase == GamePhase::WORLD2) m_BGM->SetBGM("WORLD2");
+    else if (m_GamePhase == GamePhase::BOSS1) m_BGM->SetBGM("Boss1");
+
     // 重置死亡状态
     deathType = DeathType::NONE;
     deathAnimFinished = false;
