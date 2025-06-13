@@ -15,9 +15,9 @@ public:
     void Update(float deltaTime);
     bool IsVisible() const { return m_IsVisible; }
     void SetVisible(bool visible) { m_IsVisible = visible; }
-    void SetLifeTime(float time) { lifeTime = time; }
-    void SetDirection(Character::direction dir) { m_Direction = dir; }
-    void SetTargetPosition(const glm::vec2& targetPos) { m_TargetPosition = targetPos; }    static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets);
+    void SetLifeTime(float time) { lifeTime = time; }    void SetDirection(Character::direction dir) { m_Direction = dir; }
+    void SetTargetPosition(const glm::vec2& targetPos) { m_TargetPosition = targetPos; }
+    static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets);
     static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets, Util::Renderer& renderer);
     [[nodiscard]] bool ShouldBeRemoved() const { return !m_IsVisible; }
     Character::direction GetDirection() const { return m_Direction; }
@@ -37,23 +37,23 @@ public:
         Character::direction direction,
         float lifeTime,
         Util::Renderer& renderer);
-        
-    // 创建检查点子弹的工厂方法（子彈會使角色死亡）
+          // 创建检查点子弹的工厂方法（子彈會使角色死亡）
     static std::shared_ptr<Bullet> CreateCheckpointBullet(
         const glm::vec2& position,
-        Character::direction direction,
+        const glm::vec2& targetPosition,
         float lifeTime,
-        Util::Renderer& renderer);
-
-    // 子弹速度常量
+        Util::Renderer& renderer);// 子弹速度常量
     static constexpr float BULLET_SPEED = 15.0f;
+    static constexpr float GRAVITY = -0.8f; // 重力加速度（向下為負值）
 
 private:
     std::shared_ptr<Util::Animation> m_Bullet;
     std::string ImagePath;
     float lifeTime = 0.0f;
     bool m_IsVisible = true;
-    Character::direction m_Direction;
-    glm::vec2 m_TargetPosition = {0, 0}; // 目標位置（用於追蹤子彈）
+    Character::direction m_Direction;    glm::vec2 m_TargetPosition = {0, 0}; // 目標位置（用於追蹤子彈）
+    float m_VelocityY = 0.0f; // 垂直速度（用於重力效果）
+    bool m_IsCheckpointBullet = false; // 标记是否为checkpoint子弹
+    glm::vec2 m_DirectionVector = {1.0f, 0.0f}; // 移动方向向量（用于checkpoint子弹朝向目标移动）
 };
 #endif //BULLET_HPP

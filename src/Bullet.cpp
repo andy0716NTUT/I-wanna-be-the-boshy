@@ -26,14 +26,17 @@ bool Bullet::UpdateWithCollision(float deltaTime, const std::shared_ptr<MapInfoL
     Update(deltaTime);
 
     if (!IsVisible()) return false;
-
-    // 移动子弹
+    
+    // 移动子弹 - 所有子弹都是直线移动，没有重力
     glm::vec2 bulletPosition = GetPosition();
+    
+    // 水平移动
     if (GetDirection() == Character::direction::LEFT) {
         bulletPosition.x -= BULLET_SPEED;
     } else {
         bulletPosition.x += BULLET_SPEED;
     }
+    
     SetPosition(bulletPosition);
 
     // 检查地图碰撞
@@ -81,6 +84,8 @@ std::shared_ptr<Bullet> Bullet::CreateBullet(
     bullet->SetLifeTime(lifeTime);
     bullet->SetVisible(true);
     bullet->SetDirection(direction);
+    bullet->m_VelocityY = 0.0f; // 初始化垂直速度
+    bullet->m_IsCheckpointBullet = false; // 玩家子弹不受重力影响
 
     if (direction == Character::direction::LEFT) {
         bullet->SetImage(RESOURCE_DIR"/Image/bullet2.png");
@@ -94,7 +99,7 @@ std::shared_ptr<Bullet> Bullet::CreateBullet(
 
 std::shared_ptr<Bullet> Bullet::CreateCheckpointBullet(
     const glm::vec2& position,
-    Character::direction direction,
+    const glm::vec2& targetPosition,
     float lifeTime,
     Util::Renderer& renderer) {
 
@@ -102,7 +107,17 @@ std::shared_ptr<Bullet> Bullet::CreateCheckpointBullet(
     bullet->SetPosition(position);
     bullet->SetLifeTime(lifeTime);
     bullet->SetVisible(true);
-    bullet->SetDirection(direction);
+    bullet->SetTargetPosition(targetPosition);
+    bullet->m_VelocityY = 0.0f; // 初始化垂直速度
+    bullet->m_IsCheckpointBullet = true; // 标记为checkpoint子弹，但不使用重力
+
+    // 计算朝向目标的方向向量
+    glm::vec2 direction = targetPosition - position;
+    if (glm::length(direction) > 0) {
+        bullet->m_DirectionVector = glm::normalize(direction);
+    } else {
+        bullet->m_DirectionVector = glm::vec2(1.0f, 0.0f); // 默认向右
+    }
 
     // 使用檢查點專用子彈圖片
     bullet->SetImage(RESOURCE_DIR"/Image/Checkpoint/checkpoint_bullet.png");
@@ -138,17 +153,12 @@ bool Bullet::UpdateCheckpointBullet(float deltaTime) {
 
     if (!IsVisible()) return false;
     
-    // 使用完全直線的移動，根據子彈的方向
-    glm::vec2 directionVector;
-    if (m_Direction == Character::direction::LEFT) {
-        directionVector = glm::vec2(-1.0f, 0.0f);
-    } else {
-        directionVector = glm::vec2(1.0f, 0.0f);
-    }
-    
-    // 計算新位置（使用固定速度）
+    // checkpoint子弹朝向目标方向移动
     const float CHECKPOINT_BULLET_SPEED = 8.0f;
-    glm::vec2 newPosition = m_Transform.translation + directionVector * CHECKPOINT_BULLET_SPEED;
+    glm::vec2 newPosition = m_Transform.translation;
+    
+    // 使用预计算的方向向量移动
+    newPosition += m_DirectionVector * CHECKPOINT_BULLET_SPEED;
     
     // 設定新位置
     SetPosition(newPosition);

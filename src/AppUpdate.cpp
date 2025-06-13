@@ -520,6 +520,9 @@ void App::Update() {
             // 設置檢查點目標為玩家位置 (用於子彈射擊方向計算)
             checkpoint->SetTargetPosition(m_Boshy->GetPosition());
             
+            // 更新子彈發射延遲計時器
+            checkpoint->UpdateBulletShootDelay(deltaTime);
+            
             // 更新延遲儲存計時器
             glm::vec2 savePosition;
             if (checkpoint->UpdateSaveDelay(deltaTime, savePosition)) {
@@ -531,13 +534,12 @@ void App::Update() {
                 checkPointWorld = CurrentWorld;
                 std::cout << "延遲保存檢查點位置: (" << savePosition.x << ", " << savePosition.y << ")" << std::endl;
             }
-              
-            // 檢查是否應該發射子彈 (在動畫的特定幀)
+                // 檢查是否應該發射子彈 (在動畫的特定幀)
             if (checkpoint->ShouldShootBullet()) {
                 // 創建朝向玩家的子彈（使用特殊的檢查點子彈）
                 auto deathBullet = Bullet::CreateCheckpointBullet(
                     checkpoint->GetPosition(),
-                    checkpoint->GetDirectionToTarget(),
+                    m_Boshy->GetPosition(),  // 直接传递玩家的实时位置
                     1.0f,  // 1秒後消失
                     m_Root
                 );
