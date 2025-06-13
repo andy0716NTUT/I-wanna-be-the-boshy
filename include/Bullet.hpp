@@ -17,8 +17,8 @@ public:
     void SetVisible(bool visible) { m_IsVisible = visible; }
     void SetLifeTime(float time) { lifeTime = time; }
     void SetDirection(Character::direction dir) { m_Direction = dir; }
-    void SetTargetPosition(const glm::vec2& targetPos) { m_TargetPosition = targetPos; }
-    static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets);
+    void SetTargetPosition(const glm::vec2& targetPos) { m_TargetPosition = targetPos; }    static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets);
+    static void CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets, Util::Renderer& renderer);
     [[nodiscard]] bool ShouldBeRemoved() const { return !m_IsVisible; }
     Character::direction GetDirection() const { return m_Direction; }
     

@@ -593,11 +593,10 @@ void App::Update() {
                     deathType = DeathType::REAL_DEATH;
                     break;
                 }
-            }
-        }
+            }        }
         
-        // 清理檢查點子彈
-        Bullet::CleanBullet(m_CheckpointBullets);
+        // 清理檢查點子彈 (從渲染器中移除)
+        Bullet::CleanBullet(m_CheckpointBullets, m_Root);
         // 检查鼠标和角色是否重疊（使用 PTSD Position）
         // 清除不可見的子彈
         Bullet::CleanBullet(m_Bullets);

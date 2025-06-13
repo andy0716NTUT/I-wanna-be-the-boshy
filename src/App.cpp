@@ -57,7 +57,7 @@ void App::Respawn() {
 void App::ReloadMapObjects() {    
     ClearGameObjects(m_Platform);
     ClearGameObjects(m_CheckPoints);
-    ClearGameObjects(m_CheckpointBullets); // 清除檢查點子彈
+    ClearGameObjects(m_CheckpointBullets, m_Root); // 清除檢查點子彈並從渲染器移除
     ClearGameObjects(m_jumpBoost);
     ClearGameObjects(m_FallingGround);
     if ((deathType != DeathType::NONE && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))
@@ -126,11 +126,12 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
         m_GamePhase = GamePhase::WORLD2;
     } else if (worldName == "WORLD3") {
         m_GamePhase = GamePhase::WORLD3;
-    }
-
-    // 清除所有子弹
+    }    // 清除所有子弹
     ClearGameObjects(m_Bullets);
     m_Bullets.clear();
+    // 清除檢查點子彈
+    ClearGameObjects(m_CheckpointBullets, m_Root);
+    m_CheckpointBullets.clear();
     // 清除现有游戏对象    ClearGameObjects(m_Platform);
 
     // 设置资源管理器阶段并加载新地图

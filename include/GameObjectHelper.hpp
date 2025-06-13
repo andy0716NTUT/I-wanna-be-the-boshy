@@ -28,9 +28,24 @@ template<typename T>
 void ClearGameObjects(std::vector<std::shared_ptr<T>>& objects)
 {
     for (auto& obj : objects) {
-        obj->SetVisible(false);
-        obj->SetDrawable(nullptr);
-        obj = nullptr;
+        if (obj) {
+            obj->SetVisible(false);
+            obj->SetDrawable(nullptr);
+        }
+    }
+    objects.clear();
+}
+
+// 清除物件並從渲染器中移除
+template<typename T>
+void ClearGameObjects(std::vector<std::shared_ptr<T>>& objects, Util::Renderer& renderer)
+{
+    for (auto& obj : objects) {
+        if (obj) {
+            obj->SetVisible(false);
+            obj->SetDrawable(nullptr);
+            renderer.RemoveChild(obj);
+        }
     }
     objects.clear();
 }

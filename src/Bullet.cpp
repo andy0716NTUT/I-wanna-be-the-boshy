@@ -118,6 +118,20 @@ void Bullet::CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets) {
         }), bullets.end());
 }
 
+void Bullet::CleanBullet(std::vector<std::shared_ptr<Bullet>>& bullets, Util::Renderer& renderer) {
+    // 先從渲染器中移除不可見的子彈
+    for (auto it = bullets.begin(); it != bullets.end(); ) {
+        if (*it == nullptr || !(*it)->IsVisible()) {
+            if (*it != nullptr) {
+                renderer.RemoveChild(*it);
+            }
+            it = bullets.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
 bool Bullet::UpdateCheckpointBullet(float deltaTime) {
     // 首先更新生命週期
     Update(deltaTime);
