@@ -43,7 +43,7 @@ void App::Update() {
             m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
 
             ReloadMapObjects();
-            m_Boshy->SetPosition({525,-372});
+            m_Boshy->SetPosition({-560,364});
             m_BGM->SetBGM("WORLD1");
         }
     }else{

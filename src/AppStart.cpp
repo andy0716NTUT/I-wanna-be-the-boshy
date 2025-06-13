@@ -9,8 +9,6 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-
-
     currentX = 0;
     currentY = 0;
 
@@ -52,7 +50,7 @@ void App::Start() {
     };
 
     m_Boshy = std::make_shared<AnimatedCharacter>(animationPaths);
-    m_Boshy->SetPosition({0, 0});
+
     m_Boshy->SetZIndex(-1);    currentCheckPoint = m_Boshy->GetPosition();    
     m_Bullet = std::make_shared<Bullet>();
     m_Bullet->SetVisible(false);
