@@ -129,6 +129,9 @@ void App::Update() {
 
         // 檢查角色是否處於死亡狀態
         bool isCharacterDead = (deathType == DeathType::REAL_DEATH);
+        
+        // 當角色死亡時，隱藏角色的繪製；當角色活著時，顯示角色
+        m_Boshy->SetVisible(!isCharacterDead);
 
         // 只有在角色未死亡時處理移動輸入
         if (!isCharacterDead) {
