@@ -311,8 +311,8 @@ void App::Update() {
             ReloadMapObjects();
 
             std::cout << "Current Phase : " << CurrentPhase << std::endl;
-        }        if (CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2")
-        {
+        }
+        if ((CurrentPhase == "3" || CurrentPhase == "3_1" || CurrentPhase == "3_2") && m_GamePhase == GamePhase::WORLD1) {
             switchTimer += deltaTime;
             // 移除過度頻繁的輸出，避免降低性能
             if (switchTimer >= switchInterval)
