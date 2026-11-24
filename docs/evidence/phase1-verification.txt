@@ -66,3 +66,15 @@ Full logs: build/windows/configure-{debug,release}.log,
 build/windows/build-{debug,release}.log, build/windows/ctest-{debug,release}.log,
 build/gui-{debug,release}.{stdout,stderr}.log.
 No movement/jump/collision/checkpoint/Boss parity result is implied by these passes.
+
+After Phase 1.5 opt-in probe additions, ordinary mode was verified again:
+cmake -S B:/ -B B:/build/windows -DBOSHY_BUILD_SCENE_PROBES=OFF
+cmake --build B:/build/windows --config Debug --parallel 8
+ctest --test-dir B:/build/windows -C Debug --output-on-failure
+Result: PASS, 15/15, 0.94s.
+cmake --build B:/build/windows --config Release --parallel 8
+ctest --test-dir B:/build/windows -C Release --output-on-failure
+Result: PASS, 15/15, 1.08s.
+cmake/ctest above are the same absolute 3.31.8 tools listed earlier.
+No production src/include/Resources/config changes since 8947ffd.
+Original CSV parity now explicitly covers four existing spider/trap masks too.

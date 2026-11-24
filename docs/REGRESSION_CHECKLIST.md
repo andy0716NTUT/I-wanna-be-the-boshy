@@ -8,15 +8,16 @@ Windows verification: 2026-11-24, RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 | Check | Original runnable | Phase 1 Debug | Phase 1 Release | Evidence / next procedure |
 | --- | --- | --- | --- | --- |
-| Configure/build | NOT_RUN | PASS | PASS | `scripts/windows_build.py`, `docs/BUILD.md`; original CMake Debug configure only succeeded |
+| Configure/build | PASS (build shims) | PASS | PASS | Original game and probe targets built in Debug/Release using recovered CMake and relative asset definitions; original CMake itself Debug configured only |
 | CTest | NOT_RUN | PASS | PASS | 15/15 per configuration, includes 12 pinned PTSD tests |
 | Runtime PNG/config/shader deployment | NOT_RUN | PASS | PASS | Full byte comparison; 153 resource files, config, four shaders |
 | Main menu rendered | NOT_RUN | PASS | PASS | Observed actual 1280x960 menu via computer-use; title loaded from config |
 | Start from unrelated cwd without compiler PATH | NOT_RUN | PASS | PASS | Start-Process from `C:/Windows`, PATH only System32/Windows; GL and shader logs |
 | Initial asset decode | NOT_RUN | PASS | PASS | Menu visible; nine known absent PNG references logged, no replacements |
-| Menu navigation / level entry | NOT_RUN | MANUAL_REQUIRED | MANUAL_REQUIRED | Two automated short Return taps did not advance Debug menu; do not call this a pass or change input polling |
+| Scripted menu navigation / level entry | PASS | PASS | PASS | Both original/current 320-frame probes enter WORLD1 at frame 21 in Debug and Release |
+| Native-keyboard menu / input feel | MANUAL_REQUIRED | MANUAL_REQUIRED | MANUAL_REQUIRED | Two short GUI Return taps did not advance Debug; held SDL probe events do; no polling change justified |
 | Move left/right, simultaneous keys, up/down | NOT_RUN | NOT_RUN | NOT_RUN | Record fixed input frames and actual displacement on both versions |
-| Full jump, early release, second jump | NOT_RUN | NOT_RUN | NOT_RUN | Record apex, frame count, landing coordinates; include X+Z interaction |
+| Full jump, early release, second jump | MANUAL_REQUIRED | MANUAL_REQUIRED | MANUAL_REQUIRED | Current Z workload matches, but first jump is airborne and second shows no rise; no clean ground/short-hop/airtime certification |
 | Wall/head/floor/one-way collision | NOT_RUN | NOT_RUN | NOT_RUN | Same room and start position, capture frames before/after each contact |
 | Spikes, hidden traps, death UI | NOT_RUN | NOT_RUN | NOT_RUN | Include eight absent death frame references and existing GameOverUI behavior |
 | Shoot cadence / five-bullet cap | NOT_RUN | NOT_RUN | NOT_RUN | Count active bullets and shot frames, including holding X and X+Z |
@@ -32,6 +33,7 @@ Map-specific automated coverage:
 | Check | Result | Evidence |
 | --- | --- | --- |
 | All 24 existing 80x60 maps against original parser | PASS | `map-loader`, every cell compared, no asset modification |
+| Four original trap/spider masks against original CSV parser | PASS | `map-loader`, every cell compared, including original trailing commas |
 | Valid CSV/space data and blank rows | PASS | Fixture through production parser |
 | Missing, empty, ragged, invalid integer, overflow | PASS | Reject with path/reason; line number where applicable |
 | Bounds reads/writes, SetTile and repeated reload | PASS | `-1` reads, no-op invalid writes, original tile restored |
@@ -46,3 +48,7 @@ first room, short/full/second jump, wall/one-way/spikes, X held and X+Z,
 checkpoint/R, a room transition, bear/bird and Boss1. Save raw traces/screenshots
 under ignored `build/regression/`, and commit a small results table with paths and
 measured values. `MANUAL_REQUIRED` never advances the Stage 1.5 gate.
+
+Scripted partial evidence is in [REMASTER_BASELINE.md](REMASTER_BASELINE.md) and
+the checked-in raw scene traces. Debug and Release each matched all 320 logged
+states; this does not change the untested rows above to PASS.

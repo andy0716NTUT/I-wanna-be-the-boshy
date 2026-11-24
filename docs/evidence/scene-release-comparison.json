@@ -1,0 +1,57 @@
+{
+  "result": "PASS",
+  "original_rows": 320,
+  "phase1_rows": 320,
+  "differing_frames": [],
+  "observed_input_frames": {
+    "right": 10,
+    "left": 10,
+    "z": 23,
+    "x": 60,
+    "r": 2
+  },
+  "first_non_menu_frame": 21,
+  "coordinate_samples": {
+    "right_10_updates_displacement": [
+      50.0,
+      0.0
+    ],
+    "held_jump_window": {
+      "first_frame": 81,
+      "start_y": 209.0,
+      "max_logged_y": 319.0,
+      "max_y_frame": 97,
+      "rise_from_first_sample": 110.0
+    },
+    "short_jump_window": {
+      "first_frame": 141,
+      "start_y": -66.0,
+      "max_logged_y": -66.0,
+      "max_y_frame": 141,
+      "rise_from_first_sample": 0.0
+    }
+  },
+  "timing_observations": {
+    "original": {
+      "elapsed_first_to_last_ms": 5377.022,
+      "mean_update_interval_ms": 16.855868338557993,
+      "min_update_interval_ms": 2.158999999999992,
+      "max_update_interval_ms": 45.92700000000002
+    },
+    "phase1": {
+      "elapsed_first_to_last_ms": 5303.41,
+      "mean_update_interval_ms": 16.625109717868337,
+      "min_update_interval_ms": 2.3079999999999927,
+      "max_update_interval_ms": 51.091999999999985
+    }
+  },
+  "failures": [],
+  "limits": [
+    "Exact equality of existing DebugInfo decimal strings, not full internal state.",
+    "Animation uses real wall time; no visual or animation timing parity assertion.",
+    "Death state, velocity, active bullet count, checkpoint and boss state are not exposed.",
+    "Coordinate peaks are observations, not proof of a collision-free jump or landing.",
+    "Wall-time intervals are observed separately; not an FPS stress/performance gate.",
+    "A PASS covers this input workload only; Stage 1.5 gate remains separate."
+  ]
+}

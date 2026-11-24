@@ -96,8 +96,13 @@ both retained in `docs/evidence/original-resources-sha256.json`. No original ass
 has been edited or regenerated.
 
 Map safety changes preserve every cell of the 24 original 80x60 maps against the
-original parser, skip blank lines as before, and accept existing comma/space data.
+original parser and all four trap/spider masks against their original CSV parser,
+skip blank lines as before, and accept existing comma/space data.
 Malformed, empty or missing maps report their path and reason; a failed phase
 load clears stale map state. Bounds return `-1` and invalid writes do nothing.
 This intentionally changes only error handling for invalid inputs; in-game phase
 transition parity must still be verified before further gameplay refactoring.
+
+Optional original/current scene probes and exact frame comparisons are documented
+in [REMASTER_BASELINE.md](REMASTER_BASELINE.md). They require graphics and are not
+part of the headless CTest pass. They do not complete the entire gameplay gate.
