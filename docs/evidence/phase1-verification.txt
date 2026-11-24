@@ -1,0 +1,68 @@
+2026-11-24 Asia/Taipei — new Windows Phase 1 evidence
+Reference: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
+Branch: remaster/continuous
+
+Remote discovery:
+git ls-remote --heads --tags origin
+eeb1f72c6c3a9a9e33a49c31946e4b723323d49f refs/heads/main
+git ls-remote origin 'refs/pull/*/head'
+713d577dd7bd427f9f64d2c7bb4ee0c88150f433 refs/pull/1/head
+PR #1 is historical merged bullet work (2025-03-21), not Phase 1.
+No unreachable commits in git fsck --no-reflogs --unreachable.
+
+Exact successful commands (wrapper prints the expanded commands):
+python B:/scripts/windows_build.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --toolchain "C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/bin" --ninja "C:/Program Files/JetBrains/CLion 2025.3.3/bin/ninja/win/x64/ninja.exe" --config Debug --offline
+Result: PASS. configure 1.1s + generate 0.6s after cached compiler checks.
+[81/81] Linking CXX executable bin\Debug\IWannaBeTheBoshy.exe
+100% tests passed, 0 tests failed out of 15
+Total Test time (real) = 1.69 sec
+
+python B:/scripts/windows_build.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --toolchain "C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/bin" --ninja "C:/Program Files/JetBrains/CLion 2025.3.3/bin/ninja/win/x64/ninja.exe" --config Release --offline
+Result: PASS.
+[411/415] Linking CXX executable bin\Release\IWannaBeTheBoshy.exe
+100% tests passed, 0 tests failed out of 15
+Total Test time (real) = 1.33 sec
+
+Test names: map-loader, runtime-paths, deployed-resources,
+CastingTest.PTSD2SDL, CastingTest.SDL2PTSD, CastingTest.AddingVec2,
+TransformTest.DefaultConstructor, TransformTest.translation,
+TransformTest.Rotate365, TransformTest.Rotate360, TransformTest.Rotate90,
+TransformTest.Scaling, NotSimpleTest.TestOnePlusOne,
+SimpleTest.TestTrue, SimpleTest.TestFalse.
+
+Live startup command for each Config=Debug/Release:
+$env:PATH = 'C:\Windows\System32;C:\Windows'
+Start-Process -FilePath "B:\build\windows\bin\<Config>\IWannaBeTheBoshy.exe" -WorkingDirectory 'C:\Windows' -RedirectStandardOutput "B:\build\gui-<config>.stdout.log" -RedirectStandardError "B:\build\gui-<config>.stderr.log" -WindowStyle Normal -PassThru
+Observed both menu windows via @oai/sky computer-use (native 1280x960 content).
+Window title: I_wanna_be_the_boshy (from deployed config.json).
+ [info] OpenGL Info
+ [info]   Vendor: NVIDIA Corporation
+ [info]   Renderer: NVIDIA GeForce RTX 5060/PCIe/SSE2
+ [info]   Version: 4.1.0 NVIDIA 621.24
+ [info]   GLSL Version: 4.10 NVIDIA via Cg compiler
+ [trace] Start
+ [trace] Loading File: 'PTSDAssets/shaders/Base.vert'
+ [trace] Loading File: 'PTSDAssets/shaders/Base.frag'
+No shader/config/audio-init error observed. Audible playback not verified.
+Known missing images: eight Character/death PNGs and initial Background/phase1.png.
+These paths are also absent in the original Git tree. Upstream displays its existing
+missing-texture fallback; no assets synthesized or substituted.
+Menu navigation NOT verified: two short automation Return taps did not advance the
+Debug menu. No inference that original input is broken; no changes made to polling.
+
+Failure evidence retained in ignored local build logs:
+- Initial CMake 3.31.8 original Debug configure: PASS (213.1s); no original binary built.
+- Automatic program search: 0xC0000409 for CMake 3.31.8/4.1.2 and minimal probe.
+  Explicit paths and disabled system/environment search worked; root cause unknown.
+- CMake 4.1.2 trial: FAIL; policy argument was split by native shell and dependency
+  defaults were then invalid. Not the final toolchain, no upstream source edits.
+- First game build: FAIL for M_PI with newly attempted strict -std=c++17.
+  Removed that new restriction and retained original GNU C++17 extension mode.
+- First map fixture test: FAIL for narrow Windows Chinese path; production parser
+  now opens u8path and test uses UTF-8 names. Recompiled and retested PASS.
+- Windres compiled SDL/GLEW RC objects successfully via B: ASCII source alias.
+
+Full logs: build/windows/configure-{debug,release}.log,
+build/windows/build-{debug,release}.log, build/windows/ctest-{debug,release}.log,
+build/gui-{debug,release}.{stdout,stderr}.log.
+No movement/jump/collision/checkpoint/Boss parity result is implied by these passes.
