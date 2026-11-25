@@ -12,7 +12,7 @@ int main(int argc, char** argv) try {
     std::filesystem::create_directories(fixture / "PTSDAssets/shaders");
     for (const auto* file : {"PTSDAssets/shaders/Base.vert", "PTSDAssets/shaders/Base.frag",
                              "config.json"}) {
-        std::ofstream(fixture / file) << "fixture";
+        std::ofstream(fixture / file) << (std::string(file)=="config.json" ? "{}" : "fixture");
     }
     UseRuntimeDirectory(fixture);
     if (std::filesystem::current_path() != fixture || !std::ifstream("config.json")) {

@@ -37,6 +37,6 @@ int main(int, char**) try {
     }
     return 0;
 } catch (const std::exception& error) {
-    std::cerr << "Boshy startup failed: " << error.what() << '\n';
+    std::cerr << "Boshy failed: " << error.what() << '\n';
     return 1;
 }

@@ -1,4 +1,5 @@
 #include "RuntimePaths.hpp"
+#include "RuntimeConfig.hpp"
 
 #include <stdexcept>
 
@@ -14,5 +15,6 @@ void UseRuntimeDirectory(const std::filesystem::path& directory) {
             throw std::runtime_error("Missing runtime resource: " + path.u8string());
         }
     }
+    ReadRuntimeOptions(base / "config.json");
     std::filesystem::current_path(base);
 }

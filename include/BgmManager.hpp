@@ -12,8 +12,15 @@ public:
     BgmManager(std::string SoundPath);
     void SetBGM(std::string phase);
     void Fade();
+    const std::string& GetTrackPath() const { return m_TrackPath; }
+    const std::string& GetLastError() const { return m_LastError; }
+    double GetLoadMilliseconds() const { return m_LoadMilliseconds; }
 private:
-    std::string phase ;
+    std::string phase;
+    std::string m_TrackPath, m_LastError;
+    double m_LoadMilliseconds = 0;
+    bool ValidateTrack(const std::string& path);
+    void CheckPlayback();
     std::shared_ptr<Util::BGM> m_BGM;
     inline  std::string BgmPath(std::string phase) {
         return RESOURCE_DIR"/BGM/" + phase + ".mp3";

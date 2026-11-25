@@ -3,11 +3,11 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 20e38216b1e61ef2d2a534afd32786097e4f9ad0
-ACTIVE_STAGE: 5
+HEAD_SHA: 8a6d96ae3e2aca9a29edfcf113492e4188697f64
+ACTIVE_STAGE: 6
 STAGE_STATUS: IN_PROGRESS
-NEXT_ACTION: Capture Phase 5 CPU/frame-time/private-memory/tracked-allocation/load baselines on the Phase 4 build, then add read-only diagnostics, BGM error checks and settings validation; compare before/after and rerun parity before committing.
-LAST_VERIFIED_AT: 2026-11-25T12:57:02+08:00 Asia/Taipei
+NEXT_ACTION: Fresh offline Debug/Release build and all 20 CTest in build/windows-rc1; audit original resources, verify packaged executable from unrelated cwd/Unicode path with minimal PATH and dummy audio, generate internal RC checksum/manifest/report without public publication.
+LAST_VERIFIED_AT: 2026-11-25T13:23:00+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -17,11 +17,14 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 1.5 | PASSED | Debug/Release 15-case actual-game event matrices pass with exact state; original/current death UI visually matches; 15/15 CTest each | db5a07fbf70d4590dd2f7c7505a9059e77e64934 |
 | 2 | PASSED | 15-case Debug + added death-loop, 16-case Release, 30/120-cap comparisons; 15/15 CTest both | f42d7f0735b254690ae604105107886e421d20d2 |
 | 3 | PASSED | All 18 original/current cases pass in Debug (two reports) and Release; 17/17 CTest both; 60 real reloads + 500 headless retirement cycles | 20e38216b1e61ef2d2a534afd32786097e4f9ad0 |
-| 4 | PASSED | Debug/Release 19-case matrices, 18/18 CTest each, seven real GL sizes/modes each, actual App+ImGui frame review and exact logical pixel comparisons | This Phase 4 commit; resolve via git log |
-| 5 | IN_PROGRESS | Phase 4 gate passed; profile baseline before performance/diagnostic edits | None |
-| 6 | NOT_STARTED | Requires all prior gates | None |
+| 4 | PASSED | Debug/Release 19-case matrices, 18/18 CTest each, seven real GL sizes/modes each, actual App+ImGui frame review and exact logical pixel comparisons | 8a6d96a (full SHA in git log) |
+| 5 | PASSED | Debug/Release all 19 parity cases, 20/20 CTest each, GL matrices, inspected overlay; before/after profiles no major regression, tracked allocations identical | This Phase 5 commit; resolve via git log |
+| 6 | IN_PROGRESS | All prior gates passed; fresh build/package validation next | None |
 
 ## Work completed
+- Phase 5 passed: Debug/Release 19/19 exact gameplay state, normal builds and 20/20 CTest (1.56s/1.38s), display matrices and inspected actual overlay/UI frames. Profiling shows comparable private memory and unchanged tracked allocations, INFO reduces trace bytes 94–99%; no speculative resource rewrite. Invalid config/BGM errors are deliberate error-path changes only.
+- Phase 5 implemented read-only FPS/frame-time/velocity/state/object counts, optional clipped platform-contact/cached-tile overlay and wider Debug panel; same controls remain. Added early typed config validation (path/reason), INFO shipped log level and BGM path/load/status diagnostics. Valid BGM volume5, fade/play order and same-track R restart preserved; invalid destinations now keep current track with error. Release normal build + 20/20 CTest pass, including dummy-device BGM decoding/restart and invalid configuration checks.
+- Baseline/after Release profiles (2 repeats of enemy/60-reload/Boss-defeat): tracked allocations identical, p95 App updates ~0.46/0.84/1.60ms after vs ~0.51/1.18/1.57ms before. Peak private memory comparable (235.95/276.98/238.29 MiB after); log sizes reduced 94-99%. No speculative pooling/cache or Boss platform deduplication. Full parity/Debug/overlay checks pending.
 - Phase 4 passed on resume: Release all 19 cases exact, completing Debug 19/19 + both 18/18 CTest + real GL matrices and inspected game backbuffers. Source PNG/audio unchanged. Scene-only nearest/integer presentation and shutdown-only GL callback guard accepted for this measured scope. No human keyboard/audio-device certification implied.
 - Resumed Phase 4: Debug/Release final build and 18/18 CTest pass (0.77s/1.40s). GL target tests pass all seven actual sizes/fullscreen/restores, including every fractional-stripe output sample. Corrected only a test's equal-distance nearest-neighbor tie assumption after logging the exact failing pixel; no rendering implementation or physics expectation changed.
 - Replaced interrupted desktop capture with test-only actual App+ImGui backbuffer export. Inspected original/current native, current 1080p, 4K and player outputs; 1080p/4K logical canvases are exact, native vs 1080p is exact outside known physical Debug panel. Graphical review now PASS by this safe automatic equivalent; report phase4-scene-review.json. Release full 19-case matrix still running.
@@ -61,6 +64,15 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - Audited real LoadTileData call sites in spider.cpp and added all four original spider/trap masks to the independent original-parser parity tests; tests pass in both configurations.
 
 ## Verification evidence
+- Command: `python B:/scripts/profile_game.py --label before --repeats 2`; same with `--label after`
+  Result: PASS
+  Evidence: phase5-profile-{before,after}.json and PERFORMANCE.md, 6 runs per group at 60 cap/dummy audio. p95 <1.7ms, comparable peak private memory, identical selected game-side image/animation/actor creation counts. Generic heap/GPU allocations not claimed as fully instrumented.
+- Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config <Debug|Release>`
+  Result: PASS
+  Evidence: phase5-gameplay-{debug,release}.json, all 19 cases each; phase5-current-sources.json. Same exact-state comparator, no widened physics tolerance or expected gameplay changes.
+- Command: CMake3.31.8 `--build B:/build/windows --config <Debug|Release> --target all PixelDisplayTests --parallel 8`; CTest3.31.8 `--test-dir B:/build/windows -C <Debug|Release> --output-on-failure`; `B:/build/windows/bin/<Config>/PixelDisplayTests.exe`; `python B:/scripts/capture_game_frames.py --output-dir build/visual-phase5 --overlay`
+  Result: PASS
+  Evidence: phase5-final-build/ctest/display-{Debug,Release}.log, 20/20 each; phase5-scene-review.json. All BGM tests explicitly assert dummy driver, decoded tracks, active playback and original volume5; physical listening intentionally not run. BGM source initially missed direct Logger include, fixed and rebuilt successfully.
 - Command: CMake 3.31.8 `--build B:/build/windows --config <Debug|Release> --target PixelDisplayTests DisplayViewportTests --parallel 8`; `B:/build/windows/<Config>/DisplayViewportTests.exe`; `B:/build/windows/bin/<Config>/PixelDisplayTests.exe` with SDL_AUDIODRIVER=dummy
   Result: PASS
   Evidence: build/phase4-display-{debug,release}.log, docs/evidence/phase4-display.json; actual native/1080p/1440p/4K/small/fullscreen/restore sizes, nearest sampler, stripe pixels, bars, mouse center and default framebuffer binding; exit 0 after shutdown guard. Initial missing generated source was fixed by prepare_regression_sources.py; a missing test iostream header was fixed; GDB identified and verified the logger teardown fix. Real-game graphical scene review remains NOT_COMPLETED, not inferred from GL assertions.

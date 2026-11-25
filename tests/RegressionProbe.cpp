@@ -1,5 +1,6 @@
 #include "GlDebugLifetime.hpp"
 #include "FrameCapture.hpp"
+#include "ProbeProfile.hpp"
 #include "RegressionAccess.hpp"
 #include "Core/Context.hpp"
 #include "RuntimePaths.hpp"
@@ -62,6 +63,10 @@ int main(int argc, char** argv) try {
     UseRuntimeDirectory(std::filesystem::u8path(basePath.get()));
     std::ofstream trace(output);
     if (!trace) throw std::runtime_error("Cannot create trace output");
+    const char* profilePath = std::getenv("BOSHY_PROFILE_PATH");
+    BoshyProfile::enabled = profilePath != nullptr;
+    const auto profileFrequency = static_cast<double>(SDL_GetPerformanceFrequency());
+    const auto bootStart = SDL_GetPerformanceCounter();
     std::srand(1); // Identical CRT random sequence in both test processes only.
     auto context = Core::Context::GetInstance();
     const GlDebugLifetime glDebugLifetime;
@@ -75,6 +80,7 @@ int main(int argc, char** argv) try {
     Mix_VolumeMusic(0);
     App app;
     app.Start();
+    const double startupMs = (SDL_GetPerformanceCounter()-bootStart)*1000.0/profileFrequency;
     context->Update(); // Same initial Start -> Context ordering as the stock main.
     for (int frame = 0; frame < 24; ++frame) {
         if (frame == 0 || frame == 20) Key(SDL_SCANCODE_RETURN, true);
@@ -109,9 +115,17 @@ int main(int argc, char** argv) try {
             SDL_SetWindowSize(SDL_GL_GetCurrentWindow(),std::stoi(width),std::stoi(height));
         }
     }
+    struct ProfileRow { int frame; double fixture,update,total; std::array<std::uint64_t,3> allocations; };
+    std::vector<ProfileRow> profileRows;
+    if (profilePath) profileRows.reserve(frames);
+#if BOSHY_CURRENT_REGRESSION
+    if (std::getenv("BOSHY_VISUAL_OVERLAY")) app.m_DebugInfo.showCollisions = true;
+#endif
     int retirementSamples = 0, expiredSamples = 0;
     BoshyRegressionAccess::Header(trace);
     for (int frame = 0; frame < frames; ++frame) {
+        const auto frameStart = profilePath ? SDL_GetPerformanceCounter() : 0;
+        const auto countsBefore = BoshyProfile::created;
         BoshyRegressionAccess::Begin();
         if (scenario == "full-jump" || scenario == "short-jump" || scenario == "double-jump") {
             if (frame == 10) Key(SDL_SCANCODE_Z, true);
@@ -213,8 +227,17 @@ int main(int argc, char** argv) try {
         } else if (scenario != "idle") {
             throw std::runtime_error("Unknown regression scenario: " + scenario);
         }
+        const auto fixtureEnd = profilePath ? SDL_GetPerformanceCounter() : 0;
         context->Update(); // Poll a held transition before the next actual App update.
+        const auto updateStart = profilePath ? SDL_GetPerformanceCounter() : 0;
         app.Update();
+        if (profilePath) {
+            const auto updateEnd = SDL_GetPerformanceCounter();
+            auto counts = BoshyProfile::created;
+            for (unsigned i=0;i<counts.size();++i) counts[i]-=countsBefore[i];
+            profileRows.push_back({frame,(fixtureEnd-frameStart)*1000.0/profileFrequency,
+                (updateEnd-updateStart)*1000.0/profileFrequency,(updateEnd-frameStart)*1000.0/profileFrequency,counts});
+        }
         BoshyRegressionAccess::Write(trace, frame, app);
         if (argc == 4 && frame == std::stoi(argv[3])) {
             trace.flush();
@@ -227,6 +250,14 @@ int main(int argc, char** argv) try {
     trace.flush();
     if (!trace) throw std::runtime_error("Cannot flush trace output");
     std::cout << "RETIREMENT_SAMPLES=" << retirementSamples << " EXPIRED=" << expiredSamples << '\n';
+    if (profilePath) {
+        std::ofstream profile(std::filesystem::u8path(profilePath));
+        profile << "frame|startup_ms|fixture_ms|update_ms|frame_ms|images|animations|actors\n";
+        for (const auto& row : profileRows)
+            profile << row.frame << '|' << startupMs << '|' << row.fixture << '|' << row.update << '|' << row.total
+                    << '|' << row.allocations[0] << '|' << row.allocations[1] << '|' << row.allocations[2] << '\n';
+        if (!profile) throw std::runtime_error("Cannot write profiling output");
+    }
     app.End();
     return 0;
 } catch (const std::exception& error) {

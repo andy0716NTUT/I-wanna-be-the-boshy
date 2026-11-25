@@ -59,6 +59,9 @@ void App::Update() {
         if (tileY < 0) tileY = 0;
         if (tileY >= m_MapLoader->GetHeight()) tileY = m_MapLoader->GetHeight() - 1;
 
+        m_DebugInfo.tileX = tileX;
+        m_DebugInfo.tileY = tileY;
+
         //imgui settings
         ss << "Position: (" << position.x << ", " << position.y << ")";
         m_DebugInfo.positionInfo = ss.str();

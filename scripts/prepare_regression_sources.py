@@ -78,6 +78,18 @@ def main():
                     "floor": "if ((belowTile == 1 || belowTile == 8)  && velocityY < 0){",
                 }.items():
                     text = insert_once(text, anchor, anchor + f'\n BoshyRegressionAccess::Event("{event}");', event)
+            # Count selected game-side allocation sites in generated probes only.
+            # Engine-internal/GPU/C allocations are deliberately outside this metric.
+            before_profile = text
+            for kind, names in {
+                "Image": ["Util::Image"], "Animation": ["Util::Animation"],
+                "Actor": ["Platform","CheckPoint","JumpBoost","FallingGround","Bullet", "Boss1",
+                          "BulletTypeA","BulletTypeB","BulletTypeC","Bird","spider","bear","phase2trap"]
+            }.items():
+                for name in names:
+                    text = text.replace(f"std::make_shared<{name}>", f"BoshyProfile::Make<BoshyProfile::Kind::{kind},{name}>")
+            if text != before_profile:
+                text = '#include "ProbeProfile.hpp"\n' + text
             target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             result = text.encode("utf-8")

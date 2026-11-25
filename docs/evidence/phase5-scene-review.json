@@ -1,0 +1,51 @@
+{
+  "method": "actual OpenGL backbuffer before swap; test-only export",
+  "cases": {
+    "original-native": {
+      "size": [
+        1280,
+        960
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "85d43c66fcdb19d53e8a2e52a30804d2cf144cc7f3e244025c4896aab89cf12f"
+    },
+    "current-native": {
+      "size": [
+        1280,
+        960
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "9f1c0eac4e443900b0fa6f3b69bf549e4575629c48efb9a060d96447707b1f38"
+    },
+    "current-fullhd": {
+      "size": [
+        1920,
+        1080
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "79680c615db82bd604fbf031c53f0e2b324fa0876a9e5bd0c78da716e21e8ac5"
+    },
+    "current-4k": {
+      "size": [
+        3840,
+        2160
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "a2c5a3f9bb1e851f9caad2b6d87938c9accf7386080c4d3992c9fe20a126dfe1"
+    },
+    "current-player": {
+      "size": [
+        1920,
+        1080
+      ],
+      "frame": 25,
+      "scenario": "full-jump",
+      "png_sha256": "334f39d097d7463434243cf5a97a4f7577e18b742c56869f0f2cc9af8e4905ad"
+    }
+  },
+  "review": "PASS: inspected native and 1080p player outputs; diagnostics readable, platform body/tile query overlays align and clip to viewport. Existing controls available by scrolling. Default overlay remains off."
+}

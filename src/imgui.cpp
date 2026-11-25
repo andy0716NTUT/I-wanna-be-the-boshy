@@ -1,6 +1,8 @@
 #include "Imgui.hpp"
 
 #include "App.hpp"
+#include "Util/Time.hpp"
+#include <cfloat>
 void InitImGui(SDL_Window* window, SDL_GLContext gl_context) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -52,6 +54,7 @@ void RenderImGui(App& app) {
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
+    ImGui::SetNextWindowSizeConstraints(ImVec2(390,360),ImVec2(FLT_MAX,FLT_MAX));
     ImGui::Begin("Debug Window");
 	ImGui::StyleColorsDark(); // 從深色主題開始
     ImGuiStyle& style = ImGui::GetStyle();
@@ -85,6 +88,34 @@ void RenderImGui(App& app) {
     style.Colors[ImGuiCol_Separator] = ImVec4(0.5f, 0.5f, 0.5f, 0.5f); // 分隔線
     // 显示游戏状态信息
     ImGui::Text("Game Debug Information");
+    const auto view = app.GetRuntimeView();
+    ImGui::Text("FPS %.1f / Frame %.2f ms",ImGui::GetIO().Framerate,Util::Time::GetDeltaTimeMs());
+    ImGui::Text("Velocity Y %.3f units/update / Jumps %d",view.velocityY,view.jumps);
+    ImGui::Text("Bullets %zu / Platforms %zu / Checkpoints %zu",view.bullets,view.platforms,view.checkpoints);
+    ImGui::Text("Death state %d",view.death);
+    ImGui::Text("BGM %s / Load %.3f ms",app.GetAudioDiagnostics().GetTrackPath().c_str(),app.GetAudioDiagnostics().GetLoadMilliseconds());
+    if (!app.GetAudioDiagnostics().GetLastError().empty())
+        ImGui::TextWrapped("%s",app.GetAudioDiagnostics().GetLastError().c_str());
+    ImGui::Checkbox("Collision overlay",&app.m_DebugInfo.showCollisions);
+    if (app.m_DebugInfo.showCollisions) {
+        auto* draw = ImGui::GetForegroundDrawList();
+        const auto rectangle = [&](glm::vec2 topLeft,glm::vec2 bottomRight,ImU32 color) {
+            const auto a=app.GetDisplay().LogicalToWindow({topLeft.x,topLeft.y});
+            const auto b=app.GetDisplay().LogicalToWindow({bottomRight.x,bottomRight.y});
+            draw->AddRect(ImVec2(a.x,a.y),ImVec2(b.x,b.y),color);
+        };
+        const auto corner=app.GetDisplay().LogicalToWindow({-640,480});
+        const auto end=app.GetDisplay().LogicalToWindow({640,-480});
+        draw->PushClipRect(ImVec2(corner.x,corner.y),ImVec2(end.x,end.y),true);
+        rectangle(view.position+glm::vec2(-8,8),view.position+glm::vec2(8,-8),IM_COL32(0,255,0,255));
+        for (auto offset : {glm::ivec2(0,0),{0,1},{0,-1},{1,0},{-1,0}}) {
+            const int x=app.m_DebugInfo.tileX+offset.x,y=app.m_DebugInfo.tileY+offset.y;
+            const glm::vec2 topLeft(x*16-640,480-y*16);
+            rectangle(topLeft,topLeft+glm::vec2(16,-16),IM_COL32(255,220,0,255));
+        }
+        draw->PopClipRect();
+        ImGui::TextWrapped("Green: platform contact body; yellow: cached tile queries");
+    }
     const auto viewport = app.GetDisplay().GetViewport();
     ImGui::Text("Logical: 1280 x 960 / Display: %d x %d",
         app.GetDisplay().GetDrawableWidth(), app.GetDisplay().GetDrawableHeight());

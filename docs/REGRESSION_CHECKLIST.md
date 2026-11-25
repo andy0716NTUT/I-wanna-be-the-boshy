@@ -74,3 +74,7 @@ Phase 4: PASS. Debug/Release all 19 state cases; 18/18 CTest each. Real GL nativ
 1080p, 1440p, 4K, small window, fullscreen and restore pass. Inspected actual
 App+ImGui native/fullHD/4K/player backbuffers and exact canvas comparisons;
 physical human keyboard/audio checks remain supplemental. See PIXEL_DISPLAY.md.
+
+Phase 5: PASS, both configs 19/19 gameplay and 20/20 CTest, including strict
+configuration errors and silent BGM load/restart/default volume. Rendered overlay
+review and GL tests pass. Profiling scope/limits are in PERFORMANCE.md.

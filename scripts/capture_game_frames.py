@@ -1,9 +1,13 @@
 """Export actual App + ImGui backbuffers without desktop automation; always silent."""
-import hashlib,json,os,subprocess
+import argparse,hashlib,json,os,subprocess
 from pathlib import Path
 from PIL import Image
 ROOT=Path(__file__).absolute().parents[1]
-out=ROOT/"build/visual-review"
+parser=argparse.ArgumentParser()
+parser.add_argument("--output-dir",default="build/visual-review")
+parser.add_argument("--overlay",action="store_true")
+args=parser.parse_args()
+out=ROOT/args.output_dir
 out.mkdir(parents=True,exist_ok=True)
 report={"method":"actual OpenGL backbuffer before swap; test-only export", "cases":{}}
 for name,version,scenario,frame,width,height in [
@@ -14,6 +18,7 @@ for name,version,scenario,frame,width,height in [
     ("current-player","Current","full-jump",25,1920,1080)]:
     env=os.environ.copy()
     env.update(SDL_AUDIODRIVER="dummy",BOSHY_VISUAL_WIDTH=str(width),BOSHY_VISUAL_HEIGHT=str(height),BOSHY_CAPTURE_PATH=str(out/(name+".ppm")))
+    if args.overlay and version=="Current": env["BOSHY_VISUAL_OVERLAY"]="1"
     env["PATH"]="C:/Windows/System32;C:/Windows"
     startup=subprocess.STARTUPINFO();startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0
     target=ROOT/f"build/windows/bin/Debug/Boshy{version}Regression.exe"

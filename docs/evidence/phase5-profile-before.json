@@ -1,0 +1,195 @@
+{
+  "label": "before",
+  "git_head": "8a6d96ae3e2aca9a29edfcf113492e4188697f64",
+  "binary_sha256": "409c4ab3f693c7b44d17279fb03f40e1e65458134ab8333ea3aef5817415a04a",
+  "psutil": "7.1.3",
+  "config_sha256": "53e28996485c745ae725497527f05723c1497da07d9b6b42df725dc855c253da",
+  "samples": [
+    {
+      "case": "enemy",
+      "repeat": 0,
+      "elapsed_s": 6.001,
+      "cpu_s": 0.625,
+      "private_peak_bytes": 242384896,
+      "private_final_bytes": 193003520,
+      "startup_ms": 213.819,
+      "update_ms": {
+        "mean": 0.44887666666666665,
+        "p95": 0.5386,
+        "max": 20.2678
+      },
+      "fixture_ms": {
+        "mean": 0.000915,
+        "p95": 0.0013,
+        "max": 0.0074
+      },
+      "frame_ms": {
+        "mean": 16.600723666666667,
+        "p95": 17.2373,
+        "max": 36.0081
+      },
+      "tracked_creates": {
+        "images": 1,
+        "animations": 2,
+        "actors": 1
+      },
+      "log_bytes": 180230,
+      "rows": 300
+    },
+    {
+      "case": "enemy",
+      "repeat": 1,
+      "elapsed_s": 5.857,
+      "cpu_s": 0.484375,
+      "private_peak_bytes": 251002880,
+      "private_final_bytes": 196694016,
+      "startup_ms": 218.653,
+      "update_ms": {
+        "mean": 0.41681,
+        "p95": 0.4753,
+        "max": 17.2157
+      },
+      "fixture_ms": {
+        "mean": 0.0008703333333333333,
+        "p95": 0.0012,
+        "max": 0.0031
+      },
+      "frame_ms": {
+        "mean": 16.557328,
+        "p95": 17.3319,
+        "max": 33.2866
+      },
+      "tracked_creates": {
+        "images": 1,
+        "animations": 2,
+        "actors": 1
+      },
+      "log_bytes": 180230,
+      "rows": 300
+    },
+    {
+      "case": "reload-stress",
+      "repeat": 0,
+      "elapsed_s": 10.9043,
+      "cpu_s": 1.234375,
+      "private_peak_bytes": 292937728,
+      "private_final_bytes": 85979136,
+      "startup_ms": 210.007,
+      "update_ms": {
+        "mean": 0.8717653333333334,
+        "p95": 1.1517,
+        "max": 21.9294
+      },
+      "fixture_ms": {
+        "mean": 0.5401446666666667,
+        "p95": 5.0061,
+        "max": 22.0774
+      },
+      "frame_ms": {
+        "mean": 16.638693666666665,
+        "p95": 18.5449,
+        "max": 44.8556
+      },
+      "tracked_creates": {
+        "images": 180,
+        "animations": 90,
+        "actors": 270
+      },
+      "log_bytes": 403671,
+      "rows": 600
+    },
+    {
+      "case": "reload-stress",
+      "repeat": 1,
+      "elapsed_s": 10.9031,
+      "cpu_s": 1.328125,
+      "private_peak_bytes": 291729408,
+      "private_final_bytes": 87592960,
+      "startup_ms": 219.96,
+      "update_ms": {
+        "mean": 0.875567,
+        "p95": 1.2045,
+        "max": 21.9808
+      },
+      "fixture_ms": {
+        "mean": 0.5572773333333333,
+        "p95": 5.2514,
+        "max": 19.5121
+      },
+      "frame_ms": {
+        "mean": 16.642842666666667,
+        "p95": 18.0224,
+        "max": 42.3215
+      },
+      "tracked_creates": {
+        "images": 180,
+        "animations": 90,
+        "actors": 270
+      },
+      "log_bytes": 403671,
+      "rows": 600
+    },
+    {
+      "case": "boss-death",
+      "repeat": 0,
+      "elapsed_s": 20.8334,
+      "cpu_s": 1.515625,
+      "private_peak_bytes": 248512512,
+      "private_final_bytes": 187219968,
+      "startup_ms": 205.339,
+      "update_ms": {
+        "mean": 0.7528259166666667,
+        "p95": 1.5245,
+        "max": 8.967
+      },
+      "fixture_ms": {
+        "mean": 0.0008296666666666667,
+        "p95": 0.0012,
+        "max": 0.0068
+      },
+      "frame_ms": {
+        "mean": 16.594714416666665,
+        "p95": 17.4562,
+        "max": 24.5848
+      },
+      "tracked_creates": {
+        "images": 352,
+        "animations": 74,
+        "actors": 424
+      },
+      "log_bytes": 440500,
+      "rows": 1200
+    },
+    {
+      "case": "boss-death",
+      "repeat": 1,
+      "elapsed_s": 20.8917,
+      "cpu_s": 1.78125,
+      "private_peak_bytes": 248950784,
+      "private_final_bytes": 187383808,
+      "startup_ms": 216.421,
+      "update_ms": {
+        "mean": 0.76442825,
+        "p95": 1.6173,
+        "max": 6.6901
+      },
+      "fixture_ms": {
+        "mean": 0.0008179166666666667,
+        "p95": 0.0012,
+        "max": 0.0021
+      },
+      "frame_ms": {
+        "mean": 16.6161955,
+        "p95": 17.4374,
+        "max": 23.3238
+      },
+      "tracked_creates": {
+        "images": 352,
+        "animations": 74,
+        "actors": 424
+      },
+      "log_bytes": 440500,
+      "rows": 1200
+    }
+  ]
+}

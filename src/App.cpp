@@ -207,3 +207,8 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     std::cout << "已传送到世界: " << worldName << ", 地图: " << mapName 
               << ", 位置: (" << currentX << ", " << currentY << ")" << std::endl;
 }
+
+App::RuntimeView App::GetRuntimeView() const {
+    return {m_Boshy->GetPosition(),m_Player.GetState().velocityY,m_Player.GetState().jumpCount,
+            m_Bullets.size(),m_Platform.size(),m_CheckPoints.size(),static_cast<int>(deathType)};
+}

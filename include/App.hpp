@@ -52,8 +52,10 @@ public:
     struct DebugInfo {
         std::string positionInfo;
         std::string tileInfo;
-        int currentX;
-        int currentY;
+        int currentX = 0;
+        int currentY = 0;
+        int tileX = 0, tileY = 0;
+        bool showCollisions = false;
         std::string phaseInfo;
         std::string switchTimerInfo;
         std::string mousePtsdPos;  // PTSD座標系統中的鼠標位置
@@ -69,6 +71,9 @@ public:
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
 
     void ReloadMapObjects();
+    struct RuntimeView { glm::vec2 position; float velocityY; int jumps; std::size_t bullets,platforms,checkpoints; int death; };
+    RuntimeView GetRuntimeView() const;
+    const BgmManager& GetAudioDiagnostics() const { return *m_BGM; }
     PixelDisplay& GetDisplay() { return m_Display; }
     bool GodMode = false; // 上帝模式開關
     bool IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight);

@@ -1,7 +1,7 @@
 #include "PixelDisplay.hpp"
 #include "Util/Renderer.hpp"
 #include "config.hpp"
-#include <nlohmann/json.hpp>
+#include "RuntimeConfig.hpp"
 #include <fstream>
 #include <stdexcept>
 
@@ -44,9 +44,8 @@ void PixelDisplay::Initialize() {
     // Sampler objects override Image/Animation texture filtering without patching PTSD.
     glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    std::ifstream file("config.json");
-    const auto config = nlohmann::json::parse(file);
-    if (config.value("fullscreen", false) && !SetFullscreen(true))
+    const auto config = ReadRuntimeOptions("config.json");
+    if (config.fullscreen && !SetFullscreen(true))
         throw std::runtime_error(std::string("Cannot enter fullscreen: ")+SDL_GetError());
     RefreshSize();
 }
