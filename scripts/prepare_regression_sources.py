@@ -29,7 +29,7 @@ def main():
     ).decode().splitlines()
     friend_headers = {"include/App.hpp", "include/Bullet.hpp", "include/Boss1/Boss1.hpp",
                       "include/MapObject/CheckPoint.hpp", "include/GameOverUI.hpp",
-                      "include/AnimatedCharacter.hpp"}
+                      "include/AnimatedCharacter.hpp", "include/MapObject/spider.hpp", "include/MapObject/bird.hpp"}
     for version in ("Original", "Current"):
         destination = ROOT / "build/regression-source" / version
         paths = original_paths if version == "Original" else [

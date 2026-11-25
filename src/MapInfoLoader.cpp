@@ -43,15 +43,23 @@ std::vector<std::vector<int>> ReadMap(const std::string& path) {
 }
 } // namespace
 
-void MapInfoLoader::LoadMap(std::string mapNumber,std::string CurrentWorld) {
-    this->CurrentPhase = mapNumber ;
-    std::string filePath = ImagePath(mapNumber,CurrentWorld);
-    m_MapData = ReadMap(filePath);
-    m_Width = m_MapData.empty() ? 0 : static_cast<int>(m_MapData.front().size());
+bool MapInfoLoader::TryLoadMap(const std::string& mapNumber, const std::string& world) {
+    auto data = ReadMap(ImagePath(mapNumber, world));
+    if (data.empty()) return false;
+    CurrentPhase = mapNumber;
+    m_MapData = std::move(data);
+    m_Width = static_cast<int>(m_MapData.front().size());
     m_Height = static_cast<int>(m_MapData.size());
-    if (m_MapData.empty()) return;
-
     std::cout << "Loaded Map " << mapNumber << " (" << m_Width << "x" << m_Height << ")" << std::endl;
+    return true;
+}
+
+void MapInfoLoader::LoadMap(std::string mapNumber, std::string world) {
+    if (!TryLoadMap(mapNumber, world)) {
+        CurrentPhase = mapNumber;
+        m_MapData.clear();
+        m_Width = m_Height = 0;
+    }
 }
 
 std::vector<std::vector<int>> MapInfoLoader::LoadTileData(const std::string& path) {

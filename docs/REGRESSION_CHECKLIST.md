@@ -64,3 +64,8 @@ Phase 2: original/current wired player refactor passes Debug all previous 15 cas
 plus a separate three-death-loop run, Release all 16, and focused Debug movement/
 jump/shoot at caps 30 and 120. CTest 15/15 each. No physics/timing/collision
 tolerance or expected-value adjustment. Reports: docs/evidence/phase2-*.json.
+
+Phase 3: Debug/Release all 18 cases pass, including 60 reloads, all spider states,
+bird chase and room 8 re-entry. CTest 17/17 each; all original 24 maps + 4 masks
+still match. Invalid debug teleport is deliberately rejected before mutation;
+World lookup reports invalid row/column instead of out-of-bounds access.

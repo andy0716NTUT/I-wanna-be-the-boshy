@@ -45,4 +45,5 @@ DeathType deathType = DeathType::NONE; // 替换原来的isDead
 float deathAnimTimer = 0.0f; // 死亡动画计时器
 bool deathAnimFinished = false; // 死亡动画是否完成
 PlayerManager m_Player;
+WorldRuntime m_WorldRuntime;
 bool NotFirstTryBoss;

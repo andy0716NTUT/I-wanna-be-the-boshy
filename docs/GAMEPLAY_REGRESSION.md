@@ -107,3 +107,14 @@ cap and writes a separate `<Config>-fps<cap>` directory. Reports include process
 elapsed seconds and executable/source-manifest hashes. Elapsed values include
 startup/shutdown and are not a frame-CPU profile. See PLAYER_REFACTOR.md for the
 original frame-coupled clock decision and preserved unusual controls.
+
+## Phase 3 additions
+
+The default matrix now has 18 cases. `reload-stress` performs 60 real room
+reloads over 600 updates; Current also verifies old checkpoint weak-owner expiry
+and rejected teleport preservation. Original retained 60/60 checkpoints; Current
+released 60/60. `spider-bird` spans 900 updates and observes spider pose/state,
+map mutation, bird chase, rooms 8/9/12 and phase-8 timer persistence on re-entry.
+God mode is declared for this lifecycle case. Test-only friends now include
+spider/bird so their timers and coordinates are compared rather than inferred
+from pointer presence. Source assets, masks and states are the original ones.

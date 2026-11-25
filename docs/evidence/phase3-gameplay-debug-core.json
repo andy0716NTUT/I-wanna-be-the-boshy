@@ -1,0 +1,479 @@
+{
+  "git_head": "f42d7f0735b254690ae604105107886e421d20d2",
+  "config": "Debug",
+  "fps_cap_override": null,
+  "cases": {
+    "full-jump": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.514,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "b9503cf91cd2f57496f94c56b30ed4c076af998a55e56372fb1bc39c82ee9b49",
+      "current_elapsed_seconds": 3.5136,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "b9503cf91cd2f57496f94c56b30ed4c076af998a55e56372fb1bc39c82ee9b49",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 117,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 452.0,
+        "apex_frame": 25,
+        "rise": 120.0,
+        "landing_frame": 44,
+        "airborne_updates": 34,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "short-jump": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.5176,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "690fca79a3dd95c6fa01878154d141754593fee1849fed2acfb15024ca5e4358",
+      "current_elapsed_seconds": 3.5152,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "690fca79a3dd95c6fa01878154d141754593fee1849fed2acfb15024ca5e4358",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 132,
+          "jump": 1,
+          "shorten_jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 385.000061,
+        "apex_frame": 18,
+        "rise": 53.00006100000002,
+        "landing_frame": 29,
+        "airborne_updates": 19,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "double-jump": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.5057,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "347f690805be18bc2c70e342779105e36f798008a4310a948398664b8f83a00f",
+      "current_elapsed_seconds": 3.5085,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "347f690805be18bc2c70e342779105e36f798008a4310a948398664b8f83a00f",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 125,
+          "jump": 2,
+          "shorten_jump": 2
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10,
+          18
+        ],
+        "max_jump_count": 2,
+        "start_y": 332.0,
+        "apex_y": 391.0,
+        "apex_frame": 24,
+        "rise": 59.0,
+        "landing_frame": 36,
+        "airborne_updates": 26,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "movement": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.467,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1",
+      "current_elapsed_seconds": 3.5237,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 140
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 364.0,
+        "apex_y": 379.0,
+        "apex_frame": 74,
+        "rise": 15.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "wall": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.561,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "baa380d2b7d15ac19098fab25e0dc803822fd71fce21eb9b1a49a7fb37c0fcf7",
+      "current_elapsed_seconds": 3.5181,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "baa380d2b7d15ac19098fab25e0dc803822fd71fce21eb9b1a49a7fb37c0fcf7",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "room_transition": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 286.0,
+        "apex_y": 446.0,
+        "apex_frame": 110,
+        "rise": 160.0,
+        "landing_frame": null,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1",
+          "6"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "head": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.5117,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "b454b7d3d6b83d4f11e9e113c4bbdc1f2b0929a7c31fa5e5a0ab7d26b443edf3",
+      "current_elapsed_seconds": 3.524,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "b454b7d3d6b83d4f11e9e113c4bbdc1f2b0929a7c31fa5e5a0ab7d26b443edf3",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 82,
+          "jump": 1,
+          "head": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          2
+        ],
+        "max_jump_count": 1,
+        "start_y": 235.0,
+        "apex_y": 228.0,
+        "apex_frame": 10,
+        "rise": -7.0,
+        "landing_frame": 71,
+        "airborne_updates": 69,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "oneway": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.47,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "126ef1aa74649325e805dc7e0b1e8bfc50282f6c9f04c8d9880dd752dd41303b",
+      "current_elapsed_seconds": 3.4745,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "126ef1aa74649325e805dc7e0b1e8bfc50282f6c9f04c8d9880dd752dd41303b",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 121,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          4
+        ],
+        "max_jump_count": 1,
+        "start_y": -339.0,
+        "apex_y": -284.0,
+        "apex_frame": 19,
+        "rise": 55.0,
+        "landing_frame": 34,
+        "airborne_updates": 30,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "shooting": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.5252,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "438797b3d8b431a7c0918afdabfb55a926bc3b745820d5591de57524dc888ea7",
+      "current_elapsed_seconds": 3.5193,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "438797b3d8b431a7c0918afdabfb55a926bc3b745820d5591de57524dc888ea7",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 150,
+          "shot": 5
+        },
+        "shot_frames": [
+          10,
+          16,
+          22,
+          28,
+          34
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [],
+        "max_jump_count": 0,
+        "start_y": 364.0,
+        "apex_y": 364.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "shoot-jump": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.5187,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "4dfa5edc748a73eae667af548fcc7600f2afff27b7fc7b8ce9fc9af6b6f7e93c",
+      "current_elapsed_seconds": 3.5182,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "4dfa5edc748a73eae667af548fcc7600f2afff27b7fc7b8ce9fc9af6b6f7e93c",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 150,
+          "shot": 5
+        },
+        "shot_frames": [
+          10,
+          16,
+          22,
+          28,
+          34
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [],
+        "max_jump_count": 0,
+        "start_y": 364.0,
+        "apex_y": 364.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "spikes": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 3.5541,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "6940fe88fa45ab1b623f33934eede787f8e2bacfb1dccf738e7ea5b6514ec742",
+      "current_elapsed_seconds": 3.5578,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "6940fe88fa45ab1b623f33934eede787f8e2bacfb1dccf738e7ea5b6514ec742",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "spike": 1,
+          "floor": 149,
+          "respawn": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 90,
+        "ui_visible_frames": 90,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "death-loop": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 8.5615,
+      "original_binary_sha256": "ffbe9efa0f581634afdc56e7aa7a56fd24bd342e5a1c407e116d07fa2c47d3c5",
+      "original_manifest_sha256": "993486511e520e60dec846112fb1244f6b1fa4e51f034da51986f2d599728227",
+      "original_sha256": "54a69caf6be0bb1888bdd582f9f6822f4a2863ada45fb9cce755d3a05a945c63",
+      "current_elapsed_seconds": 8.6351,
+      "current_binary_sha256": "2b9e15b6dddc944d7e8a01a60e5398dd0b7f033859fc7b93851800648d26db9c",
+      "current_manifest_sha256": "04e07f027b12202a4fb18bf3e78413918412249f4467f9bbb5ecabe1e0c4d8cc",
+      "current_sha256": "54a69caf6be0bb1888bdd582f9f6822f4a2863ada45fb9cce755d3a05a945c63",
+      "differences": [],
+      "metrics": {
+        "frames": 450,
+        "events": {
+          "spike": 3,
+          "floor": 447,
+          "respawn": 3
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 270,
+        "ui_visible_frames": 270,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    }
+  },
+  "result": "PASS"
+}

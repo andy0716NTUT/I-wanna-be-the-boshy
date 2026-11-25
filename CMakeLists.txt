@@ -153,6 +153,15 @@ if(BOSHY_BUILD_TESTS AND BUILD_TESTING)
     add_executable(RuntimePathsTests tests/RuntimePathsTests.cpp src/RuntimePaths.cpp)
     target_include_directories(RuntimePathsTests PRIVATE include)
     add_test(NAME runtime-paths COMMAND RuntimePathsTests "${CMAKE_BINARY_DIR}/test-fixtures/runtime")
+    add_executable(WorldTests tests/WorldTests.cpp)
+    target_include_directories(WorldTests PRIVATE include)
+    add_test(NAME world-lookup COMMAND WorldTests)
+    add_executable(SceneLifetimeTests tests/SceneLifetimeTests.cpp)
+    target_include_directories(SceneLifetimeTests PRIVATE include "${ptsd_SOURCE_DIR}/include")
+    target_include_directories(SceneLifetimeTests SYSTEM PRIVATE ${DEPENDENCY_INCLUDE_DIRS})
+    target_compile_definitions(SceneLifetimeTests PRIVATE RESOURCE_DIR="Resources")
+    target_link_libraries(SceneLifetimeTests PRIVATE PTSD)
+    add_test(NAME scene-lifetime COMMAND SceneLifetimeTests)
     add_test(NAME deployed-resources COMMAND ${CMAKE_COMMAND}
         "-DSOURCE=${CMAKE_CURRENT_SOURCE_DIR}" "-DPTSD_SOURCE=${ptsd_SOURCE_DIR}"
         "-DDEPLOYED=$<TARGET_FILE_DIR:${PROJECT_NAME}>"

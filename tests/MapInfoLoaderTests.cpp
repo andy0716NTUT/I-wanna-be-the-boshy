@@ -103,6 +103,11 @@ int main(int argc, char** argv) try {
              (maps / "missing.txt").u8string()}) {
         Check(MapInfoLoader::LoadTileData(bad).empty(), "Malformed map accepted");
     }
+    const auto activeData = loader.GetMapData();
+    const auto activePhase = loader.GetCurrentPhase();
+    Check(!loader.TryLoadMap("does-not-exist", "WORLD1") &&
+          loader.GetMapData() == activeData && loader.GetCurrentPhase() == activePhase,
+          "Failed transactional load discarded active room");
     loader.LoadMap("does-not-exist", "WORLD1");
     Check(loader.GetWidth() == 0 && loader.GetHeight() == 0 &&
           loader.GetMapData().empty() && loader.GetTile(0,0) == -1,

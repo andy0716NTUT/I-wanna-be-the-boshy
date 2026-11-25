@@ -61,8 +61,7 @@ void App::Start() {
     m_bear = std::make_shared<bear>();
     m_bear->SetZIndex(-2);
     m_bear->SetVisible(false); // Initially invisible until detected in phase 4
-    m_Root.AddChild(m_bear); // Add to renderer right away
-    m_Root.AddChild(m_bear);
+    m_Root.AddChild(m_bear); // Register once; it is invisible before the first room.
 
     m_MapLoader = std::make_shared<MapInfoLoader>();
 

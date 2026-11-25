@@ -1,4 +1,5 @@
 #include "App.hpp"
+#include <filesystem>
 
 
 App::App() {
@@ -59,23 +60,23 @@ void App::Respawn() {
 
 
 void App::ReloadMapObjects() {    
-    ClearGameObjects(m_Platform);
-    ClearGameObjects(m_CheckPoints);
+    ClearGameObjects(m_Platform, m_Root);
+    ClearGameObjects(m_CheckPoints, m_Root);
     ClearGameObjects(m_CheckpointBullets, m_Root); // 清除檢查點子彈並從渲染器移除
-    ClearGameObjects(m_jumpBoost);
-    ClearGameObjects(m_FallingGround);
+    ClearGameObjects(m_jumpBoost, m_Root);
+    ClearGameObjects(m_FallingGround, m_Root);
     if ((deathType != DeathType::NONE && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))
-        ClearGameObjects(m_phase8bird);
+        ClearGameObjects(m_phase8bird, m_Root);
     if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && !(CurrentPhase.find("4_") == 0 || CurrentPhase == "5")) {
-        ClearGameObjects(m_bear);
+        ClearGameObjects(m_bear, m_Root);
     }
     if (m_phase8spider) {
         m_phase8spider->RestoreAllTiles();
-        ClearGameObjects(m_phase8spider);
+        ClearGameObjects(m_phase8spider, m_Root);
     }
     if (m_Boss1) {
         m_Boss1->ClearAnimation(m_Root);
-        ClearGameObjects(m_Boss1);
+        ClearGameObjects(m_Boss1, m_Root);
     }    
     m_CheckPoints.clear();
     m_CheckpointBullets.clear(); // 清除檢查點子彈列表
@@ -119,6 +120,17 @@ bool App::IsAABBOverlap(
            bottomA < topB && (topA + yOffsetTop) > bottomB - yExtraTop;
 }
 void App::TeleportToMap(const std::string& mapName, const std::string& worldName) {
+    const auto index = m_World->GetPhaseIndex(mapName, worldName);
+    const auto image = std::filesystem::u8path(std::string(RESOURCE_DIR) +
+        "/Image/Background/" + worldName + "/phase" + mapName + ".png");
+    std::error_code error;
+    if (index.first < 0 || !std::filesystem::is_regular_file(image, error)) {
+        LOG_ERROR("Teleport rejected: invalid room {}/{} or missing image {} ({})",
+                  worldName, mapName, image.u8string(), error.message());
+        return;
+    }
+    if (!m_MapLoader->TryLoadMap(mapName, worldName)) return;
+
     // 保存地图名称和世界名称
     CurrentPhase = mapName;
     CurrentWorld = worldName;
@@ -131,16 +143,15 @@ void App::TeleportToMap(const std::string& mapName, const std::string& worldName
     } else if (worldName == "WORLD3") {
         m_GamePhase = GamePhase::WORLD3;
     }    // 清除所有子弹
-    ClearGameObjects(m_Bullets);
+    ClearGameObjects(m_Bullets, m_Root);
     m_Bullets.clear();
     // 清除檢查點子彈
     ClearGameObjects(m_CheckpointBullets, m_Root);
     m_CheckpointBullets.clear();
-    // 清除现有游戏对象    ClearGameObjects(m_Platform);
+    // 清除现有游戏对象    ClearGameObjects(m_Platform, m_Root);
 
     // 设置资源管理器阶段并加载新地图
     m_PRM->SetPhase(mapName, CurrentWorld);
-    m_MapLoader->LoadMap(mapName, CurrentWorld);
 
     ReloadMapObjects();
     // 更新世界地圖位置

@@ -70,9 +70,27 @@ struct BoshyRegressionAccess {
         for (const auto& bullet : boss.m_BulletsC) out << ";C:" << bullet->GetPosition().x << ':' << bullet->GetPosition().y;
         return out.str();
     }
+    static std::string Spider(const App& app) {
+        if (!app.m_phase8spider) return "none";
+        const auto& actor = *app.m_phase8spider;
+        std::ostringstream out;
+        out << std::setprecision(std::numeric_limits<float>::max_digits10)
+            << static_cast<int>(actor.m_State) << ':' << actor.m_Transform.translation.x << ':'
+            << actor.m_Transform.translation.y << ':' << actor.m_Timer << ':' << actor.exist;
+        return out.str();
+    }
+    static std::string BirdState(const App& app) {
+        if (!app.m_phase8bird) return "none";
+        const auto& actor = *app.m_phase8bird;
+        std::ostringstream out;
+        out << std::setprecision(std::numeric_limits<float>::max_digits10)
+            << actor.m_Transform.translation.x << ':' << actor.m_Transform.translation.y << ':'
+            << actor.m_IsPending << ':' << actor.m_PendingTimer << ':' << actor.m_Chasing;
+        return out.str();
+    }
     static void Header(std::ostream& out) {
         out << "frame|x|y|vy|jumps|cooldown|jumping|death|player_visible|death_ui|ui_timer|ui_scale|"
-               "world|room|loaded_room|cp_x|cp_y|cp_room|bullets|cp_bullets|map_hash|events|boss|bear|actors|input\n";
+               "world|room|loaded_room|cp_x|cp_y|cp_room|bullets|cp_bullets|map_hash|events|boss|bear|actors|spider|bird|input\n";
     }
     static void Write(std::ostream& out, int frame, const App& app) {
         const auto p = Position(app);
@@ -89,6 +107,7 @@ struct BoshyRegressionAccess {
         else out << "none";
         out << '|' << app.m_Platform.size() << ':' << app.m_CheckPoints.size() << ':' << app.m_FallingGround.size()
             << ':' << bool(app.m_phase2trap_up) << ':' << bool(app.m_phase8spider) << ':' << bool(app.m_phase8bird) << '|';
+        out << Spider(app) << '|' << BirdState(app) << '|';
         for (const auto key : {Util::Keycode::RIGHT,Util::Keycode::LEFT,Util::Keycode::UP,Util::Keycode::DOWN,
                                Util::Keycode::Z,Util::Keycode::X,Util::Keycode::R})
             out << Util::Input::IsKeyPressed(key);

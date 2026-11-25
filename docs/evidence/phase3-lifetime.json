@@ -1,0 +1,17 @@
+{
+  "git_head": "f42d7f0735b254690ae604105107886e421d20d2",
+  "reload": {
+    "Original": {
+      "samples": 60,
+      "expired": 0,
+      "log_sha256": "5009f3400680b80f7f99632e0a44090932e5d263e8b6fffaf65bc2e49c507d0a"
+    },
+    "Current": {
+      "samples": 60,
+      "expired": 60,
+      "log_sha256": "0f1b2f9a52d8b939933c5c6d0cf0ed3a4c059c1151c54bb9e300b40746ac1827"
+    }
+  },
+  "headless_cycles": 500,
+  "focused_ctest_log_sha256": "5a8628c676106ec35ce30ba8470e23c12466fc2f1f9a33c218df08425e80e3f1"
+}

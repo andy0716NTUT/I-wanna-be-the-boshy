@@ -82,7 +82,7 @@ int main(int argc, char** argv) try {
     }
     if (app.GetCurrentPhase() == App::GamePhase::MENU) throw std::runtime_error("Menu entry failed");
     BoshyRegressionAccess::Room(app, (scenario == "spikes" || scenario == "death-loop") ? "2" :
-        scenario == "enemy" ? "4_1" : (scenario == "boss" || scenario == "boss-death") ? "13" : "1");
+        scenario == "spider-bird" ? "8" : scenario == "enemy" ? "4_1" : (scenario == "boss" || scenario == "boss-death") ? "13" : "1");
     const auto floor = FindFloor(app, 1, scenario == "full-jump" || scenario == "short-jump" ||
         scenario == "double-jump" ? 9 : 1);
     BoshyRegressionAccess::Place(app, floor);
@@ -95,9 +95,11 @@ int main(int argc, char** argv) try {
         if (!cp) throw std::runtime_error("Missing actual checkpoint fixture");
         fixture = cp->GetPosition() + glm::vec2(-60, 0);
     }
-    int frames = scenario == "boss" ? 3300 : scenario == "boss-death" ? 1200 : scenario == "enemy" ? 300 : scenario == "death-loop" ? 450 : 150;
+    int frames = scenario == "boss" ? 3300 : scenario == "boss-death" ? 1200 : scenario == "enemy" ? 300 : scenario == "death-loop" ? 450 : scenario == "reload-stress" ? 600 : scenario == "spider-bird" ? 900 : 150;
     if (scenario == "boss") fixture = {-500, -404};
+    if (scenario == "spider-bird") app.GodMode = true;
     if (scenario == "boss-death") app.GodMode = true; // Existing debug mode, explicitly a defeat/lifecycle workload.
+    int retirementSamples = 0, expiredSamples = 0;
     BoshyRegressionAccess::Header(trace);
     for (int frame = 0; frame < frames; ++frame) {
         BoshyRegressionAccess::Begin();
@@ -153,6 +155,27 @@ int main(int argc, char** argv) try {
             if (frame == 4) Key(SDL_SCANCODE_Z, true);
             if (frame == 5) BoshyRegressionAccess::Place(app, fixture + glm::vec2(0,-32));
             if (frame == 20) Key(SDL_SCANCODE_Z, false);
+        } else if (scenario == "reload-stress") {
+            if (frame % 10 == 0) {
+                std::weak_ptr<CheckPoint> previous = BoshyRegressionAccess::FirstCheckpoint(app);
+                BoshyRegressionAccess::Room(app, frame % 20 == 0 ? "2" : "1");
+                ++retirementSamples;
+                if (previous.expired()) ++expiredSamples;
+#if BOSHY_CURRENT_REGRESSION
+                if (!previous.expired()) throw std::runtime_error("Reload retained old checkpoint");
+                const auto hash = BoshyRegressionAccess::MapHash(app);
+                const auto position = BoshyRegressionAccess::Position(app);
+                app.TeleportToMap("missing-room", "WORLD1");
+                app.TeleportToMap("8", "WORLD2"); // Valid world index but no deployed World-2 map/image.
+                if (BoshyRegressionAccess::MapHash(app) != hash || BoshyRegressionAccess::Position(app) != position)
+                    throw std::runtime_error("Rejected teleport changed active room");
+#endif
+            }
+        } else if (scenario == "spider-bird") {
+            if (frame == 400) BoshyRegressionAccess::Room(app, "9");
+            if (frame == 450 || frame == 660) BoshyRegressionAccess::Room(app, "8");
+            if (frame == 600) BoshyRegressionAccess::Room(app, "12");
+            BoshyRegressionAccess::Place(app, {400,-100});
         } else if (scenario == "boss-death") {
             if (frame < 450) BoshyRegressionAccess::Place(app, BoshyRegressionAccess::BossPosition(app) + glm::vec2(-120,0));
             if (frame == 10) Key(SDL_SCANCODE_X, true);
@@ -173,6 +196,7 @@ int main(int argc, char** argv) try {
     }
     trace.flush();
     if (!trace) throw std::runtime_error("Cannot flush trace output");
+    std::cout << "RETIREMENT_SAMPLES=" << retirementSamples << " EXPIRED=" << expiredSamples << '\n';
     app.End();
     return 0;
 } catch (const std::exception& error) {

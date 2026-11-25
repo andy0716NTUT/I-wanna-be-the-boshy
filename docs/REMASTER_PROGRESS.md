@@ -3,25 +3,26 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: db5a07fbf70d4590dd2f7c7505a9059e77e64934
-ACTIVE_STAGE: 3
+HEAD_SHA: f42d7f0735b254690ae604105107886e421d20d2
+ACTIVE_STAGE: 4
 STAGE_STATUS: IN_PROGRESS
-NEXT_ACTION: Inspect and detach retired renderer-owned map objects and bullets; bound World lookups, preserve map/event state, then run lifetime stress and full original/current Debug/Release comparisons.
-LAST_VERIFIED_AT: 2026-11-25 Asia/Taipei
+NEXT_ACTION: Implement a native 1280x960 logical framebuffer, nearest sampler and integer aspect-preserving display viewport; test native/1080p/1440p/4K resize/fullscreen and mouse mapping, then rerun gameplay parity.
+LAST_VERIFIED_AT: 2026-11-25T10:53:41+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
 | Stage | Status | Gate evidence | Commit |
 | --- | --- | --- | --- |
 | 1 (new Windows verification) | PASSED | Debug/Release compiled, 15/15 CTest each, both menus observed from unrelated cwd; known missing PNGs audited | 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8 |
-| 1.5 | PASSED | Debug/Release 15-case actual-game event matrices pass with exact state; original/current death UI visually matches; 15/15 CTest each | This completed baseline commit; resolve via git log |
-| 2 | PASSED | 15-case Debug + added death-loop, 16-case Release, 30/120-cap comparisons; 15/15 CTest both | This Phase 2 commit; resolve via git log |
-| 3 | IN_PROGRESS | Phase 2 gate passed; lifecycle/world inspection next | None |
-| 4 | NOT_STARTED | Requires Stage 3 gate | None |
+| 1.5 | PASSED | Debug/Release 15-case actual-game event matrices pass with exact state; original/current death UI visually matches; 15/15 CTest each | db5a07fbf70d4590dd2f7c7505a9059e77e64934 |
+| 2 | PASSED | 15-case Debug + added death-loop, 16-case Release, 30/120-cap comparisons; 15/15 CTest both | f42d7f0735b254690ae604105107886e421d20d2 |
+| 3 | PASSED | All 18 original/current cases pass in Debug (two reports) and Release; 17/17 CTest both; 60 real reloads + 500 headless retirement cycles | This Phase 3 commit; resolve via git log |
+| 4 | IN_PROGRESS | Phase 3 gate passed; pinned renderer inspected, display integration next | None |
 | 5 | NOT_STARTED | Requires Stage 4 gate | None |
 | 6 | NOT_STARTED | Requires all prior gates | None |
 
 ## Work completed
+- Phase 3 implementation: bounded World lookup, preserving TryLoadMap for rejected debug teleport, explicit App-owned event timers with original phase-8 re-entry quirk, renderer detachment at original object retirement points. Debug stress proves 60/60 old Checkpoints released (Original 0/60); 500 headless lifetime cycles and map/world tests pass. All 18 cases now pass in Debug and Release, and CTest passes 17/17 each; see WORLD_LIFECYCLE.md.
 - Phase 2 passed: App-owned initialized PlayerManager extracts the active movement/integration/collision path, replacing the incompatible inactive proposal. Wired Debug all 15 original cases + separate new death-loop pass; Release all 16 pass. The final Debug rebuild differs from the full-matrix game only by a newline after the timestep statement; death-loop and 30/120 cap cases use that final build. Raw preflight results with the old wiring are excluded. Preserve double gravity, axis/input priority and R persistence. PLAYER_REFACTOR.md records the deliberately unchanged frame-coupled clock and the new-App state boundary.
 - Completed Phase 1.5: both Debug and Release original/current matrices pass all 15 cases (grounded full/short/double jumps, movement/controls, wall/head/one-way, shots/cap/X+Z, spike/death/UI/R, checkpoint/counter-shot/R, room re-entry/traps, enemy, Boss cycle and separate God-mode defeat/victory lifecycle). Normal builds and CTest pass 15/15 each; asset audit has 153 originals and zero content drift. Reports in docs/evidence/gameplay-baseline-{debug,release}.json.
 - Graphically inspected original and current death screens through Windows computer-use; matching Game Over/Press R overlay, hidden player and Debug panel. Native Up worked in the original menu; short Return taps were unreliable. The critical gate uses the complete real-update/event equivalent expressly permitted by the master task, not an invented native/human feel pass. No native input implementation changed.
@@ -52,6 +53,15 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - Audited real LoadTileData call sites in spider.cpp and added all four original spider/trap masks to the independent original-parser parity tests; tests pass in both configurations.
 
 ## Verification evidence
+- Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug --scenarios reload-stress spider-bird transition checkpoint enemy boss boss-death`; Debug `--no-build --scenarios full-jump short-jump double-jump movement wall head oneway shooting shoot-jump spikes death-loop`; Release default full matrix
+  Result: PASS
+  Evidence: docs/evidence/phase3-gameplay-debug-{world,core}.json covers all 18; phase3-gameplay-release.json all 18. Exact fields include spider/bird pose/state/timers, tile hashes, received input and projectiles. source hashes in phase3-current-sources.json. All runs silent.
+- Command: `cmake --build B:/build/windows --config <Debug|Release> --parallel 8`; `ctest --test-dir B:/build/windows -C <Debug|Release> --output-on-failure` (absolute CMake/CTest 3.31.8 from BUILD.md)
+  Result: PASS
+  Evidence: build/phase3-build-{Debug,Release}.log; phase3-ctest-{Debug,Release}.log, 17/17 each (1.84s / 1.59s). The new console lifetime test initially linked as SDL_main; SDL_MAIN_HANDLED corrected its entry point and the rerun passes. No game entry-point change.
+- Command: `ctest --test-dir B:/build/windows -C Debug -R 'map-loader|world-lookup|scene-lifetime' --output-on-failure`
+  Result: PASS
+  Evidence: focused 3/3; phase3-lifetime.json contains actual 60 reload weak-owner counts (Original 0 released, Current 60) and log hashes, plus 500 headless cleanup cycles. Invalid debug destinations preserve room; malformed/absent/transactional maps and ragged-world bounds pass. Valid source assets and coordinate math unchanged.
 - Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug`; same with `--config Release`; final Debug `--scenarios death-loop`; Debug `--no-build --scenarios movement full-jump shooting --fps-cap <30|120>`
   Result: PASS
   Evidence: docs/evidence/phase2-gameplay-{debug,release}.json, phase2-death-loop-debug.json, phase2-fps{30,120}.json, phase2-current-sources.json; exact float/state equality, all coverage requirements pass. All processes silent. FPS-cap elapsed values include startup/shutdown; the original changes wall-time speed with cap, so no scheduler change is justified.

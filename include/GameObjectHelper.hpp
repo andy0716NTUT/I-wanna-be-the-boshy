@@ -53,9 +53,18 @@ void ClearGameObjects(std::vector<std::shared_ptr<T>>& objects, Util::Renderer& 
 template<typename T>
 void ClearGameObjects(std::shared_ptr<T>& objects)
 {
+    if (!objects) return;
     objects->SetDrawable(nullptr);
     objects->SetVisible(false);
     objects = nullptr;
+}
+
+template<typename T>
+void ClearGameObjects(std::shared_ptr<T>& object, Util::Renderer& renderer)
+{
+    if (!object) return;
+    renderer.RemoveChild(object);
+    ClearGameObjects(object);
 }
 
 

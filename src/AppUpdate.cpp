@@ -9,13 +9,13 @@ void App::Update() {
     int& jumpCount = playerState.jumpCount;
     float& shootCooldown = playerState.shootCooldown;
     const float deltaTime = PlayerManager::FrameSeconds;
-    static float switchTimer = 0.0f; // 地圖切換
-    static bool isSwitch = false; // 地圖切換狀態
+    auto& switchTimer = m_WorldRuntime.switchTimer; // 地圖切換
+    auto& isSwitch = m_WorldRuntime.isSwitch; // 地圖切換狀態
     const float switchInterval = 1.0f; // 每1秒切換一次
-    static bool keepExtending = true; // 平台延伸控制
-    static int startTileX = 28; // 移到外部
-    static int startTileY = 56; // 秮到外部
-    static float platformTimer = 0.0f; // 移到外部
+    auto& keepExtending = m_WorldRuntime.keepExtending; // 平台延伸控制
+    auto& startTileX = m_WorldRuntime.startTileX; // 移到外部
+    auto& startTileY = m_WorldRuntime.startTileY; // 秮到外部
+    auto& platformTimer = m_WorldRuntime.platformTimer; // 移到外部
     m_Player.AdvanceCommonCooldown(deltaTime);
     std::stringstream ss;
     bool needsRespawn = false;
@@ -40,8 +40,8 @@ void App::Update() {
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
             std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
 
-            m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
-            m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
+            m_PRM->SetPhase(m_World->GetPhaseAt(CurrentWorld, currentX, currentY),CurrentWorld);
+            m_MapLoader->LoadMap(m_World->GetPhaseAt(CurrentWorld, currentX, currentY),CurrentWorld);
 
             ReloadMapObjects();
             m_Boshy->SetPosition({-560,364});
@@ -227,9 +227,9 @@ void App::Update() {
                 position.y -= 32;
             }
 
-            CurrentPhase = m_World->GetWorldByPhaseName(GamePhaseToString(m_GamePhase))[currentX][currentY];
+            CurrentPhase = m_World->GetPhaseAt(GamePhaseToString(m_GamePhase), currentX, currentY);
 
-            ClearGameObjects(m_Bullets);
+            ClearGameObjects(m_Bullets, m_Root);
             m_Bullets.clear();
             ClearDrawables(m_CheckPoints);
             ClearDrawables(m_jumpBoost);
@@ -315,6 +315,8 @@ void App::Update() {
         }
 
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
+            if (m_phase2trap_down) m_Root.RemoveChild(m_phase2trap_down);
+            if (m_phase2trap_up) m_Root.RemoveChild(m_phase2trap_up);
             m_phase2trap_down = std::make_shared<phase2trap>();
             m_phase2trap_down->Create(
                 m_MapLoader,
@@ -340,8 +342,8 @@ void App::Update() {
             trapCreated = false;
         }
         if (CurrentPhase == "8") {
-            static bool phase8Entered = false;
-            static float phase8EnterTimer = 0.0f;
+            auto& phase8Entered = m_WorldRuntime.phase8Entered;
+            auto& phase8EnterTimer = m_WorldRuntime.phase8EnterTimer;
             glm::vec2 boshyPos = m_Boshy->GetPosition();
 
             // 進入 phase8 時重置計時器
@@ -364,7 +366,7 @@ void App::Update() {
 
                 // spider 結束後再開始倒數出現 bird
                 if (m_phase8spider->IsFinished() && !m_phase8bird) {
-                    static float birdDelay = 0.0f;
+                    auto& birdDelay = m_WorldRuntime.birdDelay;
                     birdDelay += deltaTime;
                     if (birdDelay > 1.0f) {
                         m_phase8bird = std::make_shared<Bird>();
@@ -375,13 +377,9 @@ void App::Update() {
                     }
                 }
             }
-        } else {
-            // 離開 phase8 時重置狀態
-            static bool phase8Entered = false;
-            static float phase8EnterTimer = 0.0f;
-            phase8Entered = false;
-            phase8EnterTimer = 0.0f;
         }
+        // The original else block reset two *different*, unused statics. Preserve
+        // the active phase-8 timer across exits instead of silently fixing it.
 
         // bird 持續追蹤邏輯（phase 8~12 都適用）
         if (m_phase8bird) {
@@ -398,7 +396,7 @@ void App::Update() {
                     return;
                 }
                 if (CurrentPhase == "12" && m_phase8bird->GetPosition().x >= 0.0f) {
-                    ClearGameObjects(m_phase8bird);
+                    ClearGameObjects(m_phase8bird, m_Root);
                     m_phase8bird = nullptr;
                 }
             }
@@ -445,7 +443,7 @@ void App::Update() {
                 deathType = DeathType::REAL_DEATH;
             }
         } else {
-            if (m_Boss1)ClearGameObjects(m_Boss1);
+            if (m_Boss1)ClearGameObjects(m_Boss1, m_Root);
         }
 
         // 添加調試信息
@@ -532,7 +530,7 @@ void App::Update() {
                     {
                         checkpoint->play();
                         checkpoint->SetTargetPosition(m_Boshy->GetPosition()); // 記錄當前玩家位置用於延遲儲存
-                        ClearGameObjects(bullet);
+                        ClearGameObjects(bullet, m_Root);
                         // 不立即保存檢查點位置，等延遲計時器完成後再保存
                         break; // 跳出內層循環
                     }
@@ -574,7 +572,7 @@ void App::Update() {
         Bullet::CleanBullet(m_CheckpointBullets, m_Root);
         // 检查鼠标和角色是否重疊（使用 PTSD Position）
         // 清除不可見的子彈
-        Bullet::CleanBullet(m_Bullets);
+        Bullet::CleanBullet(m_Bullets, m_Root);
         // 關閉或重生邏輯
         if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit())
         {
@@ -593,8 +591,8 @@ void App::Update() {
             CurrentWorld = GamePhaseToString(m_GamePhase);
             auto& currentWorld = m_World->GetWorldByPhaseName(CurrentWorld);
             std::tie(currentX, currentY) = m_World->GetStartPosition(currentWorld, "1");
-            m_PRM->SetPhase(currentWorld[currentX][currentY],CurrentWorld);
-            m_MapLoader->LoadMap(currentWorld[currentX][currentY],CurrentWorld);
+            m_PRM->SetPhase(m_World->GetPhaseAt(CurrentWorld, currentX, currentY),CurrentWorld);
+            m_MapLoader->LoadMap(m_World->GetPhaseAt(CurrentWorld, currentX, currentY),CurrentWorld);
             m_Boshy->SetPosition({-500,100});
             ReloadMapObjects();
             switchTimer = 0.0f; // 重置 switchTimer

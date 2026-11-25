@@ -14,6 +14,7 @@
 #include "PlayerManager.hpp"
 #include "MapInfoLoader.hpp"
 #include "World.hpp"
+#include "WorldRuntime.hpp"
 #include "BgmManager.hpp"
 #include "MapObject/CheckPoint.hpp"
 #include <iostream>

@@ -15,6 +15,8 @@ public:
     [[nodiscard]] int GetHeight() const { return m_Height; }
 
     void LoadMap(std::string mapNumber,std::string CurrentWorld); // 直接載入地圖數字
+    // A failed debug teleport must not discard the active map.
+    bool TryLoadMap(const std::string& mapNumber, const std::string& world);
 
     static std::vector<std::vector<int>> LoadTileData(const std::string& path);
 

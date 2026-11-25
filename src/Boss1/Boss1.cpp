@@ -64,19 +64,19 @@ void Boss1::ClearAnimation(Util::Renderer& rootRenderer) {
         m_DeadAnimation.reset();
     }
     if(m_BulletsA.size() > 0) {
-        ClearGameObjects(m_BulletsA);
+        ClearGameObjects(m_BulletsA, rootRenderer);
         m_BulletsA.clear();
     }
     if(m_BulletsB.size() > 0) {
-        ClearGameObjects(m_BulletsB);
+        ClearGameObjects(m_BulletsB, rootRenderer);
         m_BulletsB.clear();
     }
     if(m_BulletsC.size() > 0) {
-        ClearGameObjects(m_BulletsC);
+        ClearGameObjects(m_BulletsC, rootRenderer);
         m_BulletsC.clear();
     }
     if(m_LightAttack) {
-        ClearGameObjects(m_LightAttack);
+        ClearGameObjects(m_LightAttack, rootRenderer);
         m_LightAttack.reset();
     }
     if(m_HP) {
@@ -119,9 +119,9 @@ void Boss1::CheckPlayerDeathByBullets(const glm::vec2& playerPosition) {
 void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& rootRenderer) {
     if (this->IsDead()) {
         if (!m_DeadAnimation) {
-            ClearGameObjects(m_BulletsA);
-            ClearGameObjects(m_BulletsB);
-            ClearGameObjects(m_BulletsC);
+            ClearGameObjects(m_BulletsA, rootRenderer);
+            ClearGameObjects(m_BulletsB, rootRenderer);
+            ClearGameObjects(m_BulletsC, rootRenderer);
             m_BulletsA.clear();
             m_BulletsB.clear();
             m_BulletsC.clear();
@@ -184,7 +184,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     if (allBulletsOutOfScreen) {
                         m_AttackType = AttackType::LIGHTATTACK;
                         TypeAShootCount = 0;
-                        ClearGameObjects(m_BulletsA);
+                        ClearGameObjects(m_BulletsA, rootRenderer);
                         m_BulletsA.clear();
                     }
                 }
@@ -265,7 +265,7 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                     if (bulletsOutCount >= 6) {
                         m_AttackType = AttackType::TYPEC;
                         TypeBShootCount = 0;
-                        ClearGameObjects(m_BulletsB);
+                        ClearGameObjects(m_BulletsB, rootRenderer);
                         m_BulletsB.clear();
                     }
                 }
@@ -288,8 +288,10 @@ void Boss1::Update(float deltaTime, glm::vec2 playerPosition, Util::Renderer& ro
                 }
                 m_BulletsC.erase(
                     std::remove_if(m_BulletsC.begin(), m_BulletsC.end(),
-                        [](const std::shared_ptr<BulletTypeC>& bullet) {
-                            return bullet->GetPosition().x < -700.0f;
+                        [&rootRenderer](const std::shared_ptr<BulletTypeC>& bullet) {
+                            if (bullet->GetPosition().x >= -700.0f) return false;
+                            rootRenderer.RemoveChild(bullet);
+                            return true;
                         }),
                     m_BulletsC.end()
                 );

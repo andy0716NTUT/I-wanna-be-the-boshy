@@ -6,6 +6,8 @@
 #define WORLD_HPP
 #include <iostream>
 #include <vector>
+#include <string>
+#include <stdexcept>
 class World {
     public:
             const std::vector<std::vector<std::string>> world1 = {
@@ -14,6 +16,16 @@ class World {
                  { "7",  "8",  "9",  "10",  "11", "12","13","14"}};
 
             enum class Direction { NONE, UP, DOWN, LEFT, RIGHT };
+
+            const std::string& GetPhaseAt(const std::string& worldName, int row, int column) {
+                const auto& world = GetWorldByPhaseName(worldName);
+                if (row < 0 || row >= static_cast<int>(world.size()) || column < 0 ||
+                    column >= static_cast<int>(world[row].size())) {
+                    throw std::out_of_range("World " + worldName + " has no room at row " +
+                        std::to_string(row) + ", column " + std::to_string(column));
+                }
+                return world[row][column];
+            }
 
             inline const std::vector<std::vector<std::string>>& GetWorldByPhaseName(const std::string& phaseName) {
                 if (phaseName == "WORLD1") return world1;
