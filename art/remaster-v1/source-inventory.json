@@ -1,0 +1,1913 @@
+{
+  "baseline_revision": "1b2738855b8221348ec1e6835309e4bbbfeb66d9",
+  "rollback_tag": "remaster-before-assets-20261126-1b27388",
+  "source_directory": "Resources/Image",
+  "originals_unchanged": true,
+  "png_count": 119,
+  "files": [
+    {
+      "path": "Resources/Image/Background/WORLD1/phase1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "479d1c8b054cdd0991912be5c575bdb5e8442b09ba1223fbf117b2792ed8cd1a",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "3d18cb08c634689cf502e27bb143a7a0f5e5b6f1b3d87351c9ab6f54f24deed3"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase10.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "dcf3e1a75fe63ee810e75312f2405d76997b2ceaffae4afea2bc76b5181f9a41",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "b318b20c429bc032d26d3f70fd9bda09d520d998add0c43aa09b32b45209ae2f"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase11.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "638997ed221a39d7876413317b40e689a42c20f8cbf1be7c6db80976b3d48f0d",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "c57d40a0d511f88d05d34aebc2ace70e2438e432327a1c831f6a3edc4c66eb54"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase12.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "b78147d4a1d7b548395fe055921cd05fb011426d8094ba8af76aa9aed29f0e9a",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "6c3936771b7ba67fbb1df4e709cfa762760b9e949bc2bea58f6dcbc74d170cf5"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase13.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "f0aa1cdb506b29c50b2fae930da852072d36965c92cac2b446b09327aa27e4d2",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "c13aa106471118a3b66382a48e6d0ee86f5738de73f74def60764210117d7e89"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase14.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "59b2b79870ac305b1849f9e276aab6f3d67dce59f8c362a16b07a521417935b6",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase2.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "0be88b3ef667c396d8b67da6ed19d84ce394974b0ff8268c1aa8412aac046bce",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "7adc0b841e64d1ce1f107e576cf5696d3e50091ab6eabfcecdafe820ab013209"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase3_1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "3c25776f694b6f8ac047f99395950e13c6a86d7c4696655fb03d7a707f06c13f",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "455123c0f5273cf7dda836c514b857e1ce44685226b5ead20487150cc6423b34"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase3_2.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "9c7b8a45e3c03aa3821a9f9e54552a52fa8d5a0337ad504f99e3dcdcf409cc93",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "455123c0f5273cf7dda836c514b857e1ce44685226b5ead20487150cc6423b34"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase4.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "725e58067d1442f913db5b33cd4ea7bbf640ed8a67329a0c76fa373314125e85",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase4_1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "725e58067d1442f913db5b33cd4ea7bbf640ed8a67329a0c76fa373314125e85",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase4_2.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "b985d248f0752369e7c0c40c41993d43d2108095b4b931ba4092378850b4e866",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase5.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "c41b00e648fc2704e440f3a641fe46fc8761e39e0e196cd7ee551f8ebb0d76e2",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "27f16b36f889615eb568385feb57dc547537d39363580248149a2a4b2f596aae"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase6.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "91d102e4c6150c2d321934ec70281bfee8254b70a04ad26cf574abfb71724299",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "6cc4c68b2795dfe8e6a300571e25d74c2bfb1be238806f4f59449271d58be110"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase7.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "8e4c3c2a85169f59e29b54a9d20151afae653053ab84707a4af4fd77ddd52311",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "99db1acb84bd2e4ce2c22ddbdccfc991ff231eca88554f9a3f2accf2df2a7898"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase8.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "78bfcfc890f0a3314dad866c67963118a5eacea4ce3c79ea1008b5f0c181f028",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "7a68b7cc1acacf564b7c2d59f9053a407ab1f97e511a688a03834ba037e10e45"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phase9.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "7fcc6b50cc4d1622f48dbe9c6dddf4e811f30d0df6e2dd5d7eb25ce174c36178",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "de5182c4e8c4840805b8def845f3a5efda79f8c67a85bf6c4c21b21e40cce896"
+    },
+    {
+      "path": "Resources/Image/Background/WORLD1/phasenone.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "c8807e255f6b75fd55958db6c06ac2a3f4ab2441eaccbdbd1578f7f91ab0747a",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "25117e4d8cfcb23296b35707d242f19b568b349548446a67e0fba53ef28090f7"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "4b9c42eafae2b52a34c585c4286c2673ef5e2534800cfa1c19ebefb79bb4e08b",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase2_1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "b86bebc6a81582269a4cba61e6577bbcc22bff03f35f346a1283ed63bb6b8ac7",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase2_2.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "9238811ba5aa4fb81deeedc12d164aa3c738d11d690fd6567b3953f84eb44e74",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase3.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "4e4d9c903c2a9bdfdc6724ac32322510e3c43208152f048451c5a54f4dc3ee7b",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase4 for collision.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "f29bb272274b886028fb05a9075fe75ee4228e394996276d7d6901391bcf982d",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase4.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "aafe7e58120a7926ac94c561438e29bd0a47390d464ee6c88ebb4063099a0360",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase5.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "ac3b635438c49660300a941602513f8b742d3b2ec16caa29d74716b391c439bf",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase6 for collision.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "4656300a0db048e8cedfa442734a6464d94eaaa461e42e717639f3a9ed71028d",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Background/world2/phase6.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "055c3b1a9169e1b3f386aecfbcb9ab011ab2fca1b7f3ca24066d7d7dd55ee99e",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        960
+      ],
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1"
+    },
+    {
+      "path": "Resources/Image/Boss1/blast1.png",
+      "size": [
+        288,
+        232
+      ],
+      "mode": "RGBA",
+      "sha256": "322183d3cea1c91fab164919cbff724d08fe2ed8da86b7f47ad7fd08de74402d",
+      "alpha_bbox": [
+        30,
+        8,
+        259,
+        216
+      ],
+      "alpha_sha256": "7859bf5bd464d76389c511e13b91266aaddc8e477ad961f4bfd2d7cd7000fca3"
+    },
+    {
+      "path": "Resources/Image/Boss1/blast2.png",
+      "size": [
+        288,
+        232
+      ],
+      "mode": "RGBA",
+      "sha256": "1b648a3f39445f5b9ebae61f0ae06bf56aac12e3de7d5203e35037bcea919498",
+      "alpha_bbox": [
+        24,
+        6,
+        262,
+        227
+      ],
+      "alpha_sha256": "1851a8a617b12afc35f4366fc7d83ae6c4b975c1ced8a19cc0dceb3f9dc1cdfc"
+    },
+    {
+      "path": "Resources/Image/Boss1/blast3.png",
+      "size": [
+        288,
+        232
+      ],
+      "mode": "RGBA",
+      "sha256": "4cc4f6a9f967ef5ea7ecfeaeb37db59e5bf38fd1cc6834881a5adadc1b3813b5",
+      "alpha_bbox": [
+        32,
+        11,
+        264,
+        224
+      ],
+      "alpha_sha256": "90cad7678546f88330428961a3da24cc8665e33383bdbca86268dc341d6feb49"
+    },
+    {
+      "path": "Resources/Image/Boss1/blast4.png",
+      "size": [
+        288,
+        232
+      ],
+      "mode": "RGBA",
+      "sha256": "1fa6b6148d1ec1689b5d291f602ff59e8f0243004b2148e307d551135fc0a2bd",
+      "alpha_bbox": [
+        33,
+        20,
+        257,
+        221
+      ],
+      "alpha_sha256": "e375b13177091fa74ccdc28b43ab17f68191e4bf546747753a0587a27497bc95"
+    },
+    {
+      "path": "Resources/Image/Boss1/boss1.png",
+      "size": [
+        362,
+        288
+      ],
+      "mode": "RGBA",
+      "sha256": "3b2d9ae3d8de8bb247eedd2757247f6d14f84d08166b868aed70587db29bd2dc",
+      "alpha_bbox": [
+        0,
+        0,
+        362,
+        288
+      ],
+      "alpha_sha256": "4ca305ff41b52f6a6fa1f832af5999b80e610a9d497486bb85e6f5bb941e2a57"
+    },
+    {
+      "path": "Resources/Image/Boss1/boss2.png",
+      "size": [
+        386,
+        299
+      ],
+      "mode": "RGBA",
+      "sha256": "e029f2d31447cb582841f2c0f6178c1fbec89fc2d18caa368ef6be98219d3998",
+      "alpha_bbox": [
+        8,
+        0,
+        386,
+        299
+      ],
+      "alpha_sha256": "e5b776a9969ed241cec530f5da5982402abcee38c32470da76bb0c93dae74f3e"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack1.png",
+      "size": [
+        51,
+        67
+      ],
+      "mode": "RGBA",
+      "sha256": "8cb3fadbf5dce8d7ed54ef5fbd55761af0887bbd4ddf226e6cd4b5df48b652f6",
+      "alpha_bbox": [
+        4,
+        16,
+        45,
+        61
+      ],
+      "alpha_sha256": "2d59328b4d3ac33e1c4d0ab6f02c8900f7afaefa438c1d6c0e629300d3ea2ec1"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack2.png",
+      "size": [
+        67,
+        51
+      ],
+      "mode": "RGBA",
+      "sha256": "f4108c087800d706d9ad358c6344b5b7a144b593a32999738df9496a816dcceb",
+      "alpha_bbox": [
+        6,
+        4,
+        51,
+        45
+      ],
+      "alpha_sha256": "aad88995eda3ea0fde6599bd36601775e71ddadbeec8af14caa0559ddbe4a063"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack3.png",
+      "size": [
+        51,
+        67
+      ],
+      "mode": "RGBA",
+      "sha256": "c8473460b8000f0d6d5f3ee2e7185ccada75dd8606f71bbc7098b5138aae2706",
+      "alpha_bbox": [
+        6,
+        6,
+        47,
+        51
+      ],
+      "alpha_sha256": "99c988455a794c02deceeaa49ba36d18c7e50a4ff7f12a640fbdda94d9184407"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack4.png",
+      "size": [
+        67,
+        51
+      ],
+      "mode": "RGBA",
+      "sha256": "b4161661769e3dcd0565653956c5db77935f5b8e0106480ba74d99b34fbde3cb",
+      "alpha_bbox": [
+        16,
+        6,
+        61,
+        47
+      ],
+      "alpha_sha256": "a793ad6dac1a8d1002492572c60dbcd3c1da58c51d97b64436c33e34933ab89d"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack5.png",
+      "size": [
+        85,
+        85
+      ],
+      "mode": "RGBA",
+      "sha256": "0fdcc707f4792f0df8277cb6195cf292532942a2fb0ed139f7e5775c823aed76",
+      "alpha_bbox": [
+        20,
+        24,
+        67,
+        71
+      ],
+      "alpha_sha256": "4f0c5d2a9da59bdb648ea3d65a9efa50f38e3c9df1fbf584d8b80c9f2419784d"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack6.png",
+      "size": [
+        51,
+        67
+      ],
+      "mode": "RGBA",
+      "sha256": "8cb3fadbf5dce8d7ed54ef5fbd55761af0887bbd4ddf226e6cd4b5df48b652f6",
+      "alpha_bbox": [
+        4,
+        16,
+        45,
+        61
+      ],
+      "alpha_sha256": "2d59328b4d3ac33e1c4d0ab6f02c8900f7afaefa438c1d6c0e629300d3ea2ec1"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack7.png",
+      "size": [
+        85,
+        85
+      ],
+      "mode": "RGBA",
+      "sha256": "480d7f68f13f7a35e9ae1a4462f88174f18b8cff1c429e47a7b5d8c79f2ac3c9",
+      "alpha_bbox": [
+        14,
+        20,
+        61,
+        67
+      ],
+      "alpha_sha256": "d43895a906d0a2a785adc793cd463374d1f960144a5640accdf4daa488e3ef7d"
+    },
+    {
+      "path": "Resources/Image/Boss1/Boss_attack8.png",
+      "size": [
+        67,
+        51
+      ],
+      "mode": "RGBA",
+      "sha256": "f4108c087800d706d9ad358c6344b5b7a144b593a32999738df9496a816dcceb",
+      "alpha_bbox": [
+        6,
+        4,
+        51,
+        45
+      ],
+      "alpha_sha256": "aad88995eda3ea0fde6599bd36601775e71ddadbeec8af14caa0559ddbe4a063"
+    },
+    {
+      "path": "Resources/Image/Boss1/BossHp.png",
+      "size": [
+        1280,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "b93bf0b5903a9c99225617a7854cfe2dde663511471b57b252359ccc19c5be7f",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        32
+      ],
+      "alpha_sha256": "5acd2700bacfed75f41c8f0df2dd7e9f11b3a214677ce2ef525a369c151e60da"
+    },
+    {
+      "path": "Resources/Image/Boss1/fallingAttack.png",
+      "size": [
+        48,
+        45
+      ],
+      "mode": "RGBA",
+      "sha256": "228aaba00bd657bbe03625e2c5ca1f76140a0d9c6497a9cb983350d97563ea69",
+      "alpha_bbox": [
+        11,
+        9,
+        39,
+        40
+      ],
+      "alpha_sha256": "3ad3eee8387d87df27993851bf44e29e2bf5c7e8072ae590dd50b6c7929f4f7c"
+    },
+    {
+      "path": "Resources/Image/Boss1/lightAttack1.png",
+      "size": [
+        1280,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "1cff65093e5a3ac3d26e21b85471740071d9a83cbed59c98c01751e53864ca02",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        32
+      ],
+      "alpha_sha256": "534ef296396cdb40c9fa7102288ed878cb2e016bfd8b670f2d93f717187f2ddc"
+    },
+    {
+      "path": "Resources/Image/Boss1/lightAttack2.png",
+      "size": [
+        1280,
+        48
+      ],
+      "mode": "RGBA",
+      "sha256": "362b74201999a41fbda39a161aeaa7bab8858d35c9205f209c76832f3ac34ba1",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        48
+      ],
+      "alpha_sha256": "1e2dbed80da880e6f79ac1bb7d4535173773d51b22177d62d554e5c039f79a4b"
+    },
+    {
+      "path": "Resources/Image/Boss1/lightAttack3.png",
+      "size": [
+        1280,
+        288
+      ],
+      "mode": "RGBA",
+      "sha256": "20275e4ed52873aa3c094e6a006e4d7b0980d363f97a2da5051dbf1e5d9bda9a",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        288
+      ],
+      "alpha_sha256": "84b3695d00c55a68cc3db9b32d4812a29ca4fd1239ae7644224d7a41901ae4b1"
+    },
+    {
+      "path": "Resources/Image/Boss1/lightAttack4.png",
+      "size": [
+        1280,
+        300
+      ],
+      "mode": "RGBA",
+      "sha256": "5bc4ee42ef2d90b31587e9ae10a903503ce791facc013f95ff393af397ea3f2d",
+      "alpha_bbox": [
+        0,
+        0,
+        1280,
+        300
+      ],
+      "alpha_sha256": "f9e4e4de174862ab2bfabe0f8172392bcfe59f2f8a9361c0cf72e0dbdce2d37d"
+    },
+    {
+      "path": "Resources/Image/bullet.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "3cc1e322217abf3ef504aff53dcaaf18731129ea0e078c2605541f0e6585817b",
+      "alpha_bbox": [
+        15,
+        19,
+        52,
+        52
+      ],
+      "alpha_sha256": "393d2e37a63dd90c5c03f2180aabbd4e3d1785ef6360a0072b9a5e1071cd94e8"
+    },
+    {
+      "path": "Resources/Image/bullet2.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "09a07435819c0edfda10b9185307385090fe057d861697e71f05f98c4ce9a2cf",
+      "alpha_bbox": [
+        11,
+        19,
+        48,
+        52
+      ],
+      "alpha_sha256": "64debb3e29681ac53ad02fb86b26f92fc9aa1e424632543f61f0eee6cc292901"
+    },
+    {
+      "path": "Resources/Image/Character/fall/fall1-left.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "39ddb3fb1bf154a91b0656f17fb16bc4df167475b726d6e85e95a3e5d2286958",
+      "alpha_bbox": [
+        6,
+        7,
+        24,
+        25
+      ],
+      "alpha_sha256": "36661ab3fb3c0d44bee30f64bacf3e8accc874ac1a4e778c09e59c0732a1f3a9"
+    },
+    {
+      "path": "Resources/Image/Character/fall/fall1.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "7887a62e0924a491dc2023e051c2f1a717bcaac62d6d3d3a485ae488fe144192",
+      "alpha_bbox": [
+        8,
+        7,
+        26,
+        25
+      ],
+      "alpha_sha256": "69ca7144161fa7367dba6349ff0fab2db0b12f35771d62becfd5aef1dd65bce3"
+    },
+    {
+      "path": "Resources/Image/Character/fall/fall2-left.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "e87de641ea1daa43c97b16a3c90bac629e7489b6508e1d7296241b88d89bcf07",
+      "alpha_bbox": [
+        6,
+        7,
+        24,
+        25
+      ],
+      "alpha_sha256": "2d75ed6aab4652798f95ed00576f5731edc81d2333c52e1820c0d4de6e7928fc"
+    },
+    {
+      "path": "Resources/Image/Character/fall/fall2.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "eba9e345762ef2897b7e64fce02e583bf716f558c8ae0167552d3ee99bebb312",
+      "alpha_bbox": [
+        8,
+        7,
+        26,
+        25
+      ],
+      "alpha_sha256": "0ab25f57e3dd627f6c545206c01d833c5d8693975be5183f0c6fee9c72e760c0"
+    },
+    {
+      "path": "Resources/Image/Character/idle/idle1-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "a148cc712e9565a49ef4b12f2b2a6ad5da42c01dc26cb2d150fc09fbadf8c156",
+      "alpha_bbox": [
+        15,
+        16,
+        47,
+        48
+      ],
+      "alpha_sha256": "4abd6cd4488ae467f2f9eebd6814394a50f5544db396108bdf9c441439d309c3"
+    },
+    {
+      "path": "Resources/Image/Character/idle/idle1.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "ff6650a0d744859b69f1eb633ceef72be1c72dc2c27b881720cdfbe46018733a",
+      "alpha_bbox": [
+        18,
+        16,
+        49,
+        48
+      ],
+      "alpha_sha256": "2513a32ae3d5a7e277c98ca6ca40c709c1657b1fd3ccd01fa0abc11930e19a6b"
+    },
+    {
+      "path": "Resources/Image/Character/idle/idle2-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "17d76b9558c67e2727fee9887cb9ef3072de90f75053050c79a8c2644ac9c42b",
+      "alpha_bbox": [
+        17,
+        18,
+        44,
+        48
+      ],
+      "alpha_sha256": "6f7193ee3359ab44ef8d978929f8498aaa5033fa47f6c83fe677be207741e907"
+    },
+    {
+      "path": "Resources/Image/Character/idle/idle2.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "12c260b9a3f6b47dbd820c6e9d313ccf1fe5277e5aaa9e6e94ca2ac93e5be9be",
+      "alpha_bbox": [
+        20,
+        18,
+        47,
+        48
+      ],
+      "alpha_sha256": "40f6a98d5593c39af0852efd986e078bf80e8be8b60bfd9c99e5317a4cc7b6a3"
+    },
+    {
+      "path": "Resources/Image/Character/jump/jump1-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "296678ba705c84f7366d19e9d5fa1d00e33ef4ed5a133c17dc6ca73378851cba",
+      "alpha_bbox": [
+        12,
+        15,
+        49,
+        52
+      ],
+      "alpha_sha256": "83c7b48573038fd32eeba8f9095a7f275e62f1f4900fce6c6ba402eb3d28db31"
+    },
+    {
+      "path": "Resources/Image/Character/jump/jump1.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "29ac6f7a0d14a728991fc03e05e304ac37f03420fbc4b0dbbdb9406584b62b0f",
+      "alpha_bbox": [
+        15,
+        15,
+        52,
+        52
+      ],
+      "alpha_sha256": "4ecc7880666e4318970be22f55e6ff6b4c5a5f62dac399e19e237ae47e982bf4"
+    },
+    {
+      "path": "Resources/Image/Character/jump/jump2-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "0f1b4a4cf56236ba89b953d9fba6de72abf52d4608e4de8fb754807cc3bc3ba5",
+      "alpha_bbox": [
+        14,
+        13,
+        49,
+        50
+      ],
+      "alpha_sha256": "34a3128a240e1f7a4dbfe8ac1df8eeadb9b734d9bc527bf94466a5be52e2fabb"
+    },
+    {
+      "path": "Resources/Image/Character/jump/jump2.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "bf1a982e0fa3316a15551e0ffb61a603e4da527a4aa7a04fd61b7b7f3d4cf701",
+      "alpha_bbox": [
+        15,
+        13,
+        50,
+        50
+      ],
+      "alpha_sha256": "066c40b409635739378be9dc67d1e8b4135b1b65e239c47c97d7827c20e73f46"
+    },
+    {
+      "path": "Resources/Image/Character/jump/jump3-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "0b63624c5499cf3e95f139b1b1a0311891f16f7cd11671ca0d0e18d1ced9d667",
+      "alpha_bbox": [
+        12,
+        15,
+        49,
+        52
+      ],
+      "alpha_sha256": "d4aa83169f81460170817a7db17c11b9d02b057b77b273ca4694a3b0c1f8b5a7"
+    },
+    {
+      "path": "Resources/Image/Character/jump/jump3.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "d2777e69f486a80471d235e5810357d253ceece5aab5fa51e4a3633ee69bb0d8",
+      "alpha_bbox": [
+        15,
+        15,
+        52,
+        52
+      ],
+      "alpha_sha256": "43582340fa02c0d811de933ea089ec4f77fb71a4c03b7c4b8f9302f24f2b11c8"
+    },
+    {
+      "path": "Resources/Image/Character/jump/shoot1-lefte.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "c9c3e4a98bb3e7cc20cbc29abc84c6979dc98dce014b504efde4b09af16a5316",
+      "alpha_bbox": [
+        0,
+        13,
+        49,
+        52
+      ],
+      "alpha_sha256": "42613e46e984486bfea55f1ac922fd6ad14b0444fa07a96461369b56634f127a"
+    },
+    {
+      "path": "Resources/Image/Character/jump/shoot2-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "f47380fe4e012b88b154d6bbd2f6b0cbeb32b39a2a9067ec29e4f44d33e4b807",
+      "alpha_bbox": [
+        15,
+        15,
+        64,
+        50
+      ],
+      "alpha_sha256": "8e95609ced01ad5041aa1e7e3ca8a4e2f52603d985cac881c95dc95c825cad25"
+    },
+    {
+      "path": "Resources/Image/Character/run/run1-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "058bcefa4404810cd75b3e7abf101377c7a5b0edbae282daf56f7292ebe19d97",
+      "alpha_bbox": [
+        12,
+        13,
+        48,
+        50
+      ],
+      "alpha_sha256": "331fb8e083e7f67b545be7f440bd44ee6d38ed63757c1631b5a99ad78d10eb3a"
+    },
+    {
+      "path": "Resources/Image/Character/run/run1.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "8f28ea30abb866e403bf309a5b067ced56d088f0bde16cb3eb5923dffbd74c3d",
+      "alpha_bbox": [
+        16,
+        13,
+        52,
+        50
+      ],
+      "alpha_sha256": "3715bd3484c253c669b1a59d2e92bade5e6f7bc11d2a283c1246d68d68af2f08"
+    },
+    {
+      "path": "Resources/Image/Character/run/run2-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "737130a9854154eac09e9e4d566d391dd2714029a2a69c1d9351c9019b615aa4",
+      "alpha_bbox": [
+        12,
+        13,
+        49,
+        50
+      ],
+      "alpha_sha256": "77af2bb8c0744d8819f4222e6dc116ab1e9365318654f83bb18efa7afb6cad23"
+    },
+    {
+      "path": "Resources/Image/Character/run/run2.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "763193fe740424c0963571850bc25356979676c3d1d56f0942107d4822bda341",
+      "alpha_bbox": [
+        15,
+        13,
+        52,
+        50
+      ],
+      "alpha_sha256": "f80e1c892744f377529217d9a31e50a9c53c353986657c6a0e5b70de4852d564"
+    },
+    {
+      "path": "Resources/Image/Character/run/run3-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "c5946f607e1cf496055ef6f6adf13ac90f3e30793a6998e183e2647236b9924a",
+      "alpha_bbox": [
+        12,
+        15,
+        49,
+        50
+      ],
+      "alpha_sha256": "f85296a5aec16ef8c3b4f39a8a48057587345d8087d6b560cb19968552b0fb5c"
+    },
+    {
+      "path": "Resources/Image/Character/run/run3.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "561853cd7eb28d1114bb41ae0323dc98b4be1e80e2d858c6d03c9fe1ce4c39e4",
+      "alpha_bbox": [
+        14,
+        12,
+        52,
+        48
+      ],
+      "alpha_sha256": "6393ca60b55e608d8c3a642691906145bee894b6c019c17659cc71672984c481"
+    },
+    {
+      "path": "Resources/Image/Character/run/run4-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "0d789baca0865be4f371559d3115253a3b30f13c4d96f766fc904eba324abd33",
+      "alpha_bbox": [
+        12,
+        15,
+        49,
+        52
+      ],
+      "alpha_sha256": "80580a8defcf25a9fd184c9d3dbfd267870fefb69dea69ed589efe6b8dcdd877"
+    },
+    {
+      "path": "Resources/Image/Character/run/run4.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "dddc21dbebecf2eb0b5fe1dca453797de1e57a2bf088a324847bc5f7dd4c0346",
+      "alpha_bbox": [
+        15,
+        15,
+        52,
+        52
+      ],
+      "alpha_sha256": "e49f7ba0843fa446d9360bd0e910886078274f12d7f5cd41168a77c58d5a90ac"
+    },
+    {
+      "path": "Resources/Image/Character/run/run5-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "b414bcdf863ca04894eab9c993db1259aeeebeee4f84036e0b40d84c9352e8a5",
+      "alpha_bbox": [
+        12,
+        13,
+        49,
+        50
+      ],
+      "alpha_sha256": "45d7d6932b3c1814d39d29e642f977fa186eee41c25ba6c353969429961d7b57"
+    },
+    {
+      "path": "Resources/Image/Character/run/run5.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "4f58c3c943d88e73a8b26cafd595232967297d095a681daf0256137cb028086d",
+      "alpha_bbox": [
+        15,
+        13,
+        52,
+        50
+      ],
+      "alpha_sha256": "01de1fba58f208f78c706998e5f0481025d9b770115d65aee20df248c4a3c8a4"
+    },
+    {
+      "path": "Resources/Image/Character/run/run6-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "7c4960ac09b85793825620ead5a81a491a2d0ddc57f17a5371e12ea13a42c863",
+      "alpha_bbox": [
+        12,
+        13,
+        49,
+        50
+      ],
+      "alpha_sha256": "622cbe8df1b647085e25e45558d25ecab53c82cab5bcbf9e716043e8846f7206"
+    },
+    {
+      "path": "Resources/Image/Character/run/run6.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "6b545ef032a97685f5b8dc1eb5d27683175a720d5426f96dcd9f25117d2d93cd",
+      "alpha_bbox": [
+        15,
+        13,
+        52,
+        50
+      ],
+      "alpha_sha256": "247cc4290e15643dcd10194a87f5dc507aa7711a0b1346290026642169972bde"
+    },
+    {
+      "path": "Resources/Image/Character/run/run7-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "052e595cbcf477c55a525db1cfa03678d96f50f0109cdc77eaacddb53e354ade",
+      "alpha_bbox": [
+        12,
+        15,
+        49,
+        50
+      ],
+      "alpha_sha256": "915ae6a232a84bf1678e88f80dbcbbe97b77129a9e91583d9fb168f1ba50b252"
+    },
+    {
+      "path": "Resources/Image/Character/run/run7.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "b251ff0bbdb90713062e8f707f1fce880f9e69320da2e077190e3a4ee0152dce",
+      "alpha_bbox": [
+        15,
+        15,
+        52,
+        50
+      ],
+      "alpha_sha256": "9c7833a996a4d1b019d86562379ae8655adf142036f43f83732faf6dd5b0ea3b"
+    },
+    {
+      "path": "Resources/Image/Character/run/run8-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "7c4960ac09b85793825620ead5a81a491a2d0ddc57f17a5371e12ea13a42c863",
+      "alpha_bbox": [
+        12,
+        13,
+        49,
+        50
+      ],
+      "alpha_sha256": "622cbe8df1b647085e25e45558d25ecab53c82cab5bcbf9e716043e8846f7206"
+    },
+    {
+      "path": "Resources/Image/Character/run/run8.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "6b545ef032a97685f5b8dc1eb5d27683175a720d5426f96dcd9f25117d2d93cd",
+      "alpha_bbox": [
+        15,
+        13,
+        52,
+        50
+      ],
+      "alpha_sha256": "247cc4290e15643dcd10194a87f5dc507aa7711a0b1346290026642169972bde"
+    },
+    {
+      "path": "Resources/Image/Character/shoot/shoot1-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "c9c3e4a98bb3e7cc20cbc29abc84c6979dc98dce014b504efde4b09af16a5316",
+      "alpha_bbox": [
+        0,
+        13,
+        49,
+        52
+      ],
+      "alpha_sha256": "42613e46e984486bfea55f1ac922fd6ad14b0444fa07a96461369b56634f127a"
+    },
+    {
+      "path": "Resources/Image/Character/shoot/shoot1.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "433a35985f89d2b64d45d2d38a25842a55a0d5d811d734f634c6b0a085bcd14c",
+      "alpha_bbox": [
+        15,
+        13,
+        64,
+        52
+      ],
+      "alpha_sha256": "59edbfe4bfc9cd2872c3f0e34e928d4366589fd572b75655703583a69fbf9164"
+    },
+    {
+      "path": "Resources/Image/Character/shoot/shoot2-left.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "eb13e243f60ca2d8c26857ab42c531ca4357f028db68d562dae1ec761e66f4c9",
+      "alpha_bbox": [
+        0,
+        15,
+        49,
+        50
+      ],
+      "alpha_sha256": "c60da265d17f5b558d14215395be07d188f56dbe3450065542262298a49feb74"
+    },
+    {
+      "path": "Resources/Image/Character/shoot/shoot2.png",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "f47380fe4e012b88b154d6bbd2f6b0cbeb32b39a2a9067ec29e4f44d33e4b807",
+      "alpha_bbox": [
+        15,
+        15,
+        64,
+        50
+      ],
+      "alpha_sha256": "8e95609ced01ad5041aa1e7e3ca8a4e2f52603d985cac881c95dc95c825cad25"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint1.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "f5dd4fc34ed3a11d550fea80f5511d6710474688211686a3089a0752d1cafce4",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint10.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "d861fc4d1e5c0e13f93250bdb964589b11c6db9b4b666624e4e67fd0fb5313ac",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint11.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "f8bdd3d10c42ec8147d6e5a7eee10def2074aaa3f0495d294d8296897c291931",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint12.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "f4343a628e3924595a757bc1ac556d150bc913a5213524ad5b1fcc7a04864363",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint13.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "f5dd4fc34ed3a11d550fea80f5511d6710474688211686a3089a0752d1cafce4",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint2.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "f4343a628e3924595a757bc1ac556d150bc913a5213524ad5b1fcc7a04864363",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint3.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "f8bdd3d10c42ec8147d6e5a7eee10def2074aaa3f0495d294d8296897c291931",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint4.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "d861fc4d1e5c0e13f93250bdb964589b11c6db9b4b666624e4e67fd0fb5313ac",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint5.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "40fc51a138cec7c87464fd1bf473cef0b7898aa9266573257a6691e888bc07d8",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint6.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "27d2fac3c6cf9889a4caa47d77dfbed0a932659955468b3a1cf9567a0b05af69",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint7.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "82b7e7e183cca2ce8eb03e087c43a50ccd6b1c51fa589100a54f2df55af673e1",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint8.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "27d2fac3c6cf9889a4caa47d77dfbed0a932659955468b3a1cf9567a0b05af69",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/CheckPoint9.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "40fc51a138cec7c87464fd1bf473cef0b7898aa9266573257a6691e888bc07d8",
+      "alpha_bbox": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "alpha_sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2"
+    },
+    {
+      "path": "Resources/Image/CheckPoint/checkpoint_bullet.png",
+      "size": [
+        16,
+        16
+      ],
+      "mode": "RGBA",
+      "sha256": "d7eb2f0a045e1408916e780a267225f768af3406be6690a1439b82e7d76bca3e",
+      "alpha_bbox": [
+        3,
+        2,
+        14,
+        15
+      ],
+      "alpha_sha256": "5ec2708d77c14e201c10de466f79c8df64e76dc1a6411ad6fe5e62d0e47c7b73"
+    },
+    {
+      "path": "Resources/Image/dead.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "sha256": "1aaa062f6e86cd7b2b0c784daeb3005aff8cc379af589a9044fb0bc91cff5644",
+      "alpha_bbox": [
+        34,
+        85,
+        743,
+        725
+      ],
+      "alpha_sha256": "e9a7013973bb605bc54aa3b97800057b83603d73467b2ba7adfc4d7158340ea4"
+    },
+    {
+      "path": "Resources/Image/DJ1.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "6e11096f0f4af6d024f6f7ea8b10c4c77b2dc24cc99adb118eada5626a40f2f8",
+      "alpha_bbox": [
+        4,
+        0,
+        27,
+        25
+      ],
+      "alpha_sha256": "bff02a492a5fc38082e52eeacf29ffeb7fa10ec3b395a698211d419f41086c45"
+    },
+    {
+      "path": "Resources/Image/DJ2.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "3329969574cec9263443a76828c1dbdbbad2704753381fabfe5cfeb8f601465b",
+      "alpha_bbox": [
+        5,
+        10,
+        27,
+        32
+      ],
+      "alpha_sha256": "5ee76b545147ef694247204f4bef69c9a586efc2b6a9c0c6b36a06603faab3aa"
+    },
+    {
+      "path": "Resources/Image/enemy/bear1.png",
+      "size": [
+        66,
+        70
+      ],
+      "mode": "RGBA",
+      "sha256": "90cd124451dfb9e9bdad6f387bd6cb6815fe6f9d23af5653ca4f745d9d6cf577",
+      "alpha_bbox": [
+        6,
+        9,
+        57,
+        68
+      ],
+      "alpha_sha256": "1707bf13464ad4c7fc44e1a7f8c92c3d6edc2d8eb787a3910eb5a169599412b0"
+    },
+    {
+      "path": "Resources/Image/enemy/bear2.png",
+      "size": [
+        66,
+        70
+      ],
+      "mode": "RGBA",
+      "sha256": "d8c225b2ba4cd3a2835dcd2b47bc036f552d0943a67341e459ffee150ab9b3c0",
+      "alpha_bbox": [
+        12,
+        10,
+        57,
+        70
+      ],
+      "alpha_sha256": "2f469068edd21669209b5ce5b216763b992a6771e77340ed077c50bb45bcf7b8"
+    },
+    {
+      "path": "Resources/Image/enemy/bear3.png",
+      "size": [
+        66,
+        70
+      ],
+      "mode": "RGBA",
+      "sha256": "f9f0a51723111ddb4f44653c1d19bb60acd0f2e1de84d0f99a939e74c40c82d4",
+      "alpha_bbox": [
+        9,
+        9,
+        60,
+        68
+      ],
+      "alpha_sha256": "29bb5a1404ac29234c63adee808e8c69401721db70159401dd7c9d6f001402a3"
+    },
+    {
+      "path": "Resources/Image/enemy/bear4.png",
+      "size": [
+        66,
+        70
+      ],
+      "mode": "RGBA",
+      "sha256": "7ad54a18d8fe605073f9627b826794c880fc37353db20cd66a1d3b18eba29772",
+      "alpha_bbox": [
+        9,
+        10,
+        54,
+        70
+      ],
+      "alpha_sha256": "ac3796cdc1f9e721a9b57f626152af2e2fa61d728187cf4e3455c75598c666d9"
+    },
+    {
+      "path": "Resources/Image/enemy/bird1.png",
+      "size": [
+        107,
+        68
+      ],
+      "mode": "RGBA",
+      "sha256": "f33e795223d4640ae0288c6b4201b65bf453e193e155d306ea58e182a6f315ac",
+      "alpha_bbox": [
+        20,
+        10,
+        98,
+        65
+      ],
+      "alpha_sha256": "dfe050ec214d142d5ba7652956c7c2fca6ce93b4d75a76f2064ae0e622791fb0"
+    },
+    {
+      "path": "Resources/Image/enemy/bird2.png",
+      "size": [
+        107,
+        68
+      ],
+      "mode": "RGBA",
+      "sha256": "ce00b63a53ea9dd32b184661344a2d0298f57fe040f494131c66300f50ee87ac",
+      "alpha_bbox": [
+        6,
+        11,
+        84,
+        60
+      ],
+      "alpha_sha256": "08c4df8636e9166ead752fa8e043c6dfede074cba2f50adb22b84c67db41bf30"
+    },
+    {
+      "path": "Resources/Image/enemy/spider1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "68cac5c9e96be3c705dc9b8632c2746f6105462f21ad510ab06e7841ed265a4c",
+      "alpha_bbox": [
+        134,
+        0,
+        890,
+        576
+      ],
+      "alpha_sha256": "c75b9cce66d1dbe804307e71bb793d693522b587012316d63cafc0db72310273"
+    },
+    {
+      "path": "Resources/Image/enemy/spider2.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "2a65a9ce0851997ca8a52bcd41c8d57f375de9348754a9218cedb478cfc7bd14",
+      "alpha_bbox": [
+        123,
+        62,
+        928,
+        576
+      ],
+      "alpha_sha256": "181ccef8cd9801bcc29601c6b3e2655deecc82b93e0720c8e40098b663d7735c"
+    },
+    {
+      "path": "Resources/Image/MapObject/phase2trap1.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "51b89aefa6a5a21b9f525457064137541ef338d78231335de1b1dacc2ded817a",
+      "alpha_bbox": [
+        64,
+        480,
+        1216,
+        960
+      ],
+      "alpha_sha256": "29e156bd5beb3ed6f1ac49d1856d688ec77a91220eb97e9961069ee9909a3a66"
+    },
+    {
+      "path": "Resources/Image/MapObject/phase2trap2.png",
+      "size": [
+        1280,
+        960
+      ],
+      "mode": "RGBA",
+      "sha256": "7157a188a6dbbc22900a26d3f928d842df33eecf1d443e9842a1ef6fb51b8eb5",
+      "alpha_bbox": [
+        64,
+        0,
+        1216,
+        768
+      ],
+      "alpha_sha256": "2aba964904f93d5647ee357b5bfea0fdc9f796ed0ffc64ab14b9918dd3a87bdb"
+    },
+    {
+      "path": "Resources/Image/MapObject/platform.png",
+      "size": [
+        96,
+        64
+      ],
+      "mode": "RGBA",
+      "sha256": "785ac88448ded04b99162584f8abd4c43ea98746b64023a5e6ac1b865bf73c4f",
+      "alpha_bbox": [
+        0,
+        0,
+        93,
+        64
+      ],
+      "alpha_sha256": "6e1a671b6d6d578385fe2f417a1a0bfc590644770ea8beea2ec3ac5c66ff2c83"
+    },
+    {
+      "path": "Resources/Image/MapObject/small_ground.png",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "42bc83de0885c90db34cfc74a3d694603df62bbd5200e365943facc029992b5b",
+      "alpha_bbox": [
+        1,
+        1,
+        32,
+        31
+      ],
+      "alpha_sha256": "1977b1bf8b887cc7f3cd7e9df30f5efe804289fb940c940a6478713d6c930faf"
+    },
+    {
+      "path": "Resources/Image/Menu/menu_game.png",
+      "size": [
+        1266,
+        957
+      ],
+      "mode": "RGBA",
+      "sha256": "63e30044695ea635177b475ea2edb5c079112c2711c31038d5a3a2455456cfab",
+      "alpha_bbox": [
+        0,
+        0,
+        1266,
+        957
+      ],
+      "alpha_sha256": "b923ad10b33fd714ecc83968072de4e73dced852ba5f9d39a15a1ec0b45a1ec5"
+    },
+    {
+      "path": "Resources/Image/Menu/menu_option.png",
+      "size": [
+        1266,
+        957
+      ],
+      "mode": "RGBA",
+      "sha256": "71ec044ef55c7c7c7215f4e68610b8162d7469750d2c96fdb89fada15dc0d562",
+      "alpha_bbox": [
+        0,
+        0,
+        1266,
+        957
+      ],
+      "alpha_sha256": "b923ad10b33fd714ecc83968072de4e73dced852ba5f9d39a15a1ec0b45a1ec5"
+    },
+    {
+      "path": "Resources/Image/Menu/menu_save1.png",
+      "size": [
+        1266,
+        957
+      ],
+      "mode": "RGBA",
+      "sha256": "88c811b91db3d9f438ab78151595424ba1ef2db5666e78c5cf755fe5684ff1cf",
+      "alpha_bbox": [
+        0,
+        0,
+        1266,
+        957
+      ],
+      "alpha_sha256": "b923ad10b33fd714ecc83968072de4e73dced852ba5f9d39a15a1ec0b45a1ec5"
+    },
+    {
+      "path": "Resources/Image/Menu/menu_save2.png",
+      "size": [
+        1264,
+        957
+      ],
+      "mode": "RGBA",
+      "sha256": "dadbdac83c4f56440b71ccfe68fe690456012e6b780079e31f5abe22f1943dbe",
+      "alpha_bbox": [
+        0,
+        0,
+        1264,
+        957
+      ],
+      "alpha_sha256": "26db5ed77df86b779961fb456d3291d6f0edcc863b87e01c541409b0a71bf3d9"
+    },
+    {
+      "path": "Resources/Image/Menu/menu_save3.png",
+      "size": [
+        1266,
+        956
+      ],
+      "mode": "RGBA",
+      "sha256": "37d41250bee05b1698c610f3aa6f7c9fdead57deb63d76b422046f26e2102d6e",
+      "alpha_bbox": [
+        0,
+        0,
+        1266,
+        956
+      ],
+      "alpha_sha256": "f29b30ba7fb3b04837f8891ed96dcecfa3f271be1e95d3a385d64271d8fa0b3d"
+    }
+  ]
+}

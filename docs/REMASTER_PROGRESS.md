@@ -3,11 +3,11 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 2c00ae7c216713ee0c5c88bfed8afd8af4581af2
+HEAD_SHA: 1b2738855b8221348ec1e6835309e4bbbfeb66d9
 ACTIVE_STAGE: 6
 STAGE_STATUS: PASSED
-NEXT_ACTION: Review the explicitly requested AI redraw PNG at build/asset-preview/world1-mountain-redraw-v1/phasenone-redraw-v1.png (1448x1086,4:3). This one-image trial is complete; use docs/ASSET_REDRAW_PREVIEW.md before any separate opt-in integration. RC2/runtime/original assets remain unchanged.
-LAST_VERIFIED_AT: 2026-11-25T23:38:40+08:00 Asia/Taipei
+NEXT_ACTION: Continue the authorized reversible art batch after the pushed pre-art tag. Read art/remaster-v1/source-inventory.json, resolve the pending category preference, and generate separate candidates using the approved mountain reference. Do not overwrite Resources or auto-deploy generated sprites.
+LAST_VERIFIED_AT: 2026-11-26T00:03:06+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -22,6 +22,7 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- Reversible visual batch explicitly requested: current source1b27388 verified pushed and annotated rollback tag remaster-before-assets-20261126-1b27388 created/pushed. Inventoried119 original PNGs (file/alpha hashes and bounds). Approved mountain reference is now copied into versioned art/remaster-v1/reference for an actual remote image backup; originals and RC2 preserved. Category preference pending; background/scenery work is authorized in either offered scope. No art theme is active in the game.
 - User explicitly chose one composition-based redraw preview after the subtle non-AI trial. Built-in image_gen produced a visibly clearer retro pixel mountain scene; preserved as build/asset-preview/world1-mountain-redraw-v1/phasenone-redraw-v1.png (1448x1086,4:3). Prompt, metadata and limits in ASSET_REDRAW_PREVIEW.md / evidence/asset-redraw-world1-v1*. Source153 resources unchanged; no runtime integration, build/gameplay tests or new RC. Overall composition similar, some geometry/plants differ; visual review and correct native-size/layer treatment are needed before any later opt-in deployment.
 - One-image non-AI quality trial complete: WORLD1/phasenone.png contrast/color/local-edge treatment exported at original1280x960 with unchanged alpha; original/candidate and static room9 context sheets reviewed. Final local directory build/asset-preview/world1-mountain-v1-final; report ASSET_QUALITY_PREVIEW.md and evidence/asset-preview-world1-v1.json. All153 original assets unchanged; no runtime deployment, build or gameplay test in this preview task. Strong original blur remains; manual taste review precedes any later opt-in rollout. RC2 remains at0b15f6bf.
 - Post-RC user tuning complete and pushed as 0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e. RC2 ZIP BoshyRemaster-Windows-x64-RC2-0b15f6bf.zip (61361588 bytes), SHA256 70f1d026824452dee934a33e7858013e8d1494495083b6b1b1d51871d6ec8c78. Package manifest and normal Debug/Release/Unicode-extracted startup from C:/Windows/minimal PATH all PASS, silent. Evidence gameplay-tuning-package.json; RC1 preserved. Remaining work is optional human feel/corner playtest only; main unchanged, no public binary release or PR.
