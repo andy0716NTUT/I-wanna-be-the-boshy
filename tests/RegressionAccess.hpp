@@ -33,6 +33,14 @@ struct BoshyRegressionAccess {
     }
     static std::shared_ptr<MapInfoLoader> Map(App& app) { return app.m_MapLoader; }
     static glm::vec2 Checkpoint(const App& app) { return app.currentCheckPoint; }
+#if BOSHY_CURRENT_REGRESSION
+    static std::shared_ptr<TippingStone> Stone(App& app) { return app.m_TippingStone; }
+    static glm::vec2 TrapPositions(const App& app) {
+        return {app.m_phase2trap_down->m_Transform.translation.y,
+                app.m_phase2trap_up->m_Transform.translation.y};
+    }
+    static void ResetPlayer(App& app) { app.m_Player.GetState() = {}; }
+#endif
     static glm::vec2 BossPosition(const App& app) {
         return app.m_Boss1 ? app.m_Boss1->GetPosition() : glm::vec2(500,-300);
     }

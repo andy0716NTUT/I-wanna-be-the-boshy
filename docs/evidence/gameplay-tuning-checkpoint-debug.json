@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "config": "Debug",
+  "audio": "dummy",
+  "scope": "Explicit user-approved speed exception; not original gameplay parity",
+  "firing_frame": 65,
+  "speed_before": 8.0,
+  "speed_after": 16.0,
+  "hit_frame_before": 70,
+  "hit_frame_after": 67,
+  "save_delay_and_R": "PASS",
+  "aiming_and_lifetime": "PASS",
+  "traces": {
+    "Original": "8dc9cac546d94cce528cf3219061312895e1ad5c15212da73665e24111324e78",
+    "Current": "4078e47e8554a2d312c56c4bbc5c9093714c347605055cd9ed424db034c37ea9"
+  }
+}

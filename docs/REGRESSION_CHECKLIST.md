@@ -84,3 +84,15 @@ modes each pass. Full19-case gameplay evidence is from unchanged final runtime
 sources in Phase5. Original153 assets re-audited; ZIP/extracted manifest, minimal
 PATH/unrelated cwd/Unicode startup and missing-resource negative deployment pass.
 Manual supplemental gaps remain above; see RELEASE_CHECKLIST.md/RELEASE_REPORT.md.
+
+## Post-RC1 requested gameplay changes
+
+PASS in Debug and Release:20/20 CTest,18/18 strict unchanged original/current
+scenarios, and separate real-scene checks of shared alternating sine motion,
+room9 loaded-edge tipping/free fall/slope support/jump departure/R/re-entry,
+and checkpoint8→16 travel with unchanged firing/save/R. Native/1080p/4K
+original-region pixel comparisons pass; source153 resources remain unchanged.
+The counter-shot trajectory is an explicit user-approved exception, measured
+separately rather than labelled original parity. See GAMEPLAY_TUNING.md and
+evidence/gameplay-tuning-*.json. Human feel/audio/other hardware and all possible
+checkpoint corner intersections remain supplemental manual review.

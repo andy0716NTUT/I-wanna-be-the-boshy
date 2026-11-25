@@ -12,4 +12,5 @@ struct WorldRuntime {
     bool phase8Entered = false;
     float phase8EnterTimer = 0.0f;
     float birdDelay = 0.0f;
+    float phase2TrapTime = 0.0f;
 };

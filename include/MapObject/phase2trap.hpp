@@ -11,7 +11,7 @@ public:
     phase2trap();
 
     void Create(std::shared_ptr<MapInfoLoader> MapInfoLoader,const std::string& imagePath, glm::vec2 position, float moveRange);
-    void Update(float deltaTime);
+    void UpdateAtTime(float elapsedTime);
     void clear();
     void SetActive(bool active);
     static void ResetFrameFlag();
@@ -25,7 +25,6 @@ private:
     float m_InitialY;
     float m_MoveRange = 240.0f;
     bool isActivate = true;
-    float m_Timer = 0.0f;  // 記錄時間
     std::set<std::pair<int, int>> m_LastOccupiedTiles;
 };
 

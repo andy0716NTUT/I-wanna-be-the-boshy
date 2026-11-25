@@ -56,6 +56,8 @@ add_executable(${PROJECT_NAME}
         src/AnimatedCharacter.cpp
         src/PlayerManager.cpp
         src/PixelDisplay.cpp
+        src/ImageRegion.cpp
+        src/TippingStone.cpp
         src/Bullet.cpp
         src/bear.cpp
         src/phase2trap.cpp

@@ -38,6 +38,7 @@ std::vector<std::shared_ptr<Bullet>> m_CheckpointBullets; // 檢查點發射的�
 std::vector<std::shared_ptr<CheckPoint>> m_CheckPoints;
 std::vector<std::shared_ptr<JumpBoost>> m_jumpBoost;
 std::vector<std::shared_ptr<FallingGround>> m_FallingGround;
+std::shared_ptr<TippingStone> m_TippingStone;
 std::vector<std::shared_ptr<Platform>> m_Platform;
 std::shared_ptr<GameOverUI> m_GameOverUI;
 bool trapCreated;

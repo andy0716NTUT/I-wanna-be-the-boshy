@@ -319,6 +319,7 @@ void App::Update() {
         }
 
         if ((m_GamePhase == GamePhase::WORLD1 && CurrentPhase == "2") && !trapCreated) {
+            m_WorldRuntime.phase2TrapTime = 0.0f;
             if (m_phase2trap_down) m_Root.RemoveChild(m_phase2trap_down);
             if (m_phase2trap_up) m_Root.RemoveChild(m_phase2trap_up);
             m_phase2trap_down = std::make_shared<phase2trap>();
@@ -453,8 +454,9 @@ void App::Update() {
         // 添加調試信息
         // 更新陷阱
         if (trapCreated) {
-            if (m_phase2trap_down) m_phase2trap_down->Update(deltaTime);
-            if (m_phase2trap_up) m_phase2trap_up->Update(deltaTime);
+            m_WorldRuntime.phase2TrapTime += deltaTime;
+            if (m_phase2trap_down) m_phase2trap_down->UpdateAtTime(m_WorldRuntime.phase2TrapTime);
+            if (m_phase2trap_up) m_phase2trap_up->UpdateAtTime(m_WorldRuntime.phase2TrapTime);
         }
         for (auto& fallingGround : m_FallingGround) {
             glm::vec2 fgPos = fallingGround->GetPosition();
@@ -490,7 +492,25 @@ void App::Update() {
                     }
                 }
             }
-        }        for (auto& checkpoint : m_CheckPoints)
+        }
+        if (m_TippingStone) {
+            const auto oldSurface = m_TippingStone->SurfaceAt(position.x);
+            if (deathType == DeathType::NONE && velocityY <= 0 &&
+                IsOnTop(position, TippingStone::Home, 96, 64))
+                m_TippingStone->Trigger(position.x, *m_MapLoader);
+            m_TippingStone->Update(deltaTime);
+            const auto surface = m_TippingStone->SurfaceAt(position.x);
+            // One-way support follows the tipping surface; no solid tile remains
+            // at home. Preserve the original floor clearance (12 pixels).
+            if (m_TippingStone->GetState() == TippingStone::State::Tipping &&
+                deathType == DeathType::NONE && velocityY <= 0 && oldSurface && surface &&
+                m_Boshy->GetPosition().y >= *oldSurface + 8 && position.y <= *surface + 16) {
+                position.y = *surface + 12;
+                velocityY = 0;
+                jumpCount = 0;
+            }
+        }
+        for (auto& checkpoint : m_CheckPoints)
         {
             // 設置檢查點目標為玩家位置 (用於子彈射擊方向計算)
             checkpoint->SetTargetPosition(m_Boshy->GetPosition());

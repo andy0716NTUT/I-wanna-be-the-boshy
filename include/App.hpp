@@ -24,6 +24,7 @@
 #include "imgui.hpp"
 #include "MapObject/JumpBoost.hpp"
 #include "MapObject/fallingground.hpp"
+#include "MapObject/TippingStone.hpp"
 #include "MapObject/Platform.hpp"
 #include "GameObjectHelper.hpp"
 #include "bear.hpp"

@@ -65,6 +65,9 @@ void App::ReloadMapObjects() {
     ClearGameObjects(m_CheckpointBullets, m_Root); // 清除檢查點子彈並從渲染器移除
     ClearGameObjects(m_jumpBoost, m_Root);
     ClearGameObjects(m_FallingGround, m_Root);
+    if (m_TippingStone && CurrentWorld == "WORLD1" && m_MapLoader->GetCurrentPhase() == "9")
+        m_TippingStone->RestoreTiles(*m_MapLoader);
+    ClearGameObjects(m_TippingStone, m_Root);
     if ((deathType != DeathType::NONE && m_phase8bird) || (m_phase8bird && !(CurrentPhase == "8" || CurrentPhase == "9" || CurrentPhase == "10" || CurrentPhase == "11" || CurrentPhase == "12")))
         ClearGameObjects(m_phase8bird, m_Root);
     if (GamePhaseToString(m_GamePhase) != "WORLD1" && m_bear && !(CurrentPhase.find("4_") == 0 || CurrentPhase == "5")) {
@@ -88,6 +91,8 @@ void App::ReloadMapObjects() {
     m_jumpBoost = JumpBoost::CreateFromMap(m_MapLoader, m_Root);
     m_FallingGround = FallingGround::CreateFromMap(m_MapLoader, m_Root);
     m_Platform = Platform::CreateFromMap(m_MapLoader, m_Root);
+    if (CurrentWorld == "WORLD1" && m_MapLoader->GetCurrentPhase() == "9")
+        m_TippingStone = TippingStone::Create(m_MapLoader, m_Root);
 }
 bool App::IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight) {
     float fgTop = objectPos.y + objectHeight / 2;

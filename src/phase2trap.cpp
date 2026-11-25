@@ -8,19 +8,18 @@ void phase2trap::Create(std::shared_ptr<MapInfoLoader> MapInfoLoader,const std::
     m_Transform.translation = position;
     m_InitialY = position.y;
     m_MoveRange = moveRange;
-    m_Timer = 0.0f;
     isActivate = true;
     this->m_MapInfoLoader = MapInfoLoader;
     this->LoadTrapData(imagePath + ".txt");
     this->m_originalTiles = m_MapInfoLoader->GetMapData();
 }
 
-void phase2trap::Update(float deltaTime) {
+void phase2trap::UpdateAtTime(float elapsedTime) {
     if (!isActivate) return;
 
     // 更新動畫位置
-    m_Timer += deltaTime;
-    m_Transform.translation.y = m_InitialY + std::sin(m_Timer * 2.0f) * m_MoveRange;
+    // Same world-Y direction: floor spikes emerge while ceiling spikes retreat.
+    m_Transform.translation.y = m_InitialY + std::sin(elapsedTime * 2.0f) * m_MoveRange;
 
     // 計算圖片中心座標
     float imageCenterX = m_Transform.translation.x;

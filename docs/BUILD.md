@@ -134,3 +134,14 @@ retains old uncapped behavior), default_log_level is0–6, optional fullscreen i
 boolean. Defaults remain1280x960/60fps and sound volume5; shipped log level is
 INFO2, with TRACE0 opt-in. Invalid configuration reports the absolute path before
 creating the graphics/audio context. Keyboard bindings remain unchanged.
+
+## Post-RC1 gameplay tuning
+
+See [GAMEPLAY_TUNING.md](GAMEPLAY_TUNING.md) for the requested alternating spike
+clock, room9 tipping stone and doubled checkpoint projectile speed. The normal
+build commands above remain valid. Enable BOSHY_BUILD_REGRESSION_PROBES and
+build GameplayTuningProbe explicitly for the new real-scene checks; run
+`python B:/scripts/run_gameplay_tuning.py --config Debug` and
+`python B:/scripts/verify_checkpoint_tuning.py --config Debug`, then Release.
+The original strict parity runner remains unchanged; the checkpoint trajectory
+now has an explicit separately measured user-approved exception.

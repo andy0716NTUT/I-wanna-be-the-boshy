@@ -3,11 +3,11 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 0cd2de1fc6aedc8028bc6fa0c584b67f8c6d361f
+HEAD_SHA: b28f807b1f3e71e7ce7be40dd649ff3de8392009
 ACTIVE_STAGE: 6
-STAGE_STATUS: PASSED
-NEXT_ACTION: All staged technical gates complete. Review docs/RELEASE_REPORT.md and the internal RC checksum; optional human playtest of physical input/audio/other devices. Do not auto-merge main or publish the ZIP.
-LAST_VERIFIED_AT: 2026-11-25T13:34:28+08:00 Asia/Taipei
+STAGE_STATUS: IN_PROGRESS
+NEXT_ACTION: Commit and push the fully tested post-RC tuning, package RC2 from build/windows with package_windows_rc.py --name RC2, verify its manifest/startup/checksum, then record the exact runnable path.
+LAST_VERIFIED_AT: 2026-11-25T20:19:16+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -22,6 +22,9 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- Requested tuning now passes both Debug/Release18/18 strict unchanged scenarios,20/20 CTest each, native new-scene/counter-shot assertions including jumping off the slope, and inspected native/1080p/4K frames. Source153 assets unchanged. Small evidence reports are archived as docs/evidence/gameplay-tuning-*.json; original strict parity runner remains intact. Awaiting focused commit/push and new internal RC2 packaging only.
+- Post-RC tuning verification: Debug18/18 unchanged gameplay cases PASS; Debug/Release20 CTest each PASS; native tuning/actual counter-shot checks PASS both, Release1080p/4K original-region pixels PASS. Real stone landing begins tip at frame7, free fall26, gone62; 19 supported tip frames; R +12 reloads + re-entry restore original cells. Shot firing frame65 unchanged, speed8→16, hit70→67. Release18-case parity still running. No final tuning acceptance or package yet.
+- User-authorized post-RC tuning in progress: WORLD1 room2 keeps alternating emergence (latest correction overrides earlier mirrored-choice reply), shares one sine clock with original 480/190 strokes; room9 right stone gets loaded-edge tipping then accelerated fall; global checkpoint counter-shot travel 8→16 per update only. Original assets remain byte-identical. Initial Debug build/20 CTest pass; new real-scene probe and final verification pending.
 - Final remote audit: main remains eeb1f72; remaster/continuous is at the accepted runtime commit before this final tooling/report checkpoint; only historical PR #1 ref exists. RC archive checksum reverified after report generation. Preserve the two untracked user instruction files.
 - Phase 6 passed: fresh windows-rc2 Debug/Release each20 CTest (2.22s/1.59s); fresh actual GL modes all pass. Runtime source identity matches final Phase519-case matrices. Packaged actual normal EXE starts from C:/Windows/minimal PATH in Debug, Release and ZIP-extracted Unicode directory; missing-Resources fails nonzero with exact path. All tests silent. Original asset audit re-counts153 with zero content drift.
 - Internal RC1 created with manifest, recursive required DLLs, supplied license texts and SHA256. Local artifact details/checksum in RELEASE_REPORT.md and phase6-package.json. No binary upload/public release/main merge/PR. All gates complete within declared measured scope; physical keyboard/audio and other hardware/routes remain supplemental manual limits.

@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "audio": "dummy",
+  "spike_frames": 385,
+  "stone_first_tip": 7,
+  "stone_first_fall": 26,
+  "stone_first_gone": 62,
+  "supported_tip_frames": 19,
+  "reload_cycles": 12,
+  "counter_speed_before": 8,
+  "counter_speed_after": 16,
+  "config": "Release",
+  "display": "1080p",
+  "base_revision": "b28f807b1f3e71e7ce7be40dd649ff3de8392009",
+  "binary_sha256": "4637cf828800ebf4a1c218c1a2300ed7b5ff5cc72a679788010f3164c39951b2",
+  "images": {
+    "spikes-ceiling.png": "65e25d8d04b9b0f8254ad055e145d2c24588bce51a4721e675635c9fedf730af",
+    "spikes-floor.png": "0e7b6256a8f25c759e34f285a774c41de4bb7c227498951c356f6c64a1e33c9b",
+    "stone-falling.png": "d101cdd017a03ed0a7887d6fef28924a1c43272c9c7830e388602e0600de87ee",
+    "stone-gone.png": "fb28f352555906b8d2a692cd02ab0332cac3e1825bf51070dc7ad35551ffdd81",
+    "stone-idle.png": "7387f2755a03d6244e7edda893d477aad0a4083a24b36de8e9dbf52bd5c9e452",
+    "stone-tipping.png": "9ac70a2d515de37bc10b82a309165c9a997290b8fa9c61c2eb7556a9a98dd80c"
+  },
+  "original_idle_pixels": "PASS",
+  "original_background_after_fall": "PASS"
+}
