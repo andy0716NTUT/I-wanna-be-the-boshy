@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "method": "Built-in image_gen, reference-based AI redraw explicitly requested by the user",
+  "source": "Resources/Image/Background/WORLD1/phasenone.png",
+  "source_sha256": "c8807e255f6b75fd55958db6c06ac2a3f4ab2441eaccbdbd1578f7f91ab0747a",
+  "candidate": "build/asset-preview/world1-mountain-redraw-v1/phasenone-redraw-v1.png",
+  "candidate_sha256": "3f3faf2d7bafe9abf304ab5df27ce8b0d8d14092c649a350ac0b51834e0fed8c",
+  "size": [
+    1448,
+    1086
+  ],
+  "aspect_ratio": "4:3",
+  "source_size": [
+    1280,
+    960
+  ],
+  "source_unchanged": true,
+  "runtime_deployed": false,
+  "composition": "Visually similar overall layout, not pixel-aligned; rock/plant textures and some silhouettes change.",
+  "build_and_gameplay_tests": "NOT_RUN: standalone preview only; no runtime source or resource binding changes.",
+  "asset_audit": {
+    "original_resource_count": 153,
+    "content_drift": [],
+    "historical_txt_crlf_conversions": 28
+  }
+}
