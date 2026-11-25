@@ -1,0 +1,37 @@
+{
+  "result": "PASS",
+  "method": "Pillow deterministic non-AI processing",
+  "source": "Resources/Image/Background/WORLD1/phasenone.png",
+  "source_sha256": "c8807e255f6b75fd55958db6c06ac2a3f4ab2441eaccbdbd1578f7f91ab0747a",
+  "room_source_sha256": "7fcc6b50cc4d1622f48dbe9c6dddf4e811f30d0df6e2dd5d7eb25ce174c36178",
+  "size": [
+    1280,
+    960
+  ],
+  "settings": {
+    "contrast": 1.055,
+    "color": 1.025,
+    "local_contrast_unsharp": {
+      "radius": 16,
+      "percent": 12,
+      "threshold": 4
+    },
+    "edge_unsharp": {
+      "radius": 1.8,
+      "percent": 65,
+      "threshold": 3
+    }
+  },
+  "originals_unchanged": true,
+  "dimensions_and_alpha_unchanged": true,
+  "protected_room_pixels_unchanged": true,
+  "mockup_mask_max_channel_difference": 8,
+  "runtime_deployed": false,
+  "limitation": "Original blur is retained; no lost detail has been recovered. Static room mockup uses approximate background classification, not a runtime foreground-extraction implementation.",
+  "files": {
+    "comparison.png": "35b0148a81dc366a89dd7ecec85a68dcf920dd1f222de6eefdd40fd388c25fec",
+    "phase9-background-mockup-v1.png": "5aabfd6b230ce901f5a346d76828063dee73fa87cff16746d20c1c4bf11d3915",
+    "phasenone-quality-v1.png": "e63170f9d962ad6ad954dae4b723776e9208351726852977cfcd5bf0ce1abfa3",
+    "room-comparison.png": "7f5480329ba3cd8c02e2d711768630bdc73dce3d18342d13248e67b6b335594a"
+  }
+}

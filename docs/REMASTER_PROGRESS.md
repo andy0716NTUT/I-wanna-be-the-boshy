@@ -3,11 +3,11 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e
+HEAD_SHA: 7ffe51b77795ee54878f5a3d51d9d1353b759bd7
 ACTIVE_STAGE: 6
 STAGE_STATUS: PASSED
-NEXT_ACTION: Playtest internal RC2 BoshyRemaster-Windows-x64-RC2-0b15f6bf/IWannaBeTheBoshy.exe, especially alternating room2 spikes, room9 loaded-edge tipping and checkpoint wall corners; retain the scripted scope/manual limits in docs/GAMEPLAY_TUNING.md. No required code or packaging work remains.
-LAST_VERIFIED_AT: 2026-11-25T20:21:41+08:00 Asia/Taipei
+NEXT_ACTION: Review build/asset-preview/world1-mountain-v1-final/comparison.png and room-comparison.png. The requested one-image traditional-processing preview is complete; retain RC2/runtime/assets unchanged pending a separate deployment request. See docs/ASSET_QUALITY_PREVIEW.md.
+LAST_VERIFIED_AT: 2026-11-25T23:20:22+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -22,6 +22,7 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- One-image non-AI quality trial complete: WORLD1/phasenone.png contrast/color/local-edge treatment exported at original1280x960 with unchanged alpha; original/candidate and static room9 context sheets reviewed. Final local directory build/asset-preview/world1-mountain-v1-final; report ASSET_QUALITY_PREVIEW.md and evidence/asset-preview-world1-v1.json. All153 original assets unchanged; no runtime deployment, build or gameplay test in this preview task. Strong original blur remains; manual taste review precedes any later opt-in rollout. RC2 remains at0b15f6bf.
 - Post-RC user tuning complete and pushed as 0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e. RC2 ZIP BoshyRemaster-Windows-x64-RC2-0b15f6bf.zip (61361588 bytes), SHA256 70f1d026824452dee934a33e7858013e8d1494495083b6b1b1d51871d6ec8c78. Package manifest and normal Debug/Release/Unicode-extracted startup from C:/Windows/minimal PATH all PASS, silent. Evidence gameplay-tuning-package.json; RC1 preserved. Remaining work is optional human feel/corner playtest only; main unchanged, no public binary release or PR.
 - Requested tuning now passes both Debug/Release18/18 strict unchanged scenarios,20/20 CTest each, native new-scene/counter-shot assertions including jumping off the slope, and inspected native/1080p/4K frames. Source153 assets unchanged. Small evidence reports are archived as docs/evidence/gameplay-tuning-*.json; original strict parity runner remains intact. Awaiting focused commit/push and new internal RC2 packaging only.
 - Post-RC tuning verification: Debug18/18 unchanged gameplay cases PASS; Debug/Release20 CTest each PASS; native tuning/actual counter-shot checks PASS both, Release1080p/4K original-region pixels PASS. Real stone landing begins tip at frame7, free fall26, gone62; 19 supported tip frames; R +12 reloads + re-entry restore original cells. Shot firing frame65 unchanged, speed8→16, hit70→67. Release18-case parity still running. No final tuning acceptance or package yet.
