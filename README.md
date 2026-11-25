@@ -1,7 +1,7 @@
 # Windows Remaster 開發
 
-Windows 建置與部署基礎已重新驗證；完整遊戲回歸驗收仍在 Phase 1.5。
-尚未進入 Phase 2–6，也尚未產生 Release Candidate。
+Windows 建置與部署基礎、Phase 1.5 的 15 項實際遊戲回歸比較已通過。
+後續階段依進度檔逐步進行；目前尚未產生 Release Candidate。
 請參閱 [建置方式](docs/BUILD.md)、[行為基準](docs/REMASTER_BASELINE.md)、
 [回歸清單](docs/REGRESSION_CHECKLIST.md) 與 [接續進度](docs/REMASTER_PROGRESS.md)。
 

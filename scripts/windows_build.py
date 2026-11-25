@@ -29,6 +29,7 @@ def main():
     if git:
         program_dirs.append(str(Path(git).parent))
     env = os.environ.copy()
+    env["SDL_AUDIODRIVER"] = "dummy"  # Build/test invocation only; never alter shipping config.
     env["PATH"] = os.pathsep.join(program_dirs + [env.get("PATH", "")])
     configure = [str(cmake), "-S", str(root), "-B", str(build), "-G", "Ninja Multi-Config",
                  f"-DCMAKE_C_COMPILER={toolchain / 'gcc.exe'}",

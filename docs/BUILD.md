@@ -106,3 +106,8 @@ transition parity must still be verified before further gameplay refactoring.
 Optional original/current scene probes and exact frame comparisons are documented
 in [REMASTER_BASELINE.md](REMASTER_BASELINE.md). They require graphics and are not
 part of the headless CTest pass. They do not complete the entire gameplay gate.
+
+The expanded event/state matrix in [GAMEPLAY_REGRESSION.md](GAMEPLAY_REGRESSION.md)
+supersedes the initial partial gate. Enable it with BOSHY_BUILD_REGRESSION_PROBES;
+normal builds exclude those executables. All testing is silent (SDL dummy audio
+plus zero mixer volumes in probes); ordinary game sound defaults are preserved.

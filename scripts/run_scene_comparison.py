@@ -29,6 +29,8 @@ def main():
             startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             startup.wShowWindow = 0
             options["startupinfo"] = startup
+        if runtime:
+            process_env["SDL_AUDIODRIVER"] = "dummy"  # Test processes only; keep shipping sound defaults.
         with log.open("wb") as stream:
             subprocess.run([str(x) for x in command], cwd=root, env=process_env,
                            stdout=stream, stderr=subprocess.STDOUT, check=True,

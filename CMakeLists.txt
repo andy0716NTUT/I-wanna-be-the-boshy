@@ -108,6 +108,11 @@ if(BOSHY_BUILD_SCENE_PROBES)
     include(cmake/SceneProbes.cmake)
 endif()
 
+option(BOSHY_BUILD_REGRESSION_PROBES "Build instrumented original/current regression executables" OFF)
+if(BOSHY_BUILD_REGRESSION_PROBES)
+    include(cmake/RegressionProbes.cmake)
+endif()
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE RESOURCE_DIR="Resources")
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")

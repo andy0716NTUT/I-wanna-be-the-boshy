@@ -3,25 +3,30 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
-ACTIVE_STAGE: 1.5
-STAGE_STATUS: NEEDS_MANUAL_VERIFICATION
-NEXT_ACTION: Launch B:/build/windows/bin/Debug/BoshyOriginalGame.exe from its own directory and capture the missing grounded-jump/collision/checkpoint/death/Boss cases in docs/REGRESSION_CHECKLIST.md; compare with IWannaBeTheBoshy.exe before changing physics.
-LAST_VERIFIED_AT: 2026-11-24 19:20 Asia/Taipei
+HEAD_SHA: bf409b35732b9649d3c017db9e03307b95c80bdd
+ACTIVE_STAGE: 2
+STAGE_STATUS: IN_PROGRESS
+NEXT_ACTION: Replace the inactive PlayerManager proposal with App-owned player state and small copies of the original movement/vertical-collision logic; rerun the original/current event matrix before accepting Phase 2.
+LAST_VERIFIED_AT: 2026-11-25 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
 | Stage | Status | Gate evidence | Commit |
 | --- | --- | --- | --- |
 | 1 (new Windows verification) | PASSED | Debug/Release compiled, 15/15 CTest each, both menus observed from unrelated cwd; known missing PNGs audited | 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8 |
-| 1.5 | NEEDS_MANUAL_VERIFICATION | Debug and Release each have 320/320 matching original/current scene states; critical event/visual cases still missing | This Phase 1.5 checkpoint commit; resolve via git log |
-| 2 | NOT_STARTED | Requires measured gameplay parity | None |
+| 1.5 | PASSED | Debug/Release 15-case actual-game event matrices pass with exact state; original/current death UI visually matches; 15/15 CTest each | This completed baseline commit; resolve via git log |
+| 2 | IN_PROGRESS | Measured equivalent baseline established; no Phase 2 gameplay edits yet | None |
 | 3 | NOT_STARTED | Requires Stage 2 gate | None |
 | 4 | NOT_STARTED | Requires Stage 3 gate | None |
 | 5 | NOT_STARTED | Requires Stage 4 gate | None |
 | 6 | NOT_STARTED | Requires all prior gates | None |
 
 ## Work completed
+- Completed Phase 1.5: both Debug and Release original/current matrices pass all 15 cases (grounded full/short/double jumps, movement/controls, wall/head/one-way, shots/cap/X+Z, spike/death/UI/R, checkpoint/counter-shot/R, room re-entry/traps, enemy, Boss cycle and separate God-mode defeat/victory lifecycle). Normal builds and CTest pass 15/15 each; asset audit has 153 originals and zero content drift. Reports in docs/evidence/gameplay-baseline-{debug,release}.json.
+- Graphically inspected original and current death screens through Windows computer-use; matching Game Over/Press R overlay, hidden player and Debug panel. Native Up worked in the original menu; short Return taps were unreliable. The critical gate uses the complete real-update/event equivalent expressly permitted by the master task, not an invented native/human feel pass. No native input implementation changed.
+- 2026-11-25 user preference: keep every test game silent. Test runners now use SDL's dummy audio output and probes set music/channel/master volume to zero before App::Start. Interactive visual tests must also set SDL_AUDIODRIVER=dummy in their process environment. Do not change normal-game sound defaults or system volume.
+- 2026-11-25 resume: inspected Git/instructions/checkpoint and reproduced Debug/Release CTest (15/15 each, 0.80s / 0.75s). Pushed the two existing commits with `git push -u origin remaster/continuous`; `git ls-remote --heads origin remaster/continuous` confirms bf409b35732b9649d3c017db9e03307b95c80bdd. main unchanged; no PR/merge/public release.
+- Working on test-only generated friends and physics/event observers. Original/current production sources are not edited by instrumentation; generated-source hashes identify the precise observations. Phase 1.5 gate is reopened for active verification, not declared passed.
 - Read the supplied root AGENTS.md and CODEX_MASTER_TASK.md in full. Both were untracked user files on entry; preserve them unchanged.
 - Initial branch main, HEAD and origin/main all equal ORIGINAL_SHA. No tracked modifications.
 - Live `git ls-remote --heads --tags origin` returns only main at ORIGINAL_SHA, no tags.
@@ -46,6 +51,15 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - Audited real LoadTileData call sites in spider.cpp and added all four original spider/trap masks to the independent original-parser parity tests; tests pass in both configurations.
 
 ## Verification evidence
+- Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug`
+  Result: PASS
+  Evidence: final complete silent Debug run, all 15 cases parity/coverage PASS, including actual received input states. Raw traces: build/gameplay-regression/Debug; summary with hashes: docs/evidence/gameplay-baseline-debug.json.
+- Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Release --no-build`
+  Result: PASS
+  Evidence: full 15-case Release matrix (normal 60-cap before user mute request); all exact state/coverage comparisons pass, summary docs/evidence/gameplay-baseline-release.json. All subsequent runs are silent; normal-game audio defaults unchanged.
+- Command: `cmake --build B:/build/windows --config <Debug|Release> --parallel 8`; `ctest --test-dir B:/build/windows -C <Debug|Release> --output-on-failure`; `python B:/scripts/audit_baseline.py`
+  Result: PASS
+  Evidence: build/phase15-build-{Debug,Release}.log, build/phase15-ctest-{Debug,Release}.log (15/15 each), build/phase15-asset-audit.json (153 resources, zero gameplay/source/asset drift at baseline). Absolute CMake 3.31.8 command paths remain in BUILD.md.
 - Command: `git status --short --branch; git branch -avv; git log -12 --oneline --decorate; git remote -v`
   Result: PASS
   Evidence: Original checkout confirmed; only untracked instruction files on entry.
@@ -98,12 +112,12 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 ## Known defects and risks
 - Eight referenced player death PNGs and initial Background/phase1.png absent in the original. Startup logs the existing missing-texture fallback; menus still render. Death/GameOverUI flow not yet exercised.
 - Invalid map loads now clear stale map data and reject malformed rows. Valid cells are identical; in-game transition/object lifecycle remains untested.
-- Compilation and headless tests do not establish movement, collision or boss parity. The partial graphical scene measurement below does not complete the critical gameplay matrix.
+- Compilation and headless tests alone do not establish gameplay parity. Phase 1.5 now has the full declared event/state workloads and visual death-UI checks; coverage scope is explicit in GAMEPLAY_REGRESSION.md.
 - Windres RC compilation passes with the B: ASCII alias; full unaliased Chinese-path build remains unverified. Unicode map fixtures pass.
 - Automatic short Return taps did not advance Debug menu. Cause not established; do not change original input polling without measured baseline.
 - Held SDL events did enter both original/current menus. Native input latency/feel remains unverified; do not infer equivalence from synthetic input alone.
 - The first Z probe occurs while falling; its 110-pixel rise from the pre-input sample is not a grounded jump-height measurement. The second Z has no upward trajectory; jump/death state is not exposed and the cause is not certified.
-- No measured velocity/airtime, bullet count/cadence, correct saved checkpoint, ground/head/one-way/spike outcomes, room transition, enemy/Boss or death UI parity. These are critical gate gaps, not implied passes from 320 matched samples.
+- The initial 320-sample gaps are closed by observed velocity/state/events: full jump 120px/34 updates, short 53.000061px/19 updates, shots every 6 updates up to 5; checkpoints, collisions, transitions, enemy and Boss match. These are per-update measurements; native physical feel, untested world routes/devices and audible playback are not certified human passes.
 - CMake automatic program search can terminate with 0xC0000409 on this machine; explicit-path workaround verified, root cause not established.
 
 ## Decisions and parity exceptions
@@ -115,6 +129,4 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - HEAD_SHA names the inspected implementation revision before this documentation/test checkpoint; the checkpoint's own SHA must be read from git log (a file cannot contain its own commit hash). PHASE1_SHA is the exact verified implementation commit.
 
 ## Blockers requiring user action
-- Stage 1.5 needs the remaining graphical/native-keyboard cases in docs/REGRESSION_CHECKLIST.md and/or equivalent debug-only event traces. Run the prepared original/current executables sequentially and attach frame/input/coordinate evidence, including clean full/short/second jump, spikes/one-way, checkpoint/R, room transition, enemy and Boss1.
-- Existing DebugInfo traces lack velocity, death/ground state, bullet count, checkpoint and Boss events. A safe next PR can add read-only debug instrumentation and focused workloads; do not refactor those systems to make the tests pass.
-- Stop gate: CODEX_MASTER_TASK.md says critical untested behavior cannot be PASSED and NEEDS_MANUAL_VERIFICATION is not PASSED. Stage 2–6 remain NOT_STARTED; do not manufacture a Release Candidate.
+- None for the measured Phase 1.5 gate. Continue the authorized Phase 2 refactor. New unexplained state/physics/timing differences must stop the affected chain; visual/sound/human limitations remain explicit rather than being marked passed by inference.

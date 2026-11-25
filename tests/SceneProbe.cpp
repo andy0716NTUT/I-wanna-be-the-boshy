@@ -23,6 +23,7 @@ constexpr std::array<InputFrame, 16> inputs{{
 
 int main(int argc, char** argv) try {
     if (argc != 2) throw std::runtime_error("Expected absolute trace output path");
+    SDL_setenv("SDL_AUDIODRIVER", "dummy", 1);
     // Resolve output before selecting the executable's resource directory.
     const auto output = std::filesystem::absolute(argv[1]);
     const std::unique_ptr<char, decltype(&SDL_free)> basePath(SDL_GetBasePath(), SDL_free);
@@ -32,6 +33,9 @@ int main(int argc, char** argv) try {
     if (!trace) throw std::runtime_error("Cannot create trace: " + output.u8string());
     trace << "frame|phase|world|position_before_update|tile_before_update|right|left|z|x|r|elapsed_ms\n";
     auto context = Core::Context::GetInstance();
+    Mix_MasterVolume(0);
+    Mix_Volume(-1, 0);
+    Mix_VolumeMusic(0);
     App app;
     app.Start();
     for (int frame = 0; frame < 320; ++frame) {

@@ -1,7 +1,11 @@
 # Remaster behavior baseline
 
-Baseline gate: **NEEDS_MANUAL_VERIFICATION**. The tested scene workload matches;
-the full Phase 1.5 acceptance matrix has not passed. Phase 2–6 remain gated.
+Measured baseline gate: **PASSED on 2026-11-25** using the expanded actual-game
+event matrix in [GAMEPLAY_REGRESSION.md](GAMEPLAY_REGRESSION.md). Debug and Release
+each passed all 15 cases, including grounded jumps, collisions, bullets,
+checkpoint/death/respawn, room re-entry, enemy, full Boss cycle and defeat lifecycle.
+The older partial evidence and its limits below are retained for history.
+This is measured-equivalent automated acceptance, not a claimed human playthrough.
 
 Original source: `eeb1f72c6c3a9a9e33a49c31946e4b723323d49f`.
 Verified Windows Phase 1: `8947ffd6b3d78bb34cdefd5d01be11de05fc80f8`.
@@ -127,9 +131,9 @@ timer. AppUpdate calls Show in the real-death branch and hides the player. This
 is only a source-path audit: death graphics, breathing timing and R behavior
 require a graphical death/respawn comparison before any fix.
 
-## Remaining gate and smallest next PR
+## Initial gate gaps and their resolution
 
-Stage 1.5 is NEEDS_MANUAL_VERIFICATION. Unmeasured critical paths include a clean
+At the 2026-11-24 checkpoint Stage 1.5 was NEEDS_MANUAL_VERIFICATION. Gaps included a clean
 grounded full/short/second jump and airtime, wall/head/one-way/spike collisions,
 active bullet count and cadence, checkpoint activation and correct respawn,
 room/world transitions, trap/enemy lifecycle, Boss1 timing and existing Debug UI.
@@ -138,12 +142,16 @@ to certify these. The native-keyboard menu attempts did not advance with short
 automation taps; the SDL held-key probe does enter successfully. No input change
 is justified by that difference.
 
-The smallest next PR should add debug-only read-only event/state capture for
+The subsequent 2026-11-25 work added test-only read-only event/state capture for
 velocity, ground/death state, bullets, checkpoint and phase transitions, plus
-controlled workloads and original comparisons. Confirm visually with native held
-keys and complete the checklist. Keep rendering/timestep/ownership refactors out
-until that gate passes. This stop follows CODEX_MASTER_TASK.md: critical paths
-cannot be marked PASSED when untested; NEEDS_MANUAL_VERIFICATION is not PASSED.
+controlled workloads and original comparisons. Those event/physics cases now pass;
+original/current death UI and Debug rendering were also visually inspected.
+Native menu Up worked, while short Return taps remained unreliable through the
+automation tool. Physical keyboard feel and audible playback are supplemental
+human checks; they are not claimed as manually passed. The master task permits
+measured equivalent critical paths; no native input/backend code changed.
+Phase 2 can now use the recorded exact-state comparisons without altering
+gravity, update cadence, jump rules, collision formulas or shooting priority.
 
 An interactive `BoshyOriginalGame` target uses the unchanged original main and game
 sources with build/deployment shims only. Build it in Debug or Release, then run
