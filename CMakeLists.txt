@@ -55,6 +55,7 @@ add_executable(${PROJECT_NAME}
         src/Character.cpp
         src/AnimatedCharacter.cpp
         src/PlayerManager.cpp
+        src/PixelDisplay.cpp
         src/Bullet.cpp
         src/bear.cpp
         src/phase2trap.cpp
@@ -153,6 +154,16 @@ if(BOSHY_BUILD_TESTS AND BUILD_TESTING)
     add_executable(RuntimePathsTests tests/RuntimePathsTests.cpp src/RuntimePaths.cpp)
     target_include_directories(RuntimePathsTests PRIVATE include)
     add_test(NAME runtime-paths COMMAND RuntimePathsTests "${CMAKE_BINARY_DIR}/test-fixtures/runtime")
+    add_executable(DisplayViewportTests tests/DisplayViewportTests.cpp)
+    target_include_directories(DisplayViewportTests PRIVATE include)
+    add_test(NAME display-viewport COMMAND DisplayViewportTests)
+    # Opt-in real OpenGL test; never require a desktop for normal CTest.
+    add_executable(PixelDisplayTests EXCLUDE_FROM_ALL tests/PixelDisplayTests.cpp src/PixelDisplay.cpp src/RuntimePaths.cpp)
+    target_include_directories(PixelDisplayTests PRIVATE include "${ptsd_SOURCE_DIR}/include")
+    target_include_directories(PixelDisplayTests SYSTEM PRIVATE ${DEPENDENCY_INCLUDE_DIRS})
+    target_link_libraries(PixelDisplayTests PRIVATE SDL2::SDL2main PTSD)
+    set_target_properties(PixelDisplayTests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")
+    add_dependencies(PixelDisplayTests ${PROJECT_NAME})
     add_executable(WorldTests tests/WorldTests.cpp)
     target_include_directories(WorldTests PRIVATE include)
     add_test(NAME world-lookup COMMAND WorldTests)

@@ -1,3 +1,4 @@
+#include "GlDebugLifetime.hpp"
 #include "App.hpp"
 
 #include "Core/Context.hpp"
@@ -14,6 +15,7 @@ int main(int, char**) try {
     }
     UseRuntimeDirectory(std::filesystem::u8path(basePath.get()));
     auto context = Core::Context::GetInstance();
+    const GlDebugLifetime glDebugLifetime;
     App app;
 
     while (!context->GetExit()) {

@@ -69,3 +69,8 @@ Phase 3: Debug/Release all 18 cases pass, including 60 reloads, all spider state
 bird chase and room 8 re-entry. CTest 17/17 each; all original 24 maps + 4 masks
 still match. Invalid debug teleport is deliberately rejected before mutation;
 World lookup reports invalid row/column instead of out-of-bounds access.
+
+Phase 4: PASS. Debug/Release all 19 state cases; 18/18 CTest each. Real GL native,
+1080p, 1440p, 4K, small window, fullscreen and restore pass. Inspected actual
+App+ImGui native/fullHD/4K/player backbuffers and exact canvas comparisons;
+physical human keyboard/audio checks remain supplemental. See PIXEL_DISPLAY.md.

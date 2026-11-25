@@ -7,6 +7,8 @@
 #include "spdlog/fmt/bundled/chrono.h"
 
 void App::Start() {
+    m_Display.Initialize();
+    m_Display.BeginFrame();
     LOG_TRACE("Start");
 
     currentX = 0;
@@ -75,6 +77,6 @@ void App::Start() {
     m_GameOverUI->Hide();
 
     m_Root.AddChild(m_GameOverUI);
-    m_Root.Update();
+    DrawScene();
     m_CurrentState = State::UPDATE;
 }

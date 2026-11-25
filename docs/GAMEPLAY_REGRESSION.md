@@ -118,3 +118,10 @@ map mutation, bird chase, rooms 8/9/12 and phase-8 timer persistence on re-entry
 God mode is declared for this lifecycle case. Test-only friends now include
 spider/bird so their timers and coordinates are compared rather than inferred
 from pointer presence. Source assets, masks and states are the original ones.
+
+Phase 4 adds `resize-play` (350 updates): actual SDL resize/fullscreen switches
+while moving, jumping and shooting with declared God-mode fixture. All recorded
+state remains exact. The default matrix is now 19 cases. `capture_game_frames.py`
+uses FrameCapture.hpp to export App+ImGui GPU backbuffers at the specified frame;
+PNG conversion uses existing Pillow and never edits source assets. It avoids
+desktop interaction and all captured-run traces are separate from numeric reports.

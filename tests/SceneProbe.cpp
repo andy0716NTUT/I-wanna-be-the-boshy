@@ -1,3 +1,4 @@
+#include "GlDebugLifetime.hpp"
 #include "App.hpp"
 #include "Core/Context.hpp"
 #include "RuntimePaths.hpp"
@@ -33,6 +34,7 @@ int main(int argc, char** argv) try {
     if (!trace) throw std::runtime_error("Cannot create trace: " + output.u8string());
     trace << "frame|phase|world|position_before_update|tile_before_update|right|left|z|x|r|elapsed_ms\n";
     auto context = Core::Context::GetInstance();
+    const GlDebugLifetime glDebugLifetime;
     Mix_MasterVolume(0);
     Mix_Volume(-1, 0);
     Mix_VolumeMusic(0);

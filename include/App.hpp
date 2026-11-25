@@ -12,6 +12,7 @@
 #include "Menu.hpp"
 #include "Bullet.hpp"
 #include "PlayerManager.hpp"
+#include "PixelDisplay.hpp"
 #include "MapInfoLoader.hpp"
 #include "World.hpp"
 #include "WorldRuntime.hpp"
@@ -68,6 +69,7 @@ public:
     GamePhase GetCurrentPhase() const {return m_GamePhase; }
 
     void ReloadMapObjects();
+    PixelDisplay& GetDisplay() { return m_Display; }
     bool GodMode = false; // 上帝模式開關
     bool IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight);
 
@@ -106,6 +108,7 @@ public:
 
     std::string CurrentWorld = "";  // 移到 public 區塊
 private:
+    void DrawScene() { m_Display.Draw(m_Root); }
     #include "AppMembers.hpp"
 
 

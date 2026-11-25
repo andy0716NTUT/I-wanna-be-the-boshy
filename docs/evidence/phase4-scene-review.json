@@ -1,0 +1,62 @@
+{
+  "method": "actual OpenGL backbuffer before swap; test-only export",
+  "cases": {
+    "original-native": {
+      "size": [
+        1280,
+        960
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "7476c158a618d2887e36a1ca06c0e8bc617cb62f0ca58559650cd7dbab70ead4"
+    },
+    "current-native": {
+      "size": [
+        1280,
+        960
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "f9329b48bb28c56ac63aa750cfc299251932327d5f33f7778ba47c6a1bdcec5c"
+    },
+    "current-fullhd": {
+      "size": [
+        1920,
+        1080
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "c1ccfafb01b3e116710b0530ff1fe32554d947a597e6edcb112c603d7b253b84"
+    },
+    "current-4k": {
+      "size": [
+        3840,
+        2160
+      ],
+      "frame": 10,
+      "scenario": "spikes",
+      "png_sha256": "03dbaf5c8ed74456dfcdee6fefce897a5cf413a86ea0bb3a93e7cff12fcb7cc0"
+    },
+    "current-player": {
+      "size": [
+        1920,
+        1080
+      ],
+      "frame": 25,
+      "scenario": "full-jump",
+      "png_sha256": "42643ceec909fdd01c79a7b15f6c7003e223038d4962984916a9918dfe24226c"
+    }
+  },
+  "pixel_comparisons": {
+    "fullhd_4k_canvas_exact": true,
+    "native_fullhd_pixels_checked": 1146971,
+    "native_fullhd_differences": 0,
+    "excluded_native_physical_debug_panel": [
+      59,
+      59,
+      231,
+      531
+    ]
+  },
+  "visual_review": "Inspected actual original/current native, fullHD, 4K and player frames: original geometry/HUD preserved, sharp pixel edges, centered 4:3 bars; physical Debug panel text clips at its old saved width (Phase 5 UI fix)."
+}

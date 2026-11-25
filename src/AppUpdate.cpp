@@ -3,6 +3,7 @@
 #include "spdlog/fmt/bundled/chrono.h"
 
 void App::Update() {
+    m_Display.BeginFrame();
     auto& playerState = m_Player.GetState();
     float& velocityY = playerState.velocityY;
     m_Player.AddEntryGravity(Gravity);
@@ -24,7 +25,7 @@ void App::Update() {
 
     if (m_GamePhase == GamePhase::MENU) {
         m_Menu->Update(deltaTime);
-        m_Root.Update();
+        DrawScene();
 
         if (m_Menu->StartGame()) {
             m_GamePhase = GamePhase::WORLD1;
@@ -100,7 +101,7 @@ void App::Update() {
 
         if (needsRespawn) {
             // 更新界面
-            m_Root.Update();
+            DrawScene();
             return;
         }
         m_Player.ResolveTiles(position, tileY, aboveTile, belowTile, centerTile);
@@ -651,7 +652,7 @@ void App::Update() {
                 Respawn();
             }
         }
-        m_Root.Update();
+        DrawScene();
         RenderImGui(*this);
     }
 }

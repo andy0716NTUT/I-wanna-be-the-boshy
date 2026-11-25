@@ -12,7 +12,7 @@ import time
 
 ROOT = Path(__file__).absolute().parents[1]
 SCENARIOS = ["full-jump", "short-jump", "double-jump", "movement", "wall", "head", "oneway",
-             "shooting", "shoot-jump", "spikes", "checkpoint", "transition", "enemy", "boss", "boss-death", "death-loop", "reload-stress", "spider-bird"]
+             "shooting", "shoot-jump", "spikes", "checkpoint", "transition", "enemy", "boss", "boss-death", "death-loop", "reload-stress", "spider-bird", "resize-play"]
 
 
 def read(path):
@@ -48,7 +48,7 @@ def coverage(scenario, rows, metrics):
     events = metrics["events"]
     def need(condition, reason):
         if not condition: failures.append(reason)
-    need(len(rows) == (3300 if scenario == "boss" else 1200 if scenario == "boss-death" else 300 if scenario == "enemy" else 450 if scenario == "death-loop" else 600 if scenario == "reload-stress" else 900 if scenario == "spider-bird" else 150), "Incomplete trace")
+    need(len(rows) == (3300 if scenario == "boss" else 1200 if scenario == "boss-death" else 300 if scenario == "enemy" else 450 if scenario == "death-loop" else 600 if scenario == "reload-stress" else 900 if scenario == "spider-bird" else 350 if scenario == "resize-play" else 150), "Incomplete trace")
     if scenario in ("full-jump", "short-jump", "double-jump"):
         need(float(rows[9]["vy"]) == 0 and int(rows[9]["jumps"]) == 0, "Jump did not begin grounded")
         need(metrics["rise"] > 0 and metrics["landing_frame"] is not None, "No observed apex and ground landing")
@@ -89,6 +89,8 @@ def coverage(scenario, rows, metrics):
     if scenario == "transition": need(events.get("room_transition",0) >= 2 and metrics["rooms"] == ["1","2"], "Room exit/re-entry not covered")
     if scenario == "enemy": need(metrics["bear_frames"] > 100, "Bear encounter not exercised")
     if scenario == "boss": need(set(metrics["boss_attacks"]) >= {0,1,2,3,4}, "Full Boss attack cycle not exercised")
+    if scenario == "resize-play":
+        need(events.get("jump",0) > 0 and events.get("shot",0) > 0, "No active jump/shoot during resize")
     if scenario == "reload-stress":
         need(metrics["rooms"] == ["1","2"], "Repeated room reload not exercised")
     if scenario == "spider-bird":

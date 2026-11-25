@@ -3,11 +3,11 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: f42d7f0735b254690ae604105107886e421d20d2
-ACTIVE_STAGE: 4
+HEAD_SHA: 20e38216b1e61ef2d2a534afd32786097e4f9ad0
+ACTIVE_STAGE: 5
 STAGE_STATUS: IN_PROGRESS
-NEXT_ACTION: Implement a native 1280x960 logical framebuffer, nearest sampler and integer aspect-preserving display viewport; test native/1080p/1440p/4K resize/fullscreen and mouse mapping, then rerun gameplay parity.
-LAST_VERIFIED_AT: 2026-11-25T10:53:41+08:00 Asia/Taipei
+NEXT_ACTION: Capture Phase 5 CPU/frame-time/private-memory/tracked-allocation/load baselines on the Phase 4 build, then add read-only diagnostics, BGM error checks and settings validation; compare before/after and rerun parity before committing.
+LAST_VERIFIED_AT: 2026-11-25T12:57:02+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -16,12 +16,20 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 1 (new Windows verification) | PASSED | Debug/Release compiled, 15/15 CTest each, both menus observed from unrelated cwd; known missing PNGs audited | 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8 |
 | 1.5 | PASSED | Debug/Release 15-case actual-game event matrices pass with exact state; original/current death UI visually matches; 15/15 CTest each | db5a07fbf70d4590dd2f7c7505a9059e77e64934 |
 | 2 | PASSED | 15-case Debug + added death-loop, 16-case Release, 30/120-cap comparisons; 15/15 CTest both | f42d7f0735b254690ae604105107886e421d20d2 |
-| 3 | PASSED | All 18 original/current cases pass in Debug (two reports) and Release; 17/17 CTest both; 60 real reloads + 500 headless retirement cycles | This Phase 3 commit; resolve via git log |
-| 4 | IN_PROGRESS | Phase 3 gate passed; pinned renderer inspected, display integration next | None |
-| 5 | NOT_STARTED | Requires Stage 4 gate | None |
+| 3 | PASSED | All 18 original/current cases pass in Debug (two reports) and Release; 17/17 CTest both; 60 real reloads + 500 headless retirement cycles | 20e38216b1e61ef2d2a534afd32786097e4f9ad0 |
+| 4 | PASSED | Debug/Release 19-case matrices, 18/18 CTest each, seven real GL sizes/modes each, actual App+ImGui frame review and exact logical pixel comparisons | This Phase 4 commit; resolve via git log |
+| 5 | IN_PROGRESS | Phase 4 gate passed; profile baseline before performance/diagnostic edits | None |
 | 6 | NOT_STARTED | Requires all prior gates | None |
 
 ## Work completed
+- Phase 4 passed on resume: Release all 19 cases exact, completing Debug 19/19 + both 18/18 CTest + real GL matrices and inspected game backbuffers. Source PNG/audio unchanged. Scene-only nearest/integer presentation and shutdown-only GL callback guard accepted for this measured scope. No human keyboard/audio-device certification implied.
+- Resumed Phase 4: Debug/Release final build and 18/18 CTest pass (0.77s/1.40s). GL target tests pass all seven actual sizes/fullscreen/restores, including every fractional-stripe output sample. Corrected only a test's equal-distance nearest-neighbor tie assumption after logging the exact failing pixel; no rendering implementation or physics expectation changed.
+- Replaced interrupted desktop capture with test-only actual App+ImGui backbuffer export. Inspected original/current native, current 1080p, 4K and player outputs; 1080p/4K logical canvases are exact, native vs 1080p is exact outside known physical Debug panel. Graphical review now PASS by this safe automatic equivalent; report phase4-scene-review.json. Release full 19-case matrix still running.
+- 2026-11-25 resume authorized by user: verified branch/HEAD and preserved the uncommitted Phase 4 candidate. Resume pending Release/CTest/graphical gate with silent audio. Strengthen pixel readback to cover fractional nearest sampling as well as integer scaling.
+- Interruption checkpoint: user stopped Computer Use with the physical Escape key. No further computer input issued; only the specifically recorded visual test PID was safely closed and this checkpoint saved. The first 45-second visual attempt expired and did not capture the game; it does NOT count as scene review. The longer test was interrupted before a valid game screenshot. Do not include unrelated desktop content in repository evidence.
+- Phase 4 actual GL tests now PASS in Debug and Release at all seven requested/restore configurations; full Debug gameplay has 19/19 matching cases across phase4-gameplay-debug-{display,core}.json. Release targets built, but full Release gameplay and final all-18 CTest have NOT run. No Phase 4 acceptance/commit, Phase 5 or Phase 6 claim is made. Numerical matrices use no visual-hold argument; changing the optional pause from 45 to 180 seconds affects visual-only runs.
+- Phase 4 in progress: fixed 1280x960 color/depth canvas, scene-only nearest sampler and integer centered viewport; physical ImGui and explicit DPI-aware mouse mapping, resize and fullscreen. PTSD/source assets unchanged. Debug GL stripe/black-bar/sample tests PASS at actual native, 1080p, 1440p, 4K, smaller window, desktop fullscreen and restored window. Pure viewport test passes. Full game/Release/GUI gates pending.
+- GDB identified a repeatable 0xC0000005 after main during Core::Context global destruction: driver performance callback called destroyed spdlog logger. Added GlDebugLifetime to normal/test entry points to unregister only at scope exit, preserving runtime GL diagnostics. Debug display test now exits 0. Logs: build/phase4-display-gdb-full.log (private build evidence), phase4-display-debug.log. Original gameplay logic and engine sources unchanged.
 - Phase 3 implementation: bounded World lookup, preserving TryLoadMap for rejected debug teleport, explicit App-owned event timers with original phase-8 re-entry quirk, renderer detachment at original object retirement points. Debug stress proves 60/60 old Checkpoints released (Original 0/60); 500 headless lifetime cycles and map/world tests pass. All 18 cases now pass in Debug and Release, and CTest passes 17/17 each; see WORLD_LIFECYCLE.md.
 - Phase 2 passed: App-owned initialized PlayerManager extracts the active movement/integration/collision path, replacing the incompatible inactive proposal. Wired Debug all 15 original cases + separate new death-loop pass; Release all 16 pass. The final Debug rebuild differs from the full-matrix game only by a newline after the timestep statement; death-loop and 30/120 cap cases use that final build. Raw preflight results with the old wiring are excluded. Preserve double gravity, axis/input priority and R persistence. PLAYER_REFACTOR.md records the deliberately unchanged frame-coupled clock and the new-App state boundary.
 - Completed Phase 1.5: both Debug and Release original/current matrices pass all 15 cases (grounded full/short/double jumps, movement/controls, wall/head/one-way, shots/cap/X+Z, spike/death/UI/R, checkpoint/counter-shot/R, room re-entry/traps, enemy, Boss cycle and separate God-mode defeat/victory lifecycle). Normal builds and CTest pass 15/15 each; asset audit has 153 originals and zero content drift. Reports in docs/evidence/gameplay-baseline-{debug,release}.json.
@@ -53,6 +61,15 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - Audited real LoadTileData call sites in spider.cpp and added all four original spider/trap masks to the independent original-parser parity tests; tests pass in both configurations.
 
 ## Verification evidence
+- Command: CMake 3.31.8 `--build B:/build/windows --config <Debug|Release> --target PixelDisplayTests DisplayViewportTests --parallel 8`; `B:/build/windows/<Config>/DisplayViewportTests.exe`; `B:/build/windows/bin/<Config>/PixelDisplayTests.exe` with SDL_AUDIODRIVER=dummy
+  Result: PASS
+  Evidence: build/phase4-display-{debug,release}.log, docs/evidence/phase4-display.json; actual native/1080p/1440p/4K/small/fullscreen/restore sizes, nearest sampler, stripe pixels, bars, mouse center and default framebuffer binding; exit 0 after shutdown guard. Initial missing generated source was fixed by prepare_regression_sources.py; a missing test iostream header was fixed; GDB identified and verified the logger teardown fix. Real-game graphical scene review remains NOT_COMPLETED, not inferred from GL assertions.
+- Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug --scenarios resize-play full-jump movement shooting checkpoint transition spikes death-loop enemy boss boss-death spider-bird reload-stress`; Debug `--no-build --scenarios short-jump double-jump wall head oneway shoot-jump`
+  Result: PASS
+  Evidence: phase4-gameplay-debug-{display,core}.json, 13+6 cases. Release full matrix and all 18 CTest are NOT_RUN for this candidate. Release game/probe/display build succeeds in build/phase4-release-build.log.
+- Command: `python scripts/audit_baseline.py`
+  Result: PASS
+  Evidence: build/phase4-asset-audit.json; actual count 153, changed_resources empty. No image/audio/shader source edits.
 - Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug --scenarios reload-stress spider-bird transition checkpoint enemy boss boss-death`; Debug `--no-build --scenarios full-jump short-jump double-jump movement wall head oneway shooting shoot-jump spikes death-loop`; Release default full matrix
   Result: PASS
   Evidence: docs/evidence/phase3-gameplay-debug-{world,core}.json covers all 18; phase3-gameplay-release.json all 18. Exact fields include spider/bird pose/state/timers, tile hashes, received input and projectiles. source hashes in phase3-current-sources.json. All runs silent.
@@ -149,4 +166,4 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - HEAD_SHA names the inspected implementation revision before this documentation/test checkpoint; the checkpoint's own SHA must be read from git log (a file cannot contain its own commit hash). PHASE1_SHA is the exact verified implementation commit.
 
 ## Blockers requiring user action
-- None for the measured Phase 1.5 gate. Continue the authorized Phase 2 refactor. New unexplained state/physics/timing differences must stop the affected chain; visual/sound/human limitations remain explicit rather than being marked passed by inference.
+- None currently. Phase 4 interrupted desktop inspection was replaced by actual rendered-frame artifacts plus exact pixel comparisons and inspected successfully. Continue the authorized Phase 5/6 gates. Human input feel, other drivers/DPI devices and audible output remain explicit supplemental coverage limits.

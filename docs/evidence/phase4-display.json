@@ -1,0 +1,97 @@
+{
+  "git_head": "20e38216b1e61ef2d2a534afd32786097e4f9ad0",
+  "status": "PASS",
+  "display_tests": {
+    "debug": {
+      "result": "PASS",
+      "exit_code": 0,
+      "actual_drawables": [
+        {
+          "drawable": "1280x960",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "1920x1080",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "2560x1440",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "3840x2160",
+          "content": "2560x1920"
+        },
+        {
+          "drawable": "960x540",
+          "content": "720x540"
+        },
+        {
+          "drawable": "1920x1080",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "960x540",
+          "content": "720x540"
+        }
+      ],
+      "log_sha256": "4ea544bc765ebede63b59224f7796ace441c9964325496b80cfe796d99743f7e",
+      "fractional_nearest": "all output samples checked; geometric source-boundary ties accept either unmixed nearest color"
+    },
+    "release": {
+      "result": "PASS",
+      "exit_code": 0,
+      "actual_drawables": [
+        {
+          "drawable": "1280x960",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "1920x1080",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "2560x1440",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "3840x2160",
+          "content": "2560x1920"
+        },
+        {
+          "drawable": "960x540",
+          "content": "720x540"
+        },
+        {
+          "drawable": "1920x1080",
+          "content": "1280x960"
+        },
+        {
+          "drawable": "960x540",
+          "content": "720x540"
+        }
+      ],
+      "log_sha256": "4ea544bc765ebede63b59224f7796ace441c9964325496b80cfe796d99743f7e",
+      "fractional_nearest": "all output samples checked; geometric source-boundary ties accept either unmixed nearest color"
+    }
+  },
+  "graphical_scene_review": "PASS_GPU_BACKBUFFER_ARTIFACT_REVIEW",
+  "audio": "All tests use SDL_AUDIODRIVER=dummy; normal audio defaults unchanged",
+  "pending": [],
+  "debug_gameplay_reports": [
+    "phase4-gameplay-debug-display.json",
+    "phase4-gameplay-debug-core.json"
+  ],
+  "debug_case_count": 19,
+  "source_sha256": {
+    "src/PixelDisplay.cpp": "dbddca8330b7cdc8f7d21688ab5a5a79a2362524116467b82939be26f83892af",
+    "include/PixelDisplay.hpp": "2c5d0a7602d56b27422d557dab93378efe08b4af13dcb919b3a1334d69634ed0",
+    "include/DisplayViewport.hpp": "4aa3c44f08d1f002f4ad850eec278df7daadebc971bff7b6a85b3ad716ada2a6",
+    "include/GlDebugLifetime.hpp": "76d79d3cda2c568c4524d2236b0ce9236e130e3ab2cc49c71fcf0eec1f23234c",
+    "tests/RegressionProbe.cpp": "081b8e5e3b66129a89387dc2e4e3933a5aac0be6ce09992d5f646b4bfcfa5479"
+  },
+  "ctest": {
+    "Debug": "18/18 PASS 0.77s",
+    "Release": "18/18 PASS 1.40s"
+  }
+}

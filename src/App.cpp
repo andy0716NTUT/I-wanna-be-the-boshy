@@ -55,7 +55,7 @@ void App::Respawn() {
     deathAnimTimer = 0.0f;
     
     // 强制更新绘制，确保死亡UI不会被渲染
-    m_Root.Update();
+    DrawScene();
 }
 
 

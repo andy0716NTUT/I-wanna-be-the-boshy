@@ -85,6 +85,13 @@ void RenderImGui(App& app) {
     style.Colors[ImGuiCol_Separator] = ImVec4(0.5f, 0.5f, 0.5f, 0.5f); // 分隔線
     // 显示游戏状态信息
     ImGui::Text("Game Debug Information");
+    const auto viewport = app.GetDisplay().GetViewport();
+    ImGui::Text("Logical: 1280 x 960 / Display: %d x %d",
+        app.GetDisplay().GetDrawableWidth(), app.GetDisplay().GetDrawableHeight());
+    ImGui::Text("Nearest / Content: %d x %d", viewport.width, viewport.height);
+    bool fullscreen = app.GetDisplay().IsFullscreen();
+    if (ImGui::Checkbox("Fullscreen", &fullscreen) && !app.GetDisplay().SetFullscreen(fullscreen))
+        LOG_ERROR("Fullscreen change failed: {}", SDL_GetError());
     ImGui::Separator();
 
     // 显示位置和瓦片信息

@@ -1,3 +1,5 @@
+#include "GlDebugLifetime.hpp"
+#include "FrameCapture.hpp"
 #include "RegressionAccess.hpp"
 #include "Core/Context.hpp"
 #include "RuntimePaths.hpp"
@@ -62,6 +64,7 @@ int main(int argc, char** argv) try {
     if (!trace) throw std::runtime_error("Cannot create trace output");
     std::srand(1); // Identical CRT random sequence in both test processes only.
     auto context = Core::Context::GetInstance();
+    const GlDebugLifetime glDebugLifetime;
     if (const char* cap = std::getenv("BOSHY_PROBE_FPS_CAP")) {
         const int value = std::stoi(cap);
         if (value != 30 && value != 60 && value != 120) throw std::runtime_error("Unsupported probe FPS cap");
@@ -84,7 +87,7 @@ int main(int argc, char** argv) try {
     BoshyRegressionAccess::Room(app, (scenario == "spikes" || scenario == "death-loop") ? "2" :
         scenario == "spider-bird" ? "8" : scenario == "enemy" ? "4_1" : (scenario == "boss" || scenario == "boss-death") ? "13" : "1");
     const auto floor = FindFloor(app, 1, scenario == "full-jump" || scenario == "short-jump" ||
-        scenario == "double-jump" ? 9 : 1);
+        scenario == "double-jump" || scenario == "resize-play" ? 9 : 1);
     BoshyRegressionAccess::Place(app, floor);
     glm::vec2 fixture = floor;
     if (scenario == "oneway") fixture = FindFloor(app, 8, 1);
@@ -95,10 +98,17 @@ int main(int argc, char** argv) try {
         if (!cp) throw std::runtime_error("Missing actual checkpoint fixture");
         fixture = cp->GetPosition() + glm::vec2(-60, 0);
     }
-    int frames = scenario == "boss" ? 3300 : scenario == "boss-death" ? 1200 : scenario == "enemy" ? 300 : scenario == "death-loop" ? 450 : scenario == "reload-stress" ? 600 : scenario == "spider-bird" ? 900 : 150;
+    int frames = scenario == "boss" ? 3300 : scenario == "boss-death" ? 1200 : scenario == "enemy" ? 300 : scenario == "death-loop" ? 450 : scenario == "reload-stress" ? 600 : scenario == "spider-bird" ? 900 : scenario == "resize-play" ? 350 : 150;
     if (scenario == "boss") fixture = {-500, -404};
-    if (scenario == "spider-bird") app.GodMode = true;
+    if (scenario == "spider-bird" || scenario == "resize-play") app.GodMode = true;
     if (scenario == "boss-death") app.GodMode = true; // Existing debug mode, explicitly a defeat/lifecycle workload.
+    if (argc == 4) {
+        if (const char* width = std::getenv("BOSHY_VISUAL_WIDTH")) {
+            const char* height = std::getenv("BOSHY_VISUAL_HEIGHT");
+            if (!height) throw std::runtime_error("Visual width needs height");
+            SDL_SetWindowSize(SDL_GL_GetCurrentWindow(),std::stoi(width),std::stoi(height));
+        }
+    }
     int retirementSamples = 0, expiredSamples = 0;
     BoshyRegressionAccess::Header(trace);
     for (int frame = 0; frame < frames; ++frame) {
@@ -155,6 +165,24 @@ int main(int argc, char** argv) try {
             if (frame == 4) Key(SDL_SCANCODE_Z, true);
             if (frame == 5) BoshyRegressionAccess::Place(app, fixture + glm::vec2(0,-32));
             if (frame == 20) Key(SDL_SCANCODE_Z, false);
+        } else if (scenario == "resize-play") {
+            auto* window = SDL_GL_GetCurrentWindow();
+            if (frame == 10) Key(SDL_SCANCODE_RIGHT, true);
+            if (frame == 20) Key(SDL_SCANCODE_RIGHT, false);
+            if (frame == 40) Key(SDL_SCANCODE_Z, true);
+            if (frame == 100) Key(SDL_SCANCODE_Z, false);
+            if (frame == 120) Key(SDL_SCANCODE_X, true);
+            if (frame == 200) Key(SDL_SCANCODE_X, false);
+            if (frame == 50) SDL_SetWindowSize(window,1920,1080);
+            if (frame == 90) SDL_SetWindowSize(window,2560,1440);
+            if (frame == 130) SDL_SetWindowSize(window,3840,2160);
+            if (frame == 180) SDL_SetWindowSize(window,960,540);
+            if (frame == 225 && SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+                throw std::runtime_error(SDL_GetError());
+            if (frame == 275) {
+                if (SDL_SetWindowFullscreen(window,0) != 0) throw std::runtime_error(SDL_GetError());
+                SDL_SetWindowSize(window,1280,960);
+            }
         } else if (scenario == "reload-stress") {
             if (frame % 10 == 0) {
                 std::weak_ptr<CheckPoint> previous = BoshyRegressionAccess::FirstCheckpoint(app);
@@ -191,7 +219,9 @@ int main(int argc, char** argv) try {
         if (argc == 4 && frame == std::stoi(argv[3])) {
             trace.flush();
             // Optional visual inspection holds this state; not used for parity measurements.
-            SDL_Delay(45000);
+            if (const char* capture = std::getenv("BOSHY_CAPTURE_PATH"))
+                CaptureGameFrame(std::filesystem::u8path(capture));
+            else SDL_Delay(180000);
         }
     }
     trace.flush();
