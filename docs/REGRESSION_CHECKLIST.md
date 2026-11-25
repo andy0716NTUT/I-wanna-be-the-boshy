@@ -78,3 +78,9 @@ physical human keyboard/audio checks remain supplemental. See PIXEL_DISPLAY.md.
 Phase 5: PASS, both configs 19/19 gameplay and 20/20 CTest, including strict
 configuration errors and silent BGM load/restart/default volume. Rendered overlay
 review and GL tests pass. Profiling scope/limits are in PERFORMANCE.md.
+
+Phase 6: PASS for internal RC. Fresh Debug/Release all20 CTest and all seven GL
+modes each pass. Full19-case gameplay evidence is from unchanged final runtime
+sources in Phase5. Original153 assets re-audited; ZIP/extracted manifest, minimal
+PATH/unrelated cwd/Unicode startup and missing-resource negative deployment pass.
+Manual supplemental gaps remain above; see RELEASE_CHECKLIST.md/RELEASE_REPORT.md.

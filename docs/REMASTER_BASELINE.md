@@ -164,3 +164,14 @@ concrete side-by-side validation session (run one executable at a time):
 Start-Process 'B:/build/windows/bin/Debug/BoshyOriginalGame.exe' -WorkingDirectory 'B:/build/windows/bin/Debug'
 Start-Process 'B:/build/windows/bin/Debug/IWannaBeTheBoshy.exe' -WorkingDirectory 'B:/build/windows/bin/Debug'
 ```
+
+## Final remaster comparison boundary
+
+Runtime revision0cd2de1 retains the measured original physics clock, cached tile
+formulas, double gravity, axis and X/Z ordering, cooldown/cap, R state persistence,
+map/checkpoint coordinates and Boss behavior. Final19-case Debug/Release traces
+match every recorded gameplay field exactly. Nearest/integer presentation is an
+intentional display change; invalid map/config/media handling now gives safe
+errors. Source PNG/audio/font data is unchanged. Tests and graphical artifacts
+are described in RELEASE_REPORT.md; physical keyboard/audio and exhaustive routes
+are not claimed as manually certified. No tolerance was widened to hide a drift.

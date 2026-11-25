@@ -1,9 +1,14 @@
 # Windows Remaster 開發
 
-Windows 建置與部署基礎、Phase 1.5 的 15 項實際遊戲回歸比較已通過。
-後續階段依進度檔逐步進行；目前尚未產生 Release Candidate。
-請參閱 [建置方式](docs/BUILD.md)、[行為基準](docs/REMASTER_BASELINE.md)、
-[回歸清單](docs/REGRESSION_CHECKLIST.md) 與 [接續進度](docs/REMASTER_PROGRESS.md)。
+Phase 1～6 的分階段技術驗收已完成，已產生供內部驗證的 Windows x64 RC1。
+Debug／Release 各通過 20 項 CTest 與 19 個原版行為對照情境；遊戲保持原始
+每幀物理、碰撞與關卡資料，顯示支援最近鄰、整數縮放、黑邊及全螢幕。
+
+請參閱 [完整報告與 RC 雜湊](docs/RELEASE_REPORT.md)、[驗收清單](docs/RELEASE_CHECKLIST.md)、
+[建置方式](docs/BUILD.md)、[像素顯示](docs/PIXEL_DISPLAY.md)、[量測與 Debug](docs/PERFORMANCE.md)、
+[行為基準](docs/REMASTER_BASELINE.md) 與 [接續進度](docs/REMASTER_PROGRESS.md)。
+測試全程靜音；實體鍵盤手感、音效聽感及其他硬體仍列為人工補充驗證。
+RC 未公開發布，開發分支未自動合併 main。
 
 # 2025 OOPL Final Report
 

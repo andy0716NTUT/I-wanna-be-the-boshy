@@ -3,11 +3,11 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 8a6d96ae3e2aca9a29edfcf113492e4188697f64
+HEAD_SHA: 0cd2de1fc6aedc8028bc6fa0c584b67f8c6d361f
 ACTIVE_STAGE: 6
-STAGE_STATUS: IN_PROGRESS
-NEXT_ACTION: Fresh offline Debug/Release build and all 20 CTest in build/windows-rc1; audit original resources, verify packaged executable from unrelated cwd/Unicode path with minimal PATH and dummy audio, generate internal RC checksum/manifest/report without public publication.
-LAST_VERIFIED_AT: 2026-11-25T13:23:00+08:00 Asia/Taipei
+STAGE_STATUS: PASSED
+NEXT_ACTION: All staged technical gates complete. Review docs/RELEASE_REPORT.md and the internal RC checksum; optional human playtest of physical input/audio/other devices. Do not auto-merge main or publish the ZIP.
+LAST_VERIFIED_AT: 2026-11-25T13:34:28+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -18,10 +18,14 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 2 | PASSED | 15-case Debug + added death-loop, 16-case Release, 30/120-cap comparisons; 15/15 CTest both | f42d7f0735b254690ae604105107886e421d20d2 |
 | 3 | PASSED | All 18 original/current cases pass in Debug (two reports) and Release; 17/17 CTest both; 60 real reloads + 500 headless retirement cycles | 20e38216b1e61ef2d2a534afd32786097e4f9ad0 |
 | 4 | PASSED | Debug/Release 19-case matrices, 18/18 CTest each, seven real GL sizes/modes each, actual App+ImGui frame review and exact logical pixel comparisons | 8a6d96a (full SHA in git log) |
-| 5 | PASSED | Debug/Release all 19 parity cases, 20/20 CTest each, GL matrices, inspected overlay; before/after profiles no major regression, tracked allocations identical | This Phase 5 commit; resolve via git log |
-| 6 | IN_PROGRESS | All prior gates passed; fresh build/package validation next | None |
+| 5 | PASSED | Debug/Release all 19 parity cases, 20/20 CTest each, GL matrices, inspected overlay; before/after profiles no major regression, tracked allocations identical | 0cd2de1fc6aedc8028bc6fa0c584b67f8c6d361f |
+| 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- Final remote audit: main remains eeb1f72; remaster/continuous is at the accepted runtime commit before this final tooling/report checkpoint; only historical PR #1 ref exists. RC archive checksum reverified after report generation. Preserve the two untracked user instruction files.
+- Phase 6 passed: fresh windows-rc2 Debug/Release each20 CTest (2.22s/1.59s); fresh actual GL modes all pass. Runtime source identity matches final Phase519-case matrices. Packaged actual normal EXE starts from C:/Windows/minimal PATH in Debug, Release and ZIP-extracted Unicode directory; missing-Resources fails nonzero with exact path. All tests silent. Original asset audit re-counts153 with zero content drift.
+- Internal RC1 created with manifest, recursive required DLLs, supplied license texts and SHA256. Local artifact details/checksum in RELEASE_REPORT.md and phase6-package.json. No binary upload/public release/main merge/PR. All gates complete within declared measured scope; physical keyboard/audio and other hardware/routes remain supplemental manual limits.
+- Phase 6 fresh configure exposed wrapper backslash paths in generated CMakeRCCompiler.cmake (invalid escape \P), masked by the existing cache. Normalize CMake compiler/Ninja definitions to forward slashes. Preserve failed build/windows-rc1 logs; retry genuinely fresh build/windows-rc2. Runtime/gameplay source unchanged since Phase 5.
 - Phase 5 passed: Debug/Release 19/19 exact gameplay state, normal builds and 20/20 CTest (1.56s/1.38s), display matrices and inspected actual overlay/UI frames. Profiling shows comparable private memory and unchanged tracked allocations, INFO reduces trace bytes 94–99%; no speculative resource rewrite. Invalid config/BGM errors are deliberate error-path changes only.
 - Phase 5 implemented read-only FPS/frame-time/velocity/state/object counts, optional clipped platform-contact/cached-tile overlay and wider Debug panel; same controls remain. Added early typed config validation (path/reason), INFO shipped log level and BGM path/load/status diagnostics. Valid BGM volume5, fade/play order and same-track R restart preserved; invalid destinations now keep current track with error. Release normal build + 20/20 CTest pass, including dummy-device BGM decoding/restart and invalid configuration checks.
 - Baseline/after Release profiles (2 repeats of enemy/60-reload/Boss-defeat): tracked allocations identical, p95 App updates ~0.46/0.84/1.60ms after vs ~0.51/1.18/1.57ms before. Peak private memory comparable (235.95/276.98/238.29 MiB after); log sizes reduced 94-99%. No speculative pooling/cache or Boss platform deduplication. Full parity/Debug/overlay checks pending.
@@ -64,6 +68,15 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - Audited real LoadTileData call sites in spider.cpp and added all four original spider/trap masks to the independent original-parser parity tests; tests pass in both configurations.
 
 ## Verification evidence
+- Command: `python B:/scripts/windows_build.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --toolchain 'C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/bin' --ninja 'C:/Program Files/JetBrains/CLion 2025.3.3/bin/ninja/win/x64/ninja.exe' --build-dir build/windows-rc2 --config <Debug|Release> --offline`
+  Result: PASS
+  Evidence: fresh config/build/ctest logs under build/windows-rc2;20/20 each,2.22s/1.59s. Initial rc1 fresh configure FAIL due backslash windres path; normalized cache definitions, then new rc2 builds pass. No runtime changes.
+- Command: CMake3.31.8 `--build B:/build/windows-rc2 --config <Debug|Release> --target PixelDisplayTests --parallel 8`, then corresponding PixelDisplayTests.exe with dummy audio; `python B:/scripts/audit_baseline.py`
+  Result: PASS
+  Evidence: phase6-display-*.log all7 actual sizes/modes per config; phase6-asset-audit.json153 files/no content drift. Final19-case gameplay reports remain valid because src/include/config/CMake are identical to the Phase5 runtime revision.
+- Command: `python B:/scripts/package_windows_rc.py --build-dir build/windows-rc2 --runtime-licenses 'C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/licenses' --objdump 'C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/bin/objdump.exe'`
+  Result: PASS
+  Evidence: phase6-package.json; packaged/Unicode/minimal PATH/cwd startup, ZIP integrity and extracted239-file manifest pass. Three required runtime DLLs only. Additional missing-resource actual-exe negative test exits1/path diagnostic. Startup smoke processes explicitly terminated by their owning runner; natural exit not inferred from them.
 - Command: `python B:/scripts/profile_game.py --label before --repeats 2`; same with `--label after`
   Result: PASS
   Evidence: phase5-profile-{before,after}.json and PERFORMANCE.md, 6 runs per group at 60 cap/dummy audio. p95 <1.7ms, comparable peak private memory, identical selected game-side image/animation/actor creation counts. Generic heap/GPU allocations not claimed as fully instrumented.
@@ -178,4 +191,4 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - HEAD_SHA names the inspected implementation revision before this documentation/test checkpoint; the checkpoint's own SHA must be read from git log (a file cannot contain its own commit hash). PHASE1_SHA is the exact verified implementation commit.
 
 ## Blockers requiring user action
-- None currently. Phase 4 interrupted desktop inspection was replaced by actual rendered-frame artifacts plus exact pixel comparisons and inspected successfully. Continue the authorized Phase 5/6 gates. Human input feel, other drivers/DPI devices and audible output remain explicit supplemental coverage limits.
+- None for the completed internal technical RC gates. Supplemental physical input/audio/device/full-route testing is explicitly unclaimed. Public release and main merge remain outside the authorized scope.

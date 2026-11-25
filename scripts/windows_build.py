@@ -32,10 +32,10 @@ def main():
     env["SDL_AUDIODRIVER"] = "dummy"  # Build/test invocation only; never alter shipping config.
     env["PATH"] = os.pathsep.join(program_dirs + [env.get("PATH", "")])
     configure = [str(cmake), "-S", str(root), "-B", str(build), "-G", "Ninja Multi-Config",
-                 f"-DCMAKE_C_COMPILER={toolchain / 'gcc.exe'}",
-                 f"-DCMAKE_CXX_COMPILER={toolchain / 'g++.exe'}",
-                 f"-DCMAKE_RC_COMPILER={toolchain / 'windres.exe'}",
-                 f"-DCMAKE_MAKE_PROGRAM={ninja}", "-DBOSHY_BUILD_TESTS=ON",
+                 f"-DCMAKE_C_COMPILER={(toolchain / 'gcc.exe').as_posix()}",
+                 f"-DCMAKE_CXX_COMPILER={(toolchain / 'g++.exe').as_posix()}",
+                 f"-DCMAKE_RC_COMPILER={(toolchain / 'windres.exe').as_posix()}",
+                 f"-DCMAKE_MAKE_PROGRAM={ninja.as_posix()}", "-DBOSHY_BUILD_TESTS=ON",
                  "-DCMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH=OFF",
                  "-DCMAKE_FIND_USE_CMAKE_SYSTEM_PATH=OFF",
                  "-DCMAKE_PROGRAM_PATH=" + ";".join(p.replace("\\", "/") for p in program_dirs)]

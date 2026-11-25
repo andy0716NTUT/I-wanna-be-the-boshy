@@ -1,0 +1,77 @@
+{
+  "runtime_revision": "0cd2de1fc6aedc8028bc6fa0c584b67f8c6d361f",
+  "archive": "B:\\build\\release-candidate\\BoshyRemaster-Windows-x64-RC1-0cd2de1f.zip",
+  "sha256": "2acbb97af2364d0889713ac760a37afcce1c6afb99ed0aedd25605243cc6060d",
+  "resource_count": 153,
+  "dlls": [
+    "libgcc_s_seh-1.dll",
+    "libstdc++-6.dll",
+    "libwinpthread-1.dll"
+  ],
+  "startup": {
+    "fresh-debug": {
+      "result": "PASS",
+      "cwd": "C:/Windows",
+      "path": "System32/Windows only",
+      "audio_driver": "dummy",
+      "known_missing_images": [
+        "Resources/Image/Background/phase1.png",
+        "Resources/Image/Character/death/death1-left.png",
+        "Resources/Image/Character/death/death1.png",
+        "Resources/Image/Character/death/death2-left.png",
+        "Resources/Image/Character/death/death2.png",
+        "Resources/Image/Character/death/death3-left.png",
+        "Resources/Image/Character/death/death3.png",
+        "Resources/Image/Character/death/death4-left.png",
+        "Resources/Image/Character/death/death4.png"
+      ],
+      "termination": "runner stopped its owned startup-only process; natural shutdown covered by regression/GL tests",
+      "log_sha256": "532530bf576926897383be286c44c6c19ac823eaf22b413e800b8030c9301b08"
+    },
+    "packaged-release": {
+      "result": "PASS",
+      "cwd": "C:/Windows",
+      "path": "System32/Windows only",
+      "audio_driver": "dummy",
+      "known_missing_images": [
+        "Resources/Image/Background/phase1.png",
+        "Resources/Image/Character/death/death1-left.png",
+        "Resources/Image/Character/death/death1.png",
+        "Resources/Image/Character/death/death2-left.png",
+        "Resources/Image/Character/death/death2.png",
+        "Resources/Image/Character/death/death3-left.png",
+        "Resources/Image/Character/death/death3.png",
+        "Resources/Image/Character/death/death4-left.png",
+        "Resources/Image/Character/death/death4.png"
+      ],
+      "termination": "runner stopped its owned startup-only process; natural shutdown covered by regression/GL tests",
+      "log_sha256": "532530bf576926897383be286c44c6c19ac823eaf22b413e800b8030c9301b08"
+    },
+    "extracted-unicode-release": {
+      "result": "PASS",
+      "cwd": "C:/Windows",
+      "path": "System32/Windows only",
+      "audio_driver": "dummy",
+      "known_missing_images": [
+        "Resources/Image/Background/phase1.png",
+        "Resources/Image/Character/death/death1-left.png",
+        "Resources/Image/Character/death/death1.png",
+        "Resources/Image/Character/death/death2-left.png",
+        "Resources/Image/Character/death/death2.png",
+        "Resources/Image/Character/death/death3-left.png",
+        "Resources/Image/Character/death/death3.png",
+        "Resources/Image/Character/death/death4-left.png",
+        "Resources/Image/Character/death/death4.png"
+      ],
+      "termination": "runner stopped its owned startup-only process; natural shutdown covered by regression/GL tests",
+      "log_sha256": "532530bf576926897383be286c44c6c19ac823eaf22b413e800b8030c9301b08"
+    }
+  },
+  "extracted_manifest": "PASS",
+  "missing_resource_negative_test": {
+    "result": "PASS",
+    "exit_code": 1,
+    "diagnostic": "Boshy failed: Missing runtime resource: B:\\build\\rc-missing-resource-check\\Resources"
+  },
+  "runtime_source_unchanged_since_phase5": true
+}

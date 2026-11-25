@@ -111,3 +111,26 @@ The expanded event/state matrix in [GAMEPLAY_REGRESSION.md](GAMEPLAY_REGRESSION.
 supersedes the initial partial gate. Enable it with BOSHY_BUILD_REGRESSION_PROBES;
 normal builds exclude those executables. All testing is silent (SDL dummy audio
 plus zero mixer volumes in probes); ordinary game sound defaults are preserved.
+
+## Final clean build and internal RC
+
+Phase 6 used fresh build/windows-rc2, not the old populated binary cache. Both
+configurations pass all 20 CTest; final runtime sources match the fully tested
+19-case Debug/Release game revision. The wrapper now normalizes compiler/Ninja
+cache paths to forward slashes: GNU windres backslashes caused invalid CMake
+escapes on a genuinely fresh configure. Failed rc1 logs are retained separately.
+Use a new --build-dir when proving another fresh build; never delete user work.
+
+See RELEASE_REPORT.md for exact executed clean-build/package commands. Packaging
+requires existing MinGW runtime license files and objdump, copies only actual PE
+imports, preserves original resources/shaders/licenses and produces a local ZIP,
+manifest, SHA256 and verification JSON. It never uploads or publishes anything.
+The same ZIP is extracted to a Unicode path and run from C:/Windows with only
+System32/Windows on PATH. Test processes force SDL_AUDIODRIVER=dummy.
+
+Physical config sizes are now separated from the 1280x960 game canvas. Valid
+width is320–8192, height240–8192; fps_cap is a nonnegative unsigned integer (0
+retains old uncapped behavior), default_log_level is0–6, optional fullscreen is
+boolean. Defaults remain1280x960/60fps and sound volume5; shipped log level is
+INFO2, with TRACE0 opt-in. Invalid configuration reports the absolute path before
+creating the graphics/audio context. Keyboard bindings remain unchanged.
