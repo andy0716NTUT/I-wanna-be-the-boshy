@@ -1,0 +1,53 @@
+[
+  {
+    "id": "world1-wall",
+    "source": "Resources/Image/Background/WORLD1/phase9.png",
+    "source_sha256": "7fcc6b50cc4d1622f48dbe9c6dddf4e811f30d0df6e2dd5d7eb25ce174c36178",
+    "box": [
+      512,
+      416,
+      544,
+      448
+    ],
+    "reference": "art/remaster-v1/reference/terrain/world1-wall.png",
+    "size": [
+      32,
+      32
+    ],
+    "reference_sha256": "e1b5d49502f36931299b964ed3688317e024263423bd74c643dd2710f69902a0"
+  },
+  {
+    "id": "world1-grass-top",
+    "source": "Resources/Image/Background/WORLD1/phase1.png",
+    "source_sha256": "479d1c8b054cdd0991912be5c575bdb5e8442b09ba1223fbf117b2792ed8cd1a",
+    "box": [
+      96,
+      864,
+      192,
+      896
+    ],
+    "reference": "art/remaster-v1/reference/terrain/world1-grass-top.png",
+    "size": [
+      96,
+      32
+    ],
+    "reference_sha256": "b7e7ee1c7e0ba79dfe71d901e4978e20d3ff5fdd8aa416786364a68f7567f5f6"
+  },
+  {
+    "id": "world2-green-fill",
+    "source": "Resources/Image/Background/world2/phase4.png",
+    "source_sha256": "aafe7e58120a7926ac94c561438e29bd0a47390d464ee6c88ebb4063099a0360",
+    "box": [
+      256,
+      64,
+      288,
+      96
+    ],
+    "reference": "art/remaster-v1/reference/terrain/world2-green-fill.png",
+    "size": [
+      32,
+      32
+    ],
+    "reference_sha256": "1a98ada774449128b658ac451ecb5856a33f84d2a7757a07b658f321dd6805bb"
+  }
+]

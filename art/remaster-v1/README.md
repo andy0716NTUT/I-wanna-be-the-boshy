@@ -23,3 +23,17 @@ non-destructive. For a separate checkout of the exact pre-art code/assets,
 use the pushed checkpoint tag; preserve any working-tree changes first. Do not
 reset or force-push remaster/continuous. A later runtime theme switch, if added,
 must keep the original option and safe fallback.
+
+## Scenery batch
+
+The user selected backgrounds, terrain and scene props, retaining characters
+and animations. `candidates/review/index.html` is the offline comparison page;
+`candidates/review/overview.png` is a compact before/after sheet.
+`candidates/manifest.json` maps31 original scenery files:27 changed candidates
+and4 intentionally unchanged critical/data images, plus3 material tiles.
+Room7 keeps its original backdrop pending registration review; only matched
+terrain/props are updated there. Source Resources are never overwritten.
+
+See `../../docs/ART_BATCH_V1.md` in the repository for commands, exact limits and
+rollback details. Build/verification scripts are under `scripts/`. All new art,
+raw model outputs and prompts remain versioned separately from the originals.

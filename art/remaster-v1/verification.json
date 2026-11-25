@@ -1,0 +1,43 @@
+{
+  "result": "PASS",
+  "original_pngs": 119,
+  "selected_scenery_pngs": 31,
+  "changed_candidates": 27,
+  "preserved_critical_and_data_files": 4,
+  "protected_pixels_checked": 5094271,
+  "material_pixels_mapped": 2179501,
+  "material_tiles": 3,
+  "canvas_alpha_and_spike_landmarks": "PASS",
+  "originals_and_generation_provenance": "PASS",
+  "room9_stone_cover_pixel_coherence": "PASS",
+  "runtime_deployed": false,
+  "limit": "Approximate foreground masks require visual review; no gameplay or texture-equivalence certification",
+  "negative_controls": [
+    {
+      "fixture": "canvas",
+      "result": "PASS",
+      "rejected_as_expected": "Canvas/format differs"
+    },
+    {
+      "fixture": "alpha",
+      "result": "PASS",
+      "rejected_as_expected": "Original alpha/anchor bounds differ"
+    }
+  ],
+  "original_resources": {
+    "count": 153,
+    "changed_content": [],
+    "historical_txt_crlf_conversions": 28
+  },
+  "existing_runtime_ctest": {
+    "Debug": "20/20 PASS",
+    "Release": "20/20 PASS",
+    "audio": "SDL_AUDIODRIVER=dummy",
+    "scope": "Existing original-runtime binaries; candidate art not loaded in CTest"
+  },
+  "tools": {
+    "Pillow": "12.0.0",
+    "numpy": "2.3.5"
+  },
+  "default_runtime_changed": false
+}

@@ -1,0 +1,984 @@
+{
+  "schema": 1,
+  "scope": "Backgrounds and scene objects; character/animation/UI PNGs remain original",
+  "rollback_tag": "remaster-before-assets-20261126-1b27388",
+  "original_png_count": 119,
+  "all_originals_unchanged": true,
+  "runtime_deployed": false,
+  "candidate_directory": "art/remaster-v1/candidates",
+  "input_assets": {
+    "art/remaster-v1/raw/backdrops/world1-heart.png": "55da79deae43c45e1e91cac3f286dfda091c059a4547768452b53e5ec923f05d",
+    "art/remaster-v1/raw/backdrops/world2-hills.png": "6a26645f91f502a7017c6a087384f0bcd6ac0c207a7a88ab589ea7eef7e5a714",
+    "art/remaster-v1/raw/objects/platform.png": "f0645d28055dbe30c21f3f63b4d20d2df26680985f685a935ac1c88fb9fce213",
+    "art/remaster-v1/raw/objects/small_ground.png": "3e8cf147477731bc3cad5a44ee0afb2f969d830aee2318d2a55d2e55cf06c844",
+    "art/remaster-v1/raw/terrain/world1-grass-top.png": "b50becf2a30d7a9a3003c8ef973d72803fca8f1d777d8e1b884e5f8120b14a28",
+    "art/remaster-v1/raw/terrain/world1-wall.png": "fdf7dcd1cc9be550366d31d017ca30b761ba394a01c60aea44e07e1680eddedf",
+    "art/remaster-v1/raw/terrain/world2-green-fill.png": "0139cee492c24d3a5df1b5e853e1643a527fea3ce2f1634f653cde6a69ce1513",
+    "art/remaster-v1/reference/world1-mountain-approved.png": "3f3faf2d7bafe9abf304ab5df27ce8b0d8d14092c649a350ac0b51834e0fed8c"
+  },
+  "prompt_files": {
+    "art/remaster-v1/prompts/platform.txt": "0dff12176fcff88e5ca08064d7be9dcfaad3d9b860037db37690d926a77b0709",
+    "art/remaster-v1/prompts/small-ground.txt": "2c58ddb3ec502428fa158cf838ef4a29748bc03d655650da3f101db616d7c210",
+    "art/remaster-v1/prompts/world1-grass-top.txt": "f4aec4419ebb051bd0a46c33747f1f7906c851aa378b7d038e230da5dca0561d",
+    "art/remaster-v1/prompts/world1-heart-backdrop.txt": "52ae097be7e534c83595ef78c2959551e5d999449a726ed147216db69b548569",
+    "art/remaster-v1/prompts/world1-wall.txt": "55cc4ce0018ab7dd7172cd1235b8e5951693698d8aed75f0126519b6f752d5b2",
+    "art/remaster-v1/prompts/world2-backdrop.txt": "e57ba25ab55ec29baf82d8a8976ce22f1c310837bb9f747b848c816dc08774c0",
+    "art/remaster-v1/prompts/world2-green-fill.txt": "8a27f855496687ba4c6246edfc155b7e47d9c91ea7b97cd47bf18af561574315"
+  },
+  "review_status": "NEEDS_VISUAL_REVIEW",
+  "entries": [
+    {
+      "source": "Resources/Image/Background/WORLD1/phase1.png",
+      "source_sha256": "479d1c8b054cdd0991912be5c575bdb5e8442b09ba1223fbf117b2792ed8cd1a",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "3d18cb08c634689cf502e27bb143a7a0f5e5b6f1b3d87351c9ab6f54f24deed3",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 43442,
+      "spike_pixels_preserved": 0,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase1.png",
+      "mask_sha256": "a69b1ddb97f4e83754957463f6fa8b16f909b1b9c27062fb8304d30fd4f7e6df",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase1.png",
+      "texture_mask_sha256": "3b44f8305a9f0cc0278afdaef650ae958c9a9c62a367a15d0f3c34613b2ccf82",
+      "texture_pixels": 53895,
+      "texture_matches": {
+        "platform.png": 7,
+        "small_ground.png": 19,
+        "world1-wall": 0,
+        "world1-grass-top": 1
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase1.png",
+      "candidate_sha256": "bf18fd13369b3af7e08e37dcb71e3172892893643f707921e74483796147bd9b",
+      "alpha_sha256": "3d18cb08c634689cf502e27bb143a7a0f5e5b6f1b3d87351c9ab6f54f24deed3",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase10.png",
+      "source_sha256": "dcf3e1a75fe63ee810e75312f2405d76997b2ceaffae4afea2bc76b5181f9a41",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "b318b20c429bc032d26d3f70fd9bda09d520d998add0c43aa09b32b45209ae2f",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 71148,
+      "spike_pixels_preserved": 19278,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase10.png",
+      "mask_sha256": "e5310b19b59f107420d587229019a521d3d063ba6e79dc79f5a24c23ea4d5609",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase10.png",
+      "texture_mask_sha256": "7509ad2679b717cc21aafb9e548c7205823354690d0cf699ea6d6da986d919a7",
+      "texture_pixels": 28016,
+      "texture_matches": {
+        "platform.png": 4,
+        "small_ground.png": 0,
+        "world1-wall": 8,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase10.png",
+      "candidate_sha256": "43b79373f1b3281fda1879c535b1a428cbbd984ca72a5c494a673de800b41809",
+      "alpha_sha256": "b318b20c429bc032d26d3f70fd9bda09d520d998add0c43aa09b32b45209ae2f",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase11.png",
+      "source_sha256": "638997ed221a39d7876413317b40e689a42c20f8cbf1be7c6db80976b3d48f0d",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "c57d40a0d511f88d05d34aebc2ace70e2438e432327a1c831f6a3edc4c66eb54",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 21130,
+      "spike_pixels_preserved": 13096,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase11.png",
+      "mask_sha256": "6d7b4d749e0181fe7d648b8347346d9403da3ec5b2e9abac86c5550deb474e9c",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase11.png",
+      "texture_mask_sha256": "e6609331088746808b64bb8bed2a89815285288b7a1de41b53460e653b14c85e",
+      "texture_pixels": 24780,
+      "texture_matches": {
+        "platform.png": 5,
+        "small_ground.png": 0,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase11.png",
+      "candidate_sha256": "60141b093dfce1083d4b4c0777ca6398d1ee7453124808aaecacc72edf73cd32",
+      "alpha_sha256": "c57d40a0d511f88d05d34aebc2ace70e2438e432327a1c831f6a3edc4c66eb54",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase12.png",
+      "source_sha256": "b78147d4a1d7b548395fe055921cd05fb011426d8094ba8af76aa9aed29f0e9a",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "6c3936771b7ba67fbb1df4e709cfa762760b9e949bc2bea58f6dcbc74d170cf5",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 402547,
+      "spike_pixels_preserved": 6146,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase12.png",
+      "mask_sha256": "769d21f94ddef1dac895dd1254c6b071f2dfb2c581fdc7a0d4c912051d3ebafc",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase12.png",
+      "texture_mask_sha256": "f6911e31a2d9e3873c3465b2c51170df452054c314806ea4bbf6695467f9a26c",
+      "texture_pixels": 26181,
+      "texture_matches": {
+        "platform.png": 1,
+        "small_ground.png": 25,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase12.png",
+      "candidate_sha256": "357349f5baee1685d77f15cdd1756e92fad6fcce973c8296fc6ae944b1703f6a",
+      "alpha_sha256": "6c3936771b7ba67fbb1df4e709cfa762760b9e949bc2bea58f6dcbc74d170cf5",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase13.png",
+      "source_sha256": "f0aa1cdb506b29c50b2fae930da852072d36965c92cac2b446b09327aa27e4d2",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "c13aa106471118a3b66382a48e6d0ee86f5738de73f74def60764210117d7e89",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 42118,
+      "spike_pixels_preserved": 0,
+      "unknown_background_pixels": 40960,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase13.png",
+      "mask_sha256": "c887a066012a00ed4073ce71fdef198af29b788f0479475ee8e3b97a6c002388",
+      "raw_input": "art/remaster-v1/raw/backdrops/world1-heart.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase13.png",
+      "texture_mask_sha256": "980d13358503f340a695ccb79215c193eeac4d08df12a4a8888acdfa3395677b",
+      "texture_pixels": 20673,
+      "texture_matches": {
+        "platform.png": 4,
+        "small_ground.png": 1,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase13.png",
+      "candidate_sha256": "f88ece3e737a6f51115623ff66cff101e077f8f65fbc35c994bdc9af6f4ec31d",
+      "alpha_sha256": "c13aa106471118a3b66382a48e6d0ee86f5738de73f74def60764210117d7e89",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase14.png",
+      "source_sha256": "59b2b79870ac305b1849f9e276aab6f3d67dce59f8c362a16b07a521417935b6",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 146149,
+      "spike_pixels_preserved": 0,
+      "unknown_background_pixels": 40960,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase14.png",
+      "mask_sha256": "94d778cb1aa5484e37d016a9b07eaaca430d2646a39dc089b55b747dbdf3e6a0",
+      "raw_input": "art/remaster-v1/raw/backdrops/world1-heart.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase14.png",
+      "texture_mask_sha256": "9fa12c56046f44316bbe81890be2707ebbbb25d90a26637cc5ebfeb64b7389a6",
+      "texture_pixels": 32262,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 38,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase14.png",
+      "candidate_sha256": "a980328f639094f9ea73f63fe5988738d40c01e2adea79ae223cf9d70616c730",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase2.png",
+      "source_sha256": "0be88b3ef667c396d8b67da6ed19d84ce394974b0ff8268c1aa8412aac046bce",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "7adc0b841e64d1ce1f107e576cf5696d3e50091ab6eabfcecdafe820ab013209",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 156642,
+      "spike_pixels_preserved": 8212,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase2.png",
+      "mask_sha256": "dc97bc4389488e498fb522c148c1e7b337b96a0d8a81786a077dc023f0f61fd4",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase2.png",
+      "texture_mask_sha256": "5c4e8a7ecf4893d34492355621e328c7e9385695fa134b4cc1a37b6fb60d5a02",
+      "texture_pixels": 34809,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 41,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase2.png",
+      "candidate_sha256": "778fb52df3d6ca7527026549c45b53bcd041a74eb4d2205a9d227f94acb6dfb2",
+      "alpha_sha256": "7adc0b841e64d1ce1f107e576cf5696d3e50091ab6eabfcecdafe820ab013209",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase3_1.png",
+      "source_sha256": "3c25776f694b6f8ac047f99395950e13c6a86d7c4696655fb03d7a707f06c13f",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "455123c0f5273cf7dda836c514b857e1ce44685226b5ead20487150cc6423b34",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 122273,
+      "spike_pixels_preserved": 20876,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase3_1.png",
+      "mask_sha256": "16b85801c7ac2d4054a5395a4335aea1480247b0bbdeafd5dd8947b9da82fe3f",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase3_1.png",
+      "texture_mask_sha256": "d0579a6eb13165894a9a3305408e335922496eae749cc8431dc445f96ddfdf91",
+      "texture_pixels": 23220,
+      "texture_matches": {
+        "platform.png": 4,
+        "small_ground.png": 4,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase3_1.png",
+      "candidate_sha256": "fbdddbba2a36b8e29393ef330e5926dd9cbfbf1f85bc67e50b087ced282f4359",
+      "alpha_sha256": "455123c0f5273cf7dda836c514b857e1ce44685226b5ead20487150cc6423b34",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase3_2.png",
+      "source_sha256": "9c7b8a45e3c03aa3821a9f9e54552a52fa8d5a0337ad504f99e3dcdcf409cc93",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "455123c0f5273cf7dda836c514b857e1ce44685226b5ead20487150cc6423b34",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 121465,
+      "spike_pixels_preserved": 21148,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase3_2.png",
+      "mask_sha256": "cdf8fa50d959867b3837e53ea6743397b398d3dd179cbaa5422cec12708144e5",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase3_2.png",
+      "texture_mask_sha256": "d0579a6eb13165894a9a3305408e335922496eae749cc8431dc445f96ddfdf91",
+      "texture_pixels": 23220,
+      "texture_matches": {
+        "platform.png": 4,
+        "small_ground.png": 4,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase3_2.png",
+      "candidate_sha256": "ab90bad2c2decb65f9643ea4a7ad981f1f47ce5ecb727f17808b2ffdea8b0f79",
+      "alpha_sha256": "455123c0f5273cf7dda836c514b857e1ce44685226b5ead20487150cc6423b34",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase4.png",
+      "source_sha256": "725e58067d1442f913db5b33cd4ea7bbf640ed8a67329a0c76fa373314125e85",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 501988,
+      "spike_pixels_preserved": 16934,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase4.png",
+      "mask_sha256": "a828bd698e0cec61d1bbf6531b972dc69dbdb257722c015dcc92aa81eef5f21a",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase4.png",
+      "texture_mask_sha256": "6f7b76367af41d3f3d519f3e8e0d6944cdcd8f0dde90dedb779f13615075b6ad",
+      "texture_pixels": 40629,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 37,
+        "world1-wall": 9,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase4.png",
+      "candidate_sha256": "ab591839d2e8db22a8e11b04b71a33e1138b2208a292a54c87ecab78efc2b77a",
+      "alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase4_1.png",
+      "source_sha256": "725e58067d1442f913db5b33cd4ea7bbf640ed8a67329a0c76fa373314125e85",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 501988,
+      "spike_pixels_preserved": 16934,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase4_1.png",
+      "mask_sha256": "a828bd698e0cec61d1bbf6531b972dc69dbdb257722c015dcc92aa81eef5f21a",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase4_1.png",
+      "texture_mask_sha256": "6f7b76367af41d3f3d519f3e8e0d6944cdcd8f0dde90dedb779f13615075b6ad",
+      "texture_pixels": 40629,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 37,
+        "world1-wall": 9,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase4_1.png",
+      "candidate_sha256": "ab591839d2e8db22a8e11b04b71a33e1138b2208a292a54c87ecab78efc2b77a",
+      "alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase4_2.png",
+      "source_sha256": "b985d248f0752369e7c0c40c41993d43d2108095b4b931ba4092378850b4e866",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 498493,
+      "spike_pixels_preserved": 16934,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase4_2.png",
+      "mask_sha256": "e5784c402746e49f2e17e06b7d20ce85e834480e11ca579afdd68fba821d4bbe",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase4_2.png",
+      "texture_mask_sha256": "6f7b76367af41d3f3d519f3e8e0d6944cdcd8f0dde90dedb779f13615075b6ad",
+      "texture_pixels": 40629,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 37,
+        "world1-wall": 9,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase4_2.png",
+      "candidate_sha256": "24d099fc36ca394ca23d888cce468b0308b6df0aee0e5eab156d0384774240cd",
+      "alpha_sha256": "652fc238c4b889c176f0bdb026ca107d995a93b02f00793a707a01b7f0e27e77",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase5.png",
+      "source_sha256": "c41b00e648fc2704e440f3a641fe46fc8761e39e0e196cd7ee551f8ebb0d76e2",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "27f16b36f889615eb568385feb57dc547537d39363580248149a2a4b2f596aae",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 299731,
+      "spike_pixels_preserved": 40848,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase5.png",
+      "mask_sha256": "fe08501e3ae8e73684f1d2c69700c8bea3e3f05c93a21a90ef84f2d8983af3e3",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase5.png",
+      "texture_mask_sha256": "ad14fb53e0cf17140b206db2248cf59961ce4f5ec5f4416746b57b56bea3016c",
+      "texture_pixels": 36883,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 35,
+        "world1-wall": 4,
+        "world1-grass-top": 1
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase5.png",
+      "candidate_sha256": "9e6627ad7cd346e6a3cceaacc6db9e12708e015226126b46adc94681a82f13c5",
+      "alpha_sha256": "27f16b36f889615eb568385feb57dc547537d39363580248149a2a4b2f596aae",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase6.png",
+      "source_sha256": "91d102e4c6150c2d321934ec70281bfee8254b70a04ad26cf574abfb71724299",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "6cc4c68b2795dfe8e6a300571e25d74c2bfb1be238806f4f59449271d58be110",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 187684,
+      "spike_pixels_preserved": 43091,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase6.png",
+      "mask_sha256": "fe327d0b5c70271d91174cb465f878aee54565c27830d9d8bd8549aaf0e4a68b",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase6.png",
+      "texture_mask_sha256": "b564eb09cf54efbb374ae60d6059b01968e1e088806648fa987ca8f7daf56bf9",
+      "texture_pixels": 5120,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "world1-wall": 5,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase6.png",
+      "candidate_sha256": "b65ab8f14a419a6ed5a75d4951c9e824df8863121f3a31c021394046560e0730",
+      "alpha_sha256": "6cc4c68b2795dfe8e6a300571e25d74c2bfb1be238806f4f59449271d58be110",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase7.png",
+      "source_sha256": "8e4c3c2a85169f59e29b54a9d20151afae653053ab84707a4af4fd77ddd52311",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "99db1acb84bd2e4ce2c22ddbdccfc991ff231eca88554f9a3f2accf2df2a7898",
+      "status": "CANDIDATE_TERRAIN_ONLY_ORIGINAL_BACKGROUND",
+      "protected_pixels": 1197548,
+      "spike_pixels_preserved": 55587,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase7.png",
+      "mask_sha256": "46ed1069a89ac33cb2af9e953f82a470309d442d77b67e2c0e8262b3946b6805",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase7.png",
+      "texture_mask_sha256": "d21851daaa5717b13c0d31342a626fbb3eee4aff0eb603b66c62d38596cac7c3",
+      "texture_pixels": 31252,
+      "texture_matches": {
+        "platform.png": 3,
+        "small_ground.png": 0,
+        "world1-wall": 16,
+        "world1-grass-top": 0
+      },
+      "background_status": "ORIGINAL_HELD_REGISTRATION_SEAMS",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase7.png",
+      "candidate_sha256": "9e8c70bebd24f876fd692e4f484baeb7a33a878f4727c1b54beed839adc731b2",
+      "alpha_sha256": "99db1acb84bd2e4ce2c22ddbdccfc991ff231eca88554f9a3f2accf2df2a7898",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase8.png",
+      "source_sha256": "78bfcfc890f0a3314dad866c67963118a5eacea4ce3c79ea1008b5f0c181f028",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "7a68b7cc1acacf564b7c2d59f9053a407ab1f97e511a688a03834ba037e10e45",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 33742,
+      "spike_pixels_preserved": 12743,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase8.png",
+      "mask_sha256": "036f01f1ad3b75e174a6f37088230e7427229bfe5f8e62155989e0840c0e09e0",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase8.png",
+      "texture_mask_sha256": "a6066d029fd1e5d0ebc403cc4303e687281858f58196f5c3edf933c750054187",
+      "texture_pixels": 59472,
+      "texture_matches": {
+        "platform.png": 12,
+        "small_ground.png": 0,
+        "world1-wall": 0,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase8.png",
+      "candidate_sha256": "ce6ac01a0814a6447ee4e57229eae5afc91a9e6472ef2e9962ad404c155801a4",
+      "alpha_sha256": "7a68b7cc1acacf564b7c2d59f9053a407ab1f97e511a688a03834ba037e10e45",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phase9.png",
+      "source_sha256": "7fcc6b50cc4d1622f48dbe9c6dddf4e811f30d0df6e2dd5d7eb25ce174c36178",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "de5182c4e8c4840805b8def845f3a5efda79f8c67a85bf6c4c21b21e40cce896",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 122863,
+      "spike_pixels_preserved": 21861,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/WORLD1/phase9.png",
+      "mask_sha256": "00353ec7b385f58f92b7372538abfef21ca184f358cd63c6d6580dedfb1547f6",
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/WORLD1/phase9.png",
+      "texture_mask_sha256": "71a6e3c96eb2d4117425e702c67a476d7caba5780f8f3173b200da6d4c52a231",
+      "texture_pixels": 45424,
+      "texture_matches": {
+        "platform.png": 4,
+        "small_ground.png": 0,
+        "world1-wall": 25,
+        "world1-grass-top": 0
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phase9.png",
+      "candidate_sha256": "a04139ae2c3b0ce020476ed3b3ec1230d848e823b7cab64b14c2158a95eeec05",
+      "alpha_sha256": "de5182c4e8c4840805b8def845f3a5efda79f8c67a85bf6c4c21b21e40cce896",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/WORLD1/phasenone.png",
+      "source_sha256": "c8807e255f6b75fd55958db6c06ac2a3f4ab2441eaccbdbd1578f7f91ab0747a",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "25117e4d8cfcb23296b35707d242f19b568b349548446a67e0fba53ef28090f7",
+      "status": "CANDIDATE_BACKGROUND",
+      "protected_pixels": 0,
+      "raw_input": "art/remaster-v1/reference/world1-mountain-approved.png",
+      "candidate": "art/remaster-v1/candidates/Image/Background/WORLD1/phasenone.png",
+      "candidate_sha256": "490e0a05af088e014669df2a964d3d918115af774c3504e69d54df173894063e",
+      "alpha_sha256": "25117e4d8cfcb23296b35707d242f19b568b349548446a67e0fba53ef28090f7",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase1.png",
+      "source_sha256": "4b9c42eafae2b52a34c585c4286c2673ef5e2534800cfa1c19ebefb79bb4e08b",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 84225,
+      "spike_pixels_preserved": 20261,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase1.png",
+      "mask_sha256": "0995b0ab00b930d349d5d306e2f007e9598389c66d4f67700f4de983016cbd8d",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase1.png",
+      "texture_mask_sha256": "657c66529a8325434126ce2fdc95e8489d3652495c72b0052856d8c906b88faa",
+      "texture_pixels": 104162,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 104162
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase1.png",
+      "candidate_sha256": "85f1825635065ec6f0b45fd7d16e257969556870ec7ce1a597c6d99c03d919a2",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase2_1.png",
+      "source_sha256": "b86bebc6a81582269a4cba61e6577bbcc22bff03f35f346a1283ed63bb6b8ac7",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 66526,
+      "spike_pixels_preserved": 24994,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase2_1.png",
+      "mask_sha256": "075af268646c1a75e299ab7e64aa756aac66eab219e4249f4e9055c21c640c54",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase2_1.png",
+      "texture_mask_sha256": "4dcae6dfe1723a0991fd944c872a0a7e416fe980f4be0ca7c82ed58a47aa07e1",
+      "texture_pixels": 405804,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 405804
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase2_1.png",
+      "candidate_sha256": "fd1191457fcc12cb50a0be630a8c0e6c83c06f0118e2c8e8156865ff75d0db41",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase2_2.png",
+      "source_sha256": "9238811ba5aa4fb81deeedc12d164aa3c738d11d690fd6567b3953f84eb44e74",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 71468,
+      "spike_pixels_preserved": 24994,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase2_2.png",
+      "mask_sha256": "2bcd848e37fcfc2354a42fd26b91c04cca4d3d1994c48f370a93562b3a2cc4f7",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase2_2.png",
+      "texture_mask_sha256": "d5223ccee47292a24b469675f1de9415d7d055d9394b6c03cb205e7986c95dfa",
+      "texture_pixels": 402429,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 402429
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase2_2.png",
+      "candidate_sha256": "707cb60c179d92048eab6a4420c5e5990bbdfd242870ee7e5306121bc0bd2630",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase3.png",
+      "source_sha256": "4e4d9c903c2a9bdfdc6724ac32322510e3c43208152f048451c5a54f4dc3ee7b",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 66978,
+      "spike_pixels_preserved": 21132,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase3.png",
+      "mask_sha256": "9d882c5344906dffba450654a5b910433d7b31f37ac2b34cd61793ba63b5f0c2",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase3.png",
+      "texture_mask_sha256": "ca6463b61a561de11b20d17a2f58fd8b819c2c46584470d3e8c8ae25c5940e70",
+      "texture_pixels": 281258,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 281258
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase3.png",
+      "candidate_sha256": "b9a12e24b341fff01a20fc1bf423581b0e580b49726e750cc0dee696cdb9aa33",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase4 for collision.png",
+      "source_sha256": "f29bb272274b886028fb05a9075fe75ee4228e394996276d7d6901391bcf982d",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "PRESERVED_DATA_REFERENCE",
+      "reason": "Collision helper visualization is not redrawn",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase4 for collision.png",
+      "candidate_sha256": "f29bb272274b886028fb05a9075fe75ee4228e394996276d7d6901391bcf982d",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase4.png",
+      "source_sha256": "aafe7e58120a7926ac94c561438e29bd0a47390d464ee6c88ebb4063099a0360",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 80002,
+      "spike_pixels_preserved": 37364,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase4.png",
+      "mask_sha256": "57ce9139f9914f77dbc6892c4c426ab1bc5dae3ff33899961e4bf967025f5ba9",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase4.png",
+      "texture_mask_sha256": "6419d356049e7e5335017e03765b5180f3a6a5df9185c04086a0d0de3c3f5ccf",
+      "texture_pixels": 209422,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 209422
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase4.png",
+      "candidate_sha256": "d2042a6b278101ccdc33597beb6e9d73eea1916652c054989c2da8dc2883ebad",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase5.png",
+      "source_sha256": "ac3b635438c49660300a941602513f8b742d3b2ec16caa29d74716b391c439bf",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 68586,
+      "spike_pixels_preserved": 35799,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase5.png",
+      "mask_sha256": "297bb7ebd2161e935a4e0cbfa7d0ebd02be32d8cdb5a29999c098a40c3e67b23",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase5.png",
+      "texture_mask_sha256": "fbe62938e69d713e3d63c50fbb1b842a7cf22a764b68c41716761356fe5666d2",
+      "texture_pixels": 201460,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 201460
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase5.png",
+      "candidate_sha256": "2dd000a0aae2562b0eca95cd6c2b3c3b989f58dcfd83fe9c3d283b4fd673bef6",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase6 for collision.png",
+      "source_sha256": "4656300a0db048e8cedfa442734a6464d94eaaa461e42e717639f3a9ed71028d",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "PRESERVED_DATA_REFERENCE",
+      "reason": "Collision helper visualization is not redrawn",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase6 for collision.png",
+      "candidate_sha256": "4656300a0db048e8cedfa442734a6464d94eaaa461e42e717639f3a9ed71028d",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/Background/world2/phase6.png",
+      "source_sha256": "055c3b1a9169e1b3f386aecfbcb9ab011ab2fca1b7f3ca24066d7d7dd55ee99e",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "status": "CANDIDATE_COMPOSITE_REVIEW_REQUIRED",
+      "protected_pixels": 185535,
+      "spike_pixels_preserved": 18044,
+      "unknown_background_pixels": 0,
+      "mask": "art/remaster-v1/candidates/masks/Image/Background/world2/phase6.png",
+      "mask_sha256": "d7b7c8cb5192a3c359c4a3e275d353917c5d5036965e6c60f1b4200577e43c1a",
+      "raw_input": "art/remaster-v1/raw/backdrops/world2-hills.png",
+      "texture_mask": "art/remaster-v1/candidates/texture-masks/Image/Background/world2/phase6.png",
+      "texture_mask_sha256": "6d9929f56098423c9c6df76b76dfa99416f31a24f78f204aeb2893d1063ee8a0",
+      "texture_pixels": 7872,
+      "texture_matches": {
+        "platform.png": 0,
+        "small_ground.png": 0,
+        "green_interior_pixels": 7872
+      },
+      "background_status": "REDRAW_CANDIDATE",
+      "reason": "Backdrop/material candidates with protected non-painted foreground; masks are approximate, not a runtime parity certificate",
+      "candidate": "art/remaster-v1/candidates/Image/Background/world2/phase6.png",
+      "candidate_sha256": "ffe881bb4d3debbfa86c902be17effcd734103d3ca7a5c8e4c0144e8ac96cbfb",
+      "alpha_sha256": "f7f3eed6bad2c170eb0bccd6c368b320688a207a59c27321b412dd0774bc4df1",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/MapObject/phase2trap1.png",
+      "source_sha256": "51b89aefa6a5a21b9f525457064137541ef338d78231335de1b1dacc2ded817a",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "29e156bd5beb3ed6f1ac49d1856d688ec77a91220eb97e9961069ee9909a3a66",
+      "status": "PRESERVED_CRITICAL_HAZARD",
+      "reason": "Exact moving-spike formation retained; no verified redraw of its geometry",
+      "candidate": "art/remaster-v1/candidates/Image/MapObject/phase2trap1.png",
+      "candidate_sha256": "51b89aefa6a5a21b9f525457064137541ef338d78231335de1b1dacc2ded817a",
+      "alpha_sha256": "29e156bd5beb3ed6f1ac49d1856d688ec77a91220eb97e9961069ee9909a3a66",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/MapObject/phase2trap2.png",
+      "source_sha256": "7157a188a6dbbc22900a26d3f928d842df33eecf1d443e9842a1ef6fb51b8eb5",
+      "source_size": [
+        1280,
+        960
+      ],
+      "source_alpha_sha256": "2aba964904f93d5647ee357b5bfea0fdc9f796ed0ffc64ab14b9918dd3a87bdb",
+      "status": "PRESERVED_CRITICAL_HAZARD",
+      "reason": "Exact moving-spike formation retained; no verified redraw of its geometry",
+      "candidate": "art/remaster-v1/candidates/Image/MapObject/phase2trap2.png",
+      "candidate_sha256": "7157a188a6dbbc22900a26d3f928d842df33eecf1d443e9842a1ef6fb51b8eb5",
+      "alpha_sha256": "2aba964904f93d5647ee357b5bfea0fdc9f796ed0ffc64ab14b9918dd3a87bdb",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/MapObject/platform.png",
+      "source_sha256": "785ac88448ded04b99162584f8abd4c43ea98746b64023a5e6ac1b865bf73c4f",
+      "source_size": [
+        96,
+        64
+      ],
+      "source_alpha_sha256": "6e1a671b6d6d578385fe2f417a1a0bfc590644770ea8beea2ec3ac5c66ff2c83",
+      "status": "CANDIDATE_ALPHA_ALIGNED",
+      "fitting": {
+        "raw_crop": [
+          129,
+          103,
+          1408,
+          939
+        ],
+        "original_bounds": [
+          0,
+          0,
+          93,
+          64
+        ]
+      },
+      "raw_input": "art/remaster-v1/raw/objects/platform.png",
+      "reason": "AI-redrawn texture, original canvas and alpha restored exactly; visual review required",
+      "candidate": "art/remaster-v1/candidates/Image/MapObject/platform.png",
+      "candidate_sha256": "7b9796ee246427eafd63ce026660cb0cda05623616301bc015bcad9004aefd18",
+      "alpha_sha256": "6e1a671b6d6d578385fe2f417a1a0bfc590644770ea8beea2ec3ac5c66ff2c83",
+      "runtime_deployed": false
+    },
+    {
+      "source": "Resources/Image/MapObject/small_ground.png",
+      "source_sha256": "42bc83de0885c90db34cfc74a3d694603df62bbd5200e365943facc029992b5b",
+      "source_size": [
+        32,
+        32
+      ],
+      "source_alpha_sha256": "1977b1bf8b887cc7f3cd7e9df30f5efe804289fb940c940a6478713d6c930faf",
+      "status": "CANDIDATE_ALPHA_ALIGNED",
+      "fitting": {
+        "raw_crop": [
+          175,
+          184,
+          1079,
+          1075
+        ],
+        "original_bounds": [
+          1,
+          1,
+          32,
+          31
+        ]
+      },
+      "raw_input": "art/remaster-v1/raw/objects/small_ground.png",
+      "reason": "AI-redrawn texture, original canvas and alpha restored exactly; visual review required",
+      "candidate": "art/remaster-v1/candidates/Image/MapObject/small_ground.png",
+      "candidate_sha256": "e3c3e7bb89c24592d6602395fb1c4836c6e3cd06e2f09103cbb5b04626f6a6f9",
+      "alpha_sha256": "1977b1bf8b887cc7f3cd7e9df30f5efe804289fb940c940a6478713d6c930faf",
+      "runtime_deployed": false
+    }
+  ],
+  "materials": [
+    {
+      "id": "world1-wall",
+      "source": "Resources/Image/Background/WORLD1/phase9.png",
+      "source_sha256": "7fcc6b50cc4d1622f48dbe9c6dddf4e811f30d0df6e2dd5d7eb25ce174c36178",
+      "box": [
+        512,
+        416,
+        544,
+        448
+      ],
+      "reference": "art/remaster-v1/reference/terrain/world1-wall.png",
+      "size": [
+        32,
+        32
+      ],
+      "reference_sha256": "e1b5d49502f36931299b964ed3688317e024263423bd74c643dd2710f69902a0",
+      "candidate": "art/remaster-v1/candidates/materials/world1-wall.png",
+      "candidate_sha256": "fa12d4022574e3d5256c65790ae6175afa202d8cf6a99bb24a93bf54e9819db7",
+      "raw_crop": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "raw_input": "art/remaster-v1/raw/terrain/world1-wall.png"
+    },
+    {
+      "id": "world1-grass-top",
+      "source": "Resources/Image/Background/WORLD1/phase1.png",
+      "source_sha256": "479d1c8b054cdd0991912be5c575bdb5e8442b09ba1223fbf117b2792ed8cd1a",
+      "box": [
+        96,
+        864,
+        192,
+        896
+      ],
+      "reference": "art/remaster-v1/reference/terrain/world1-grass-top.png",
+      "size": [
+        96,
+        32
+      ],
+      "reference_sha256": "b7e7ee1c7e0ba79dfe71d901e4978e20d3ff5fdd8aa416786364a68f7567f5f6",
+      "candidate": "art/remaster-v1/candidates/materials/world1-grass-top.png",
+      "candidate_sha256": "fbd7c76983de0948e513b4c3042de47270a1bb9a5ffa286c8868b8f81b35d219",
+      "raw_crop": [
+        0,
+        114,
+        2172,
+        610
+      ],
+      "raw_input": "art/remaster-v1/raw/terrain/world1-grass-top.png"
+    },
+    {
+      "id": "world2-green-fill",
+      "source": "Resources/Image/Background/world2/phase4.png",
+      "source_sha256": "aafe7e58120a7926ac94c561438e29bd0a47390d464ee6c88ebb4063099a0360",
+      "box": [
+        256,
+        64,
+        288,
+        96
+      ],
+      "reference": "art/remaster-v1/reference/terrain/world2-green-fill.png",
+      "size": [
+        32,
+        32
+      ],
+      "reference_sha256": "1a98ada774449128b658ac451ecb5856a33f84d2a7757a07b658f321dd6805bb",
+      "candidate": "art/remaster-v1/candidates/materials/world2-green-fill.png",
+      "candidate_sha256": "48f2969c94b3521a464ac0f45bc1468c8992a647577553a04503c61f1346912e",
+      "raw_crop": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "raw_input": "art/remaster-v1/raw/terrain/world2-green-fill.png"
+    }
+  ]
+}

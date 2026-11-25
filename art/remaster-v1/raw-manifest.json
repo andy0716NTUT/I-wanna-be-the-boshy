@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "original_outputs_unchanged": true,
+  "files": {
+    "raw/backdrops/world1-heart.png": "55da79deae43c45e1e91cac3f286dfda091c059a4547768452b53e5ec923f05d",
+    "raw/backdrops/world2-hills.png": "6a26645f91f502a7017c6a087384f0bcd6ac0c207a7a88ab589ea7eef7e5a714",
+    "raw/objects/platform.png": "f0645d28055dbe30c21f3f63b4d20d2df26680985f685a935ac1c88fb9fce213",
+    "raw/objects/small_ground.png": "3e8cf147477731bc3cad5a44ee0afb2f969d830aee2318d2a55d2e55cf06c844",
+    "raw/terrain/world1-grass-top.png": "b50becf2a30d7a9a3003c8ef973d72803fca8f1d777d8e1b884e5f8120b14a28",
+    "raw/terrain/world1-wall.png": "fdf7dcd1cc9be550366d31d017ca30b761ba394a01c60aea44e07e1680eddedf",
+    "raw/terrain/world2-green-fill.png": "0139cee492c24d3a5df1b5e853e1643a527fea3ce2f1634f653cde6a69ce1513"
+  }
+}
