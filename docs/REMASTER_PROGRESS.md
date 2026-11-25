@@ -3,10 +3,10 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: bf409b35732b9649d3c017db9e03307b95c80bdd
-ACTIVE_STAGE: 2
+HEAD_SHA: db5a07fbf70d4590dd2f7c7505a9059e77e64934
+ACTIVE_STAGE: 3
 STAGE_STATUS: IN_PROGRESS
-NEXT_ACTION: Replace the inactive PlayerManager proposal with App-owned player state and small copies of the original movement/vertical-collision logic; rerun the original/current event matrix before accepting Phase 2.
+NEXT_ACTION: Inspect and detach retired renderer-owned map objects and bullets; bound World lookups, preserve map/event state, then run lifetime stress and full original/current Debug/Release comparisons.
 LAST_VERIFIED_AT: 2026-11-25 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
@@ -15,18 +15,19 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | --- | --- | --- | --- |
 | 1 (new Windows verification) | PASSED | Debug/Release compiled, 15/15 CTest each, both menus observed from unrelated cwd; known missing PNGs audited | 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8 |
 | 1.5 | PASSED | Debug/Release 15-case actual-game event matrices pass with exact state; original/current death UI visually matches; 15/15 CTest each | This completed baseline commit; resolve via git log |
-| 2 | IN_PROGRESS | Measured equivalent baseline established; no Phase 2 gameplay edits yet | None |
-| 3 | NOT_STARTED | Requires Stage 2 gate | None |
+| 2 | PASSED | 15-case Debug + added death-loop, 16-case Release, 30/120-cap comparisons; 15/15 CTest both | This Phase 2 commit; resolve via git log |
+| 3 | IN_PROGRESS | Phase 2 gate passed; lifecycle/world inspection next | None |
 | 4 | NOT_STARTED | Requires Stage 3 gate | None |
 | 5 | NOT_STARTED | Requires Stage 4 gate | None |
 | 6 | NOT_STARTED | Requires all prior gates | None |
 
 ## Work completed
+- Phase 2 passed: App-owned initialized PlayerManager extracts the active movement/integration/collision path, replacing the incompatible inactive proposal. Wired Debug all 15 original cases + separate new death-loop pass; Release all 16 pass. The final Debug rebuild differs from the full-matrix game only by a newline after the timestep statement; death-loop and 30/120 cap cases use that final build. Raw preflight results with the old wiring are excluded. Preserve double gravity, axis/input priority and R persistence. PLAYER_REFACTOR.md records the deliberately unchanged frame-coupled clock and the new-App state boundary.
 - Completed Phase 1.5: both Debug and Release original/current matrices pass all 15 cases (grounded full/short/double jumps, movement/controls, wall/head/one-way, shots/cap/X+Z, spike/death/UI/R, checkpoint/counter-shot/R, room re-entry/traps, enemy, Boss cycle and separate God-mode defeat/victory lifecycle). Normal builds and CTest pass 15/15 each; asset audit has 153 originals and zero content drift. Reports in docs/evidence/gameplay-baseline-{debug,release}.json.
 - Graphically inspected original and current death screens through Windows computer-use; matching Game Over/Press R overlay, hidden player and Debug panel. Native Up worked in the original menu; short Return taps were unreliable. The critical gate uses the complete real-update/event equivalent expressly permitted by the master task, not an invented native/human feel pass. No native input implementation changed.
 - 2026-11-25 user preference: keep every test game silent. Test runners now use SDL's dummy audio output and probes set music/channel/master volume to zero before App::Start. Interactive visual tests must also set SDL_AUDIODRIVER=dummy in their process environment. Do not change normal-game sound defaults or system volume.
 - 2026-11-25 resume: inspected Git/instructions/checkpoint and reproduced Debug/Release CTest (15/15 each, 0.80s / 0.75s). Pushed the two existing commits with `git push -u origin remaster/continuous`; `git ls-remote --heads origin remaster/continuous` confirms bf409b35732b9649d3c017db9e03307b95c80bdd. main unchanged; no PR/merge/public release.
-- Working on test-only generated friends and physics/event observers. Original/current production sources are not edited by instrumentation; generated-source hashes identify the precise observations. Phase 1.5 gate is reopened for active verification, not declared passed.
+- Phase 1.5 observation work used test-only generated friends and observers; it never changed production behavior. That gate was reopened, completed, committed and pushed as db5a07f. Source manifests identify the copies used for comparison.
 - Read the supplied root AGENTS.md and CODEX_MASTER_TASK.md in full. Both were untracked user files on entry; preserve them unchanged.
 - Initial branch main, HEAD and origin/main all equal ORIGINAL_SHA. No tracked modifications.
 - Live `git ls-remote --heads --tags origin` returns only main at ORIGINAL_SHA, no tags.
@@ -51,6 +52,15 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 - Audited real LoadTileData call sites in spider.cpp and added all four original spider/trap masks to the independent original-parser parity tests; tests pass in both configurations.
 
 ## Verification evidence
+- Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug`; same with `--config Release`; final Debug `--scenarios death-loop`; Debug `--no-build --scenarios movement full-jump shooting --fps-cap <30|120>`
+  Result: PASS
+  Evidence: docs/evidence/phase2-gameplay-{debug,release}.json, phase2-death-loop-debug.json, phase2-fps{30,120}.json, phase2-current-sources.json; exact float/state equality, all coverage requirements pass. All processes silent. FPS-cap elapsed values include startup/shutdown; the original changes wall-time speed with cap, so no scheduler change is justified.
+- Command: CMake/CTest 3.31.8 absolute executables from BUILD.md, `--build B:/build/windows --config <Debug|Release> --parallel 8`, then `--test-dir B:/build/windows -C <Debug|Release> --output-on-failure`
+  Result: PASS
+  Evidence: build/phase2-build-{Debug,Release}.log and phase2-ctest-{Debug,Release}.log; 15/15 each (1.14s / 1.06s). First simultaneous deployment failed copying a playing BGM file; all later deployment/tests serialized and clean rerun passes. No code change was needed for that file-sharing failure.
+- Command: `python scripts/audit_baseline.py`; `git diff --check`; `python -m py_compile scripts/prepare_regression_sources.py scripts/run_gameplay_regression.py`
+  Result: PASS
+  Evidence: build/phase2-asset-audit.json; 153 originals, no asset changes. Source drift is intentional refactoring and listed by audit, not falsely called zero.
 - Command: `python B:/scripts/run_gameplay_regression.py --cmake C:/Users/andyl/AppData/Local/Temp/boshy-tools/cmake-3.31.8-windows-x86_64/bin/cmake.exe --config Debug`
   Result: PASS
   Evidence: final complete silent Debug run, all 15 cases parity/coverage PASS, including actual received input states. Raw traces: build/gameplay-regression/Debug; summary with hashes: docs/evidence/gameplay-baseline-debug.json.
@@ -110,13 +120,13 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
   Evidence: actual tools are the absolute CMake/CTest 3.31.8 paths in docs/BUILD.md; build/normal-configure.log, build/final-build-{Debug,Release}.log, build/final-ctest-{Debug,Release}.log. Final CTest 15/15 each, Debug 0.94s / Release 1.08s. No production src/include/Resources/config diff since PHASE1_SHA.
 
 ## Known defects and risks
-- Eight referenced player death PNGs and initial Background/phase1.png absent in the original. Startup logs the existing missing-texture fallback; menus still render. Death/GameOverUI flow not yet exercised.
-- Invalid map loads now clear stale map data and reject malformed rows. Valid cells are identical; in-game transition/object lifecycle remains untested.
+- Eight referenced player death PNGs and initial Background/phase1.png absent in the original. Startup logs the existing missing-texture fallback; menus still render. Death/GameOverUI state and screenshots now verified; the original absent frames remain a known asset limitation.
+- Invalid map loads now clear stale map data and reject malformed rows. Valid cells are identical; the measured room re-entry, traps and Boss workloads pass; longer lifecycle stress remains Phase 3 work.
 - Compilation and headless tests alone do not establish gameplay parity. Phase 1.5 now has the full declared event/state workloads and visual death-UI checks; coverage scope is explicit in GAMEPLAY_REGRESSION.md.
 - Windres RC compilation passes with the B: ASCII alias; full unaliased Chinese-path build remains unverified. Unicode map fixtures pass.
 - Automatic short Return taps did not advance Debug menu. Cause not established; do not change original input polling without measured baseline.
 - Held SDL events did enter both original/current menus. Native input latency/feel remains unverified; do not infer equivalence from synthetic input alone.
-- The first Z probe occurs while falling; its 110-pixel rise from the pre-input sample is not a grounded jump-height measurement. The second Z has no upward trajectory; jump/death state is not exposed and the cause is not certified.
+- Historical 320-frame Z samples began while falling and were not grounded jump measurements; the expanded grounded/event matrix supersedes those gaps without changing the earlier raw traces.
 - The initial 320-sample gaps are closed by observed velocity/state/events: full jump 120px/34 updates, short 53.000061px/19 updates, shots every 6 updates up to 5; checkpoints, collisions, transitions, enemy and Boss match. These are per-update measurements; native physical feel, untested world routes/devices and audible playback are not certified human passes.
 - CMake automatic program search can terminate with 0xC0000409 on this machine; explicit-path workaround verified, root cause not established.
 

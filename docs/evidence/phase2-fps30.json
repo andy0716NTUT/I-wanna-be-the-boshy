@@ -1,0 +1,137 @@
+{
+  "git_head": "db5a07fbf70d4590dd2f7c7505a9059e77e64934",
+  "config": "Debug",
+  "fps_cap_override": 30,
+  "cases": {
+    "movement": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 6.3202,
+      "original_binary_sha256": "032e75855d194b2f1813550a4744d91aa528ad952a71dc5469659129ab4112f2",
+      "original_manifest_sha256": "687a718257fb1b333e32809b51da9bce23bcb15457818af78186384b275e2eb9",
+      "original_sha256": "dcde855540c30d7fe66c3b31c8bdad5979ceffc2dca1fc0208a95ae43e24a768",
+      "current_elapsed_seconds": 6.3827,
+      "current_binary_sha256": "9d5fafbaad153804b6179d618aab10a30a1a71a8530f1b608790022a5056efb3",
+      "current_manifest_sha256": "82d12c3f3897be8c21cd8c150f94d2b3b1727249f3d0a1f90bbccf9d72b7a602",
+      "current_sha256": "dcde855540c30d7fe66c3b31c8bdad5979ceffc2dca1fc0208a95ae43e24a768",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 140
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 364.0,
+        "apex_y": 379.0,
+        "apex_frame": 74,
+        "rise": 15.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "full-jump": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 6.3704,
+      "original_binary_sha256": "032e75855d194b2f1813550a4744d91aa528ad952a71dc5469659129ab4112f2",
+      "original_manifest_sha256": "687a718257fb1b333e32809b51da9bce23bcb15457818af78186384b275e2eb9",
+      "original_sha256": "62c56aac735749f03d622db5b4f362d2ad03b8838250bb7c45a594a886409e7a",
+      "current_elapsed_seconds": 6.366,
+      "current_binary_sha256": "9d5fafbaad153804b6179d618aab10a30a1a71a8530f1b608790022a5056efb3",
+      "current_manifest_sha256": "82d12c3f3897be8c21cd8c150f94d2b3b1727249f3d0a1f90bbccf9d72b7a602",
+      "current_sha256": "62c56aac735749f03d622db5b4f362d2ad03b8838250bb7c45a594a886409e7a",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 117,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 452.0,
+        "apex_frame": 25,
+        "rise": 120.0,
+        "landing_frame": 44,
+        "airborne_updates": 34,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    },
+    "shooting": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 6.3264,
+      "original_binary_sha256": "032e75855d194b2f1813550a4744d91aa528ad952a71dc5469659129ab4112f2",
+      "original_manifest_sha256": "687a718257fb1b333e32809b51da9bce23bcb15457818af78186384b275e2eb9",
+      "original_sha256": "1099eb4240cf9c1f6a6efe87961a97ec6c6f6ab38babdb4a42fd9f701368deab",
+      "current_elapsed_seconds": 6.3785,
+      "current_binary_sha256": "9d5fafbaad153804b6179d618aab10a30a1a71a8530f1b608790022a5056efb3",
+      "current_manifest_sha256": "82d12c3f3897be8c21cd8c150f94d2b3b1727249f3d0a1f90bbccf9d72b7a602",
+      "current_sha256": "1099eb4240cf9c1f6a6efe87961a97ec6c6f6ab38babdb4a42fd9f701368deab",
+      "differences": [],
+      "metrics": {
+        "frames": 150,
+        "events": {
+          "floor": 150,
+          "shot": 5
+        },
+        "shot_frames": [
+          10,
+          16,
+          22,
+          28,
+          34
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [],
+        "max_jump_count": 0,
+        "start_y": 364.0,
+        "apex_y": 364.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    }
+  },
+  "result": "PASS"
+}

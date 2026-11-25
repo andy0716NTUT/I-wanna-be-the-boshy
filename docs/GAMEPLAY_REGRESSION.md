@@ -98,3 +98,12 @@ The original/current matches establish the measured paths above, not every
 possible level route, random seed, keyboard, audio device or graphics driver.
 Future changes must rerun relevant original comparisons and keep open coverage
 limits visible. A new unexplained physics/collision/timing drift blocks progression.
+
+## Phase 2 additions
+
+The full default matrix now includes `death-loop` (450 updates, three actual spike
+deaths and three R restores). `--fps-cap 30|60|120` changes only a test-process
+cap and writes a separate `<Config>-fps<cap>` directory. Reports include process
+elapsed seconds and executable/source-manifest hashes. Elapsed values include
+startup/shutdown and are not a frame-CPU profile. See PLAYER_REFACTOR.md for the
+original frame-coupled clock decision and preserved unusual controls.

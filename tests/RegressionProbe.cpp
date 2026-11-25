@@ -62,6 +62,11 @@ int main(int argc, char** argv) try {
     if (!trace) throw std::runtime_error("Cannot create trace output");
     std::srand(1); // Identical CRT random sequence in both test processes only.
     auto context = Core::Context::GetInstance();
+    if (const char* cap = std::getenv("BOSHY_PROBE_FPS_CAP")) {
+        const int value = std::stoi(cap);
+        if (value != 30 && value != 60 && value != 120) throw std::runtime_error("Unsupported probe FPS cap");
+        PTSD_Config::FPS_CAP = value; // Test process only; before Context::Update caches its interval.
+    }
     Mix_MasterVolume(0);
     Mix_Volume(-1, 0);
     Mix_VolumeMusic(0);
@@ -76,7 +81,7 @@ int main(int argc, char** argv) try {
         app.Update();
     }
     if (app.GetCurrentPhase() == App::GamePhase::MENU) throw std::runtime_error("Menu entry failed");
-    BoshyRegressionAccess::Room(app, scenario == "spikes" ? "2" :
+    BoshyRegressionAccess::Room(app, (scenario == "spikes" || scenario == "death-loop") ? "2" :
         scenario == "enemy" ? "4_1" : (scenario == "boss" || scenario == "boss-death") ? "13" : "1");
     const auto floor = FindFloor(app, 1, scenario == "full-jump" || scenario == "short-jump" ||
         scenario == "double-jump" ? 9 : 1);
@@ -84,13 +89,13 @@ int main(int argc, char** argv) try {
     glm::vec2 fixture = floor;
     if (scenario == "oneway") fixture = FindFloor(app, 8, 1);
     if (scenario == "wall" || scenario == "head") fixture = FindContact(app, scenario == "head");
-    if (scenario == "spikes") fixture = FindTile(app, 5);
+    if (scenario == "spikes" || scenario == "death-loop") fixture = FindTile(app, 5);
     if (scenario == "checkpoint") {
         const auto cp = BoshyRegressionAccess::FirstCheckpoint(app);
         if (!cp) throw std::runtime_error("Missing actual checkpoint fixture");
         fixture = cp->GetPosition() + glm::vec2(-60, 0);
     }
-    int frames = scenario == "boss" ? 3300 : scenario == "boss-death" ? 1200 : scenario == "enemy" ? 300 : 150;
+    int frames = scenario == "boss" ? 3300 : scenario == "boss-death" ? 1200 : scenario == "enemy" ? 300 : scenario == "death-loop" ? 450 : 150;
     if (scenario == "boss") fixture = {-500, -404};
     if (scenario == "boss-death") app.GodMode = true; // Existing debug mode, explicitly a defeat/lifecycle workload.
     BoshyRegressionAccess::Header(trace);
@@ -126,6 +131,10 @@ int main(int argc, char** argv) try {
             if (frame == 2) Key(SDL_SCANCODE_Z, true);
             if (frame == 3) BoshyRegressionAccess::Place(app, fixture);
             if (frame == 10) Key(SDL_SCANCODE_Z, false);
+        } else if (scenario == "death-loop") {
+            if (frame % 150 == 0) BoshyRegressionAccess::Place(app, fixture);
+            if (frame % 150 == 90) Key(SDL_SCANCODE_R, true);
+            if (frame % 150 == 92) Key(SDL_SCANCODE_R, false);
         } else if (scenario == "spikes") {
             if (frame == 0) BoshyRegressionAccess::Place(app, fixture);
             if (frame == 90) Key(SDL_SCANCODE_R, true);

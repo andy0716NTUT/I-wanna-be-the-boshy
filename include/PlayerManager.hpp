@@ -1,60 +1,43 @@
 #ifndef PLAYER_MANAGER_HPP
 #define PLAYER_MANAGER_HPP
 
+#include <cstddef>
 #include "glm/glm.hpp"
-#include <vector>
-#include <memory> // For std::shared_ptr
 
-// Forward declarations
 class AnimatedCharacter;
-class MapInfoLoader;
-class Bullet;
-class JumpBoost;
-namespace Util {
-    class Renderer;
-    // Util::Keycode is usually in its own header or part of Input.hpp
-    // Assuming it's accessible or Input.hpp will be included in PlayerManager.cpp
-}
-class App; // To access App members like Gravity constants, Respawn(), etc.
 
-class PlayerManager {
-public:
-    PlayerManager(AnimatedCharacter* boshy,
-                  MapInfoLoader* mapLoader,
-                  std::vector<std::shared_ptr<Bullet>>* bullets_vector_ptr,
-                  std::vector<std::shared_ptr<JumpBoost>>* jumpBoost_vector_ptr,
-                  Util::Renderer* root_renderer_ptr,
-                  App* app_instance);
-
-    void Update(float deltaTime,
-                bool godMode,
-                // Tile information around the player, calculated in App::Update
-                int playerTileX,
-                int playerTileY,
-                int tileAbovePlayer,
-                int tileBelowPlayer,
-                int tileLeftOfPlayer,
-                int tileRightOfPlayer,
-                // Player's position, modified by this manager
-                glm::vec2& playerPosition);
-
-    int GetJumpCount() const { return m_jumpCount; }
-
-private:
-    AnimatedCharacter* m_boshy_ptr;
-    MapInfoLoader* m_mapLoader_ptr;
-    std::vector<std::shared_ptr<Bullet>>* m_bullets_vector_ptr;
-    std::vector<std::shared_ptr<JumpBoost>>* m_jumpBoost_vector_ptr;
-    Util::Renderer* m_root_renderer_ptr;
-    App* m_app_ptr; // Pointer to the main App class instance
-
-    // Player state variables, formerly static in App::Update
-    float m_velocityY;
-    int m_jumpCount;
-    bool m_isJumping;
-    float m_shootCooldown;
-    // Note: deltaTime is passed in Update, not stored as member.
-    // Constants like Gravity, JumpPower will be accessed via m_app_ptr.
+struct PlayerRuntimeState {
+    float velocityY = 0.0f;
+    int jumpCount = 0;
+    float shootCooldown = 0.0f;
+    bool isJumping = false;
 };
 
-#endif // PLAYER_MANAGER_HPP 
+struct PlayerMovementInput { bool right, left, up, down; };
+struct PlayerTileContacts { int above, below, left, right; };
+
+// Values remain in original per-update units. Respawn intentionally does not
+// reset this state: the original function statics survived death and R too.
+class PlayerManager {
+public:
+    static constexpr float FrameSeconds = 1.0f / 60.0f;
+    static constexpr std::size_t MaxBullets = 5;
+    PlayerRuntimeState& GetState() { return m_State; }
+    const PlayerRuntimeState& GetState() const { return m_State; }
+    int GetJumpCount() const { return m_State.jumpCount; }
+
+    void AddEntryGravity(float gravity) { m_State.velocityY += gravity; }
+    void AdvanceCommonCooldown(float dt) { m_State.shootCooldown -= dt * 4; }
+    void AdvanceAliveCooldown(float dt) { m_State.shootCooldown -= dt; }
+    void IntegrateVertical(glm::vec2& position, float gravity);
+    void ResolveTiles(glm::vec2& position, int tileY, int aboveTile, int belowTile, int centerTile);
+    void Move(AnimatedCharacter& character, glm::vec2& position,
+              const PlayerMovementInput& input, const PlayerTileContacts& tiles);
+    void ShotFired() { m_State.shootCooldown = 0.5f; }
+    void StartJump(bool godMode);
+    void ShortenJump();
+private:
+    PlayerRuntimeState m_State;
+};
+
+#endif

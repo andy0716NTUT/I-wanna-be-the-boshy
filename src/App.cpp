@@ -13,7 +13,6 @@ App::App() {
 
     trapCreated = false;
     deathType = DeathType::NONE;  // 替换原来的 isDead = false
-    shootCooldown = 0;
     NotFirstTryBoss= false;
 };
 

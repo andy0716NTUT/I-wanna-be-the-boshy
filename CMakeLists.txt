@@ -54,6 +54,7 @@ add_executable(${PROJECT_NAME}
         # Game Objects
         src/Character.cpp
         src/AnimatedCharacter.cpp
+        src/PlayerManager.cpp
         src/Bullet.cpp
         src/bear.cpp
         src/phase2trap.cpp

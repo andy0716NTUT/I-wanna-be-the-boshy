@@ -3,23 +3,24 @@
 #include "spdlog/fmt/bundled/chrono.h"
 
 void App::Update() {
-    static float velocityY = 0;
-    velocityY += Gravity;
-    const float JumpPower = 16;
-    const float MaxFallSpeed = -10;
-    static int jumpCount = 0;
-    static float shootCooldown = 0;
-    const float deltaTime = 1.0f / 60.0f;    static float switchTimer = 0.0f; // 地圖切換
+    auto& playerState = m_Player.GetState();
+    float& velocityY = playerState.velocityY;
+    m_Player.AddEntryGravity(Gravity);
+    int& jumpCount = playerState.jumpCount;
+    float& shootCooldown = playerState.shootCooldown;
+    const float deltaTime = PlayerManager::FrameSeconds;
+    static float switchTimer = 0.0f; // 地圖切換
     static bool isSwitch = false; // 地圖切換狀態
     const float switchInterval = 1.0f; // 每1秒切換一次
     static bool keepExtending = true; // 平台延伸控制
     static int startTileX = 28; // 移到外部
     static int startTileY = 56; // 秮到外部
     static float platformTimer = 0.0f; // 移到外部
-    shootCooldown -= deltaTime * 4;
+    m_Player.AdvanceCommonCooldown(deltaTime);
     std::stringstream ss;
     bool needsRespawn = false;
-    static bool isJumping = false;
+    bool& isJumping = playerState.isJumping;
+    // Regression frame observation point.
 
     if (m_GamePhase == GamePhase::MENU) {
         m_Menu->Update(deltaTime);
@@ -74,10 +75,7 @@ void App::Update() {
         ss << "Current Phase: " << CurrentPhase;
         m_DebugInfo.phaseInfo = ss.str();
 
-        velocityY += Gravity; // Gravity
-
-        if (velocityY < MaxFallSpeed) velocityY = MaxFallSpeed;
-        position.y += velocityY;
+        m_Player.IntegrateVertical(position, Gravity);
 
         auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
 
@@ -105,23 +103,7 @@ void App::Update() {
             m_Root.Update();
             return;
         }
-        if ((aboveTile == 2) && velocityY > 0){
-            position.y = 480 - ((tileY + 1) * 16);
-            velocityY = 0;
-        }
-
-        if ((belowTile == 1 || belowTile == 8)  && velocityY < 0){
-            position.y = 480 - ((tileY) * 16) - 4;
-            velocityY = 0;
-            jumpCount = 0;
-        }
-        if (m_MapLoader->GetTile(tileX, tileY) == 1 && velocityY >= 0){
-            position.y = 480 - (tileY - 1) * 16;
-            velocityY = 0;
-        }
-        if (!(belowTile == 1 || belowTile == 8)) {
-            if (jumpCount == 0) jumpCount = 1;
-        }
+        m_Player.ResolveTiles(position, tileY, aboveTile, belowTile, centerTile);
         for (auto& boost : m_jumpBoost) {
             boost->CheckInteraction(position, jumpCount);
             boost->UpdateState(deltaTime);
@@ -135,62 +117,15 @@ void App::Update() {
 
         // 只有在角色未死亡時處理移動輸入
         if (!isCharacterDead) {
-            if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)){
-                float prevX = position.x;
-                if (rightTile != 2){
-                    position.x += 5;
-                    animatedBoshy->SetDirection(Character::direction::RIGHT);
-                }
-                if (position.x != prevX){
-                    animatedBoshy->SetState(Character::MoveState::RUN);
-                }
-                else{
-                    animatedBoshy->SetState(Character::MoveState::IDLE);
-                }
-            }
-            if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
-                float prevX = position.x;
-                if (leftTile != 2){
-                    position.x -= 5;
-                    animatedBoshy->SetDirection(Character::direction::LEFT);
-                }
-                if (position.x != prevX){
-                    animatedBoshy->SetState(Character::MoveState::RUN_LEFT);
-                }
-                else{
-                    animatedBoshy->SetState(Character::MoveState::IDLE_LEFT);
-                }
-            }
-            if (Util::Input::IsKeyPressed(Util::Keycode::UP)){
-                float prevY = position.y;
-                if (aboveTile != 2){
-                    // 確保上方不是障礙物
-                    position.y += 5;
-                }
-                if (position.y != prevY){
-                    animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_UP 狀態
-                }
-                else{
-                    animatedBoshy->SetState(Character::MoveState::IDLE);
-                }
-            }
-
-            if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)){
-                float prevY = position.y;
-                if (belowTile != 2){
-                    // 確保下方不是障礙物
-                    position.y -= 5;
-                }
-                if (position.y != prevY){
-                    animatedBoshy->SetState(Character::MoveState::RUN); // 可新增 RUN_DOWN 狀態
-                }
-                else{
-                    animatedBoshy->SetState(Character::MoveState::IDLE);
-                }
-            }
-            shootCooldown -= deltaTime;
+            m_Player.Move(*animatedBoshy, position,
+                {Util::Input::IsKeyPressed(Util::Keycode::RIGHT),
+                 Util::Input::IsKeyPressed(Util::Keycode::LEFT),
+                 Util::Input::IsKeyPressed(Util::Keycode::UP),
+                 Util::Input::IsKeyPressed(Util::Keycode::DOWN)},
+                {aboveTile, belowTile, leftTile, rightTile});
+            m_Player.AdvanceAliveCooldown(deltaTime);
             // 射擊邏輯保持不變
-            if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < 5) {
+            if (shootCooldown <= 0 && Util::Input::IsKeyPressed(Util::Keycode::X) && m_Bullets.size() < PlayerManager::MaxBullets) {
                 glm::vec2 bulletPos;
                 glm::vec2 bulletDirVec = {1.0f, 0.0f}; // 預設向右
                 float rotation = 0.0f;
@@ -208,14 +143,12 @@ void App::Update() {
                 auto bullet = Bullet::CreateBullet(bulletPos, m_Boshy->GetDirection(), 2.0f, m_Root);
                 bullet->SetDirectionVector(bulletDirVec); // 設定自訂方向
                 m_Bullets.push_back(bullet);
-                shootCooldown = 0.5f;
+                m_Player.ShotFired();
             }
 
             else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 if (jumpCount < 2 || GodMode) {  // 上帝模式下無限跳躍
-                    velocityY = JumpPower;
-                    isJumping = true;
-                    if (!GodMode) jumpCount++;  // 只有非上帝模式才計算跳躍次數
+                    m_Player.StartJump(GodMode);
 
                     if (animatedBoshy->GetDirection() == Character::direction::LEFT)
                         animatedBoshy->SetState(Character::MoveState::JUMP_LEFT);
@@ -224,8 +157,7 @@ void App::Update() {
                 }
             }
             else if (Util::Input::IsKeyUp(Util::Keycode::Z) && isJumping && velocityY > 0) {
-                velocityY *= 0.4f;
-                isJumping = false;
+                m_Player.ShortenJump();
             }
 
             if (velocityY <= 0) {

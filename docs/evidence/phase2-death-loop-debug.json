@@ -1,0 +1,49 @@
+{
+  "git_head": "db5a07fbf70d4590dd2f7c7505a9059e77e64934",
+  "config": "Debug",
+  "fps_cap_override": null,
+  "cases": {
+    "death-loop": {
+      "parity": "PASS",
+      "coverage": "PASS",
+      "original_elapsed_seconds": 8.7661,
+      "original_binary_sha256": "032e75855d194b2f1813550a4744d91aa528ad952a71dc5469659129ab4112f2",
+      "original_manifest_sha256": "687a718257fb1b333e32809b51da9bce23bcb15457818af78186384b275e2eb9",
+      "original_sha256": "be2393c6edf08daf8fa1d3c15c991c511f256aa3788ba1edabd6cd32cbb3d53e",
+      "current_elapsed_seconds": 8.7245,
+      "current_binary_sha256": "9d5fafbaad153804b6179d618aab10a30a1a71a8530f1b608790022a5056efb3",
+      "current_manifest_sha256": "82d12c3f3897be8c21cd8c150f94d2b3b1727249f3d0a1f90bbccf9d72b7a602",
+      "current_sha256": "be2393c6edf08daf8fa1d3c15c991c511f256aa3788ba1edabd6cd32cbb3d53e",
+      "differences": [],
+      "metrics": {
+        "frames": 450,
+        "events": {
+          "spike": 3,
+          "floor": 447,
+          "respawn": 3
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 270,
+        "ui_visible_frames": 270,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "coverage_failures": []
+    }
+  },
+  "result": "PASS"
+}

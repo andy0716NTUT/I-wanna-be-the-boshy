@@ -44,5 +44,5 @@ bool trapCreated;
 DeathType deathType = DeathType::NONE; // 替换原来的isDead
 float deathAnimTimer = 0.0f; // 死亡动画计时器
 bool deathAnimFinished = false; // 死亡动画是否完成
-float shootCooldown;
+PlayerManager m_Player;
 bool NotFirstTryBoss;

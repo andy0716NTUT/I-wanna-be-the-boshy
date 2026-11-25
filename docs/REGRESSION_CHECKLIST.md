@@ -59,3 +59,8 @@ The original/current source and raw-data hashes are recorded in checked-in repor
 Native physical keyboard feel, audible output and other world routes remain
 explicit supplemental coverage limits, not fabricated human passes. Test audio
 is forced silent per the user's request. Automated equivalence is the gate basis.
+
+Phase 2: original/current wired player refactor passes Debug all previous 15 cases
+plus a separate three-death-loop run, Release all 16, and focused Debug movement/
+jump/shoot at caps 30 and 120. CTest 15/15 each. No physics/timing/collision
+tolerance or expected-value adjustment. Reports: docs/evidence/phase2-*.json.

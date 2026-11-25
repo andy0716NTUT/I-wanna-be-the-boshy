@@ -11,6 +11,7 @@
 #include "AnimatedCharacter.hpp"
 #include "Menu.hpp"
 #include "Bullet.hpp"
+#include "PlayerManager.hpp"
 #include "MapInfoLoader.hpp"
 #include "World.hpp"
 #include "BgmManager.hpp"

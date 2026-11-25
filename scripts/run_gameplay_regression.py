@@ -8,10 +8,11 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 
 ROOT = Path(__file__).absolute().parents[1]
 SCENARIOS = ["full-jump", "short-jump", "double-jump", "movement", "wall", "head", "oneway",
-             "shooting", "shoot-jump", "spikes", "checkpoint", "transition", "enemy", "boss", "boss-death"]
+             "shooting", "shoot-jump", "spikes", "checkpoint", "transition", "enemy", "boss", "boss-death", "death-loop"]
 
 
 def read(path):
@@ -47,7 +48,7 @@ def coverage(scenario, rows, metrics):
     events = metrics["events"]
     def need(condition, reason):
         if not condition: failures.append(reason)
-    need(len(rows) == (3300 if scenario == "boss" else 1200 if scenario == "boss-death" else 300 if scenario == "enemy" else 150), "Incomplete trace")
+    need(len(rows) == (3300 if scenario == "boss" else 1200 if scenario == "boss-death" else 300 if scenario == "enemy" else 450 if scenario == "death-loop" else 150), "Incomplete trace")
     if scenario in ("full-jump", "short-jump", "double-jump"):
         need(float(rows[9]["vy"]) == 0 and int(rows[9]["jumps"]) == 0, "Jump did not begin grounded")
         need(metrics["rise"] > 0 and metrics["landing_frame"] is not None, "No observed apex and ground landing")
@@ -77,6 +78,9 @@ def coverage(scenario, rows, metrics):
         need(events.get("spike",0) > 0 and metrics["death_frames"] > 45, "Spike/death duration not exercised")
         need(metrics["ui_visible_frames"] > 45 and rows[1]["player_visible"] == "0", "Death UI/player visibility not observed")
         need("respawn" in rows[90]["events"] and rows[90]["death_ui"] == "0", "R did not hide death UI")
+    if scenario == "death-loop":
+        need(events.get("respawn",0) == 3 and metrics["ui_visible_frames"] > 135, "Repeated death/R lifecycle not exercised")
+        need(all(rows[i]["death_ui"] == "0" for i in (90,240,390)), "Repeated R did not hide UI")
     if scenario == "checkpoint":
         need(events.get("checkpoint_saved",0) > 0, "No bullet-activated save")
         need(any(row["cp_bullets"] for row in rows), "Checkpoint counter-shot not observed")
@@ -97,9 +101,10 @@ def main():
     parser.add_argument("--config", choices=["Debug", "Release"], default="Debug")
     parser.add_argument("--scenarios", nargs="+", choices=SCENARIOS, default=SCENARIOS)
     parser.add_argument("--no-build", action="store_true")
+    parser.add_argument("--fps-cap", type=int, choices=[30,60,120], help="Test-process frame cap; leaves deployed config unchanged")
     args = parser.parse_args()
     build = ROOT / "build/windows"
-    output = ROOT / "build/gameplay-regression" / args.config
+    output = ROOT / "build/gameplay-regression" / (args.config + (f"-fps{args.fps_cap}" if args.fps_cap else ""))
     output.mkdir(parents=True, exist_ok=True)
     if not args.no_build:
         subprocess.run([sys.executable, ROOT / "scripts/prepare_regression_sources.py"], check=True)
@@ -109,7 +114,7 @@ def main():
             with (output / "build.log").open("ab") as log:
                 subprocess.run([str(x) for x in command], stdout=log, stderr=subprocess.STDOUT, check=True, cwd=ROOT)
     report = {"git_head": subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT).decode().strip(),
-              "config": args.config, "cases": {}, "result": "IN_PROGRESS"}
+              "config": args.config, "fps_cap_override": args.fps_cap, "cases": {}, "result": "IN_PROGRESS"}
     report_path = output / "report.json"
     for scenario in args.scenarios:
         result = {"parity": "NOT_RUN", "coverage": "NOT_RUN"}
@@ -120,13 +125,19 @@ def main():
             env = os.environ.copy()
             windows = Path(env.get("SystemRoot","C:/Windows"))
             env["PATH"] = os.pathsep.join([str(windows/"System32"),str(windows)])
+            if args.fps_cap:
+                env["BOSHY_PROBE_FPS_CAP"] = str(args.fps_cap)
             env["SDL_AUDIODRIVER"] = "dummy"  # User preference: testing must remain silent.
             startup = subprocess.STARTUPINFO()
             startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             startup.wShowWindow = 0
+            started = time.perf_counter()
             with (output / f"{scenario}-{version}.log").open("wb") as log:
                 run = subprocess.run([str(target),str(trace),scenario], cwd=windows, env=env,
                                      stdout=log, stderr=subprocess.STDOUT, startupinfo=startup, timeout=150)
+            result[version.lower()+"_elapsed_seconds"] = round(time.perf_counter()-started,4)
+            result[version.lower()+"_binary_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+            result[version.lower()+"_manifest_sha256"] = hashlib.sha256((ROOT / "build/regression-source" / version / "manifest.json").read_bytes()).hexdigest()
             if run.returncode:
                 result["error"] = f"{version} probe exited {run.returncode}; inspect its log"
                 break

@@ -1,0 +1,292 @@
+[
+  {
+    "path": "src/AnimatedCharacter.cpp",
+    "source_sha256": "b52a032e0b676332271f17d25d7a8693c76af93016a88854774e73b5686c63b5",
+    "instrumented_sha256": "6a7bc2b1047d34c4d2f336ccb042c66891eb2d1af5f870f0c488a25f75f7ced2"
+  },
+  {
+    "path": "src/App.cpp",
+    "source_sha256": "cfaf46c6b1445bbe8759c30bba54708ab2bfa3b6d3783d821ac1093630b8d67a",
+    "instrumented_sha256": "35a8c6ae2eba05a2becca175c94d2d592c9c1a8bfb89f3e31ff8f9dd95bb398f"
+  },
+  {
+    "path": "src/AppStart.cpp",
+    "source_sha256": "b0ac551c4b59305f6aaffdfd8d906557ee7f683646fbe0249771c52563866d99",
+    "instrumented_sha256": "cd141f8d896489698c3c3a3b1038e9fef8ad126efbc4100071227904e41328ae"
+  },
+  {
+    "path": "src/AppUpdate.cpp",
+    "source_sha256": "3f5d5b2107cc79ed3a1c0ffd26b1e50906ed6cd62932d27ebf02d24ade770b1a",
+    "instrumented_sha256": "991b5f93b25c3c6e89d373d25ef79d721c08e648b4cb4b2c3f5cb404fbf8414e"
+  },
+  {
+    "path": "src/bear.cpp",
+    "source_sha256": "4f7c14e93e35f6d6c1cd9d21501478f208502aec5f74b291e3ec2d335f42c74a",
+    "instrumented_sha256": "d24f4d706dad272b9f8b03ef5bc1b84a697dfeb41056c371b227e8537107ac9c"
+  },
+  {
+    "path": "src/BgmManager.cpp",
+    "source_sha256": "7b7008323c8de306d267b092c134a7f280db38e352ed28c02bc5d589c2bf79e4",
+    "instrumented_sha256": "b754a2cee31bf33fb1dbf09720c4de83a25965273b098853d5e6592f3d7db983"
+  },
+  {
+    "path": "src/Bird.cpp",
+    "source_sha256": "430f4e06f092e89f088a3b9ab2fcfca73a91c8ea994503ae9f8a0c5e13b33135",
+    "instrumented_sha256": "be6fc70f8a2d4f2686fe3290e8ad1b353b9ad719ff36be2d9bfd62bcf5eed08e"
+  },
+  {
+    "path": "src/Bullet.cpp",
+    "source_sha256": "7e096004b73d4cd0061f4b1fdebc34bcc21458f394f32c26ddb4c6e37a666d6a",
+    "instrumented_sha256": "2bd674fec8b1bb74170bb108278c4e752d242c762dc244b965cf0d4bb5569257"
+  },
+  {
+    "path": "src/Character.cpp",
+    "source_sha256": "ed7a89fd2b89dc603394ec3cc8700f1b674c6b85ee580b1520d494499ea6e59a",
+    "instrumented_sha256": "b9b2d3f91d5e50d9f4a063983d59f2a86a5eb1a99bf2834ec54b076708dafc1e"
+  },
+  {
+    "path": "src/CheckPoint.cpp",
+    "source_sha256": "9dfdd73dbe93c55b8308a1b3ba34a04151106ac56377069e087fd2b04135e8d4",
+    "instrumented_sha256": "888ea9a037d42d5433d45f4fa91b25fb9568e4d87f3b42166ad723b182e65a2d"
+  },
+  {
+    "path": "src/GameOverUI.cpp",
+    "source_sha256": "db429551283d8f052b9354f7ec8075382626a018b867291752296fc931f2422b",
+    "instrumented_sha256": "32594b8151409b9e358b80486598fe58230b812d759dd278d11d43aabb0de315"
+  },
+  {
+    "path": "src/imgui.cpp",
+    "source_sha256": "fd87ff571f95532a209670b5ebe57e0f90b7d935bfea55a5641180c3f94aa0b4",
+    "instrumented_sha256": "77c4fa5bfce485d41003fb48fd45f76df00344445ed6ec2519b2ec4fc59dacd7"
+  },
+  {
+    "path": "src/main.cpp",
+    "source_sha256": "10db38040f3806b03993ad60d58f34d41d6bea7831243197ba7eecaf3f75c28d",
+    "instrumented_sha256": "1ae8693c5cace8cc788507ea04d21598444adb9dae4badae08003d9cd31c55c1"
+  },
+  {
+    "path": "src/MapInfoLoader.cpp",
+    "source_sha256": "4539fae87ba334031b64ab46136119b3bdb7eccfd678452ab726e4530d47ba8e",
+    "instrumented_sha256": "3e3f9017492226ef88b55b22040c323499c67d8537276d4ba7f97f7ad2dbe109"
+  },
+  {
+    "path": "src/Menu.cpp",
+    "source_sha256": "d53ffb8a09b2ede010a9b7ae8a9695adf241258156f41e9421e286ad43efffab",
+    "instrumented_sha256": "c31e21ef2a7e800c7a6c632dd6ecc29d8c057b6adbe4f6c22d10c1178aae80db"
+  },
+  {
+    "path": "src/phase2trap.cpp",
+    "source_sha256": "9c5039bed7199ec0721ed485bd1477580fe2310d100efe34da17f68f26859612",
+    "instrumented_sha256": "d1517783c30351407bad2b6bcab1afe407f394b84f6bff235cb6d78a9ac8ea29"
+  },
+  {
+    "path": "src/PlayerManager.cpp",
+    "source_sha256": "0e9cae759644c2fb707dcef09858165b07477dd26679d86ffea720f34d3bc64b",
+    "instrumented_sha256": "9a9eb22bc2d9462bf0b8122b9a267d9e613c454fb77752957f63a16f65b8a8ed"
+  },
+  {
+    "path": "src/ResourceManager.cpp",
+    "source_sha256": "716772d0587399e58302c94f39508794b0680c9020dbf99d74710c1e00b80cd3",
+    "instrumented_sha256": "e7a102d98c5d1782e7929e81d0581b733c169464b010adcebd2dc7341477838b"
+  },
+  {
+    "path": "src/RuntimePaths.cpp",
+    "source_sha256": "06e3af0bf12b83c890db244fed81c4bd623609056703121f9e992378f0cdf7f0",
+    "instrumented_sha256": "06e3af0bf12b83c890db244fed81c4bd623609056703121f9e992378f0cdf7f0"
+  },
+  {
+    "path": "src/spider.cpp",
+    "source_sha256": "335e8ba4a26d9641adfa7aba5c690169f33ccba85cbd127b27cc42356b730f5c",
+    "instrumented_sha256": "aa6357fc0ada72679d0d031f8fa923455012d6c110080a9ac3de4dca7c2b2a02"
+  },
+  {
+    "path": "src/Boss1/Boss1.cpp",
+    "source_sha256": "1f03ba369d5f553f5ed172f4c6a590d249531210d50470fa9e8631f398a1f75e",
+    "instrumented_sha256": "750d887cbd75daf4a04ced8c01b9207a710f78bb6271ce09b866340281e3cfe6"
+  },
+  {
+    "path": "src/Boss1/BossDeadAnimation.cpp",
+    "source_sha256": "d5033ec2232d16b3a0a1d4476f274f362faf4349a85407d508c2d505ea4f2141",
+    "instrumented_sha256": "cdd250227c19b9e3d9fd15dcbd39b05753f07cdd266cefc82c999bb2ee59c1aa"
+  },
+  {
+    "path": "src/Boss1/BulletTypeA.cpp",
+    "source_sha256": "15ad6546c995d1723bf59cd51b5719330175da083e2a8152c9b0fa6f5b1f61ea",
+    "instrumented_sha256": "fbf1cbda4ba4429874178a6df4ee1345baf3b9a38646ffcbfcf22453931a5e97"
+  },
+  {
+    "path": "src/Boss1/BulletTypeB.cpp",
+    "source_sha256": "be2664aa3e188e6b09418fae7ce69953e08d3e867abcb69c0c44a37a47c6c3f0",
+    "instrumented_sha256": "b831bdae4ea3143ec8d2dec72a17c73e26a107025913957ef3ce056316dcc460"
+  },
+  {
+    "path": "src/Boss1/BulletTypeC.cpp",
+    "source_sha256": "f2bcccff3d0d1692b1e6d9dcf43682e328e8285af963f72e9a792b3299cd5c17",
+    "instrumented_sha256": "80474ea83a50c8750a2cf792b66d6bcaa1dfbaea7ba95f34e364352ccd9ddfdc"
+  },
+  {
+    "path": "src/Boss1/LightAttack.cpp",
+    "source_sha256": "4709b3f86e12bb6908cd54d5b3f45869f96b4a20bd6cfb81f0ed2726e1039676",
+    "instrumented_sha256": "f785bae6f1a639a60af8b17b9ebc4e511d23eedbf50e6456fb7e2360b55a4e6d"
+  },
+  {
+    "path": "include/AnimatedCharacter.hpp",
+    "source_sha256": "a0b7204cddbc7cb849ec3462983b1ba71e19f862c27d68e88318b8c0c8467021",
+    "instrumented_sha256": "8533d3202694b66134708f078c85bf189a69bc717b8a4d803fb9cd8b9e3f62e5"
+  },
+  {
+    "path": "include/App.hpp",
+    "source_sha256": "14ba66005c0f8e12fd6807e4ad9820ec99c0e4f36e141ff6e2b22210b821ec91",
+    "instrumented_sha256": "f75088e430296425783f6bba38e81c7621e4a97923c9a761db15209ab1f014fd"
+  },
+  {
+    "path": "include/AppMembers.hpp",
+    "source_sha256": "9ddcf04afdc9027e625a3211bf6d529a07d668b5ddec0a4ffb4d39b78dd90b81",
+    "instrumented_sha256": "3693e9130eb7f302b1ba7440a5cd132012dff12dccc59778ba91bf93096b0584"
+  },
+  {
+    "path": "include/BackgroundImage.hpp",
+    "source_sha256": "2c514c5a42507b39e83aaa8e85b11db1ee9d91c686d31603b5e4e90189697931",
+    "instrumented_sha256": "f4c28803be1f1d8454b4f3e12eab6c9c874e4523d114762917c3b62b26a212c9"
+  },
+  {
+    "path": "include/bear.hpp",
+    "source_sha256": "3fac701a9fbf9012bffa823ed5c5b7aa47f0c0f35fc1790a3712d5fa64d77587",
+    "instrumented_sha256": "5e0526b53725500a2663c3b8f167bf1c0d304c10d365cdff17df78716bef6eea"
+  },
+  {
+    "path": "include/BgmManager.hpp",
+    "source_sha256": "36d04f822e79d768a261dffb1599e3722bc92d2711f6a6c3f6108ef6c804990f",
+    "instrumented_sha256": "a369eebed81900b4ce430de71f2fe97205cc450411ce3599cdcdec2207dc16cc"
+  },
+  {
+    "path": "include/Bullet.hpp",
+    "source_sha256": "ff4a543da7702da0878025b1b2d85c6cae36a0e42de6c35d6c809ee2feb8e197",
+    "instrumented_sha256": "1c0c3ef723d7c490a74f625b5cc31dfbb3fcb880eba9e73cd71c4fc5eafa36fb"
+  },
+  {
+    "path": "include/Character.hpp",
+    "source_sha256": "ee04d1c0f41f65581a79a55f3a29f74bf36bb4c0f429a893e20da50cf25a6c16",
+    "instrumented_sha256": "2dbe08b8831700b04c15fa4c32b011b3d83fe54257499050d3981a62840659e5"
+  },
+  {
+    "path": "include/GameObjectHelper.hpp",
+    "source_sha256": "989b4e09a56c0b0e4f10176082e0facba3da80c51d01c2cb889a1d4b50244f58",
+    "instrumented_sha256": "b74cc5961212f23557d8c49a7f5e47a6c95659b51123ea04d291e9b3fb29a43d"
+  },
+  {
+    "path": "include/GameOverUI.hpp",
+    "source_sha256": "c11c6ffa577b263cc3f822e91dbf92c2332df7cf1848483245640fa3ea45a7b1",
+    "instrumented_sha256": "f74edeca87527de0feb98a440d4b937a94357e4cef4fdb40c67967d240b4e342"
+  },
+  {
+    "path": "include/imgui.hpp",
+    "source_sha256": "d5ddaaceabd29de6d65b538fe6b2b8cf3c81ce39dcc21d844f0a9895b7e453f0",
+    "instrumented_sha256": "3beb9c9cdb7e089a3a3c950a7b43129394d6fe36e28d243677bcfbb90b8fe1ac"
+  },
+  {
+    "path": "include/MapInfoLoader.hpp",
+    "source_sha256": "342ec5158dd404448eb5d837b2bea712b73d7b04ef2d858091ca9a01df80410b",
+    "instrumented_sha256": "2a227de5dff40df79b70de56d9f734398cb5114ac01ec0373de11265ddea92cc"
+  },
+  {
+    "path": "include/Menu.hpp",
+    "source_sha256": "d0fe6cc74e9383a95a1d461d9c6d8f4bf78373dfc1f320c96e01c07ae862efbb",
+    "instrumented_sha256": "ddc83fcf58a748b15f528e8f58156883e5093f1c0d6cf63c839516088fc8f0df"
+  },
+  {
+    "path": "include/PlayerManager.hpp",
+    "source_sha256": "d1935e2e7edab2671811e407620b7d385b6de40e477954b2c07b23f8991444b1",
+    "instrumented_sha256": "12a080275fdbddf946f8a60f5bf046bdaf6ac8c2224d1b13d80aefea6edf44be"
+  },
+  {
+    "path": "include/ResourceManager.hpp",
+    "source_sha256": "11e9893ef69d864150fdeabe72c811a55daa887a47c9a4bb70495176a353b6ff",
+    "instrumented_sha256": "1aa7b38c39446ae247e2a65b87804b3e0885d54a575846426ec5ede9f36b16c1"
+  },
+  {
+    "path": "include/RuntimePaths.hpp",
+    "source_sha256": "d3533c842719a0f075468f9bbf999bb09e5cfd9898442af209df252753fd017c",
+    "instrumented_sha256": "d3533c842719a0f075468f9bbf999bb09e5cfd9898442af209df252753fd017c"
+  },
+  {
+    "path": "include/TrapManager.hpp",
+    "source_sha256": "9ff6f6778db9df2f6c4aaaf35cb50299660d603bf715f305b2a2aa9f2d99538a",
+    "instrumented_sha256": "04b1e5f13cfff339add5f7a6dec7f225f225b023f0b0042076028c908fc76da0"
+  },
+  {
+    "path": "include/World.hpp",
+    "source_sha256": "6565ec4d6f95e076b88fa06c2f8bbf24a7852afb733b40d017a4bd8eb7337682",
+    "instrumented_sha256": "fb699c4a809738743b5b4eccc16fbbb8e7207ba7f82675b11d3113d39f5f3cfa"
+  },
+  {
+    "path": "include/Boss1/Boss1.hpp",
+    "source_sha256": "39c2360387021e95a1f31d6eb0a24180aa1875e09ae25a189bd2d4142e67b17c",
+    "instrumented_sha256": "012297ef55013b3087c50cc4bdbdcce8799fb9057ea21097de35d9c0e1ea45bf"
+  },
+  {
+    "path": "include/Boss1/BossDeadAnimation.hpp",
+    "source_sha256": "a452a0608b037ea7684ae1346acc52a5c4326ed5bb8eff3d18e6f0d35a287353",
+    "instrumented_sha256": "7df2b11b938980736d7c71eaa3002c3932543bafdfd4ab63fe3ae63fc6a2bd29"
+  },
+  {
+    "path": "include/Boss1/BossHpInfo.hpp",
+    "source_sha256": "82a5863aae4085a7b325e74d538bc907ed687459b20d7682b8e02d721d5f0530",
+    "instrumented_sha256": "d9f90d2e2039119096b6949e33c90e4b93fef1bd4323008d8546fb88508b7756"
+  },
+  {
+    "path": "include/Boss1/BulletTypeA.hpp",
+    "source_sha256": "152aaf460d949c89316ed68a822abf1237f13fc3717dd7aa71b98439e26d021a",
+    "instrumented_sha256": "1c9b73754a89943b1305db76d6232cf5bb923ab3b993bd3d39c9461a5faac5c1"
+  },
+  {
+    "path": "include/Boss1/BulletTypeB.hpp",
+    "source_sha256": "378807667e917106b2c7a9dcef4bee704e2e9cf930181def0ccfa5ec1a10fe9f",
+    "instrumented_sha256": "72a110880cb72fec2c55c7cfb30454349dd2a1080449dcd590bb45f60815bfe1"
+  },
+  {
+    "path": "include/Boss1/BulletTypeC.hpp",
+    "source_sha256": "dd716c58b4db5c384b690935ff71938bba27a295cf2e8ad7fd78b95e70e30e11",
+    "instrumented_sha256": "52795abf0d3af4a79ca4198922d321b6c90898c7ea286620a5cb5c62f7283a4b"
+  },
+  {
+    "path": "include/Boss1/LightAttack.hpp",
+    "source_sha256": "716aa21b342e0c41c030e53f268695628a942ca720d7e8f4467864350473c5ca",
+    "instrumented_sha256": "b155a63684a107bf3f3f4c2984fa219fe5dce38be6aacb39e9e60beb4ce9608a"
+  },
+  {
+    "path": "include/MapObject/bird.hpp",
+    "source_sha256": "27012bab9439550a9be5ff44b8b3fb2413930ea5443cec5718a9efb09ea48328",
+    "instrumented_sha256": "5be55a48561f4001fb8e63ea7aa8cd33bf853e6fd978a864be7ba0757498f220"
+  },
+  {
+    "path": "include/MapObject/CheckPoint.hpp",
+    "source_sha256": "a647905b2113e3ee160c174d7cac2450aac278a1aa18ce3a96f929f5e7f73fb5",
+    "instrumented_sha256": "139711db56ba01f7b1fbb2c3e42385c25248d2a7d2d35f890114c687613dea20"
+  },
+  {
+    "path": "include/MapObject/fallingground.hpp",
+    "source_sha256": "d42cd86ecdb29686cb6b2af83a6e19a4e18415b84f19521925829ae6a2dc3a6d",
+    "instrumented_sha256": "188d5dd7910c7f2fcb149ea6065a7de09e7630fde693c402b475fcc2db60fc0a"
+  },
+  {
+    "path": "include/MapObject/JumpBoost.hpp",
+    "source_sha256": "d1faa161508cbec357bcac305076d0cfc8abb631a50e965ec51df99db2c8d16f",
+    "instrumented_sha256": "a1be93371e0d52f92357805d0e5b1c2a8f48d321a6658d6008d129007efc6823"
+  },
+  {
+    "path": "include/MapObject/phase2trap.hpp",
+    "source_sha256": "e4a8d60f292ea764da4c4d99ba3ded9a7cdf64963366a23578fa2b9c182c3e53",
+    "instrumented_sha256": "be110d5fdd4d34fe4484b672d2321619076a7f90cd1573b4350e91e340d25bef"
+  },
+  {
+    "path": "include/MapObject/Platform.hpp",
+    "source_sha256": "770ec4a3788ca3ea0c788d7dde91a81b9a6135703e2a7212bf26a83bed438bbf",
+    "instrumented_sha256": "8556ded00788ed32d54ee08efbc4e9584b446e5b9055a94ceb8ed448e8bcf116"
+  },
+  {
+    "path": "include/MapObject/spider.hpp",
+    "source_sha256": "4a4089f4207c0cc481e3c066607e6c4e9ed8b495549e0f0f6e3b7f1f73d8a6d2",
+    "instrumented_sha256": "557e084deacb6bf55726f706562607440fdad0676d9020118a406231d26efb30"
+  }
+]

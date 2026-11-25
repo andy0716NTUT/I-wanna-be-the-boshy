@@ -58,6 +58,8 @@ def main():
                     "shorten_jump": "else if (Util::Input::IsKeyUp(Util::Keycode::Z) && isJumping && velocityY > 0) {",
                 }
                 for event, anchor in events.items():
+                    if version == "Current" and event in ("head", "floor") and "m_Player.ResolveTiles(" in text:
+                        continue  # Observed in the extracted PlayerManager implementation below.
                     text = insert_once(text, anchor, anchor + f'\n BoshyRegressionAccess::Event("{event}");', event)
                 for event, anchor in {
                     "shot": "m_Bullets.push_back(bullet);",
@@ -69,6 +71,13 @@ def main():
             if relative == "src/App.cpp":
                 text = '#include "RegressionAccess.hpp"\n' + text
                 text = insert_once(text, "void App::Respawn() {", 'void App::Respawn() {\n BoshyRegressionAccess::Event("respawn");', "respawn")
+            if version == "Current" and relative == "src/PlayerManager.cpp" and "PlayerManager::ResolveTiles" in text:
+                text = '#include "RegressionAccess.hpp"\n' + text
+                for event, anchor in {
+                    "head": "if ((aboveTile == 2) && velocityY > 0){",
+                    "floor": "if ((belowTile == 1 || belowTile == 8)  && velocityY < 0){",
+                }.items():
+                    text = insert_once(text, anchor, anchor + f'\n BoshyRegressionAccess::Event("{event}");', event)
             target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             result = text.encode("utf-8")
