@@ -1,8 +1,9 @@
 # Windows Remaster 開發
 
-Phase 1～6 的分階段技術驗收已完成，已產生供內部驗證的 Windows x64 RC1。
-Debug／Release 各通過 20 項 CTest 與 19 個原版行為對照情境；遊戲保持原始
-每幀物理、碰撞與關卡資料，顯示支援最近鄰、整數縮放、黑邊及全螢幕。
+Phase 1～6 的分階段技術驗收已完成，已產生供內部驗證的 Windows x64 RC2。
+本次 Debug／Release 各通過 20 項 CTest 與 18 個未變動玩法的原版對照情境；
+下方指定變更另有回歸量測。玩家每幀物理與原始素材保留，顯示支援最近鄰、
+整數縮放、黑邊及全螢幕。
 
 請參閱 [完整報告與 RC 雜湊](docs/RELEASE_REPORT.md)、[驗收清單](docs/RELEASE_CHECKLIST.md)、
 [建置方式](docs/BUILD.md)、[像素顯示](docs/PIXEL_DISPLAY.md)、[量測與 Debug](docs/PERFORMANCE.md)、

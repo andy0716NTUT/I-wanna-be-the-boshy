@@ -53,6 +53,18 @@ The faster shot intentionally hits sooner and can cross a tile boundary sooner.
 The existing endpoint-based wall/player collision policy is retained; this is
 not a new swept-collision implementation or a guarantee about every corner.
 
+## Changed files
+
+| Files | Purpose |
+| --- | --- |
+| src/phase2trap.cpp, include/MapObject/phase2trap.hpp, include/WorldRuntime.hpp | Consume one room clock with the original sine strokes |
+| src/AppUpdate.cpp | Advance that clock and integrate scoped tipping-surface support |
+| src/TippingStone.cpp, include/MapObject/TippingStone.hpp, src/ImageRegion.cpp, include/ImageRegion.hpp | Original-asset layers, loaded-edge tip/fall and tile restoration |
+| src/App.cpp, include/App.hpp, include/AppMembers.hpp | Own and retire the room9 stone with map objects |
+| src/Bullet.cpp | Double only checkpoint projectile travel |
+| tests/GameplayTuningProbe.cpp, tests/RegressionAccess.hpp, scripts/run_gameplay_tuning.py, scripts/verify_checkpoint_tuning.py, cmake/RegressionProbes.cmake, CMakeLists.txt | Opt-in real-scene/visual/intentional-difference checks and build wiring |
+| README.md, docs/BUILD.md, docs/*CHECKLIST.md, docs/REMASTER_PROGRESS.md, docs/RELEASE_REPORT.md, docs/evidence/gameplay-tuning-*.json | Actual coverage, resumption, artifact provenance and manual limits |
+
 ## Reproduce
 
 Use the compiler/CMake/Ninja paths and ASCII B: mapping in BUILD.md. First run
@@ -135,3 +147,20 @@ frame-coupled simulation and endpoint projectile collision remain; low render
 FPS still slows game time. Suggested smallest next PR: these three requested
 tunings, their scoped scene tests and this report, against the remaster branch.
 No PR, main merge or public release is created by this task.
+
+## Internal RC2 handoff
+
+Implementation commit: `0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e` (pushed to remaster/continuous).
+Artifact: `build/release-candidate/BoshyRemaster-Windows-x64-RC2-0b15f6bf.zip`
+(61361588 bytes). SHA256:
+`70f1d026824452dee934a33e7858013e8d1494495083b6b1b1d51871d6ec8c78`.
+
+Run `build/release-candidate/BoshyRemaster-Windows-x64-RC2-0b15f6bf/IWannaBeTheBoshy.exe`
+with the adjacent Resources, PTSDAssets, config and DLLs retained. RC1 is preserved.
+The package manifest, ZIP extraction, Unicode directory and startup from
+C:/Windows with minimal PATH pass; evidence/gameplay-tuning-package.json.
+No public binary upload or main merge.
+
+```powershell
+python B:/scripts/package_windows_rc.py --build-dir build/windows --runtime-licenses 'C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/licenses' --objdump 'C:/Program Files/JetBrains/CLion 2025.3.3/bin/mingw/bin/objdump.exe' --name RC2
+```

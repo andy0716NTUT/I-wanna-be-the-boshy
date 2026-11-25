@@ -21,3 +21,13 @@ Manual supplemental limits are not represented as passed. Follow RELEASE_REPORT.
 for exact commands, checksum and source revision. Never publish the internal ZIP
 or merge main automatically. Original asset rights still require review before
 any public distribution.
+
+## RC2 after requested tuning
+
+PASS: Debug/Release20 CTest and18 strict unchanged scenarios each, separate
+checkpoint8→16 speed/unchanged delay/save/R, real stone support/jump/tilt/fall/
+cleanup/re-entry, native/1080p/4K region pixels, original153 resources, RC2 ZIP/
+manifest/Unicode extraction and normal startup. Implementation0b15f6bf; package
+and SHA256 in GAMEPLAY_TUNING.md / evidence/gameplay-tuning-package.json.
+The original checkpoint trajectory is intentionally changed. The RC1 table above
+is historical; human feel, corner intersections and physical audio remain unclaimed.

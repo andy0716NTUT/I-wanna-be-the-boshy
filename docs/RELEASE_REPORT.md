@@ -1,3 +1,15 @@
+# Latest internal candidate: RC2
+
+The user-requested post-RC1 tuning is now built, tested and packaged.
+Runtime: `0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e`, remaster/continuous.
+See [GAMEPLAY_TUNING.md](GAMEPLAY_TUNING.md) for all three changes, exact commands,
+18/18 unchanged scenarios per configuration, separate intentional counter-shot
+measurements, new-scene/1080p/4K checks, artifact path and SHA256.
+Package: `build/release-candidate/BoshyRemaster-Windows-x64-RC2-0b15f6bf.zip`.
+Normal packaged/extracted startup and manifest PASS. Human feel/corner review
+remains supplemental; all agent tests are silent. The following RC1 report is
+historical and its empty-diff/19-case claims refer specifically to that revision.
+
 # Windows RC1 development report
 
 All required staged technical gates through Phase 6 passed on 2026-11-25
