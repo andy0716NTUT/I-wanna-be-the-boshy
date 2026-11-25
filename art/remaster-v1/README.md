@@ -37,3 +37,10 @@ terrain/props are updated there. Source Resources are never overwritten.
 See `../../docs/ART_BATCH_V1.md` in the repository for commands, exact limits and
 rollback details. Build/verification scripts are under `scripts/`. All new art,
 raw model outputs and prompts remain versioned separately from the originals.
+
+An isolated playable preview is under
+`build/art-preview/Boshy-ArtPreview-v1-0c8878d/` in the development workspace.
+`Play-ArtPreview-Silent.cmd` opens the new art; `Play-Original-RC2-Silent.cmd`
+opens the retained old RC2. The new directory backs up every overlaid PNG in
+OriginalAssets. Nine exact themed replay cases and real tipping/render checks
+pass; see runtime-verification.json. This does not switch the repository default.

@@ -110,3 +110,50 @@ Characters, animation frames, UI, fonts and audio are outside this chosen batch.
 No public game release/main merge. The smallest next PR is this separate art
 candidate/validation set; default-theme integration needs its own rendered-game
 and gameplay acceptance rather than assuming that pixel-size checks prove parity.
+
+## Isolated playable preview and runtime evidence
+
+Art checkpoint `0c8878d7e5d807a3d54f54d89210c6acfe3e1e58` is pushed and tagged
+`remaster-art-v1-scenery-20261126`. `scripts/create_art_preview.py` creates a new
+ignored build directory from the accepted RC2 package. It verifies the RC2
+manifest, preserves every replaced PNG under `OriginalAssets/`, and overlays
+only candidate PNGs inside that new copy. The unchanged game executable still
+has SHA256 `b8d203116e2b2a92bcf025b4fdd8424d6a23c19f7761cfd21f61ee82b6fb5fdf`.
+No source Resources or existing RC2 file is replaced.
+
+Executed command:
+
+```powershell
+python B:/scripts/create_art_preview.py --output B:/build/art-preview/Boshy-ArtPreview-v1-0c8878d
+```
+
+For interrupted verification of the same complete stage, add `--resume`; verified
+replay cases are retained by trace checksum. The helper uses the existing RC2,
+Release probes and accepted trace oracles under build/. Those are prerequisites
+from the prior regression work, not newly compiled by this script. A different
+probe/oracle checksum is rejected; it never silently updates the pre-art oracle.
+
+PASS on the actual candidate-loaded runtime:9 Release replay cases, each exactly
+matching all pre-art logged states (movement, full jump, shooting, spikes,
+checkpoint, transitions, spider/bird, resize and3300-update Boss cycle). The real
+themed tipping probe also passes385 sine updates, landing/tip/fall/jump departure,
+R plus12 reloads and cleanup. Idle/gone stone backbuffer regions exactly match
+the themed staged PNGs. The normal game executable starts from its Unicode path,
+C:/Windows cwd and minimal PATH. All agent runs use dummy audio. Temporary copied
+probe executables are removed only after their owned test processes exit; source
+probe binaries, all assets and the preview game are retained.
+
+Evidence: `art/remaster-v1/runtime-verification.json`; actual game backbuffer:
+`art/remaster-v1/candidates/review/ingame-stone-tipping.png`. The screenshot uses
+God mode only as a declared test fixture; the normal preview executable retains
+the original default controls/state. These checks do not certify every World2
+route, every room's visual taste, physical keyboard/audio or performance on all
+hardware. No new C++ compilation is claimed.
+
+To play, open
+`build/art-preview/Boshy-ArtPreview-v1-0c8878d/Play-ArtPreview-Silent.cmd`.
+To return to the retained original RC2 in this workspace, close the preview and
+open `Play-Original-RC2-Silent.cmd` in that folder. Both launchers force silence
+only for their child game. The old RC2 path and repository default remain intact;
+every original staged PNG is additionally recoverable from OriginalAssets.
+The preview is local/internal, not a public release or automatic default switch.

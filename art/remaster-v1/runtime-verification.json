@@ -1,0 +1,82 @@
+{
+  "result": "PASS",
+  "runtime_revision": "0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e",
+  "art_commit": "0c8878d7e5d807a3d54f54d89210c6acfe3e1e58",
+  "candidate_manifest_sha256": "802ec8db13f48776f10e2a1f5905aa7b389548e27e35b78fd3b37dcb8988698c",
+  "audio": "dummy",
+  "cases": {
+    "movement": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1",
+      "pre_art_trace_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1"
+    },
+    "full-jump": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "b9503cf91cd2f57496f94c56b30ed4c076af998a55e56372fb1bc39c82ee9b49",
+      "pre_art_trace_sha256": "b9503cf91cd2f57496f94c56b30ed4c076af998a55e56372fb1bc39c82ee9b49"
+    },
+    "shooting": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "438797b3d8b431a7c0918afdabfb55a926bc3b745820d5591de57524dc888ea7",
+      "pre_art_trace_sha256": "438797b3d8b431a7c0918afdabfb55a926bc3b745820d5591de57524dc888ea7"
+    },
+    "spikes": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "6940fe88fa45ab1b623f33934eede787f8e2bacfb1dccf738e7ea5b6514ec742",
+      "pre_art_trace_sha256": "6940fe88fa45ab1b623f33934eede787f8e2bacfb1dccf738e7ea5b6514ec742"
+    },
+    "checkpoint": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "4078e47e8554a2d312c56c4bbc5c9093714c347605055cd9ed424db034c37ea9",
+      "pre_art_trace_sha256": "4078e47e8554a2d312c56c4bbc5c9093714c347605055cd9ed424db034c37ea9"
+    },
+    "transition": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "e603c520fb854e57537cba0d748bcde2ebf24c3b875e7af37ff1e819f21c35bd",
+      "pre_art_trace_sha256": "e603c520fb854e57537cba0d748bcde2ebf24c3b875e7af37ff1e819f21c35bd"
+    },
+    "spider-bird": {
+      "result": "PASS",
+      "frames": 900,
+      "trace_sha256": "44f06f2e4eee7bc3df1b0106fefb4cf7833278acea65e3012b74ff59ef0a1aba",
+      "pre_art_trace_sha256": "44f06f2e4eee7bc3df1b0106fefb4cf7833278acea65e3012b74ff59ef0a1aba"
+    },
+    "resize-play": {
+      "result": "PASS",
+      "frames": 350,
+      "trace_sha256": "87d06ee05f969db344539973b27f2cabdbf4197489a48fc4b1b99eedd8dc39c3",
+      "pre_art_trace_sha256": "87d06ee05f969db344539973b27f2cabdbf4197489a48fc4b1b99eedd8dc39c3"
+    },
+    "boss": {
+      "result": "PASS",
+      "frames": 3300,
+      "trace_sha256": "e42a45e21c17f00a5d37867ce2fd698411bc181c2bdea3210206cb88138a6db9",
+      "pre_art_trace_sha256": "e42a45e21c17f00a5d37867ce2fd698411bc181c2bdea3210206cb88138a6db9"
+    }
+  },
+  "preview": "build/art-preview/Boshy-ArtPreview-v1-0c8878d",
+  "tipping": {
+    "result": "PASS",
+    "audio": "dummy",
+    "spike_frames": 385,
+    "stone_first_tip": 7,
+    "stone_first_fall": 26,
+    "stone_first_gone": 62,
+    "supported_tip_frames": 19,
+    "reload_cycles": 12,
+    "counter_speed_before": 8,
+    "counter_speed_after": 16,
+    "idle_and_gone_render_pixels": "PASS"
+  },
+  "normal_game_startup": "PASS from Unicode path / C:/Windows / minimal PATH",
+  "game_exe_sha256": "b8d203116e2b2a92bcf025b4fdd8424d6a23c19f7761cfd21f61ee82b6fb5fdf",
+  "original_asset_backups": "31 verified",
+  "default_repo_and_old_rc2_unchanged": true,
+  "scope": "Nine exact Release replay cases and themed tipping/render assertions; visual taste/all routes still manual"
+}

@@ -3,11 +3,12 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 651fd3b12cd3ee7c2618a76e16ab0444268c91fc
+HEAD_SHA: 0c8878d7e5d807a3d54f54d89210c6acfe3e1e58
 ACTIVE_STAGE: 6
 STAGE_STATUS: PASSED
-NEXT_ACTION: Commit/push the verified scenery candidate batch in art/remaster-v1 (27 changed mapped PNGs,3 material tiles,4 original critical/data PNGs preserved). Then create an isolated runnable art-preview copy from RC2 with backups, compare themed replay states and room9 render pixels before handoff. Original Resources/default runtime remain unchanged.
-LAST_VERIFIED_AT: 2026-11-26T00:03:06+08:00 Asia/Taipei
+ART_BATCH_STATUS: NEEDS_MANUAL_VERIFICATION
+NEXT_ACTION: Review the completed scenery v1 candidates via art/remaster-v1/candidates/review/index.html, or play the isolated build/art-preview/Boshy-ArtPreview-v1-0c8878d/Play-ArtPreview-Silent.cmd. Original RC2 launcher is alongside; source Resources remain untouched. Manual seam/readability/taste review and room7 backdrop registration precede any default-theme integration.
+LAST_VERIFIED_AT: 2026-11-26T01:04:47+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -22,6 +23,7 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- Scenery v1 committed/pushed as0c8878d7e5d807a3d54f54d89210c6acfe3e1e58 and tagged remaster-art-v1-scenery-20261126. Isolated playable art preview created from unchanged RC2 code0b15f6bf, with31 original PNG backups and separate silent new/original launchers. Actual themed Release replays9/9 match all pre-art states exactly (including Boss3300 updates); themed tipping physics/385 sine frames/R/reload and idle/gone rendered-region comparisons PASS; normal game Unicode/minimal-PATH/unrelated-cwd startup PASS. Source Resources, character/animation assets, old RC2 and C++ remain unchanged. Runtime proof in art/remaster-v1/runtime-verification.json. Visual taste/all rooms/routes remain manual; room7 backdrop held original.
 - Scenery batch candidate assembly verified:31 source mappings,27 changed candidate PNGs,3 material tiles,4 byte-exact preserved hazard/collision reference PNGs;119 original PNGs and153 total Resources content unchanged. Exact canvas/alpha and visible spike landmarks pass;5,094,271 protected pixels and2,179,501 material pixels checked; room9 baked/sprite/cover coherence exact. Rejected bad-size/alpha negative controls PASS. Inspected sample scenes and overview; room7 original backdrop deliberately held due registration seams, matched terrain only. CTest20/20 each Debug/Release on existing original-runtime binaries PASS, silent; Temp CMake copy had disappeared and was restored from the existing local3.31.8 copy after a .tools configure0xC0000409. No system install or C++/Resources/config changes.
 - User answered category preference: scenery/terrain/scene objects only; characters and animations remain original. Generated/preserved7 new raw art assets (2 backdrops,2 props,3 material textures) plus approved mountain, with prompts. Three trial assemblies retained under ignored build/; image review rejected old-backdrop fragments and room7 seams. Default game/source119 PNGs unchanged. Finalization requires strict texture/template substitution and keeping room7 backdrop as original; do not promote trial images without fresh verification.
 - Reversible visual batch explicitly requested: current source1b27388 verified pushed and annotated rollback tag remaster-before-assets-20261126-1b27388 created/pushed. Inventoried119 original PNGs (file/alpha hashes and bounds). Approved mountain reference is now copied into versioned art/remaster-v1/reference for an actual remote image backup; originals and RC2 preserved. Category preference pending; background/scenery work is authorized in either offered scope. No art theme is active in the game.
