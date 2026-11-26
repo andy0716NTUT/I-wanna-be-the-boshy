@@ -4,9 +4,11 @@
 
 #include "App.hpp"
 #include "GameObjectHelper.hpp"
+#include "RuntimeConfig.hpp"
 #include "spdlog/fmt/bundled/chrono.h"
 
 void App::Start() {
+    m_Player.SetFeel(ReadRuntimeOptions("config.json").weightedPlayer ? PlayerFeel::Weighted : PlayerFeel::Original);
     m_Display.Initialize();
     m_Display.BeginFrame();
     LOG_TRACE("Start");

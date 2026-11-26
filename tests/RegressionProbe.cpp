@@ -93,7 +93,7 @@ int main(int argc, char** argv) try {
     BoshyRegressionAccess::Room(app, (scenario == "spikes" || scenario == "death-loop") ? "2" :
         scenario == "spider-bird" ? "8" : scenario == "enemy" ? "4_1" : (scenario == "boss" || scenario == "boss-death") ? "13" : "1");
     const auto floor = FindFloor(app, 1, scenario == "full-jump" || scenario == "short-jump" ||
-        scenario == "double-jump" || scenario == "resize-play" ? 9 : 1);
+        scenario == "double-jump" || scenario == "resize-play" || scenario == "fall" ? 9 : 1);
     BoshyRegressionAccess::Place(app, floor);
     glm::vec2 fixture = floor;
     if (scenario == "oneway") fixture = FindFloor(app, 8, 1);
@@ -134,6 +134,8 @@ int main(int argc, char** argv) try {
                 if (frame == 18 || frame == 24) Key(SDL_SCANCODE_Z, true);
                 if (frame == 19 || frame == 25) Key(SDL_SCANCODE_Z, false);
             }
+        } else if (scenario == "fall") {
+            if (frame == 10) BoshyRegressionAccess::Place(app, floor + glm::vec2(0,128));
         } else if (scenario == "movement") {
             if (frame == 10) Key(SDL_SCANCODE_RIGHT, true);
             if (frame == 20) Key(SDL_SCANCODE_RIGHT, false);

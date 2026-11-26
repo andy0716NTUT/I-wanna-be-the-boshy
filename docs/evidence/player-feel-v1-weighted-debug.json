@@ -1,0 +1,941 @@
+{
+  "result": "PASS",
+  "config": "Debug",
+  "audio": "dummy",
+  "profile": "weighted",
+  "scope": "Intentional falling-only physics experiment; not original gameplay parity or human feel approval",
+  "git_head_during_test": "31777be9674bec27add8fbb5554d860921e467d8",
+  "current_source_manifest_sha256": "4dae8606e2404e3b905a0ffb8c7a11dcf2fc78484c55092dcbf846d0c169b55b",
+  "game_sha256": "a06b1910d9b7e9d9f30fd45c49cd85a521cbc141601d7c22098c7484504c0828",
+  "cases": {
+    "full-jump": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 117,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 452.0,
+        "apex_frame": 25,
+        "rise": 120.0,
+        "landing_frame": 44,
+        "airborne_updates": 34,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 121,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 452.0,
+        "apex_frame": 25,
+        "rise": 120.0,
+        "landing_frame": 40,
+        "airborne_updates": 30,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "306964fd4471763ce2f62ba31cd80fa1af1430eacb5e8c216451fa9dc316e773",
+      "baseline_trace_sha256": "b9503cf91cd2f57496f94c56b30ed4c076af998a55e56372fb1bc39c82ee9b49",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "short-jump": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 132,
+          "jump": 1,
+          "shorten_jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 385.000061,
+        "apex_frame": 18,
+        "rise": 53.00006100000002,
+        "landing_frame": 29,
+        "airborne_updates": 19,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 134,
+          "jump": 1,
+          "shorten_jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 385.000061,
+        "apex_frame": 18,
+        "rise": 53.00006100000002,
+        "landing_frame": 27,
+        "airborne_updates": 17,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "a16fbb95c52961bddaf94f1f8430f31c42318f662706482972743d687025c114",
+      "baseline_trace_sha256": "690fca79a3dd95c6fa01878154d141754593fee1849fed2acfb15024ca5e4358",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "double-jump": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 125,
+          "jump": 2,
+          "shorten_jump": 2
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10,
+          18
+        ],
+        "max_jump_count": 2,
+        "start_y": 332.0,
+        "apex_y": 391.0,
+        "apex_frame": 24,
+        "rise": 59.0,
+        "landing_frame": 36,
+        "airborne_updates": 26,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 127,
+          "jump": 2,
+          "shorten_jump": 2
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          10,
+          18
+        ],
+        "max_jump_count": 2,
+        "start_y": 332.0,
+        "apex_y": 390.399994,
+        "apex_frame": 24,
+        "rise": 58.39999399999999,
+        "landing_frame": 34,
+        "airborne_updates": 24,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "e40088c341c51bb78885ba0db0d3259b50725d77c176f70869aee226d777a6f0",
+      "baseline_trace_sha256": "347f690805be18bc2c70e342779105e36f798008a4310a948398664b8f83a00f",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "fall": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 133
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 459.0,
+        "apex_frame": 10,
+        "rise": 127.0,
+        "landing_frame": 27,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 137
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 458.399994,
+        "apex_frame": 10,
+        "rise": 126.39999399999999,
+        "landing_frame": 23,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "190d5dadfa89265dba19f5ca3529d0d984bf185a248998f101373993aaffa09f",
+      "baseline_trace_sha256": "d4f5331d76a9ae83aa0115f4628c709c5e77d100873cb355cdacff8d5d124104",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "movement": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 140
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 364.0,
+        "apex_y": 379.0,
+        "apex_frame": 74,
+        "rise": 15.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 140
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 364.0,
+        "apex_y": 374.399994,
+        "apex_frame": 73,
+        "rise": 10.399993999999992,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "2709b50a856059eda9331885ca7b321a1ba18bc3a1011a088945edc01df81ea2",
+      "baseline_trace_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "wall": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "room_transition": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 286.0,
+        "apex_y": 446.0,
+        "apex_frame": 110,
+        "rise": 160.0,
+        "landing_frame": null,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1",
+          "6"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 6,
+          "room_transition": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 282.0,
+        "apex_y": 459.600006,
+        "apex_frame": 103,
+        "rise": 177.600006,
+        "landing_frame": 87,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1",
+          "6"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "460b0e45a4b474e68197c4dffa0d1b07090ed630001c812c64403695e1775522",
+      "baseline_trace_sha256": "baa380d2b7d15ac19098fab25e0dc803822fd71fce21eb9b1a49a7fb37c0fcf7",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "head": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 82,
+          "jump": 1,
+          "head": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          2
+        ],
+        "max_jump_count": 1,
+        "start_y": 235.0,
+        "apex_y": 228.0,
+        "apex_frame": 10,
+        "rise": -7.0,
+        "landing_frame": 71,
+        "airborne_updates": 69,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 100,
+          "jump": 1,
+          "head": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          2
+        ],
+        "max_jump_count": 1,
+        "start_y": 222.399994,
+        "apex_y": 211.199997,
+        "apex_frame": 10,
+        "rise": -11.199996999999996,
+        "landing_frame": 53,
+        "airborne_updates": 51,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "097f4ce399b54062e0c0b7033e856b04be26366523129c85e38c37636118a63f",
+      "baseline_trace_sha256": "b454b7d3d6b83d4f11e9e113c4bbdc1f2b0929a7c31fa5e5a0ab7d26b443edf3",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "oneway": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 121,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          4
+        ],
+        "max_jump_count": 1,
+        "start_y": -339.0,
+        "apex_y": -284.0,
+        "apex_frame": 19,
+        "rise": 55.0,
+        "landing_frame": 34,
+        "airborne_updates": 30,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 124,
+          "jump": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [
+          4
+        ],
+        "max_jump_count": 1,
+        "start_y": -339.0,
+        "apex_y": -284.0,
+        "apex_frame": 19,
+        "rise": 55.0,
+        "landing_frame": 31,
+        "airborne_updates": 27,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "d9d5915aecba3eab82aa96d78bf33fa2dc4439498a267f260fa2bac3359253da",
+      "baseline_trace_sha256": "126ef1aa74649325e805dc7e0b1e8bfc50282f6c9f04c8d9880dd752dd41303b",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "shooting": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 150,
+          "shot": 5
+        },
+        "shot_frames": [
+          10,
+          16,
+          22,
+          28,
+          34
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [],
+        "max_jump_count": 0,
+        "start_y": 364.0,
+        "apex_y": 364.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 150,
+          "shot": 5
+        },
+        "shot_frames": [
+          10,
+          16,
+          22,
+          28,
+          34
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [],
+        "max_jump_count": 0,
+        "start_y": 364.0,
+        "apex_y": 364.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "438797b3d8b431a7c0918afdabfb55a926bc3b745820d5591de57524dc888ea7",
+      "baseline_trace_sha256": "438797b3d8b431a7c0918afdabfb55a926bc3b745820d5591de57524dc888ea7",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "spikes": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "spike": 1,
+          "floor": 149,
+          "respawn": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 90,
+        "ui_visible_frames": 90,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "spike": 1,
+          "floor": 149,
+          "respawn": 1
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 90,
+        "ui_visible_frames": 90,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "6c15bb1b6c464a29889c0b9190acdbca94bc11e7dc190c811b447a7809a6f6e9",
+      "baseline_trace_sha256": "6940fe88fa45ab1b623f33934eede787f8e2bacfb1dccf738e7ea5b6514ec742",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "checkpoint": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "shot": 1,
+          "checkpoint_activated": 1,
+          "checkpoint_saved": 1,
+          "floor": 38,
+          "respawn": 1
+        },
+        "shot_frames": [
+          3
+        ],
+        "shot_intervals": [],
+        "max_bullets": 1,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -58.0,
+        "apex_y": -48.0,
+        "apex_frame": 39,
+        "rise": 10.0,
+        "landing_frame": 101,
+        "airborne_updates": null,
+        "death_frames": 71,
+        "ui_visible_frames": 71,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "shot": 1,
+          "checkpoint_activated": 1,
+          "checkpoint_saved": 1,
+          "floor": 42,
+          "respawn": 1
+        },
+        "shot_frames": [
+          3
+        ],
+        "shot_intervals": [],
+        "max_bullets": 1,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -62.0,
+        "apex_y": -48.0,
+        "apex_frame": 39,
+        "rise": 14.0,
+        "landing_frame": 99,
+        "airborne_updates": null,
+        "death_frames": 71,
+        "ui_visible_frames": 71,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "dbe841e8cdbc6ae7dea29a4f51d1c4b444c2380daa522309ab3f4078a127da47",
+      "baseline_trace_sha256": "b18c7b6c7356b1acdfd838d30abb4a6d5dbd78f3d664448d8353fdd10d089326",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "transition": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 150,
+        "events": {
+          "floor": 63,
+          "room_transition": 2
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 137.0,
+        "apex_y": 142.0,
+        "apex_frame": 40,
+        "rise": 5.0,
+        "landing_frame": 92,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1",
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 150,
+        "events": {
+          "floor": 77,
+          "room_transition": 2
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": 128.0,
+        "apex_y": 138.0,
+        "apex_frame": 40,
+        "rise": 10.0,
+        "landing_frame": 78,
+        "airborne_updates": null,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1",
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "75bafe083a6c0c80fc33a9f2c41be4cd864298a76a07dc8f30b9c652c61f3a8e",
+      "baseline_trace_sha256": "e603c520fb854e57537cba0d748bcde2ebf24c3b875e7af37ff1e819f21c35bd",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "death-loop": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 450,
+        "events": {
+          "spike": 3,
+          "floor": 447,
+          "respawn": 3
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 270,
+        "ui_visible_frames": 270,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 450,
+        "events": {
+          "spike": 3,
+          "floor": 447,
+          "respawn": 3
+        },
+        "shot_frames": [],
+        "shot_intervals": [],
+        "max_bullets": 0,
+        "jump_frames": [],
+        "max_jump_count": 1,
+        "start_y": -372.0,
+        "apex_y": -372.0,
+        "apex_frame": 10,
+        "rise": 0.0,
+        "landing_frame": 11,
+        "airborne_updates": null,
+        "death_frames": 270,
+        "ui_visible_frames": 270,
+        "rooms": [
+          "2"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "60b7aef2259287662be57e4f84335ab97ee3ad5df2d5ad3b6e57374d949f517b",
+      "baseline_trace_sha256": "54a69caf6be0bb1888bdd582f9f6822f4a2863ada45fb9cce755d3a05a945c63",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    },
+    "resize-play": {
+      "result": "PASS",
+      "failures": [],
+      "original": {
+        "frames": 350,
+        "events": {
+          "floor": 317,
+          "jump": 1,
+          "shot": 5
+        },
+        "shot_frames": [
+          120,
+          126,
+          132,
+          138,
+          144
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [
+          40
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 452.0,
+        "apex_frame": 55,
+        "rise": 120.0,
+        "landing_frame": 11,
+        "airborne_updates": -29,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "weighted": {
+        "frames": 350,
+        "events": {
+          "floor": 321,
+          "jump": 1,
+          "shot": 5
+        },
+        "shot_frames": [
+          120,
+          126,
+          132,
+          138,
+          144
+        ],
+        "shot_intervals": [
+          6
+        ],
+        "max_bullets": 5,
+        "jump_frames": [
+          40
+        ],
+        "max_jump_count": 1,
+        "start_y": 332.0,
+        "apex_y": 452.0,
+        "apex_frame": 55,
+        "rise": 120.0,
+        "landing_frame": 11,
+        "airborne_updates": -29,
+        "death_frames": 0,
+        "ui_visible_frames": 0,
+        "rooms": [
+          "1"
+        ],
+        "boss_attacks": [],
+        "min_boss_hp": 0,
+        "bear_frames": 0
+      },
+      "trace_sha256": "fddaaace2c413e68c20899589653f8c529f78d5c4f5875f3f3b7d214fbe82c12",
+      "baseline_trace_sha256": "87d06ee05f969db344539973b27f2cabdbf4197489a48fc4b1b99eedd8dc39c3",
+      "probe_sha256": "120f9c182ebe9e352dc57736d7286ae4a6da9c06ef83ea7bdc8c9f1e87502881"
+    }
+  },
+  "preview": "build/player-feel-v1/Debug/Weighted",
+  "base": "build/windows/bin/Debug",
+  "tuning": {
+    "result": "PASS",
+    "audio": "dummy",
+    "spike_frames": 385,
+    "stone_first_tip": 5,
+    "stone_first_fall": 24,
+    "stone_first_gone": 60,
+    "supported_tip_frames": 19,
+    "reload_cycles": 12,
+    "counter_speed_before": 8,
+    "counter_speed_after": 8,
+    "counter_delay_before": 1,
+    "counter_delay_after": 0.5,
+    "reaction_updates": 30,
+    "weighted_ascent_parity": "PASS",
+    "weighted_fall_limit": 14,
+    "original_profile_restore": "PASS",
+    "idle_and_gone_pixels": "PASS"
+  },
+  "normal_game_startup": "PASS: Unicode path, unrelated cwd, minimal PATH, dummy audio; runner stopped owned startup-only process",
+  "config_original_sha256": "ec1e63f9888860593c343874f2daf994664763eea665316e70bb7fd9fdcb1b69",
+  "config_weighted_sha256": "7578e4d3af689913656fb75d03710197cbcc624b62e1a32945f35ffcb537b9a0"
+}

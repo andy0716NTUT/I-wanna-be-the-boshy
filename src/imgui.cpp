@@ -146,6 +146,10 @@ void RenderImGui(App& app) {
 
     // 已有的控制选项
     ImGui::Text("Controls");
+    int feel = app.GetPlayerFeel() == PlayerFeel::Weighted ? 1 : 0;
+    if (ImGui::Combo("Player feel", &feel, "Original\0Weighted (preview)\0"))
+        app.SetPlayerFeel(feel == 1 ? PlayerFeel::Weighted : PlayerFeel::Original);
+    ImGui::TextWrapped("Weighted: faster falling, original takeoff. Switch here to compare; restart keeps config choice.");
     ImGui::InputFloat("Gravity", &app.Gravity, 0.1f, 1.0f, "%.1f");
     ImGui::SliderFloat("Gravity", &app.Gravity, -10.0f, 10.0f, "%.1f");
 

@@ -1,0 +1,26 @@
+{
+  "original_sha": "eeb1f72c6c3a9a9e33a49c31946e4b723323d49f",
+  "resource_count": 153,
+  "changed_resources": [],
+  "checkout_crlf_conversions": 28,
+  "missing_death_frames": [
+    "Resources/Image/Character/death/death1.png",
+    "Resources/Image/Character/death/death2.png",
+    "Resources/Image/Character/death/death3.png",
+    "Resources/Image/Character/death/death4.png",
+    "Resources/Image/Character/death/death1-left.png",
+    "Resources/Image/Character/death/death2-left.png",
+    "Resources/Image/Character/death/death3-left.png",
+    "Resources/Image/Character/death/death4-left.png"
+  ],
+  "gameplay_source_drift": [
+    "src/App.cpp",
+    "src/AppStart.cpp",
+    "src/AppUpdate.cpp",
+    "src/PlayerManager.cpp",
+    "include/App.hpp",
+    "include/AppMembers.hpp",
+    "include/World.hpp"
+  ],
+  "scope": "Static asset/source audit only; gameplay not executed"
+}

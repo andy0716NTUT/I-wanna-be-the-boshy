@@ -17,6 +17,10 @@ RC1 後的指定玩法調整：第 2 關上下尖刺共用 sin 時鐘，維持�
 彈速加倍，請改用 [反擊延遲修正紀錄](docs/CHECKPOINT_REACTION_FIX.md) 中的新版。
 原始圖片、音樂與地圖檔保留，詳見 [調整與測試紀錄](docs/GAMEPLAY_TUNING.md)。
 
+另有 [重量感試玩設定](docs/PLAYER_FEEL_PREVIEW.md)：保留單次起跳高度與上升節奏，
+加快下落，並可在 Debug Window 的 Player feel 切回 Original。這是待試玩的可選方案，
+正式預設仍維持原版；它會縮短跳躍距離，尚未視為全部關卡的最終手感。
+
 # 2025 OOPL Final Report
 
 ## 組別資訊

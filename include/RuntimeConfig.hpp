@@ -4,7 +4,7 @@
 #include <limits>
 #include <stdexcept>
 #include <nlohmann/json.hpp>
-struct RuntimeOptions { bool fullscreen = false; };
+struct RuntimeOptions { bool fullscreen = false; bool weightedPlayer = false; };
 inline RuntimeOptions ReadRuntimeOptions(const std::filesystem::path& path) {
     try {
         std::ifstream file(path);
@@ -22,7 +22,10 @@ inline RuntimeOptions ReadRuntimeOptions(const std::filesystem::path& path) {
         integer("default_log_level",0,6);
         if (json.contains("title") && !json.at("title").is_string()) throw std::runtime_error("title must be a string");
         if (json.contains("fullscreen") && !json.at("fullscreen").is_boolean()) throw std::runtime_error("fullscreen must be boolean");
-        return {json.value("fullscreen",false)};
+        if (json.contains("player_feel") && (!json.at("player_feel").is_string() ||
+            (json.at("player_feel") != "original" && json.at("player_feel") != "weighted")))
+            throw std::runtime_error("player_feel must be original or weighted");
+        return {json.value("fullscreen",false), json.value("player_feel",std::string("original")) == "weighted"};
     } catch (const std::exception& error) {
         throw std::runtime_error("Invalid configuration "+path.u8string()+": "+error.what());
     }

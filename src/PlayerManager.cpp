@@ -5,7 +5,9 @@
 void PlayerManager::IntegrateVertical(glm::vec2& position, float gravity) {
     // Keep the second gravity addition, then clamp, then integrate.
     m_State.velocityY += gravity;
-    if (m_State.velocityY < -10) m_State.velocityY = -10;
+    // Weighted is an opt-in feel preview; both limits stay below one16px tile.
+    const float maxFallSpeed = m_Feel == PlayerFeel::Weighted ? -14.0f : -10.0f;
+    if (m_State.velocityY < maxFallSpeed) m_State.velocityY = maxFallSpeed;
     position.y += m_State.velocityY;
 }
 

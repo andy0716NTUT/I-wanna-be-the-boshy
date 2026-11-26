@@ -151,6 +151,43 @@ int main(int argc, char** argv) try {
     BoshyRegressionAccess::Room(app,"9");
     Require(BoshyRegressionAccess::Map(app)->GetMapData() == originalTiles, "Room re-entry changed map");
 
+    // Compare the actual player integrator, including both historical gravity
+    // additions. Weighted must preserve ascent and be reversibly selectable.
+    PlayerManager original, weighted;
+    weighted.SetFeel(PlayerFeel::Weighted);
+    glm::vec2 originalPosition(0), weightedPosition(0);
+    const auto integrate = [](PlayerManager& player, glm::vec2& position) {
+        const float gravity = player.GravityForUpdate(-.5f);
+        player.AddEntryGravity(gravity);
+        player.IntegrateVertical(position, gravity);
+    };
+    original.StartJump(false); weighted.StartJump(false);
+    for (int frame=0; frame<16; ++frame) {
+        integrate(original, originalPosition); integrate(weighted, weightedPosition);
+        Require(originalPosition == weightedPosition && original.GetState().velocityY == weighted.GetState().velocityY,
+                "Weighted ascent changed original height/timing");
+    }
+    Require(originalPosition.y == 120 && original.GetState().velocityY == 0, "Original apex changed");
+    for (int frame=0; frame<30; ++frame) {
+        integrate(original, originalPosition); integrate(weighted, weightedPosition);
+        Require(weighted.GetState().velocityY >= -14 && original.GetState().velocityY >= -10,
+                "Fall exceeded profile limit");
+    }
+    Require(weightedPosition.y < originalPosition.y && weighted.GetState().velocityY == -14,
+            "Weighted profile did not accelerate falling");
+    Require(weighted.GravityForUpdate(0) == 0 && weighted.GravityForUpdate(.5f) == .5f,
+            "Weighted preview changed zero/positive Debug gravity");
+    original.GetState() = {}; weighted.GetState() = {};
+    weighted.SetFeel(PlayerFeel::Original);
+    originalPosition = weightedPosition = {0,0};
+    original.StartJump(false); weighted.StartJump(false);
+    for (int frame=0; frame<60; ++frame) {
+        if (frame==3) { original.ShortenJump(); weighted.ShortenJump(); }
+        integrate(original, originalPosition); integrate(weighted, weightedPosition);
+        Require(originalPosition == weightedPosition && original.GetState().velocityY == weighted.GetState().velocityY,
+                "Switching back to Original did not restore exact physics");
+    }
+
     CheckPoint reaction;
     Require(!reaction.ShouldShootBullet(), "Inactive checkpoint fired");
     reaction.play();
@@ -198,7 +235,8 @@ int main(int argc, char** argv) try {
            << "\"stone_first_tip\":" << firstTip << ",\"stone_first_fall\":" << firstFall
            << ",\"stone_first_gone\":" << firstGone << ",\"supported_tip_frames\":" << supports
            << ",\"reload_cycles\":12,\"counter_speed_before\":8,\"counter_speed_after\":8,"
-           << "\"counter_delay_before\":1,\"counter_delay_after\":0.5,\"reaction_updates\":30}\n";
+           << "\"counter_delay_before\":1,\"counter_delay_after\":0.5,\"reaction_updates\":30,"
+           << "\"weighted_ascent_parity\":\"PASS\",\"weighted_fall_limit\":14,\"original_profile_restore\":\"PASS\"}\n";
     app.End();
     return 0;
 } catch (const std::exception& error) {

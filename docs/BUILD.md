@@ -1,5 +1,10 @@
 # Windows build and recovery
 
+Optional player-feel experiment: config may include `"player_feel":"weighted"`
+or `"player_feel":"original"`; absence means Original. Source config defaults
+are unchanged. See PLAYER_FEEL_PREVIEW.md for separate silent playtest artifacts,
+the Debug profile switch and the intentionally changed falling behavior.
+
 Original reference: `eeb1f72c6c3a9a9e33a49c31946e4b723323d49f`.
 No previous Phase 1 commit was found in local history, remote heads/tags or PR refs
 on 2026-11-24. This branch re-establishes that baseline on the new computer.

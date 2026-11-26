@@ -1,5 +1,9 @@
 # Player refactor and clock boundary
 
+The original profile below remains the default. The later user-authorized,
+optional Weighted falling experiment is documented in PLAYER_FEEL_PREVIEW.md;
+its changed falling acceleration/cap must not be labelled original parity.
+
 `App` owns one `PlayerManager`. Its initialized `PlayerRuntimeState` replaces the
 four function statics in the active update path (vertical velocity, jump count,
 shoot cooldown and jump-release state). The old, never-compiled raw-pointer

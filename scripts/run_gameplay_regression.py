@@ -11,7 +11,7 @@ import sys
 import time
 
 ROOT = Path(__file__).absolute().parents[1]
-SCENARIOS = ["full-jump", "short-jump", "double-jump", "movement", "wall", "head", "oneway",
+SCENARIOS = ["full-jump", "short-jump", "double-jump", "fall", "movement", "wall", "head", "oneway",
              "shooting", "shoot-jump", "spikes", "checkpoint", "transition", "enemy", "boss", "boss-death", "death-loop", "reload-stress", "spider-bird", "resize-play"]
 
 
@@ -55,6 +55,10 @@ def coverage(scenario, rows, metrics):
         need(events.get("jump",0) == (2 if scenario == "double-jump" else 1), "Wrong number of accepted jump inputs")
         if scenario == "short-jump": need(events.get("shorten_jump",0) == 1, "Early release not exercised")
         if scenario == "double-jump": need(metrics["max_jump_count"] == 2, "Second-jump limit not exercised")
+    if scenario == "fall":
+        need(float(rows[10]["y"]) > float(rows[9]["y"])+100, "Fall fixture not raised")
+        need(min(float(r["vy"]) for r in rows[10:]) <= -10, "Terminal fall not exercised")
+        need(any("floor" in r["events"].split(",") for r in rows[11:]), "No landing after fall")
     if scenario == "movement":
         need(float(rows[19]["x"])-float(rows[9]["x"]) == 50, "Right travel interval not exercised")
         need(float(rows[39]["x"])-float(rows[29]["x"]) == -50, "Left travel interval not exercised")

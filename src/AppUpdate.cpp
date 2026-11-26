@@ -6,7 +6,8 @@ void App::Update() {
     m_Display.BeginFrame();
     auto& playerState = m_Player.GetState();
     float& velocityY = playerState.velocityY;
-    m_Player.AddEntryGravity(Gravity);
+    const float frameGravity = m_Player.GravityForUpdate(Gravity);
+    m_Player.AddEntryGravity(frameGravity);
     int& jumpCount = playerState.jumpCount;
     float& shootCooldown = playerState.shootCooldown;
     const float deltaTime = PlayerManager::FrameSeconds;
@@ -79,7 +80,7 @@ void App::Update() {
         ss << "Current Phase: " << CurrentPhase;
         m_DebugInfo.phaseInfo = ss.str();
 
-        m_Player.IntegrateVertical(position, Gravity);
+        m_Player.IntegrateVertical(position, frameGravity);
 
         auto* animatedBoshy = dynamic_cast<AnimatedCharacter*>(m_Boshy.get());
 

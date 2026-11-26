@@ -76,6 +76,8 @@ public:
     RuntimeView GetRuntimeView() const;
     const BgmManager& GetAudioDiagnostics() const { return *m_BGM; }
     PixelDisplay& GetDisplay() { return m_Display; }
+    PlayerFeel GetPlayerFeel() const { return m_Player.GetFeel(); }
+    void SetPlayerFeel(PlayerFeel feel) { m_Player.SetFeel(feel); }
     bool GodMode = false; // 上帝模式開關
     bool IsOnTop(const glm::vec2& playerPos, const glm::vec2& objectPos, float objectWidth, float objectHeight);
 

@@ -15,6 +15,7 @@ struct PlayerRuntimeState {
 
 struct PlayerMovementInput { bool right, left, up, down; };
 struct PlayerTileContacts { int above, below, left, right; };
+enum class PlayerFeel { Original, Weighted };
 
 // Values remain in original per-update units. Respawn intentionally does not
 // reset this state: the original function statics survived death and R too.
@@ -25,6 +26,14 @@ public:
     PlayerRuntimeState& GetState() { return m_State; }
     const PlayerRuntimeState& GetState() const { return m_State; }
     int GetJumpCount() const { return m_State.jumpCount; }
+    PlayerFeel GetFeel() const { return m_Feel; }
+    void SetFeel(PlayerFeel feel) { m_Feel = feel; }
+    // Sample once before both original gravity additions: an ascent that
+    // crosses zero this update must still have its original trajectory.
+    float GravityForUpdate(float gravity) const {
+        return m_Feel == PlayerFeel::Weighted && gravity < 0 && m_State.velocityY <= 0
+            ? gravity * 1.6f : gravity;
+    }
 
     void AddEntryGravity(float gravity) { m_State.velocityY += gravity; }
     void AdvanceCommonCooldown(float dt) { m_State.shootCooldown -= dt * 4; }
@@ -38,6 +47,7 @@ public:
     void ShortenJump();
 private:
     PlayerRuntimeState m_State;
+    PlayerFeel m_Feel = PlayerFeel::Original;
 };
 
 #endif
