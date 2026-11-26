@@ -1,4 +1,11 @@
-# Latest internal candidate: RC2
+# Checkpoint reaction correction
+
+The user clarified that reaction delay, rather than projectile travel, should
+be halved. See [CHECKPOINT_REACTION_FIX.md](CHECKPOINT_REACTION_FIX.md) for the
+corrected runtime and fresh verification. The RC2/initial art-preview runtime
+below used the mistaken travel-speed change and is retained as historical.
+
+# Historical internal candidate: RC2
 
 The user-requested post-RC1 tuning is now built, tested and packaged.
 Runtime: `0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e`, remaster/continuous.

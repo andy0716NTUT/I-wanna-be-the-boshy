@@ -1,4 +1,4 @@
-"""Create/test an isolated internal art preview from the unchanged RC2 executable."""
+"""Create/test an isolated internal art preview from a verified local RC."""
 import argparse
 import hashlib
 import json
@@ -12,7 +12,6 @@ from PIL import Image
 from run_gameplay_regression import read
 
 ROOT = Path(__file__).absolute().parents[1]
-RUNTIME = "0b15f6bf1e8a7ec116e3a5208df39e8c3f4aa85e"
 CASES = ["movement","full-jump","shooting","spikes","checkpoint","transition",
          "spider-bird","resize-play","boss"]
 
@@ -29,25 +28,28 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--resume", action="store_true")
+    p.add_argument("--base", type=Path, default=ROOT/"build/release-candidate/BoshyRemaster-Windows-x64-RC2-0b15f6bf")
+    p.add_argument("--evidence", type=Path, default=ROOT/"build/asset-review/runtime")
+    p.add_argument("--checkpoint-directory", type=Path, default=ROOT/"build/gameplay-tuning/Release-checkpoint")
+    p.add_argument("--scenarios", nargs="+", choices=CASES, default=CASES)
     args = p.parse_args()
     output = args.output.absolute()
     output.resolve().relative_to((ROOT/"build").resolve())
-    base = ROOT/"build/release-candidate/BoshyRemaster-Windows-x64-RC2-0b15f6bf"
+    base = args.base.absolute()
     manifest_path = ROOT/"art/remaster-v1/candidates/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     original = json.loads((base/"manifest.json").read_text(encoding="utf-8"))
-    if original["runtime_revision"] != RUNTIME:
-        raise ValueError("Wrong RC2 base")
+    runtime = original["runtime_revision"]
     for name, expected in original["files"].items():
         if digest(base/name) != expected:
-            raise ValueError(f"Preserve modified RC2 file, do not overwrite it: {name}")
+            raise ValueError(f"Preserve modified base RC file, do not overwrite it: {name}")
     marker = output/"art-preview.json"
     if output.exists():
         if not args.resume or not marker.exists():
             raise FileExistsError("Preserve existing preview; use a new output or --resume for a complete stage")
         meta = json.loads(marker.read_text(encoding="utf-8"))
-        if meta["candidate_manifest_sha256"] != digest(manifest_path):
-            raise ValueError("Candidate set changed; create another preview version")
+        if meta["candidate_manifest_sha256"] != digest(manifest_path) or meta["runtime_revision"] != runtime:
+            raise ValueError("Candidate set/runtime changed; create another preview version")
     else:
         # No existing source/release folder is overwritten or moved.
         shutil.copytree(base,output,ignore=lambda directory,names: {"manifest.json"} if Path(directory)==base else set())
@@ -66,22 +68,22 @@ def main():
             replacements.append({"path":relative.as_posix(),"backup":backup.relative_to(output).as_posix(),
                                  "original_sha256":entry["source_sha256"],"preview_sha256":entry["candidate_sha256"]})
         art_commit = subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip()
-        meta = {"kind":"internal isolated art preview, not a public release", "runtime_revision":RUNTIME,
+        meta = {"kind":"internal isolated art preview, not a public release", "runtime_revision":runtime,
                 "art_commit":art_commit,"candidate_manifest_sha256":digest(manifest_path),
                 "rollback_tag":manifest["rollback_tag"],"replacements":replacements,
-                "default_repo_resources_changed":False,"old_rc2_preserved":True}
+                "default_repo_resources_changed":False,"base_rc_preserved":True}
         save(marker,meta)
         old_exe = os.path.relpath(base/"IWannaBeTheBoshy.exe",output).replace("/","\\")
         (output/"Play-ArtPreview-Silent.cmd").write_bytes(
             b'@echo off\r\nsetlocal\r\nset "SDL_AUDIODRIVER=dummy"\r\n"%~dp0IWannaBeTheBoshy.exe"\r\nendlocal\r\n')
-        (output/"Play-Original-RC2-Silent.cmd").write_bytes(
+        (output/"Play-Original-Assets-Silent.cmd").write_bytes(
             ('@echo off\r\nsetlocal\r\nset "SDL_AUDIODRIVER=dummy"\r\n"%~dp0'+old_exe+'"\r\nendlocal\r\n').encode("ascii"))
         (output/"README-Art-Preview.txt").write_text(
-            "Internal scenery preview; unchanged RC2 code, candidate PNG overlay only.\n"
+            "Internal scenery preview; unchanged base RC code, candidate PNG overlay only.\n"
             "Play-ArtPreview-Silent.cmd launches the art preview without sound.\n"
-            "Play-Original-RC2-Silent.cmd opens the retained RC2 in this workspace.\n"
+            "Play-Original-Assets-Silent.cmd opens the same runtime with original art in this workspace.\n"
             "OriginalAssets contains every original replaced PNG, with hashes in art-preview.json.\n"
-            "Repository Resources, old RC2, TXT maps, characters and animations are untouched.\n"
+            "Repository Resources, base RC, TXT maps, characters and animations are untouched.\n"
             "Room7 retains its original backdrop; only matched terrain is new there.\n"
             "Candidate masks/visual readability still need human review; this is not a final release.\n",
             encoding="utf-8",newline="\n")
@@ -89,24 +91,28 @@ def main():
         if digest(output/e["path"])!=e["preview_sha256"] or digest(output/e["backup"])!=e["original_sha256"]:
             raise ValueError("Preview/original backup differs; preserve it and make a new version")
     if digest(output/"IWannaBeTheBoshy.exe") != original["files"]["IWannaBeTheBoshy.exe"]:
-        raise ValueError("Preview executable differs from accepted RC2")
-    evidence = ROOT/"build/asset-review/runtime"
+        raise ValueError("Preview executable differs from accepted base RC")
+    evidence = args.evidence.absolute()
+    evidence.resolve().relative_to((ROOT/"build").resolve())
     evidence.mkdir(parents=True,exist_ok=True)
     report_path = evidence/"report.json"
-    report = {"result":"IN_PROGRESS","runtime_revision":RUNTIME,"art_commit":meta["art_commit"],
+    report = {"result":"IN_PROGRESS","runtime_revision":runtime,"art_commit":meta["art_commit"],
               "candidate_manifest_sha256":digest(manifest_path),"audio":"dummy","cases":{},
               "preview":output.relative_to(ROOT).as_posix()}
     if args.resume and report_path.exists():
         report = json.loads(report_path.read_text(encoding="utf-8"))
-        if report["candidate_manifest_sha256"]!=digest(manifest_path):
-            raise ValueError("Previous evidence belongs to another art version")
+        if (report["candidate_manifest_sha256"]!=digest(manifest_path) or report["runtime_revision"]!=runtime
+                or report["preview"]!=output.relative_to(ROOT).as_posix()):
+            raise ValueError("Previous evidence belongs to another art/runtime/preview version")
     env = os.environ.copy()
     env.update(SDL_AUDIODRIVER="dummy",PATH="C:/Windows/System32;C:/Windows",PYTHONIOENCODING="utf-8")
     startup = subprocess.STARTUPINFO()
     startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     startup.wShowWindow = 0
     accepted = json.loads((ROOT/"build/gameplay-regression/Release/report.json").read_text(encoding="utf-8"))
-    cp_report = json.loads((ROOT/"build/gameplay-tuning/Release-checkpoint/report.json").read_text(encoding="utf-8"))
+    cp_report = json.loads((args.checkpoint_directory/"report.json").read_text(encoding="utf-8"))
+    if accepted["result"] != "PASS" or cp_report["result"] != "PASS":
+        raise ValueError("Require passing pre-art oracle reports")
     owned = []
     try:
         for name in ("BoshyCurrentRegression.exe","GameplayTuningProbe.exe"):
@@ -118,11 +124,13 @@ def main():
                 shutil.copy2(source,target)
             owned.append((target,digest(source)))
         probe = output/"BoshyCurrentRegression.exe"
-        if digest(probe)!=accepted["cases"]["full-jump"]["current_binary_sha256"]:
-            raise ValueError("Probe no longer matches the accepted pre-art oracle")
-        for scenario in CASES:
-            expected = ROOT/("build/gameplay-tuning/Release-checkpoint/Current.csv" if scenario=="checkpoint" else
-                             f"build/gameplay-regression/Release/{scenario}-Current.csv")
+        for scenario in args.scenarios:
+            expected = (args.checkpoint_directory/"Current.csv" if scenario=="checkpoint" else
+                        ROOT/f"build/gameplay-regression/Release/{scenario}-Current.csv")
+            expected_binary = (cp_report.get("binary_sha256",{}).get("Current") if scenario=="checkpoint" else
+                               accepted["cases"][scenario]["current_binary_sha256"])
+            if expected_binary and digest(probe)!=expected_binary:
+                raise ValueError("Probe no longer matches the accepted pre-art oracle")
             expected_hash = cp_report["traces"]["Current"] if scenario=="checkpoint" else accepted["cases"][scenario]["current_sha256"]
             if digest(expected)!=expected_hash:
                 raise ValueError("Accepted trace changed; do not silently replace the oracle")
@@ -182,8 +190,8 @@ def main():
         raise AssertionError("No normal-game OpenGL startup evidence")
     report.update(result="PASS",normal_game_startup="PASS from Unicode path / C:/Windows / minimal PATH",
                   game_exe_sha256=digest(output/"IWannaBeTheBoshy.exe"),
-                  original_asset_backups="31 verified",default_repo_and_old_rc2_unchanged=True,
-                  scope="Nine exact Release replay cases and themed tipping/render assertions; visual taste/all routes still manual")
+                  original_asset_backups=f"{len(meta['replacements'])} verified",default_repo_and_base_rc_unchanged=True,
+                  scope=f"{len(args.scenarios)} exact Release replay cases and themed tipping/render assertions; visual taste/all routes still manual")
     save(report_path,report)
     print(json.dumps(report,indent=2),flush=True)
 

@@ -90,9 +90,10 @@ Manual supplemental gaps remain above; see RELEASE_CHECKLIST.md/RELEASE_REPORT.m
 PASS in Debug and Release:20/20 CTest,18/18 strict unchanged original/current
 scenarios, and separate real-scene checks of shared alternating sine motion,
 room9 loaded-edge tipping/free fall/slope support/jump departure/R/re-entry,
-and checkpoint8→16 travel with unchanged firing/save/R. Native/1080p/4K
+and the historical, mistakenly interpreted checkpoint8→16 travel with unchanged firing/save/R. Native/1080p/4K
 original-region pixel comparisons pass; source153 resources remain unchanged.
-The counter-shot trajectory is an explicit user-approved exception, measured
-separately rather than labelled original parity. See GAMEPLAY_TUNING.md and
+The corrected request is hit-to-shot delay1.0→0.5 simulation seconds with travel
+restored to8; fresh focused checks are in CHECKPOINT_REACTION_FIX.md. It is measured
+separately rather than labelled original timing parity. See GAMEPLAY_TUNING.md and
 evidence/gameplay-tuning-*.json. Human feel/audio/other hardware and all possible
 checkpoint corner intersections remain supplemental manual review.

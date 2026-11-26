@@ -5,6 +5,11 @@ retained and rollback available, then explicitly selected **backgrounds, terrain
 and scene props; keep characters and animations original**. This is the first
 scenery candidate set, not a replacement of the source Resources directory.
 
+Runtime correction: the first playable preview used0b15f6bf/RC2 and therefore
+contains the mistaken doubled checkpoint bullet travel. Keep it as a historical
+artifact. CHECKPOINT_REACTION_FIX.md records the corrected delay0.5s/travel8
+runtime and a separate scenery preview; the candidate PNG set is unchanged.
+
 ## Checkpoints and files
 
 - Pre-art source/runtime: `1b2738855b8221348ec1e6835309e4bbbfeb66d9`.

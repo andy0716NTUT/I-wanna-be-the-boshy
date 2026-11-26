@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "config": "Debug",
+  "audio": "dummy",
+  "scope": "User-corrected reaction delay; projectile travel restored to original. Not original timing parity.",
+  "activation_frame": 4,
+  "firing_frame_before": 65,
+  "firing_frame_after": 34,
+  "reaction_updates_before": 61,
+  "reaction_updates_after": 30,
+  "delay_threshold_before": 1.0,
+  "delay_threshold_after": 0.5,
+  "speed_before": 8.0,
+  "speed_after": 8.0,
+  "hit_frame_before": 70,
+  "hit_frame_after": 39,
+  "save_delay_and_R": "PASS",
+  "aiming_and_lifetime": "PASS",
+  "binary_sha256": {
+    "Original": "7ea72f0058032e6d66b23b547735a1852c46f85564900f3e48273e87564fe31b",
+    "Current": "3395d56e76e5f73aeba507da03891c83dc64b38c5cb2c4047609e9d9d48fc485"
+  },
+  "traces": {
+    "Original": "54360ff9167d9219ee3e2a561b63e270147cc2a0c1c89b10e1cc8390aa8b549c",
+    "Current": "b18c7b6c7356b1acdfd838d30abb4a6d5dbd78f3d664448d8353fdd10d089326"
+  }
+}

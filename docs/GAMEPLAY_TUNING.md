@@ -46,12 +46,13 @@ human feel review; it does not modify global player physics or hitboxes.
 
 ## Checkpoint counter-shot
 
-Travel changes from8 to16 world units per update globally. The original1-second
-firing delay, aiming snapshot/zero-distance fallback, projectile lifetime,
-save delay, R position, player bullet speed15, firing cadence and cap stay intact.
-The faster shot intentionally hits sooner and can cross a tile boundary sooner.
-The existing endpoint-based wall/player collision policy is retained; this is
-not a new swept-collision implementation or a guarantee about every corner.
+User clarification on2026-11-26: halve the delay between being hit and firing,
+not projectile travel. The current threshold is0.5 simulation seconds instead
+of1.0, and original travel8 units/update is restored from the mistaken16 in
+0b15f6bf/RC2/initial art preview. Aiming at the player at firing time, zero-distance
+fallback, projectile lifetime, save delay, R position, player bullet speed15,
+cadence and cap stay intact. Existing endpoint collision and frame-coupled time
+remain. See CHECKPOINT_REACTION_FIX.md for fresh evidence and corrected artifacts.
 
 ## Changed files
 
@@ -61,7 +62,7 @@ not a new swept-collision implementation or a guarantee about every corner.
 | src/AppUpdate.cpp | Advance that clock and integrate scoped tipping-surface support |
 | src/TippingStone.cpp, include/MapObject/TippingStone.hpp, src/ImageRegion.cpp, include/ImageRegion.hpp | Original-asset layers, loaded-edge tip/fall and tile restoration |
 | src/App.cpp, include/App.hpp, include/AppMembers.hpp | Own and retire the room9 stone with map objects |
-| src/Bullet.cpp | Double only checkpoint projectile travel |
+| include/MapObject/CheckPoint.hpp, src/Bullet.cpp | Halve hit-to-shot delay and restore original projectile travel |
 | tests/GameplayTuningProbe.cpp, tests/RegressionAccess.hpp, scripts/run_gameplay_tuning.py, scripts/verify_checkpoint_tuning.py, cmake/RegressionProbes.cmake, CMakeLists.txt | Opt-in real-scene/visual/intentional-difference checks and build wiring |
 | README.md, docs/BUILD.md, docs/*CHECKLIST.md, docs/REMASTER_PROGRESS.md, docs/RELEASE_REPORT.md, docs/evidence/gameplay-tuning-*.json | Actual coverage, resumption, artifact provenance and manual limits |
 
@@ -86,11 +87,16 @@ game's actual GL backbuffer, not the desktop, while hiding its own test window.
 
 The existing strict `run_gameplay_regression.py` comparator is unchanged. Run
 all18 scenarios except `checkpoint` with `--no-build`; the checkpoint scenario
-is measured separately with explicit8/16-speed expectations and unchanged
-save/firing/R checks. Do not label the new checkpoint trajectory as original
+is measured separately with explicit1.0/0.5-delay and8/8-speed expectations and
+unchanged activation/save/R checks. Do not label the new checkpoint timing as original
 parity or weaken that comparator to conceal an authorized difference.
 
 ## Verification evidence
+
+This section and the RC2 handoff below are historical results for0b15f6bf,
+which incorrectly doubled travel speed. The checkpoint intent was corrected
+later; retain these files as historical evidence, not approval of that behavior.
+Current results are in CHECKPOINT_REACTION_FIX.md and checkpoint-reaction-*.json.
 
 All tests run on the Windows/GCC13.1/CMake3.31.8/Ninja/RTX5060 environment in
 BUILD.md, with dummy audio. Tests execute real App updates and rendered frames;
@@ -110,8 +116,8 @@ no claim of human keyboard/audio testing is made.
 | Counter-shot speed, aim, lifetime, save and R | PASS,both configurations | evidence/gameplay-tuning-checkpoint-{debug,release}.json |
 | Original153 resources | PASS,no content drift;28 known checkout CRLF conversions | evidence/gameplay-tuning-assets.json |
 
-The checkpoint fixture fires at update65 in both versions. Speed is8→16;
-the unobstructed player hit changes update70→67. This difference is intentional.
+The old checkpoint fixture fired at update65 in both versions, speed8→16,
+hit70→67. That implementation misinterpreted the user's request and is superseded.
 
 Actual commands used, with the same tool paths in each configuration:
 

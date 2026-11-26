@@ -42,7 +42,7 @@ public:
         m_NeedsSave = true; // 標記需要延遲儲存
         m_SaveDelay = 0.0f; // 重置延遲計時器
         
-        // 新增：啟動1秒子彈發射延遲
+        // 被擊中後等待0.5秒再反擊；不影響存檔或動畫計時。
         m_BulletShotPending = true;
         m_BulletShootDelay = 0.0f;
         // 不再記錄觸發時的位置，因為我們要使用發射時的实时位置
@@ -56,7 +56,7 @@ public:
         m_TargetPosition = targetPos;
     }    // 檢查是否需要發射子彈
     bool ShouldShootBullet() const {
-        return m_BulletShotPending && m_BulletShootDelay >= 1.0f; // 1秒後發射
+        return m_BulletShotPending && m_BulletShootDelay >= 0.5f;
     }// 重置射擊狀態
     void ResetShotStatus() {
         m_HasShot = false;

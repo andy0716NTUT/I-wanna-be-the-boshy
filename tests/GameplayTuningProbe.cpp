@@ -151,17 +151,35 @@ int main(int argc, char** argv) try {
     BoshyRegressionAccess::Room(app,"9");
     Require(BoshyRegressionAccess::Map(app)->GetMapData() == originalTiles, "Room re-entry changed map");
 
+    CheckPoint reaction;
+    Require(!reaction.ShouldShootBullet(), "Inactive checkpoint fired");
+    reaction.play();
+    for (int frame=1; frame<=30; ++frame) {
+        reaction.UpdateBulletShootDelay(PlayerManager::FrameSeconds);
+        Require(reaction.ShouldShootBullet() == (frame==30), "Checkpoint reaction is not 0.5 simulation seconds");
+    }
+    reaction.ResetShotStatus();
+    reaction.UpdateBulletShootDelay(1.0f);
+    Require(!reaction.ShouldShootBullet(), "Reset checkpoint fired again");
+    reaction.play();
+    reaction.UpdateBulletShootDelay(.25f);
+    reaction.play(); // Another hit retains the original timer-reset behavior.
+    reaction.UpdateBulletShootDelay(.49f);
+    Require(!reaction.ShouldShootBullet(), "Repeated checkpoint hit did not reset delay");
+    reaction.UpdateBulletShootDelay(.01f);
+    Require(reaction.ShouldShootBullet(), "Checkpoint missed 0.5-second boundary");
+
     Util::Renderer bullets;
     auto counter = Bullet::CreateCheckpointBullet({0,0}, {3,4}, 1, bullets);
     for (int frame=0; frame<30; ++frame) {
         const auto before = counter->GetPosition();
         Require(counter->UpdateCheckpointBullet(PlayerManager::FrameSeconds), "Counter-shot expired early");
         const auto delta = counter->GetPosition()-before;
-        Require(std::abs(glm::length(delta)-16)<.0001f, "Counter-shot not 2x baseline speed 8");
+        Require(std::abs(glm::length(delta)-8)<.0001f, "Counter-shot original speed 8 changed");
     }
     auto zero = Bullet::CreateCheckpointBullet({0,0}, {0,0}, 1, bullets);
     zero->UpdateCheckpointBullet(PlayerManager::FrameSeconds);
-    Require(zero->GetPosition() == glm::vec2(16,0), "Zero-distance aim fallback changed");
+    Require(zero->GetPosition() == glm::vec2(8,0), "Zero-distance aim fallback changed");
     auto expired = Bullet::CreateCheckpointBullet({0,0}, {100,0}, .01f, bullets);
     Require(!expired->UpdateCheckpointBullet(PlayerManager::FrameSeconds) && expired->GetPosition()==glm::vec2(0),
             "Expired counter-shot moved");
@@ -179,7 +197,8 @@ int main(int argc, char** argv) try {
     result << "{\"result\":\"PASS\",\"audio\":\"dummy\",\"spike_frames\":385,"
            << "\"stone_first_tip\":" << firstTip << ",\"stone_first_fall\":" << firstFall
            << ",\"stone_first_gone\":" << firstGone << ",\"supported_tip_frames\":" << supports
-           << ",\"reload_cycles\":12,\"counter_speed_before\":8,\"counter_speed_after\":16}\n";
+           << ",\"reload_cycles\":12,\"counter_speed_before\":8,\"counter_speed_after\":8,"
+           << "\"counter_delay_before\":1,\"counter_delay_after\":0.5,\"reaction_updates\":30}\n";
     app.End();
     return 0;
 } catch (const std::exception& error) {

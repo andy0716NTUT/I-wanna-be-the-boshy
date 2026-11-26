@@ -157,7 +157,7 @@ bool Bullet::UpdateCheckpointBullet(float deltaTime) {
     if (!IsVisible()) return false;
     
     // checkpoint子弹朝向目标方向移动
-    const float CHECKPOINT_BULLET_SPEED = 16.0f; // User-requested 2x counter-shot travel speed.
+    const float CHECKPOINT_BULLET_SPEED = 8.0f; // Original travel speed; CheckPoint controls reaction delay.
     glm::vec2 newPosition = m_Transform.translation;
     
     // 使用预计算的方向向量移动

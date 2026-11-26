@@ -64,6 +64,7 @@ def main():
                 for event, anchor in {
                     "shot": "m_Bullets.push_back(bullet);",
                     "checkpoint_saved": "currentCheckPoint = savePosition;",
+                    "checkpoint_activated": "checkpoint->play();",
                     "spike": "// 不再使用needsRespawn和立即return，让死亡处理代码有机会执行",
                     "room_transition": 'std::cout << "Current Phase : "',
                 }.items():
