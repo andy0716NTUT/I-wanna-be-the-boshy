@@ -3,13 +3,13 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: acc349f9359c3b3430abc30407c6d8bd12e8687a
+HEAD_SHA: 7095ab71220366d793794a89bd332a6f7b8158b2
 ACTIVE_STAGE: 6
 STAGE_STATUS: PASSED
 ART_BATCH_STATUS: NEEDS_MANUAL_VERIFICATION
 CHECKPOINT_REACTION_STATUS: PASSED
-NEXT_ACTION: Commit the verified checkpoint reaction correction, package a separate internal RC3 and scenery preview from that revision, silently verify their startup/manifest and themed checkpoint/tipping behavior, then commit evidence and push remaster/continuous. Preserve old RC2/art preview/evidence and originals. Scenery visual review remains pending.
-LAST_VERIFIED_AT: 2026-11-26T01:04:47+08:00 Asia/Taipei
+NEXT_ACTION: Await human reaction-feel/scenery readability/seam review before further gameplay or default-art changes. Use build/art-preview/Boshy-ArtPreview-v1-RC3-7095ab71/Play-ArtPreview-Silent.cmd; adjacent original-assets launcher uses the same corrected RC3. On resume inspect Git log/status/remote for the documentation-only artifact follow-up after runtime7095ab71. Preserve old RC2/art preview/evidence and originals.
+LAST_VERIFIED_AT: 2026-11-26T09:55:20+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -24,6 +24,7 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- Corrected runtime7095ab71220366d793794a89bd332a6f7b8158b2 committed. Separate internal RC3 ZIP(61361559 bytes) SHA2569f8f6c1051e93cc2d4d8c73982b3e445a8076d7bd74af12008fa090bfd1d15cc passes manifest/extracted manifest/normal Debug+Release+Unicode startup. New scenery preview Boshy-ArtPreview-v1-RC3-7095ab71 has matching corrected EXE,2/2 targeted exact Release replays(movement/checkpoint), themed tuning/reaction30/travel8/sine385/stone/render PASS and31 original PNG backups verified. Old RC2/preview EXEs retain previous hashes. Local artifacts only; report CHECKPOINT_REACTION_FIX.md and checkpoint-reaction-{package,art-preview}.json. Artifact evidence is captured in a documentation-only follow-up; verify remote head on resume.
 - Checkpoint interpretation corrected: threshold1.0→0.5 simulation seconds, travel restored16→original8. Debug/Release normal+probe builds PASS;20/20 CTest each(2.10s/1.92s),10/10 unchanged exact game-state scenarios each, native tuning/sine385/stone/R/12reload/render assertions PASS. Actual checkpoint activation4 unchanged, firing65→34(wait61→30 updates), hit70→39, travel8/8, save/R/aim/lifetime PASS. Source153 Resources unchanged. Fresh evidence checkpoint-reaction-*.json and CHECKPOINT_REACTION_FIX.md; old speed16 reports explicitly historical. Commit/package/push next.
 - User clarified that checkpoint speed means hit-to-shot reaction, not projectile travel. Reopened this scoped tuning on2026-11-26: implementation/test correction in progress; no new passing claim or artifact yet. Historical0b15f6bf/RC2/art-v1 runtime has the mistaken travel-speed change.
 - Scenery v1 committed/pushed as0c8878d7e5d807a3d54f54d89210c6acfe3e1e58 and tagged remaster-art-v1-scenery-20261126. Isolated playable art preview created from unchanged RC2 code0b15f6bf, with31 original PNG backups and separate silent new/original launchers. Actual themed Release replays9/9 match all pre-art states exactly (including Boss3300 updates); themed tipping physics/385 sine frames/R/reload and idle/gone rendered-region comparisons PASS; normal game Unicode/minimal-PATH/unrelated-cwd startup PASS. Source Resources, character/animation assets, old RC2 and C++ remain unchanged. Runtime proof in art/remaster-v1/runtime-verification.json. Visual taste/all rooms/routes remain manual; room7 backdrop held original.

@@ -1,0 +1,71 @@
+{
+  "runtime_revision": "7095ab71220366d793794a89bd332a6f7b8158b2",
+  "archive": "B:\\build\\release-candidate\\BoshyRemaster-Windows-x64-RC3-7095ab71.zip",
+  "sha256": "9f8f6c1051e93cc2d4d8c73982b3e445a8076d7bd74af12008fa090bfd1d15cc",
+  "resource_count": 153,
+  "dlls": [
+    "libgcc_s_seh-1.dll",
+    "libstdc++-6.dll",
+    "libwinpthread-1.dll"
+  ],
+  "startup": {
+    "fresh-debug": {
+      "result": "PASS",
+      "cwd": "C:/Windows",
+      "path": "System32/Windows only",
+      "audio_driver": "dummy",
+      "known_missing_images": [
+        "Resources/Image/Background/phase1.png",
+        "Resources/Image/Character/death/death1-left.png",
+        "Resources/Image/Character/death/death1.png",
+        "Resources/Image/Character/death/death2-left.png",
+        "Resources/Image/Character/death/death2.png",
+        "Resources/Image/Character/death/death3-left.png",
+        "Resources/Image/Character/death/death3.png",
+        "Resources/Image/Character/death/death4-left.png",
+        "Resources/Image/Character/death/death4.png"
+      ],
+      "termination": "runner stopped its owned startup-only process; natural shutdown covered by regression/GL tests",
+      "log_sha256": "532530bf576926897383be286c44c6c19ac823eaf22b413e800b8030c9301b08"
+    },
+    "packaged-release": {
+      "result": "PASS",
+      "cwd": "C:/Windows",
+      "path": "System32/Windows only",
+      "audio_driver": "dummy",
+      "known_missing_images": [
+        "Resources/Image/Background/phase1.png",
+        "Resources/Image/Character/death/death1-left.png",
+        "Resources/Image/Character/death/death1.png",
+        "Resources/Image/Character/death/death2-left.png",
+        "Resources/Image/Character/death/death2.png",
+        "Resources/Image/Character/death/death3-left.png",
+        "Resources/Image/Character/death/death3.png",
+        "Resources/Image/Character/death/death4-left.png",
+        "Resources/Image/Character/death/death4.png"
+      ],
+      "termination": "runner stopped its owned startup-only process; natural shutdown covered by regression/GL tests",
+      "log_sha256": "532530bf576926897383be286c44c6c19ac823eaf22b413e800b8030c9301b08"
+    },
+    "extracted-unicode-release": {
+      "result": "PASS",
+      "cwd": "C:/Windows",
+      "path": "System32/Windows only",
+      "audio_driver": "dummy",
+      "known_missing_images": [
+        "Resources/Image/Background/phase1.png",
+        "Resources/Image/Character/death/death1-left.png",
+        "Resources/Image/Character/death/death1.png",
+        "Resources/Image/Character/death/death2-left.png",
+        "Resources/Image/Character/death/death2.png",
+        "Resources/Image/Character/death/death3-left.png",
+        "Resources/Image/Character/death/death3.png",
+        "Resources/Image/Character/death/death4-left.png",
+        "Resources/Image/Character/death/death4.png"
+      ],
+      "termination": "runner stopped its owned startup-only process; natural shutdown covered by regression/GL tests",
+      "log_sha256": "532530bf576926897383be286c44c6c19ac823eaf22b413e800b8030c9301b08"
+    }
+  },
+  "extracted_manifest": "PASS"
+}

@@ -1,0 +1,43 @@
+{
+  "result": "PASS",
+  "runtime_revision": "7095ab71220366d793794a89bd332a6f7b8158b2",
+  "art_commit": "7095ab71220366d793794a89bd332a6f7b8158b2",
+  "candidate_manifest_sha256": "802ec8db13f48776f10e2a1f5905aa7b389548e27e35b78fd3b37dcb8988698c",
+  "audio": "dummy",
+  "cases": {
+    "movement": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1",
+      "pre_art_trace_sha256": "b73d4e922be5b4bf0b6af50406b2eda6e22402aea62a9757b1f92babf092b9a1"
+    },
+    "checkpoint": {
+      "result": "PASS",
+      "frames": 150,
+      "trace_sha256": "b18c7b6c7356b1acdfd838d30abb4a6d5dbd78f3d664448d8353fdd10d089326",
+      "pre_art_trace_sha256": "b18c7b6c7356b1acdfd838d30abb4a6d5dbd78f3d664448d8353fdd10d089326"
+    }
+  },
+  "preview": "build/art-preview/Boshy-ArtPreview-v1-RC3-7095ab71",
+  "tipping": {
+    "result": "PASS",
+    "audio": "dummy",
+    "spike_frames": 385,
+    "stone_first_tip": 7,
+    "stone_first_fall": 26,
+    "stone_first_gone": 62,
+    "supported_tip_frames": 19,
+    "reload_cycles": 12,
+    "counter_speed_before": 8,
+    "counter_speed_after": 8,
+    "counter_delay_before": 1,
+    "counter_delay_after": 0.5,
+    "reaction_updates": 30,
+    "idle_and_gone_render_pixels": "PASS"
+  },
+  "normal_game_startup": "PASS from Unicode path / C:/Windows / minimal PATH",
+  "game_exe_sha256": "0c2c8c38fde722dce0313ff66ebf830f1236da482aa4250764cebbb4de7c12e8",
+  "original_asset_backups": "31 verified",
+  "default_repo_and_base_rc_unchanged": true,
+  "scope": "2 exact Release replay cases and themed tipping/render assertions; visual taste/all routes still manual"
+}
