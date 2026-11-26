@@ -97,3 +97,14 @@ restored to8; fresh focused checks are in CHECKPOINT_REACTION_FIX.md. It is meas
 separately rather than labelled original timing parity. See GAMEPLAY_TUNING.md and
 evidence/gameplay-tuning-*.json. Human feel/audio/other hardware and all possible
 checkpoint corner intersections remain supplemental manual review.
+
+## Optional weighted falling candidate
+
+Automated gate PASS: Debug/Release20/20 CTest each;15/15 strict Original-profile
+cases each plus corrected checkpoint checks;14/14 Weighted scenarios each.
+Held/tap ascent is exact, fall cap10→14 and landing earlier are intentional.
+Final scenery variants pass2 Original and6 Weighted replay cases plus native
+tuning/render/startup, with6 Weighted traces exact across original/new art.
+Original remains default. Subjective weight, longer gaps, delayed double jumps,
+rotated maps and all moving-platform/Boss routes remain MANUAL_REQUIRED.
+See PLAYER_FEEL_PREVIEW.md and evidence/player-feel-v1-*.json.

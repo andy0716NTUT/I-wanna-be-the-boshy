@@ -1,3 +1,11 @@
+# Optional weighted falling preview
+
+Runtime3940d380 adds a reversible Weighted profile while keeping Original as
+the default. Internal RC4 and separate same-code scenery comparison/Weighted
+playables are verified. See [PLAYER_FEEL_PREVIEW.md](PLAYER_FEEL_PREVIEW.md) for
+measured jumps, exact commands, SHA256 and launch paths. Human feel/gap/route
+approval is still NEEDS_MANUAL_VERIFICATION; no default promotion or public release.
+
 # Checkpoint reaction correction
 
 The user clarified that reaction delay, rather than projectile travel, should

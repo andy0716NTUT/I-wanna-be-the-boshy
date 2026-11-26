@@ -3,15 +3,15 @@ TASK_ID: boshy-remaster-continuous
 ORIGINAL_SHA: eeb1f72c6c3a9a9e33a49c31946e4b723323d49f
 PHASE1_SHA: 8947ffd6b3d78bb34cdefd5d01be11de05fc80f8
 WORK_BRANCH: remaster/continuous
-HEAD_SHA: 31777be9674bec27add8fbb5554d860921e467d8
+HEAD_SHA: 3940d38038fd1c368179c3fe1190cfd768639819
 ACTIVE_STAGE: 6
 STAGE_STATUS: PASSED
 ART_BATCH_STATUS: NEEDS_MANUAL_VERIFICATION
 CHECKPOINT_REACTION_STATUS: PASSED
 PLAYER_FEEL_STATUS: NEEDS_MANUAL_VERIFICATION
 PLAYER_FEEL_AUTOMATED_GATE: PASSED
-NEXT_ACTION: Commit the verified optional Weighted feel, package a separate default-Original RC4 and same-code scenery comparison base, then validate a separate Weighted scenery preview and push source/evidence. Original remains default; human feel/gap/double-jump/moving-platform review precedes any promotion. Preserve old RCs/art previews/assets.
-LAST_VERIFIED_AT: 2026-11-26T10:18:30+08:00 Asia/Taipei
+NEXT_ACTION: Await user comparison via build/player-feel-preview/Boshy-FeelPreview-v1-3940d380/Weighted/Play-Weighted-Silent.cmd and adjacent Play-Original-Silent.cmd. Original remains default; human feel/gap/double-jump/rotated-map/moving-platform/Boss-route review precedes promotion or another tuning candidate. On resume inspect Git log/status/remote for the artifact-evidence follow-up after3940d380. Preserve all old RCs/art previews/assets.
+LAST_VERIFIED_AT: 2026-11-26T10:21:24+08:00 Asia/Taipei
 ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutils 2.40, Ninja 1.12.1; CMake 3.31.8 portable; RTX 5060, OpenGL 4.1 NVIDIA 621.24.
 
 ## Phase status table
@@ -26,6 +26,7 @@ ENVIRONMENT: Windows 10.0.26200 x64; PowerShell 7.6.9; CLion GCC 13.1.0, binutil
 | 6 | PASSED | Fresh Debug/Release 20/20 CTest, fresh GL modes, final-source19-case parity, 153 assets, packaged/Unicode startup and manifest/negative deployment | This final tooling/report commit; resolve via git log |
 
 ## Work completed
+- Optional runtime3940d380 committed. RC4(default Original) ZIP61369433 bytes SHA25668a9bcdbf84e4bc1e8acddb3373525686a771a11442555ab68be07f296e88a81 passes153 resources/ZIP/extraction/manifest and actual Debug+Release+Unicode startup. New same-code Original-feel scenery base passes2 exact replays/native tuning/render/startup. Final Weighted scenery candidate Boshy-FeelPreview-v1-3940d380/Weighted passes6 cases plus native assertions/render/startup; all6 trace hashes equal original-art Weighted,153 copied resources and31 original PNG backups verified. New EXE SHA256d921d1d45f8d36c5e4aec24dc13046f603e769a931ea56104f22d7c72602617e; old RC3 EXE hash preserved. Human feel/route gate remains NEEDS_MANUAL_VERIFICATION; no default promotion/main merge/public binary upload. Artifact evidence recorded with a documentation-only follow-up; verify remote head on resume.
 - Optional Weighted feel passes Debug/Release normal+probe builds,20/20 CTest each(1.58s/1.48s),15/15 exact Original/eeb1f72 scenarios each plus corrected checkpoint, and14/14 Weighted actual-game cases each. Full jump rise120 unchanged, air34→30 updates; tap rise53.000061 unchanged, air19→17;128-unit drop landing27→23 and cap10→14. Wall/head/one-way/spikes/shooting/checkpoint/R/transitions/resize pass. Weighted room9 tips5/falls24/gone60 vsOriginal7/26/62 due faster approach; supported tip19,12reload/R/re-entry/sine385/render and restored Original physics all pass. Actual Weighted normal startup passes silently. Source153 resources unchanged. Human subjective/route review remains needed; no default promotion. Commit/package next.
 - New user feedback: character feels light/floaty, gravity lacks weight. Scoped authorization is a reversible feel candidate, not a claim of preferred final tuning. Implementing Weighted falling-only profile; original jump launch16/ascending gravity/early release0.4 and horizontal5 retained. No coyote time/input buffer/timestep rewrite. Fresh tests and human preference still pending.
 - Corrected runtime7095ab71220366d793794a89bd332a6f7b8158b2 committed. Separate internal RC3 ZIP(61361559 bytes) SHA2569f8f6c1051e93cc2d4d8c73982b3e445a8076d7bd74af12008fa090bfd1d15cc passes manifest/extracted manifest/normal Debug+Release+Unicode startup. New scenery preview Boshy-ArtPreview-v1-RC3-7095ab71 has matching corrected EXE,2/2 targeted exact Release replays(movement/checkpoint), themed tuning/reaction30/travel8/sine385/stone/render PASS and31 original PNG backups verified. Old RC2/preview EXEs retain previous hashes. Local artifacts only; report CHECKPOINT_REACTION_FIX.md and checkpoint-reaction-{package,art-preview}.json. Artifact evidence is captured in a documentation-only follow-up; verify remote head on resume.
